@@ -22,7 +22,7 @@ const defaultState = () => ({
   phase: "intro",
   line: 0,
   choices: {},
-  flags: { rest: 0, teamwork: 0, ordinary_day: 0, daily_checkin: 0 }
+  flags: { rest: 0, teamwork: 0, ordinary_day: 0, daily_checkin: 0, self_rest: 0 }
 });
 
 let state = loadState();
@@ -33,7 +33,13 @@ let musicEnabled = true;
 function loadState() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (saved && Number.isInteger(saved.chapter)) return saved;
+    if (saved && Number.isInteger(saved.chapter)) {
+      return {
+        ...defaultState(),
+        ...saved,
+        flags: { ...defaultState().flags, ...(saved.flags || {}) }
+      };
+    }
   } catch (_) {}
   return defaultState();
 }
@@ -187,8 +193,8 @@ function render() {
   } else if (state.phase === "complete") {
     document.getElementById("story").innerHTML =
       '<p class="hina"><strong>目前可玩內容完成</strong></p>' +
-      '<p class="narration">已完成第一幕與第二幕入口。選擇留下的旗標會帶到後續章節。</p>' +
-      `<p class="system">rest ${state.flags.rest}｜teamwork ${state.flags.teamwork}｜ordinary_day ${state.flags.ordinary_day}｜daily_checkin ${state.flags.daily_checkin}</p>`;
+      '<p class="narration">已完成第一幕與第二幕。選擇留下的旗標會帶到後續章節。</p>' +
+      `<p class="system">rest ${state.flags.rest}｜teamwork ${state.flags.teamwork}｜ordinary_day ${state.flags.ordinary_day}｜daily_checkin ${state.flags.daily_checkin}｜self_rest ${state.flags.self_rest}</p>`;
     const button = document.createElement("button");
     button.type = "button";
     button.className = "next";
