@@ -8,6 +8,8 @@
 
 - `knowledge/plan.md`：願景、規格與路線圖
 - `knowledge/story-bible.md`：故事聖經工作稿
+- `knowledge/story-outline.md`：四幕故事架構
+- `knowledge/chapter-plan.md`：章節卡與分支工作表
 - `knowledge/experience.md`：可複用製作經驗
 - `knowledge/decision.md`：待決事項與推薦方案
 - `knowledge/asset-register.md`：視覺素材清冊
