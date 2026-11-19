@@ -30,10 +30,12 @@ function saveState() {
 function getSequence() {
   const chapter = chapters[state.chapter];
   if (!chapter) return [];
-  if (state.phase === "intro") return chapter.intro;
-  if (state.phase === "branch") return state.choices[chapter.id]?.branch || [];
-  if (state.phase === "common") return chapter.common;
-  return [];
+  let sequence = [];
+  if (state.phase === "intro") sequence = chapter.intro;
+  if (state.phase === "branch") sequence = state.choices[chapter.id]?.branch || [];
+  if (state.phase === "common") sequence = chapter.common;
+  sequence = sequence.filter(line => Array.isArray(line) && String(line[1] || "").trim());
+  return sequence;
 }
 
 function advanceLine() {
