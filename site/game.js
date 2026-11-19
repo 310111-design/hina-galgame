@@ -2,6 +2,20 @@ const STORAGE_KEY = location.pathname.includes("testplay")
   ? "hina-galgame-testplay-v2"
   : "hina-galgame-act1-v3";
 const chapters = window.HINA_GAME_DATA || [];
+const SPRITE_FALLBACK = "assets/hina-sprite.svg";
+const EMOTION_SPRITES = {
+  "意外": "assets/hina/emotion-surprised.png",
+  "克制": "assets/hina/emotion-composed.png",
+  "微羞": "assets/hina/emotion-shy.png",
+  "嚴謹": "assets/hina/emotion-serious.png",
+  "不安": "assets/hina/emotion-uneasy.png",
+  "認真": "assets/hina/emotion-serious.png",
+  "疲倦": "assets/hina/emotion-tired.png",
+  "沉思": "assets/hina/emotion-thinking.png",
+  "微笑": "assets/hina/emotion-smile.png",
+  "安心": "assets/hina/emotion-relieved.png",
+  "警戒": "assets/hina/emotion-alert.png"
+};
 
 const defaultState = () => ({
   chapter: 0,
@@ -90,6 +104,18 @@ function animateSprite(kind, text) {
   }
 }
 
+function setSpriteEmotion(mood) {
+  const sprite = document.getElementById("hinaSprite");
+  const source = EMOTION_SPRITES[mood];
+  if (!source || sprite.dataset.emotion === mood) return;
+  sprite.dataset.emotion = mood;
+  sprite.onerror = () => {
+    sprite.onerror = null;
+    sprite.src = SPRITE_FALLBACK;
+  };
+  sprite.src = source;
+}
+
 function updateScene() {
   const chapter = chapters[state.chapter];
   const scene = document.getElementById("sceneArt");
@@ -118,6 +144,7 @@ function renderDialogue([kind, text, mood]) {
     p.textContent = text;
   }
   story.appendChild(p);
+  if (kind === "hina") setSpriteEmotion(mood);
   animateSprite(kind, text);
 }
 
