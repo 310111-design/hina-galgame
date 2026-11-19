@@ -1,4 +1,6 @@
-const STORAGE_KEY = "hina-galgame-act1-v3";
+const STORAGE_KEY = location.pathname.includes("testplay")
+  ? "hina-galgame-testplay-v2"
+  : "hina-galgame-act1-v3";
 const chapters = window.HINA_GAME_DATA || [];
 
 const defaultState = () => ({
