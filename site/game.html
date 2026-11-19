@@ -27,13 +27,16 @@
     </section>
 
     <section class="visual" aria-label="場景">
-      <div class="sun"></div>
-      <div class="window"></div>
-      <div class="desk">
-        <div class="papers"></div>
-        <div class="cup"></div>
+      <div id="sceneArt" class="scene-art office">
+        <div class="scene-light"></div>
+        <div class="window"></div>
+        <div class="desk"><div class="papers"></div><div class="cup"></div></div>
+        <object id="hinaSprite" class="hina-sprite" data="assets/hina-sprite.svg" type="image/svg+xml" aria-label="空崎陽奈立繪"></object>
       </div>
-      <div id="mood" class="mood">認真</div>
+      <div class="visual-controls">
+        <span id="mood" class="mood">認真</span>
+        <button id="audioToggle" class="audio-toggle" type="button" aria-label="切換音樂">♫ 音樂開</button>
+      </div>
     </section>
 
     <section class="dialogue-panel">
@@ -46,6 +49,7 @@
       <span id="saveState">尚未開始</span>
     </footer>
   </main>
+  <script src="game-data.js"></script>
   <script src="game.js"></script>
 </body>
 </html>

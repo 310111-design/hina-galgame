@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 700" role="img" aria-label="空崎陽奈立繪">
+  <defs>
+    <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#402d50"/><stop offset=".55" stop-color="#24182d"/><stop offset="1" stop-color="#17101f"/></linearGradient>
+    <linearGradient id="coat" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dfe6f1"/><stop offset="1" stop-color="#9ea9b9"/></linearGradient>
+  </defs>
+  <ellipse cx="210" cy="662" rx="150" ry="24" fill="#15121f" opacity=".45"/>
+  <path d="M88 350Q210 288 332 350L368 650H52Z" fill="#2d2638"/>
+  <path d="M132 356Q210 326 288 356L300 522H120Z" fill="url(#coat)" stroke="#eef3fa" stroke-width="5"/>
+  <path d="M158 502L130 650H290L262 502Z" fill="#262c45"/>
+  <path d="M177 326H243V392H177Z" fill="#f1c9b4"/>
+  <path d="M112 178Q210 86 308 178L326 350Q300 406 210 416Q120 406 94 350Z" fill="url(#hair)"/>
+  <path d="M145 178Q210 122 275 178L266 314Q210 355 154 314Z" fill="#f4cfba"/>
+  <path d="M145 178Q112 212 128 304L112 260Q88 232 118 176Z" fill="url(#hair)"/>
+  <path d="M275 178Q308 212 292 304L308 260Q332 232 302 176Z" fill="url(#hair)"/>
+  <path d="M112 178Q210 62 308 178Q302 112 210 98Q118 112 112 178Z" fill="#39274a"/>
+  <g id="eyes" fill="none" stroke="#50364d" stroke-width="9" stroke-linecap="round">
+    <path d="M160 246Q177 238 194 248"/><path d="M226 248Q243 238 260 246"/>
+  </g>
+  <g id="mouth" fill="none" stroke="#9d6672" stroke-width="5" stroke-linecap="round">
+    <path d="M192 287Q210 299 228 287"/>
+  </g>
+  <circle cx="210" cy="174" r="14" fill="#9dc1ce"/><circle cx="210" cy="174" r="7" fill="#dbe8ec"/>
+  <path d="M112 402Q62 472 92 574" fill="none" stroke="#f1c9b4" stroke-width="38" stroke-linecap="round"/>
+  <path d="M308 402Q358 472 328 574" fill="none" stroke="#f1c9b4" stroke-width="38" stroke-linecap="round"/>
+</svg>

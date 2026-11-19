@@ -53,3 +53,9 @@
   - 完成段落後更新 `knowledge/experience.md`、勾選 `knowledge/plan.md`、提交分支並 push 到 `main`。
   - Pages 內容由 `.github/workflows/pages.yml` 自動部署；不要把企劃展示頁描述成已完成遊戲。
 - **理由：** Copilot Automation 可在離線主機及瀏覽器關閉後由 GitHub 雲端執行；私有化是目前這個公開 repo 啟用該功能的必要前置條件。
+
+## D-06：正式角色圖與場景音訊素材
+
+- **狀態：** 暫採可運作替代方案，正式素材仍待生圖／音訊工具可用。
+- **決策：** 使用陽奈 SVG 暫定立繪、場景 CSS 底圖、表情濾鏡與抖動動畫，以及 Web Audio 生成環境旋律／提示音，先完整傳統 Galgame 操作體驗。
+- **推薦：** 正式視覺可日後替換 `site/assets/hina-sprite.svg` 或疊加表情差分；正式配樂與音效可替換為 repo 內 `.ogg`／`.mp3`，不改動逐句演出邏輯。
