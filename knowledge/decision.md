@@ -37,7 +37,8 @@
 
 ## D-05：離線時讓 GitHub Pages 續作的雲端工作方式
 
-- **狀態：** 等待使用者在 GitHub 網頁完成私有化與 Copilot Automations 啟用。
+- **狀態：** 已放棄，專案不因此項阻塞後續迭代。
+- **決定：** 使用者決定先不私有化 repo、不啟用 Copilot Automations。
 - **使用者選擇：** 採用「將 repo 設為私有並建立 Copilot Automation」。
 - **現況：** GitHub API 回覆私有化操作 403，瀏覽器環境也被網路策略阻擋，因此目前無法由主機代為變更 repo 可見性或建立 Automation。
 - **實際啟用步驟：**
