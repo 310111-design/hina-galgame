@@ -97,7 +97,7 @@ function updateScene() {
   setMood(chapter?.mood || "認真");
 
   if (state.phase === "choice") setMood("等待選擇");
-  if (state.phase === "complete") setMood("第一幕完成");
+  if (state.phase === "complete") setMood("目前內容完成");
 }
 
 function renderDialogue([kind, text, mood]) {
@@ -160,8 +160,8 @@ function render() {
     });
   } else if (state.phase === "complete") {
     document.getElementById("story").innerHTML =
-      '<p class="hina"><strong>第一幕完成</strong></p>' +
-      '<p class="narration">陽奈保留了一段仍可反覆確認的日常空間。選擇留下的旗標會帶到後續章節。</p>' +
+      '<p class="hina"><strong>目前可玩內容完成</strong></p>' +
+      '<p class="narration">已完成第一幕與第二幕入口。選擇留下的旗標會帶到後續章節。</p>' +
       `<p class="system">rest ${state.flags.rest}｜teamwork ${state.flags.teamwork}｜ordinary_day ${state.flags.ordinary_day}｜daily_checkin ${state.flags.daily_checkin}</p>`;
     const button = document.createElement("button");
     button.type = "button";
