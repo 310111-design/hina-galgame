@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15121f">
+  <title>放學後的十分鐘｜第一幕體驗版</title>
+  <link rel="stylesheet" href="game.css">
+</head>
+<body>
+  <main class="game-shell">
+    <header class="game-header">
+      <a class="back" href="./">← 企劃首頁</a>
+      <div>
+        <span class="eyebrow">第一幕體驗版</span>
+        <h1>放學後的十分鐘</h1>
+      </div>
+      <button id="restart" class="ghost" type="button">重新開始</button>
+    </header>
+
+    <section class="status" aria-label="遊戲進度">
+      <div class="progress-track"><div id="progress" class="progress"></div></div>
+      <div class="status-row">
+        <span id="chapterLabel">A01｜第二次放學後</span>
+        <div id="flags" class="flags"></div>
+      </div>
+    </section>
+
+    <section class="visual" aria-label="場景">
+      <div class="sun"></div>
+      <div class="window"></div>
+      <div class="desk">
+        <div class="papers"></div>
+        <div class="cup"></div>
+      </div>
+      <div id="mood" class="mood">認真</div>
+    </section>
+
+    <section class="dialogue-panel">
+      <div id="story" class="story" aria-live="polite"></div>
+      <div id="choices" class="choices"></div>
+    </section>
+
+    <footer class="game-footer">
+      <span>本體驗版會將選擇與旗標保存在瀏覽器中。</span>
+      <span id="saveState">尚未開始</span>
+    </footer>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
