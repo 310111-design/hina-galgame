@@ -34,7 +34,10 @@ function getSequence() {
   if (!chapter) return [];
   let sequence = [];
   if (state.phase === "intro") sequence = chapter.intro;
-  if (state.phase === "branch") sequence = state.choices[chapter.id]?.branch || [];
+  if (state.phase === "branch") {
+    const selected = state.choices[chapter.id]?.letter;
+    sequence = selected ? chapter.branches[selected] || [] : [];
+  }
   if (state.phase === "common") sequence = chapter.common;
   sequence = sequence.filter(line => Array.isArray(line) && String(line[1] || "").trim());
   return sequence;
@@ -97,14 +100,17 @@ function updateScene() {
   if (state.phase === "complete") setMood("第一幕完成");
 }
 
-function renderDialogue([kind, text]) {
+function renderDialogue([kind, text, mood]) {
   const story = document.getElementById("story");
   story.innerHTML = "";
   const p = document.createElement("p");
 
   if (kind === "hina") {
     p.className = "hina";
-    p.innerHTML = `<strong>陽奈｜認真：</strong>${text}`;
+    const label = mood ? `空崎陽奈｜${mood}` : "空崎陽奈";
+    const strong = document.createElement("strong");
+    strong.textContent = `${label}：`;
+    p.append(strong, document.createTextNode(text));
   } else if (kind === "system") {
     p.className = "system";
     p.textContent = text;
