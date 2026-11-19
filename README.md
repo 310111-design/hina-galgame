@@ -13,6 +13,7 @@
 - `knowledge/experience.md`：可複用製作經驗
 - `knowledge/decision.md`：待決事項與推薦方案
 - `knowledge/asset-register.md`：視覺素材清冊
+- `story/chapters/`：逐節 Galgame 正文稿與分支；目前已完成 P01 初稿
 - `site/`：GitHub Pages 靜態企劃頁
 - `.github/workflows/pages.yml`：推送至 `main` 時自動部署網站
 
