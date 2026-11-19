@@ -107,9 +107,8 @@ function renderDialogue([kind, text, mood]) {
 
   if (kind === "hina") {
     p.className = "hina";
-    const label = mood ? `空崎陽奈｜${mood}` : "空崎陽奈";
     const strong = document.createElement("strong");
-    strong.textContent = `${label}：`;
+    strong.textContent = "空崎陽奈";
     p.append(strong, document.createTextNode(text));
   } else if (kind === "system") {
     p.className = "system";
