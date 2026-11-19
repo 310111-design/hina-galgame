@@ -34,3 +34,21 @@
 - **推薦：** 8 萬～15 萬字、3,000～5,000 句按作品中所有唯一正文累計；共同主線只計一次，互斥分支分別納入。另可記每條玩家路徑的估算閱讀量。
 - **理由：** 這能反映作者實際要完成的總稿量，同時避免分支文字被當成所有玩家都會讀到的正文。
 - **未來可用範圍：** 全篇容量估算、分支工作量與每條路線的閱讀長度比較。
+
+## D-05：離線時讓 GitHub Pages 續作的雲端工作方式
+
+- **狀態：** 等待使用者在 GitHub 網頁完成私有化與 Copilot Automations 啟用。
+- **使用者選擇：** 採用「將 repo 設為私有並建立 Copilot Automation」。
+- **現況：** GitHub API 回覆私有化操作 403，瀏覽器環境也被網路策略阻擋，因此目前無法由主機代為變更 repo 可見性或建立 Automation。
+- **實際啟用步驟：**
+  1. 在 https://github.com/310111-design/hina-galgame/settings 開啟 Danger Zone → Change repository visibility，確認變更為 Private。
+  2. 在 repo 設定確認 Copilot／Automations 可用；目前 live 設定回報 `automations_enabled=false`、`can_manage_automations=false`。
+  3. 私有化並取得管理權後，建立一個 personal Automation；不需建立 automation group。
+  4. 先建立為 `disabled: true`，只授予 repos、issues 與 actions 的必要讀寫工具；依實際設定選擇每日排程、手動 Run now 或 issue/PR 事件。
+- **推薦 Automation 職責：**
+  - 優先讀取 `knowledge/plan.md` 與 `knowledge/experience.md`。
+  - 選擇路線圖中最靠前且無需人工偏好的可完成階段。
+  - 需要玩家偏好、版權或重要世界觀決策時，寫入 `knowledge/decision.md`，並繼續不受阻塞的工作。
+  - 完成段落後更新 `knowledge/experience.md`、勾選 `knowledge/plan.md`、提交分支並 push 到 `main`。
+  - Pages 內容由 `.github/workflows/pages.yml` 自動部署；不要把企劃展示頁描述成已完成遊戲。
+- **理由：** Copilot Automation 可在離線主機及瀏覽器關閉後由 GitHub 雲端執行；私有化是目前這個公開 repo 啟用該功能的必要前置條件。
