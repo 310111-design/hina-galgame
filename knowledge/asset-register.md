@@ -79,7 +79,7 @@
 | `IMG_2957.jpeg` | `office-day-v01.jpeg` | `office-day-v01.webp` | 風紀委員會辦公室・白天 | P03／B01–B02／C01–C02／C05 |
 | `IMG_2958.jpeg` | `school-corridor-sunset-v01.jpeg` | `school-corridor-sunset-v01.webp` | 校舍走廊・夕照 | A04 |
 | `IMG_2959.jpeg` | `rooftop-sunset-v01.jpeg` | `rooftop-sunset-v01.webp` | 校舍屋頂・夕陽 | C03及 P01／P02 的 C 分支 |
-| `IMG_2960.jpeg` | `school-courtyard-sunset-v01.jpeg` | `school-courtyard-sunset-v01.webp` | 校園中庭・夕照 | D08P |
+| `IMG_2960.jpeg` | `school-courtyard-sunset-v01.jpeg` | `school-courtyard-sunset-v01.webp` | 校園中庭・夕照 | 暫不接入成年篇；保留為校園場景備用素材 |
 | `IMG_2961.jpeg` | `school-gate-evening-v01.jpeg` | `school-gate-evening-v01.webp` | 校門・傍晚 | C06 |
 | `IMG_2962.jpeg` | `cafe-day-v01.jpeg` | `cafe-day-v01.webp` | 車站附近咖啡店・白天 | D01／D05／D08F |
 | `IMG_2963.jpeg` | `cafe-rainy-evening-v01.jpeg` | `cafe-rainy-evening-v01.webp` | 車站附近咖啡店・雨夜 | D02／D08R |

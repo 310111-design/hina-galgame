@@ -371,7 +371,7 @@ const BACKGROUND_BY_CHAPTER = {
   C04: "office-overcast-v01.webp", C05: "office-day-v01.webp", C06: "school-gate-evening-v01.webp",
   D01: "cafe-day-v01.webp", D02: "cafe-rainy-evening-v01.webp", D03: "home-living-room-day-v01.webp",
   D04: "neighborhood-park-evening-v01.webp", D05: "cafe-day-v01.webp", D06: "home-living-room-day-v01.webp",
-  D07: "neighborhood-park-evening-v01.webp", D08F: "cafe-day-v01.webp", D08P: "school-courtyard-sunset-v01.webp",
+  D07: "neighborhood-park-evening-v01.webp", D08F: "cafe-day-v01.webp", D08P: "neighborhood-park-evening-v01.webp",
   D08R: "cafe-rainy-evening-v01.webp"
 };
 
