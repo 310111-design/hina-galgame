@@ -1111,3 +1111,10 @@
 - **做法：** 在上傳 Pages artifact 前，透過該 run 的 artifacts API 刪除同一 run 中舊的 `github-pages` 成品，再上傳唯一的新 artifact；workflow 僅增加 `actions: write` 權限以執行此清理。
 - **限制：** 清理範圍限定目前 workflow run，不刪除其他 run 或其他用途的 artifacts；部署仍可能受 GitHub Pages 服務狀態影響。
 - **未來可用於：** 本作 GitHub Pages 部署流程；也適用於需要重跑 workflow、且 deploy job 要求唯一 artifact 名稱的 GitHub Actions 專案。
+
+
+### 2026-11-20：場景特例也必須納入背景 WebP 存在性檢查
+
+- **觀察：** 章節背景主表已全面使用 WebP，但 P01／P02 屋頂分支透過獨立 override 仍引用原始 JPEG；這不影響顯示，卻繞過已完成的 WebP 壓縮流程。
+- **做法：** 將屋頂分支改為 `rooftop-sunset-v01.webp`，並在 game-shell CI 解析章節背景表與屋頂特例，檢查所有 runtime 背景都使用 WebP 且檔案存在。
+- **未來可用於：** 本作新增章節背景、分支專用場景與其他特殊覆寫；也適用於需要確保前端只載入最佳化圖片的靜態網站。

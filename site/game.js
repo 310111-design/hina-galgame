@@ -405,7 +405,7 @@ function updateScene() {
   const previousChapter = scene.dataset.chapter || "";
   const shouldTransition = (previousSceneType && previousSceneType !== sceneType) ||
     (previousChapter && previousChapter !== (chapter?.id || ""));
-  const backgroundFile = roofScene ? "rooftop-sunset-v01.jpeg" : (BACKGROUND_BY_CHAPTER[chapter?.id] || null);
+  const backgroundFile = roofScene ? "rooftop-sunset-v01.webp" : (BACKGROUND_BY_CHAPTER[chapter?.id] || null);
   scene.className = "scene-art " + sceneType + (backgroundFile ? " has-background" : "");
   if (backgroundFile) scene.style.setProperty("--scene-image", `url("assets/backgrounds/${backgroundFile}")`);
   else scene.style.removeProperty("--scene-image");

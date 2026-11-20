@@ -8,6 +8,20 @@ const root = path.join(__dirname, "..");
 const source = fs.readFileSync(path.join(root, "site", "game.js"), "utf8");
 const requiredIds = [...new Set([...source.matchAll(/getElementById\("([^"]+)"\)/g)].map(match => match[1]))];
 const pages = ["game.html", "testplay.html"];
+const backgroundMap = source.match(/const BACKGROUND_BY_CHAPTER = \\{([\\s\\S]*?)\\n\\};/);
+if (!backgroundMap) {
+  errors.push("Missing BACKGROUND_BY_CHAPTER mapping.");
+} else {
+  const backgroundFiles = [...backgroundMap[1].matchAll(/"([^"]+\\.(?:webp|jpe?g))"/gi)].map(match => match[1]);
+  const roofOverride = source.match(/const backgroundFile = roofScene \\? "([^"]+)"/);
+  if (roofOverride) backgroundFiles.push(roofOverride[1]);
+  [...new Set(backgroundFiles)].forEach(file => {
+    if (!file.toLowerCase().endsWith(".webp")) errors.push("Runtime background must use WebP: " + file);
+    if (!fs.existsSync(path.join(root, "site", "assets", "backgrounds", file))) {
+      errors.push("Missing runtime background asset: " + file);
+    }
+  });
+}
 const errors = [];
 let pageSpriteSource = "";
 
@@ -42,5 +56,5 @@ if (errors.length) {
   errors.forEach(error => console.error("- " + error));
   process.exitCode = 1;
 } else {
-  console.log("Game shells OK: " + requiredIds.length + " JavaScript-required IDs exist exactly once in both pages; sprite source is shared and present: " + pageSpriteSource + ".");
+  console.log("Game shells and runtime backgrounds OK: " + requiredIds.length + " JavaScript-required IDs exist exactly once in both pages; sprite source is shared and present: " + pageSpriteSource + ".");
 }
