@@ -60,10 +60,10 @@ for (const target of targets) {
     }
   }
 
-  const match = markdown.match(/正文統計[^0-9]*(\d+)/);
+  const match = markdown.match(/^\\*\\*正文統計：\\*\\* ([\\d,]+) 個中文字元（/m);
   if (!match) {
     errors.push(target.id + ": missing declared character count in Markdown");
-  } else if (Number(match[1]) !== count) {
+  } else if (Number(match[1].replace(/,/g, "")) !== count) {
     errors.push(target.id + ": Markdown count " + match[1] + " does not match game data " + count);
   }
   if (count < target.minimum) {
