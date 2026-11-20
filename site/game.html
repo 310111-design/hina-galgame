@@ -41,6 +41,16 @@
     </main>
   <aside id="logPanel" class="log-panel" aria-label="對話紀錄" aria-hidden="true" inert>
     <div class="log-head"><div><span class="eyebrow">DIALOGUE LOG</span><h2>對話紀錄</h2></div><button id="logClose" class="ghost" type="button">關閉</button></div>
+    <section class="reading-settings" aria-label="閱讀設定">
+      <label for="typingSpeed">文字速度
+        <select id="typingSpeed">
+          <option value="44">慢</option>
+          <option value="26">普通</option>
+          <option value="12">快</option>
+        </select>
+      </label>
+      <label class="auto-play-setting"><input id="autoPlayToggle" type="checkbox"> 自動播放</label>
+    </section>
     <div id="logList" class="log-list" aria-live="polite"></div>
   </aside>
   <dialog id="chapterDialog" class="chapter-dialog">
