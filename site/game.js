@@ -31,6 +31,11 @@ let state = loadState();
 let audioContext = null;
 let ambientNodes = [];
 let musicEnabled = true;
+let typingTimer = null;
+let typingLine = null;
+let dialogueHistory = [];
+let lastHistoryKey = "";
+const TYPEWRITER_DELAY = 26;
 
 function loadState() {
   try {
@@ -89,7 +94,18 @@ function getSequence() {
   return sequence;
 }
 
+function revealCurrentLine() {
+  if (!typingTimer || !typingLine) return false;
+  window.clearInterval(typingTimer);
+  typingTimer = null;
+  typingLine.node.textContent = typingLine.fullText;
+  typingLine = null;
+  document.getElementById("dialogueHint").textContent = "點擊畫面任意空白處繼續　›";
+  return true;
+}
+
 function advanceLine() {
+  if (revealCurrentLine()) return;
   const chapter = chapters[state.chapter];
   if (!chapter) return;
   if (state.phase === "complete") return;
@@ -171,26 +187,103 @@ function updateScene() {
   if (state.phase === "complete") setMood("目前內容完成");
 }
 
+function addHistoryEntry(kind, text) {
+  const chapter = chapters[state.chapter];
+  const key = `${chapter?.id || "?"}:${state.phase}:${state.line}`;
+  if (key === lastHistoryKey) return;
+  lastHistoryKey = key;
+  dialogueHistory.push({
+    chapter: chapter?.id || "",
+    speaker: kind === "hina" ? "空崎陽奈" : kind === "system" ? "系統" : "旁白",
+    text
+  });
+  if (dialogueHistory.length > 500) dialogueHistory.shift();
+  renderHistory();
+}
+
+function renderHistory() {
+  const list = document.getElementById("logList");
+  if (!list) return;
+  list.replaceChildren();
+  if (!dialogueHistory.length) {
+    const empty = document.createElement("p");
+    empty.className = "log-empty";
+    empty.textContent = "尚無對話紀錄。";
+    list.appendChild(empty);
+    return;
+  }
+  dialogueHistory.forEach(entry => {
+    const article = document.createElement("article");
+    article.className = "log-entry";
+    const meta = document.createElement("div");
+    meta.className = "log-meta";
+    meta.textContent = `${entry.chapter} · ${entry.speaker}`;
+    const body = document.createElement("p");
+    body.textContent = entry.text;
+    article.append(meta, body);
+    list.appendChild(article);
+  });
+  list.scrollTop = list.scrollHeight;
+}
+
+function toggleHistory(forceOpen) {
+  const panel = document.getElementById("logPanel");
+  const open = typeof forceOpen === "boolean" ? forceOpen : !panel.classList.contains("is-open");
+  panel.classList.toggle("is-open", open);
+  panel.setAttribute("aria-hidden", String(!open));
+  panel.inert = !open;
+  document.getElementById("logToggle").setAttribute("aria-expanded", String(open));
+  if (open) renderHistory();
+}
+
 function renderDialogue([kind, text, mood]) {
+  if (typingTimer) window.clearInterval(typingTimer);
+  typingTimer = null;
+  typingLine = null;
   const story = document.getElementById("story");
-  story.innerHTML = "";
+  story.replaceChildren();
   const p = document.createElement("p");
+  const textNode = document.createTextNode("");
 
   if (kind === "hina") {
     p.className = "hina";
     const strong = document.createElement("strong");
     strong.textContent = "空崎陽奈";
-    p.append(strong, document.createTextNode(text));
+    p.append(strong, textNode);
   } else if (kind === "system") {
     p.className = "system";
-    p.textContent = text;
+    p.appendChild(textNode);
   } else {
     p.className = "narration";
-    p.textContent = text;
+    p.appendChild(textNode);
   }
   story.appendChild(p);
   if (kind === "hina") setSpriteEmotion(mood);
   animateSprite(kind, text);
+  addHistoryEntry(kind, text);
+
+  const characters = Array.from(text);
+  if (!characters.length) {
+    document.getElementById("dialogueHint").textContent = "點擊畫面任意空白處繼續　›";
+    return;
+  }
+  typingLine = { characters, fullText: text, node: textNode, index: 0 };
+  document.getElementById("dialogueHint").textContent = "點擊可立即顯示完整句";
+  typingTimer = window.setInterval(() => {
+    if (!typingLine) {
+      window.clearInterval(typingTimer);
+      typingTimer = null;
+      return;
+    }
+    typingLine.index += 1;
+    typingLine.node.textContent = typingLine.characters.slice(0, typingLine.index).join("");
+    if (typingLine.index >= typingLine.characters.length) {
+      window.clearInterval(typingTimer);
+      typingTimer = null;
+      typingLine = null;
+      document.getElementById("dialogueHint").textContent = "點擊畫面任意空白處繼續　›";
+    }
+  }, TYPEWRITER_DELAY);
 }
 
 function renderFlags() {
@@ -387,6 +480,8 @@ document.getElementById("fullscreenToggle").addEventListener("click", async () =
 });
 
 document.getElementById("chapterMenu").addEventListener("click", openChapterMenu);
+document.getElementById("logToggle").addEventListener("click", () => toggleHistory());
+document.getElementById("logClose").addEventListener("click", () => toggleHistory(false));
 document.getElementById("closeChapterMenu").addEventListener("click", () => document.getElementById("chapterDialog").close());
 document.getElementById("restart").addEventListener("click", restart);
 document.getElementById("saveManual").addEventListener("click", saveManual);
@@ -399,7 +494,7 @@ document.getElementById("audioToggle").addEventListener("click", event => {
 });
 
 document.addEventListener("keydown", event => {
-  if (event.target.closest("button, a, input, select, textarea") || document.querySelector("dialog[open]")) return;
+  if (event.target.closest("button, a, input, select, textarea") || document.querySelector("dialog[open]") || document.getElementById("logPanel").classList.contains("is-open")) return;
   if (event.key === "Enter" || event.key === " " || event.key === "ArrowRight") {
     if (state.phase !== "choice" && state.phase !== "complete") {
       event.preventDefault();
