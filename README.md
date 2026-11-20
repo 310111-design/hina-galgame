@@ -1,6 +1,6 @@
 # 放學後的十分鐘｜陽奈 Galgame 企劃
 
-以空崎陽奈為主角的《蔚藍檔案》二創長篇 Galgame 企劃，基調為甜甜的日常與酸甜青春。目前已完成 A01～D07 共 27 節逐句互動內容與 Pages 體驗版；作品仍持續進行連貫性審校與正式視覺素材製作。
+以空崎陽奈為主角的《蔚藍檔案》二創長篇 Galgame 企劃，基調為甜甜的日常與酸甜青春。目前已完成序章 P01～P03 與 A01～D07 共 30 節逐句互動內容與 Pages 體驗版；作品仍持續進行連貫性審校與正式視覺素材製作。
 
 **企劃展示頁：** [GitHub Pages](https://310111-design.github.io/hina-galgame/)
 
@@ -14,8 +14,8 @@
 - `knowledge/flag-dialogue.md`：跨章節旗標條件對話文字來源
 - `knowledge/decision.md`：待決事項與推薦方案
 - `knowledge/asset-register.md`：視覺素材清冊
-- `story/chapters/`：逐節 Galgame 正文稿與分支；A01～D07 共 27 節已接入可玩版本，P01～P03 保留為獨立序章正文，尚未接入現行遊戲資料
-- `site/`：GitHub Pages 靜態企劃頁與 27 節逐句體驗版（`game.html`、`testplay.html`）
+- `story/chapters/`：逐節 Galgame 正文稿與分支；P01～P03 序章與 A01～D07 四幕共 30 節均已接入可玩版本
+- `site/`：GitHub Pages 靜態企劃頁與 30 節逐句體驗版（`game.html`、`testplay.html`）
 - `.github/workflows/pages.yml`：推送至 `main` 時自動部署網站
 
 ## GitHub Pages
