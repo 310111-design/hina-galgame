@@ -301,3 +301,5 @@
 | `site/assets/backgrounds/` | 場景原始圖與 WebP runtime 背景 |
 | `site/assets/characters/` | 角色素材、暫存圖與參考圖 |
 | `scripts/validate-game-data.js` | 遊戲資料與路線驗證 |
+
+- [x] GitHub Pages 部署工作流程在上傳前清理同一 run 先前重跑留下的同名 artifact，避免 deploy-pages 因多個 `github-pages` 成品而失敗。

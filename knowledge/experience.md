@@ -1103,3 +1103,11 @@
 - **做法：** 對 artifact metadata 暫時性錯誤，不連續重跑同一 run 的 deploy job；改以新的完整 workflow run 重新產生單一 artifact。先確認最新 commit 的語法、資料及路線檢查通過，再檢查全新 run 的部署結果。
 - **限制：** 這類錯誤不代表程式或靜態頁面內容有問題；除非新的 run 仍在程式檢查階段失敗，否則不要因此修改遊戲程式或 Pages 設定。
 - **未來可用於：** 本作 GitHub Pages 部署流程；也適用於任何以 workflow artifact 作為部署輸入的 GitHub Actions 專案。
+
+
+### 2026-11-20：GitHub Pages 重跑時需先清理同一 run 的舊部署 artifact
+
+- **觀察：** GitHub Actions 的 run attempt 達第 3 次時，同一 workflow run 留下 3 個名為 `github-pages` 的 artifact；`actions/deploy-pages` 只接受唯一同名成品，因此即使程式與頁面檢查全部成功，部署仍會因 artifact 數量為 3 而失敗。
+- **做法：** 在上傳 Pages artifact 前，透過該 run 的 artifacts API 刪除同一 run 中舊的 `github-pages` 成品，再上傳唯一的新 artifact；workflow 僅增加 `actions: write` 權限以執行此清理。
+- **限制：** 清理範圍限定目前 workflow run，不刪除其他 run 或其他用途的 artifacts；部署仍可能受 GitHub Pages 服務狀態影響。
+- **未來可用於：** 本作 GitHub Pages 部署流程；也適用於需要重跑 workflow、且 deploy job 要求唯一 artifact 名稱的 GitHub Actions 專案。
