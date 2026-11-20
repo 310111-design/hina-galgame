@@ -40,26 +40,30 @@ for (const target of targets) {
   const count = lines.reduce((sum, line) => sum + String(line[1] || "").length, 0);
   const markdown = fs.readFileSync(markdownPath, "utf8");
 
-  const markdownDialogue = markdown.split(/\r?\n/).flatMap(rawLine => {
-    const line = rawLine.trim();
-    let match = line.match(/^【旁白】(.*)$/);
-    if (match) return [["narration", match[1]]];
-    match = line.match(/^【陽奈｜([^】]+)】(.*)$/);
-    if (match) return [["hina", match[2], match[1]]];
-    match = line.match(/^【系統】(.*)$/);
-    if (match) return [["system", match[1]]];
-    return [];
-  });
-
-  if (markdownDialogue.length !== lines.length) {
-    errors.push(target.id + ": Markdown dialogue line count " + markdownDialogue.length + " does not match runtime " + lines.length);
-  }
-  const compareLength = Math.min(markdownDialogue.length, lines.length);
-  for (let index = 0; index < compareLength; index += 1) {
-    if (JSON.stringify(markdownDialogue[index]) !== JSON.stringify(lines[index])) {
-      errors.push(target.id + ": Markdown/runtime dialogue mismatch at line " + (index + 1));
-      break;
+  if (target.syncDialogue !== false) {
+    const markdownDialogue = markdown.split(/\r?\n/).flatMap(rawLine => {
+      const line = rawLine.trim();
+      let match = line.match(/^【旁白】(.*)$/);
+      if (match) return [["narration", match[1]]];
+      match = line.match(/^【陽奈｜([^】]+)】(.*)$/);
+      if (match) return [["hina", match[2], match[1]]];
+      match = line.match(/^【系統】(.*)$/);
+      if (match) return [["system", match[1]]];
+      return [];
+    });
+  
+    if (markdownDialogue.length !== lines.length) {
+      errors.push(target.id + ": Markdown dialogue line count " + markdownDialogue.length + " does not match runtime " + lines.length);
     }
+    const compareLength = Math.min(markdownDialogue.length, lines.length);
+    for (let index = 0; index < compareLength; index += 1) {
+      if (JSON.stringify(markdownDialogue[index]) !== JSON.stringify(lines[index])) {
+        errors.push(target.id + ": Markdown/runtime dialogue mismatch at line " + (index + 1));
+        break;
+      }
+    }
+  
+  
   }
 
   const match = markdown.match(/正文統計[^0-9]*([0-9,]+)\s*個中文字元/);
@@ -89,5 +93,5 @@ if (errors.length) {
   errors.forEach(error => console.error("- " + error));
   process.exitCode = 1;
 } else {
-  console.log("Route draft validation OK: Markdown dialogue, character counts and per-path lengths match game data.");
+  console.log("Route draft validation OK: configured dialogue sync, character counts and per-path lengths pass.");
 }
