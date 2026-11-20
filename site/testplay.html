@@ -28,6 +28,7 @@
     </section>
     <section id="gameStage" class="game-stage" aria-label="遊戲畫面">
       <div id="sceneArt" class="scene-art office">
+        <div id="chapterToast" class="chapter-toast" aria-live="polite"></div>
         <div class="scene-backdrop"></div><div class="scene-vignette"></div>
         <div class="scene-light"></div>
         <img id="hinaSprite" class="hina-sprite" src="assets/hina-sprite.svg" alt="空崎陽奈立繪">
@@ -36,13 +37,20 @@
       <section class="dialogue-panel">
         <div id="story" class="story" aria-live="polite"></div>
         <div id="choices" class="choices"></div>
-        <div class="dialogue-hint" id="dialogueHint">點擊畫面任意空白處繼續　›</div>
+        <div class="dialogue-footer"><div class="dialogue-hint" id="dialogueHint">點擊畫面任意空白處繼續　›</div><button id="skipRead" class="skip-read" type="button" disabled>跳過已讀</button></div>
       </section>
     </section>
     </main>
   <aside id="logPanel" class="log-panel" aria-label="對話紀錄" aria-hidden="true" inert>
     <div class="log-head"><div><span class="eyebrow">DIALOGUE LOG</span><h2>對話紀錄</h2></div><button id="logClose" class="ghost" type="button">關閉</button></div>
     <section class="reading-settings" aria-label="閱讀設定">
+      <label for="dialogueFontSize">文字大小
+        <select id="dialogueFontSize">
+          <option value="16">標準</option>
+          <option value="18">稍大</option>
+          <option value="20">大字</option>
+        </select>
+      </label>
       <label for="typingSpeed">文字速度
         <select id="typingSpeed">
           <option value="44">慢</option>
