@@ -141,6 +141,63 @@ data.forEach(chapter => {
   }
 });
 
+
+const siteDir = path.join(__dirname, "..", "site");
+const gameSource = fs.readFileSync(path.join(siteDir, "game.js"), "utf8");
+
+function readStaticMap(name) {
+  const match = gameSource.match(new RegExp("const " + name + " = \\{([\\s\\S]*?)\\n\\};"));
+  if (!match) {
+    errors.push("game.js: missing " + name + " map");
+    return [];
+  }
+  return [...match[1].matchAll(/([A-Z0-9]+):\\s*"([^"]+)"/g)]
+    .map(item => ({ id: item[1], value: item[2] }));
+}
+
+const sceneEntries = readStaticMap("SCENE_BY_CHAPTER");
+const allowedScenes = new Set(["office", "corridor", "rooftop", "cafe", "home", "outdoor"]);
+const sceneIds = new Set(sceneEntries.map(item => item.id));
+sceneEntries.forEach(item => {
+  if (!ids.includes(item.id)) errors.push("SCENE_BY_CHAPTER: unknown chapter " + item.id);
+  if (!allowedScenes.has(item.value)) errors.push("SCENE_BY_CHAPTER: unknown scene type " + item.value);
+});
+data.forEach(chapter => {
+  if (!sceneIds.has(chapter.id)) errors.push("SCENE_BY_CHAPTER: missing scene for " + chapter.id);
+});
+
+const backgroundEntries = readStaticMap("BACKGROUND_BY_CHAPTER");
+const backgroundIds = new Set(backgroundEntries.map(item => item.id));
+const backgroundFallbackIds = new Set(["D08F"]);
+backgroundEntries.forEach(item => {
+  if (!ids.includes(item.id)) errors.push("BACKGROUND_BY_CHAPTER: unknown chapter " + item.id);
+  const filePath = path.join(siteDir, "assets", "backgrounds", item.value);
+  if (!fs.existsSync(filePath)) errors.push("BACKGROUND_BY_CHAPTER: missing asset " + item.value + " for " + item.id);
+});
+data.forEach(chapter => {
+  if (!backgroundIds.has(chapter.id) && !backgroundFallbackIds.has(chapter.id)) {
+    errors.push("BACKGROUND_BY_CHAPTER: missing mapping for " + chapter.id + " without an approved visual fallback");
+  }
+});
+if (!fs.existsSync(path.join(siteDir, "assets", "backgrounds", "rooftop-sunset-v01.jpeg"))) {
+  errors.push("P01/P02 rooftop branch override: missing rooftop-sunset-v01.jpeg");
+}
+
+const requiredDomIds = [...new Set([...gameSource.matchAll(/getElementById\\(["']([^"']+)["']\\)/g)].map(item => item[1]))];
+["game.html", "testplay.html"].forEach(fileName => {
+  const filePath = path.join(siteDir, fileName);
+  if (!fs.existsSync(filePath)) {
+    errors.push("missing page shell " + fileName);
+    return;
+  }
+  const html = fs.readFileSync(filePath, "utf8");
+  requiredDomIds.forEach(id => {
+    if (!html.includes('id="' + id + '"') && !html.includes("id='" + id + "'")) {
+      errors.push(fileName + ": missing DOM element #" + id + " referenced by game.js");
+    }
+  });
+});
+
 if (errors.length) {
   console.error("Game data validation failed:");
   errors.forEach(error => console.error("- " + error));
@@ -149,6 +206,6 @@ if (errors.length) {
   console.log(
     "Game data OK: " + data.length + " chapters, " +
     choiceCount + " choices, " + branchCount + " branches, " +
-    conditionalGroupCount + " conditional groups."
+    conditionalGroupCount + " conditional groups, " + backgroundEntries.length + " chapter backgrounds and " + requiredDomIds.length + " shared DOM IDs."
   );
 }

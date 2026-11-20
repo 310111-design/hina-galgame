@@ -558,3 +558,11 @@
 - **做法：** startAmbient 每次被呼叫時先檢查既有 AudioContext 是否 suspended，若是就嘗試 resume，再判斷是否需要建立新的場景節點；ensureAudio 的 resume promise 加上 catch，避免瀏覽器拒絕啟動時產生未處理 rejection。
 - **限制：** 這是依瀏覽器音訊政策進行的程式防護，不能取代 iOS Safari／桌面瀏覽器實測；仍需測試「自動播放先啟動、第一次點擊後恢復」及靜音／取消靜音。
 - **未來可用於：** 本作 BGM、音效及未來語音播放的 AudioContext 喚醒；也適用於所有受 autoplay policy 限制的 Web Audio App。
+
+
+### 2026-11-20：把背景映射與共用頁面 DOM 相容納入 CI
+
+- **觀察：** 背景路徑改名或章節映射更新時，單靠 JavaScript 語法檢查無法發現 404；正式版與試玩版共用 game.js 時，若其中一個 HTML shell 漏掉必要 ID，頁面可能在事件綁定時中斷。
+- **做法：** 在既有資料驗證腳本讀取 game.js 的靜態 SCENE_BY_CHAPTER／BACKGROUND_BY_CHAPTER map，檢查章節覆蓋、場景類型白名單、背景檔案存在性與明確核准的 D08F fallback；另收集所有靜態 getElementById 參照，逐一確認 game.html 與 testplay.html 都有對應 id。
+- **限制：** 這是靜態完整性檢查，不會驗證圖片實際載入成功、畫面裁切、對話可讀性或 DOM 元件的互動行為；仍需瀏覽器／實機 QA。
+- **未來可用於：** 本作新增背景、章節或第二個遊戲頁面時，避免錯誤路徑與缺少控制節點；也適用於任何共用 JavaScript 的多頁面靜態 Web App。
