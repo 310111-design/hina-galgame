@@ -789,7 +789,7 @@
 
 ### 2026-11-20：路線稿統計必須以 CI 實際讀取的 runtime 資料為準
 
-- **觀察：** D08P 修訂後，手動統計得到 3074 字元，但 CI 從 `site/game-data.js` 實際計算為 3058；Markdown metadata 多報 16 字元，造成 `validate-route-drafts.js` 失敗。正文場景已改為社區圖書館，但 Markdown 的章節背景標籤仍殘留舊地點。
-- **做法：** 直接依 `scripts/validate-route-drafts.js` 的計算結果更新 Markdown 統計為 3058，並同步檢查 runtime 資料、正文、章節場景標籤及素材映射。多檔同步時應先完成所有變更，再建立單一 commit，避免中間版本觸發預期中的失敗 CI。
+- **觀察：** D08P 修訂後，Markdown metadata 曾誤填 3058 字元，但 CI 從 `site/game-data.js` 實際計算為 3074；metadata 少報 16 字元，造成 `validate-route-drafts.js` 失敗。逐行解析 Markdown 的對話資料後，確認其正文內容與 runtime 的 3074 字元相符，錯誤只在統計欄位。正文場景已改為社區圖書館，但 Markdown 的章節背景標籤仍殘留舊地點。
+- **做法：** 依 runtime 與 Markdown 對話行逐項比對，確認兩者正文皆為 3074 字元，再將 Markdown 統計修正為 3074；同時確認章節背景標籤為社區圖書館戶外庭院。多檔同步時應先完成所有變更，再建立單一 commit，避免中間版本觸發預期中的失敗 CI。
 - **限制：** 字元數驗證只確保資料與稿件統計同步，不代表單一路徑篇幅、時間線或文字品質通過審校。
 - **未來可用於：** 本作所有路線稿擴寫與重構；也適用於任何以 Markdown 維護原稿、以 JavaScript／JSON 作為執行資料的互動敘事專案。
