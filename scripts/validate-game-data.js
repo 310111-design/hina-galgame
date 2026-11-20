@@ -164,7 +164,7 @@ if (!fs.existsSync(flagDialoguePath)) {
   let currentGroup = null;
 
   flagDocument.split(/\r?\n/).forEach(line => {
-    const heading = line.match(/^## ([A-Z]\d{2})(?:：.*)?$/);
+    const heading = line.match(/^## ([A-Z]\d{2}[A-Z]?)(?:：.*)?$/);
     if (heading) {
       currentChapterId = heading[1];
       if (!documentedGroups.has(currentChapterId)) documentedGroups.set(currentChapterId, []);
