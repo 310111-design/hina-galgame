@@ -14,6 +14,7 @@
       <div class="brand"><span class="eyebrow">HINA GALGAME</span><h1>放學後的十分鐘</h1></div>
       <div class="top-actions">
         <button id="chapterMenu" class="ghost" type="button">章節</button>
+        <button id="returnMain" class="ghost" type="button" hidden>返回主線</button>
         <button id="logToggle" class="ghost" type="button" aria-controls="logPanel" aria-expanded="false">紀錄</button>
         <button id="saveManual" class="ghost" type="button">存檔</button>
         <button id="loadManual" class="ghost" type="button">讀檔</button>
@@ -55,8 +56,13 @@
   </aside>
   <dialog id="chapterDialog" class="chapter-dialog">
     <div class="dialog-head"><div><span class="eyebrow">CHAPTER SELECT</span><h2>選擇章節</h2></div><button id="closeChapterMenu" class="ghost" type="button">關閉</button></div>
-    <p class="dialog-note">所有章節皆可直接進入。選擇章節會從該章開頭開始，並保留目前累積的旗標。</p>
+    <p class="dialog-note">所有章節皆可直接進入。選擇章節會從該章開頭開始，以獨立重玩狀態執行，不會覆蓋主線存檔。</p>
     <div id="chapterList" class="chapter-list"></div>
+  </dialog>
+  <dialog id="saveDialog" class="chapter-dialog save-dialog">
+    <div class="dialog-head"><div><span class="eyebrow">SAVE / LOAD</span><h2 id="saveDialogTitle">選擇存檔欄位</h2></div><button id="closeSaveMenu" class="ghost" type="button">關閉</button></div>
+    <p id="saveDialogNote" class="dialog-note">選擇一個欄位保存目前進度。</p>
+    <div id="saveSlots" class="save-slots"></div>
   </dialog>
   <script src="game-data.js"></script><script src="game.js"></script>
 </body>
