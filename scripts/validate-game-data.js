@@ -76,6 +76,15 @@ const d07 = data.find(chapter => chapter?.id === "D07");
 if (!d07 || JSON.stringify(d07.nextByRoute || {}) !== JSON.stringify(expectedRouteTargets)) {
   errors.push("D07 must route friend/partner/romance to D08F/D08P/D08R respectively");
 }
+const d05 = data.find(chapter => chapter?.id === "D05");
+const d06 = data.find(chapter => chapter?.id === "D06");
+const d05TeaInvitation = "下週如果你有空，要不要來我住處喝茶？";
+if (!d05?.common?.some(line => String(line[1] || "").includes(d05TeaInvitation))) {
+  errors.push("D05 must establish the home-tea invitation that leads into D06");
+}
+if (!d06?.intro?.some(line => String(line[1] || "").includes("下週是否能到她住處喝茶"))) {
+  errors.push("D06 must continue the home-tea invitation established in D05");
+}
 data.forEach(chapter => {
   const id = chapter?.id || "(missing id)";
   checkLines(chapter?.intro, id + ".intro");
