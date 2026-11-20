@@ -568,16 +568,25 @@ function render() {
   updateScene();
 
   const box = document.getElementById("choices");
-  box.innerHTML = "";
+  box.replaceChildren();
 
   if (state.phase === "choice") {
-    document.getElementById("story").innerHTML =
-      '<p class="narration">陽奈等著你回答。這個選擇會保留在之後的章節中。</p>';
+    const prompt = document.createElement("p");
+    prompt.className = "narration";
+    prompt.textContent = "陽奈等著你回答。這個選擇會保留在之後的章節中。";
+    document.getElementById("story").replaceChildren(prompt);
     chapter.choices.forEach(choice => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "choice";
-      button.innerHTML = `${choice.label}<small>影響：${choice.hint}</small>`;
+      const label = document.createElement("span");
+      label.className = "choice-label";
+      label.textContent = choice.label;
+      const hint = document.createElement("small");
+      hint.id = `choice-hint-${choice.letter}`;
+      hint.textContent = `影響：${choice.hint}`;
+      button.setAttribute("aria-describedby", hint.id);
+      button.append(label, hint);
       button.addEventListener("click", () => choose(choice));
       box.appendChild(button);
     });
