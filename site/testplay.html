@@ -2,54 +2,76 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#15121f">
-  <title>放學後的十分鐘｜試玩版 2（全篇 30 節）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090912">
+  <title>放學後的十分鐘｜試玩版 2</title>
   <link rel="stylesheet" href="game.css">
 </head>
 <body>
   <main class="game-shell">
     <header class="game-header">
-      <a class="back" href="./">← 企劃首頁</a>
-      <div>
-        <span class="eyebrow">試玩版 2｜全篇 30 節・可重新開始</span>
-        <h1>放學後的十分鐘</h1>
+      <a class="back" href="./" aria-label="返回企劃首頁">← 首頁</a>
+      <div class="brand"><span class="eyebrow">HINA GALGAME · TESTPLAY</span><h1>放學後的十分鐘</h1></div>
+      <div class="top-actions">
+        <button id="chapterMenu" class="ghost" type="button">章節</button>
+        <button id="returnMain" class="ghost" type="button" hidden>返回主線</button>
+        <button id="logToggle" class="ghost" type="button" aria-controls="logPanel" aria-expanded="false">紀錄</button>
+        <button id="saveManual" class="ghost" type="button">存檔</button>
+        <button id="loadManual" class="ghost" type="button">讀檔</button>
+        <button id="restart" class="ghost" type="button">重來</button>
+        <button id="fullscreenToggle" class="ghost" type="button">全螢幕</button>
       </div>
-      <button id="restart" class="ghost" type="button">重新開始</button>
     </header>
-
     <section class="status" aria-label="遊戲進度">
       <div class="progress-track"><div id="progress" class="progress"></div></div>
-      <div class="status-row">
-        <span id="chapterLabel">A01｜第二次放學後</span>
-        <div id="flags" class="flags"></div>
-      </div>
+      <div class="status-row"><span id="chapterLabel">P01</span><span id="saveState">自動存檔</span><div id="flags" class="flags" aria-label="劇情旗標"></div></div>
     </section>
-
-    <section class="visual" aria-label="場景">
+    <section id="gameStage" class="game-stage" aria-label="遊戲畫面">
       <div id="sceneArt" class="scene-art office">
+        <div class="scene-backdrop"></div><div class="scene-vignette"></div>
         <div class="scene-light"></div>
-        <div class="window"></div>
-        <div class="desk"><div class="papers"></div><div class="cup"></div></div>
         <img id="hinaSprite" class="hina-sprite" src="assets/hina-sprite.svg" alt="空崎陽奈立繪">
       </div>
-      <div class="visual-controls">
-        <span id="mood" class="mood">認真</span>
-        <button id="audioToggle" class="audio-toggle" type="button" aria-label="切換音樂">♫ 音樂開</button>
-      </div>
+      <div class="visual-controls"><span id="mood" class="mood">認真</span><button id="audioToggle" class="audio-toggle" type="button" aria-label="切換音樂">♫</button></div>
+      <section class="dialogue-panel">
+        <div id="story" class="story" aria-live="polite"></div>
+        <div id="choices" class="choices"></div>
+        <div class="dialogue-hint" id="dialogueHint">點擊畫面任意空白處繼續　›</div>
+      </section>
     </section>
-
-    <section class="dialogue-panel">
-      <div id="story" class="story" aria-live="polite"></div>
-      <div id="choices" class="choices"></div>
+    </main>
+  <aside id="logPanel" class="log-panel" aria-label="對話紀錄" aria-hidden="true" inert>
+    <div class="log-head"><div><span class="eyebrow">DIALOGUE LOG</span><h2>對話紀錄</h2></div><button id="logClose" class="ghost" type="button">關閉</button></div>
+    <section class="reading-settings" aria-label="閱讀設定">
+      <label for="typingSpeed">文字速度
+        <select id="typingSpeed">
+          <option value="44">慢</option>
+          <option value="26">普通</option>
+          <option value="12">快</option>
+        </select>
+      </label>
+      <label class="auto-play-setting"><input id="autoPlayToggle" type="checkbox"> 自動播放</label>
+      <label class="volume-setting" for="musicVolume">BGM 音量 <input id="musicVolume" type="range" min="0" max="100" step="5" value="35"></label>
+      <label class="volume-setting" for="sfxVolume">音效音量 <input id="sfxVolume" type="range" min="0" max="100" step="5" value="55"></label>
+      <label class="volume-setting" for="bgmVolume">BGM 音量
+        <input id="bgmVolume" type="range" min="0" max="1" step="0.05" value="0.55">
+      </label>
+      <label class="volume-setting" for="sfxVolume">音效音量
+        <input id="sfxVolume" type="range" min="0" max="1" step="0.05" value="0.65">
+      </label>
     </section>
-
-    <footer class="game-footer">
-      <span>試玩版 2：選擇與進度保存在瀏覽器中。</span>
-      <span id="saveState">尚未開始</span>
-    </footer>
-  </main>
-  <script src="game-data.js"></script>
-  <script src="game.js"></script>
+    <div id="logList" class="log-list" aria-live="polite"></div>
+  </aside>
+  <dialog id="chapterDialog" class="chapter-dialog">
+    <div class="dialog-head"><div><span class="eyebrow">CHAPTER SELECT</span><h2>選擇章節</h2></div><button id="closeChapterMenu" class="ghost" type="button">關閉</button></div>
+    <p class="dialog-note">所有章節皆可直接進入。選擇章節會從該章開頭開始，以獨立重玩狀態執行，不會覆蓋主線存檔。</p>
+    <div id="chapterList" class="chapter-list"></div>
+  </dialog>
+  <dialog id="saveDialog" class="chapter-dialog save-dialog">
+    <div class="dialog-head"><div><span class="eyebrow">SAVE / LOAD</span><h2 id="saveDialogTitle">選擇存檔欄位</h2></div><button id="closeSaveMenu" class="ghost" type="button">關閉</button></div>
+    <p id="saveDialogNote" class="dialog-note">選擇一個欄位保存目前進度。</p>
+    <div id="saveSlots" class="save-slots"></div>
+  </dialog>
+  <script src="game-data.js"></script><script src="game.js"></script>
 </body>
 </html>
