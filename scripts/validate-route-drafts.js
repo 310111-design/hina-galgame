@@ -12,6 +12,7 @@ const chapters = sandbox.window.HINA_GAME_DATA;
 const errors = [];
 
 const targets = [
+  { id: "D03", minimum: 2500, pathMinimum: 0, syncDialogue: false, status: "viewpoint revised draft" },
   { id: "D04", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D05", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D06", minimum: 2500, pathMinimum: 2500, status: "route bridge draft" },
