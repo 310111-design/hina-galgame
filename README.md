@@ -1,6 +1,6 @@
 # 放學後的十分鐘｜陽奈 Galgame 企劃
 
-以空崎陽奈為主角的《蔚藍檔案》二創長篇 Galgame 企劃，基調為甜甜的日常與酸甜青春。作品會以互動式逐節形式迭代，並按情節需求製作 Galgame 風格圖像。
+以空崎陽奈為主角的《蔚藍檔案》二創長篇 Galgame 企劃，基調為甜甜的日常與酸甜青春。目前已完成 A01～D07 共 27 節逐句互動內容與 Pages 體驗版；作品仍持續進行連貫性審校與正式視覺素材製作。
 
 **企劃展示頁：** [GitHub Pages](https://310111-design.github.io/hina-galgame/)
 
@@ -13,8 +13,8 @@
 - `knowledge/experience.md`：可複用製作經驗
 - `knowledge/decision.md`：待決事項與推薦方案
 - `knowledge/asset-register.md`：視覺素材清冊
-- `story/chapters/`：逐節 Galgame 正文稿與分支；目前已完成 P01 初稿
-- `site/`：GitHub Pages 靜態企劃頁
+- `story/chapters/`：逐節 Galgame 正文稿與分支；A01～D07 共 27 節已接入可玩版本，P01～P03 保留為獨立序章正文，尚未接入現行遊戲資料
+- `site/`：GitHub Pages 靜態企劃頁與 27 節逐句體驗版（`game.html`、`testplay.html`）
 - `.github/workflows/pages.yml`：推送至 `main` 時自動部署網站
 
 ## GitHub Pages
@@ -23,4 +23,4 @@ GitHub Pages 已設為 GitHub Actions 發布來源。workflow 部署 `site/` 目
 
 ## 聲明
 
-非官方同人企劃，與《蔚藍檔案》官方及其權利人無關。角色與原作相關權利屬各自權利人。此 repo 目前承載企劃文件與展示頁，不代表可執行遊戲已完成。
+非官方同人企劃，與《蔚藍檔案》官方及其權利人無關。角色與原作相關權利屬各自權利人。此 repo 包含可在瀏覽器遊玩的靜態體驗版，但不代表已完成具完整引擎、正式立繪／配樂與所有路線差分的最終遊戲。
