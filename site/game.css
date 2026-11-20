@@ -830,3 +830,92 @@ html, body { background: #0d0b14; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior:auto!important; animation-duration:.01ms!important; transition-duration:.01ms!important; }
 }
+
+
+/* Dialogue history drawer */
+.log-panel {
+  position: fixed;
+  z-index: 60;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: min(420px, 92vw);
+  padding: max(20px, env(safe-area-inset-top)) 20px max(18px, env(safe-area-inset-bottom));
+  border-left: 1px solid #ffffff35;
+  background: linear-gradient(145deg, #292137f5, #100e19f7 72%);
+  color: var(--ink);
+  box-shadow: 0 0 0 100vmax transparent, -24px 0 70px #0000;
+  backdrop-filter: blur(24px) saturate(.9);
+  transform: translateX(105%);
+  visibility: hidden;
+  transition: transform .24s ease, visibility .24s;
+}
+.log-panel.is-open {
+  visibility: visible;
+  transform: translateX(0);
+  box-shadow: 0 0 0 100vmax #05040bbb, -24px 0 70px #0008;
+}
+.log-head {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ffffff25;
+}
+.log-head h2 {
+  margin: 3px 0 0;
+  font-family: Georgia, "Noto Serif TC", serif;
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+.log-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 8px 4px 20px 0;
+  scrollbar-color: #77658e transparent;
+}
+.log-entry {
+  padding: 14px 2px 13px;
+  border-bottom: 1px solid #ffffff18;
+}
+.log-meta {
+  margin-bottom: 5px;
+  color: #e8bfd7;
+  font-size: .72rem;
+  letter-spacing: .06em;
+}
+.log-entry p {
+  margin: 0;
+  color: #eee7f3;
+  font-size: .92rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.log-empty { color: var(--muted); font-size: .9rem; }
+#logToggle[aria-expanded="true"] {
+  border-color: #d6c0ff9c;
+  background: #cbb2ff20;
+  color: #fff;
+}
+@media (max-width: 720px) {
+  .game-header { gap: 6px; }
+  .game-header .brand { min-width: 0; }
+  .game-header h1 { font-size: .82rem; }
+  .game-header .brand .eyebrow { font-size: .5rem; letter-spacing: .13em; }
+  .top-actions { gap: 3px; flex: 0 0 auto; }
+  .top-actions .ghost { min-height: 29px; padding: 3px 5px; font-size: .62rem; }
+  .log-panel { width: min(390px, 94vw); padding-left: 16px; padding-right: 16px; }
+}
+@media (max-width: 360px) {
+  .game-header h1 { font-size: .75rem; }
+  .top-actions .ghost { padding: 3px 4px; font-size: .58rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .log-panel { transition: none; }
+}
