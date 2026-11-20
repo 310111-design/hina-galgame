@@ -12,8 +12,8 @@ const chapters = sandbox.window.HINA_GAME_DATA;
 const errors = [];
 
 const targets = [
-  { id: "D03", minimum: 2500, pathMinimum: 0, syncDialogue: false, status: "viewpoint revised draft" },
-  { id: "D04", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
+  { id: "D03", minimum: 2500, pathMinimum: 0, status: "viewpoint revised draft" },
+  { id: "D04", minimum: 2500, pathMinimum: 2500, status: "revised draft" },
   { id: "D05", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D06", minimum: 2500, pathMinimum: 2500, status: "route bridge draft" },
   { id: "D07", minimum: 2500, pathMinimum: 2500, status: "route bridge draft" },
@@ -44,15 +44,26 @@ for (const target of targets) {
   const markdown = fs.readFileSync(markdownPath, "utf8");
 
   if (target.syncDialogue !== false) {
-    const markdownDialogue = markdown.split(/\r?\n/).flatMap(rawLine => {
+    const dialogueMarkdown = markdown
+      .split(/^\s*(?:## 資料同步註記|【節末記錄】)\s*$/m)[0];
+    const markdownDialogue = dialogueMarkdown.split(/\r?\n/).flatMap(rawLine => {
       const line = rawLine.trim();
+      if (!line) return [];
       let match = line.match(/^【旁白】(.*)$/);
       if (match) return [["narration", match[1]]];
       match = line.match(/^【陽奈｜([^】]+)】(.*)$/);
       if (match) return [["hina", match[2], match[1]]];
       match = line.match(/^【系統】(.*)$/);
       if (match) return [["system", match[1]]];
-      return [];
+      if (
+        line.startsWith("【") ||
+        line.startsWith("#") ||
+        line.startsWith("**") ||
+        line.startsWith("-") ||
+        /^[ABC]\./.test(line) ||
+        line.startsWith("`")
+      ) return [];
+      return [["narration", line]];
     });
   
     if (markdownDialogue.length !== lines.length) {
