@@ -11,6 +11,7 @@
 - `knowledge/story-outline.md`：四幕故事架構
 - `knowledge/chapter-plan.md`：章節卡與分支工作表
 - `knowledge/experience.md`：可複用製作經驗
+- `knowledge/flag-dialogue.md`：跨章節旗標條件對話文字來源
 - `knowledge/decision.md`：待決事項與推薦方案
 - `knowledge/asset-register.md`：視覺素材清冊
 - `story/chapters/`：逐節 Galgame 正文稿與分支；A01～D07 共 27 節已接入可玩版本，P01～P03 保留為獨立序章正文，尚未接入現行遊戲資料
