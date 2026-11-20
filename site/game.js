@@ -67,7 +67,7 @@ function loadAudioSettings() {
   const defaults = { bgmVolume: 0.55, sfxVolume: 0.65, enabled: true };
   try {
     const saved = JSON.parse(localStorage.getItem(AUDIO_SETTINGS_KEY) || "null");
-    const clamp = value => Math.min(1, Math.max(0, Number(value)));
+    const clamp = value => Math.max(0, Math.min(1, Number(value)));
     return {
       bgmVolume: Number.isFinite(Number(saved?.bgmVolume)) ? clamp(saved.bgmVolume) : defaults.bgmVolume,
       sfxVolume: Number.isFinite(Number(saved?.sfxVolume)) ? clamp(saved.sfxVolume) : defaults.sfxVolume,
@@ -558,16 +558,27 @@ function isValidManualSave(saved) {
   if (!Number.isInteger(saved.chapter) || saved.chapter < 0 || saved.chapter >= chapters.length) return false;
   if (!["intro", "choice", "branch", "common", "complete"].includes(saved.phase)) return false;
   if (!Number.isInteger(saved.line) || saved.line < 0) return false;
-  if (saved.phase === "complete" && saved.chapter !== chapters.length - 1) return false;
-  if (saved.phase !== "complete") {
-    const chapter = chapters[saved.chapter];
-    const sequence = saved.phase === "intro" ? chapter.intro
-      : saved.phase === "common" ? chapter.common
-      : saved.phase === "branch" ? chapter.branches?.[saved.choices?.[chapter.id]?.letter]
-      : [];
-    if (saved.phase !== "choice" && (!Array.isArray(sequence) || saved.line >= sequence.length)) return false;
-    if (saved.phase === "choice" && saved.line !== 0) return false;
+  if (saved.phase === "complete") return saved.chapter === chapters.length - 1;
+  const chapter = chapters[saved.chapter];
+  if (saved.phase === "choice") return saved.line === 0;
+  let sequence = [];
+  if (saved.phase === "intro") {
+    sequence = [...(chapter.intro || [])];
+    if (Array.isArray(chapter.flaggedIntro)) {
+      const flags = saved.flags && typeof saved.flags === "object" ? saved.flags : {};
+      sequence.push(...chapter.flaggedIntro
+        .filter(item => Number(flags[item.flag] || 0) >= (item.min || 1))
+        .flatMap(item => item.lines || []));
+    }
+  } else if (saved.phase === "branch") {
+    const selected = saved.choices?.[chapter.id]?.letter;
+    if (!["A", "B", "C"].includes(selected)) return false;
+    sequence = chapter.branches?.[selected] || [];
+  } else if (saved.phase === "common") {
+    sequence = chapter.common || [];
   }
+  sequence = sequence.filter(line => Array.isArray(line) && String(line[1] || "").trim());
+  if (saved.line >= sequence.length) return false;
   if (saved.choices !== undefined && (!saved.choices || typeof saved.choices !== "object" || Array.isArray(saved.choices))) return false;
   if (saved.flags !== undefined && (!saved.flags || typeof saved.flags !== "object" || Array.isArray(saved.flags))) return false;
   return true;
@@ -593,30 +604,24 @@ function renderSaveSlots() {
     const heading = document.createElement("strong");
     heading.className = "save-slot-title";
     heading.textContent = `存檔欄位 ${index + 1}`;
+    const preview = document.createElement("div");
+    const chapter = saved && isValidManualSave(saved) ? chapters[saved.chapter] : null;
+    const sceneType = chapter ? (SCENE_BY_CHAPTER[chapter.id] || "office") : "empty";
+    preview.className = `save-slot-preview ${sceneType}`;
+    const previewLabel = document.createElement("span");
+    previewLabel.textContent = chapter ? chapter.id : "EMPTY";
+    preview.appendChild(previewLabel);
     const detail = document.createElement("p");
     detail.className = "save-slot-detail";
-    if (saved && isValidManualSave(saved)) {
-      const chapter = chapters[saved.chapter];
+    if (chapter) {
       const phaseNames = { intro: "劇情中", choice: "等待選擇", branch: "分支中", common: "共通劇情", complete: "內容完成" };
       const date = saved.savedAt ? new Date(saved.savedAt) : null;
       const dateText = date && !Number.isNaN(date.getTime()) ? date.toLocaleString("zh-TW") : "時間未記錄";
       const flags = Object.entries(saved.flags || {}).filter(([, value]) => Number(value) > 0)
         .map(([name, value]) => `${name} ${value}`).join(" · ");
-      const phaseProgress = { intro: 0.15, choice: 0.3, branch: 0.55, common: 0.8, complete: 1 }[saved.phase] || 0;
-      const progress = Math.min(100, Math.round(((saved.chapter + phaseProgress) / chapters.length) * 100));
-      detail.textContent = `${chapter.id}｜${chapter.title} · ${phaseNames[saved.phase]}\n全篇進度約 ${progress}% · ${dateText}${flags ? "\n" + flags : ""}`;
+      detail.textContent = `${chapter.id}｜${chapter.title} · ${phaseNames[saved.phase]}\n${dateText}${flags ? "\n" + flags : ""}`;
     } else {
-      detail.textContent = "空欄位";
-    }
-    const preview = document.createElement("div");
-    preview.className = "save-slot-preview";
-    if (saved && isValidManualSave(saved)) {
-      const previewScene = SCENE_BY_CHAPTER[chapters[saved.chapter].id] || "office";
-      preview.classList.add(`scene-preview-${previewScene}`);
-      preview.textContent = chapters[saved.chapter].id;
-    } else {
-      preview.classList.add("scene-preview-empty");
-      preview.textContent = "EMPTY SLOT";
+      detail.textContent = saved ? "存檔資料無效" : "空欄位";
     }
     const action = document.createElement("button");
     action.type = "button";
@@ -627,7 +632,7 @@ function renderSaveSlots() {
       action.addEventListener("click", () => saveManualSlot(index));
     } else {
       action.textContent = "讀取此欄";
-      action.disabled = !saved || !isValidManualSave(saved);
+      action.disabled = !chapter;
       action.addEventListener("click", () => loadManualSlot(index));
     }
     article.append(heading, preview, detail, action);
@@ -787,7 +792,7 @@ function stopAmbient() {
 }
 
 function playConfirmSound() {
-  if (!musicEnabled || audioSettings.sfxVolume <= 0) return;
+  if (audioSettings.sfxVolume <= 0) return;
   ensureAudio();
   const oscillator = audioContext.createOscillator();
   const gain = audioContext.createGain();
