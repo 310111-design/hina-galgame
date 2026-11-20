@@ -358,6 +358,21 @@ function setSpriteEmotion(mood) {
   sprite.src = source;
 }
 
+const BACKGROUND_BY_CHAPTER = {
+  P01: "office-sunset-v01.jpeg", P02: "office-overcast-v01.jpeg", P03: "office-day-v01.jpeg",
+  A01: "office-sunset-v01.jpeg", A02: "office-sunset-v01.jpeg", A03: "office-sunset-v01.jpeg",
+  A04: "school-corridor-sunset-v01.jpeg", A05: "office-night-v01.jpeg", A06: "office-night-v01.jpeg",
+  B01: "office-day-v01.jpeg", B02: "office-day-v01.jpeg", B03: "office-rainy-day-v01.jpeg",
+  B04: "office-overcast-v01.jpeg", B05: "office-overcast-v01.jpeg", B06: "office-overcast-v01.jpeg",
+  B07: "office-night-v01.jpeg", B08: "office-night-v01.jpeg",
+  C01: "office-day-v01.jpeg", C02: "office-day-v01.jpeg", C03: "rooftop-sunset-v01.jpeg",
+  C04: "office-overcast-v01.jpeg", C05: "office-day-v01.jpeg", C06: "school-gate-evening-v01.jpeg",
+  D01: "cafe-day-v01.jpeg", D02: "cafe-rainy-evening-v01.jpeg", D03: "home-living-room-day-v01.jpeg",
+  D04: "neighborhood-park-evening-v01.jpeg", D05: "cafe-day-v01.jpeg", D06: "home-living-room-day-v01.jpeg",
+  D07: "neighborhood-park-evening-v01.jpeg", D08P: "school-courtyard-sunset-v01.jpeg",
+  D08R: "cafe-rainy-evening-v01.jpeg"
+};
+
 const SCENE_BY_CHAPTER = {
   P01: "office", P02: "office", P03: "office",
   A01: "office", A02: "office", A03: "office", A04: "corridor", A05: "office", A06: "office",
@@ -388,7 +403,10 @@ function updateScene() {
   const previousChapter = scene.dataset.chapter || "";
   const shouldTransition = (previousSceneType && previousSceneType !== sceneType) ||
     (previousChapter && previousChapter !== (chapter?.id || ""));
-  scene.className = "scene-art " + sceneType;
+  const backgroundFile = roofScene ? "rooftop-sunset-v01.jpeg" : (BACKGROUND_BY_CHAPTER[chapter?.id] || null);
+  scene.className = "scene-art " + sceneType + (backgroundFile ? " has-background" : "");
+  if (backgroundFile) scene.style.setProperty("--scene-image", `url("assets/backgrounds/${backgroundFile}")`);
+  else scene.style.removeProperty("--scene-image");
   if (shouldTransition) {
     scene.classList.remove("scene-transition");
     void scene.offsetWidth;
@@ -738,6 +756,12 @@ function renderSaveSlots() {
     const chapter = saved && isValidManualSave(saved) ? chapters[saved.chapter] : null;
     const sceneType = chapter ? (SCENE_BY_CHAPTER[chapter.id] || "office") : "empty";
     preview.className = `save-slot-preview ${sceneType}`;
+    const previewBackground = chapter ? BACKGROUND_BY_CHAPTER[chapter.id] : null;
+    if (previewBackground) {
+      preview.style.backgroundImage = `linear-gradient(0deg, #080710a8, #08071012), url("assets/backgrounds/${previewBackground}")`;
+      preview.style.backgroundSize = "cover";
+      preview.style.backgroundPosition = "center";
+    }
     const previewLabel = document.createElement("span");
     previewLabel.textContent = chapter ? chapter.id : "EMPTY";
     preview.appendChild(previewLabel);

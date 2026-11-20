@@ -1208,3 +1208,12 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   outline: 2px solid #e3d2ff;
   outline-offset: 3px;
 }
+
+
+/* Real chapter background images; retain scene gradients when no matching art exists. */
+.scene-art.has-background::before {
+  background-image: linear-gradient(0deg, #08071066, #08071018), var(--scene-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
