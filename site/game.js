@@ -221,6 +221,23 @@ function loadState() {
       if (!validPhases.includes(restored.phase)) return defaultState();
       if (!Number.isInteger(restored.line) || restored.line < 0) restored.line = 0;
 
+      // Reconcile saved flag totals when a chapter's choice-to-outcome mapping changes.
+      if (restored.choices && typeof restored.choices === "object" && !Array.isArray(restored.choices)) {
+        for (const [chapterId, selected] of Object.entries(restored.choices)) {
+          const chapter = chapters.find(item => item.id === chapterId);
+          const currentChoice = chapter?.choices?.find(choice => choice.letter === selected?.letter);
+          if (!currentChoice?.flag || !selected || typeof selected !== "object") continue;
+          if (selected.flag !== currentChoice.flag) {
+            if (selected.flag && Object.prototype.hasOwnProperty.call(restored.flags, selected.flag)) {
+              restored.flags[selected.flag] = Math.max(0, restored.flags[selected.flag] - 1);
+            }
+            restored.flags[currentChoice.flag] = (restored.flags[currentChoice.flag] || 0) + 1;
+            selected.flag = currentChoice.flag;
+            selected.hint = currentChoice.hint;
+          }
+        }
+      }
+
       // Legacy saves gain the three newly playable prologue chapters at the front.
       if (restored.phase === "complete" && chapters[restored.chapter]?.id === "D07" && !restored.route) {
         restored.chapter = chapters.findIndex(item => item.id === "D06");
