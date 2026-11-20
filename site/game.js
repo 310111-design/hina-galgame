@@ -193,12 +193,12 @@ function render() {
   } else if (state.phase === "complete") {
     document.getElementById("story").innerHTML =
       '<p class="hina"><strong>目前可玩內容完成</strong></p>' +
-      '<p class="narration">已完成序章、第一幕、第二幕與第三幕入口。選擇留下的旗標會帶到後續章節。</p>' +
+      '<p class="narration">已完成 A01～D07 共 27 節內容，涵蓋第一幕至第四幕。你的選擇與旗標會保存在這個瀏覽器中。</p>' +
       `<p class="system">rest ${state.flags.rest}｜teamwork ${state.flags.teamwork}｜ordinary_day ${state.flags.ordinary_day}｜daily_checkin ${state.flags.daily_checkin}｜self_rest ${state.flags.self_rest}</p>`;
     const button = document.createElement("button");
     button.type = "button";
     button.className = "next";
-    button.textContent = "重新開始第一幕";
+    button.textContent = "重新開始完整體驗版";
     button.addEventListener("click", restart);
     box.appendChild(button);
   } else {
