@@ -38,6 +38,7 @@ let activeSceneType = "office";
 let currentMusicScene = null;
 let typingTimer = null;
 let typingLine = null;
+let chapterSplashTimer = null;
 let dialogueHistory = [];
 let lastHistoryKey = "";
 const READING_SETTINGS_KEY = isTestplay ? "hina-reading-settings-testplay-v1" : "hina-reading-settings-v1";
@@ -529,6 +530,23 @@ function renderFlags() {
   });
 }
 
+function showChapterSplash(chapter) {
+  const splash = document.getElementById("chapterSplash");
+  if (!splash) return;
+  splash.querySelector(".chapter-splash-code").textContent = chapter.id;
+  splash.querySelector(".chapter-splash-title").textContent = chapter.title;
+  splash.setAttribute("aria-hidden", "false");
+  splash.classList.remove("is-visible");
+  void splash.offsetWidth;
+  splash.classList.add("is-visible");
+  if (chapterSplashTimer !== null) window.clearTimeout(chapterSplashTimer);
+  chapterSplashTimer = window.setTimeout(() => {
+    splash.classList.remove("is-visible");
+    splash.setAttribute("aria-hidden", "true");
+    chapterSplashTimer = null;
+  }, 1150);
+}
+
 function render() {
   clearAutoAdvance();
   const chapter = chapters[state.chapter];
@@ -543,6 +561,10 @@ function render() {
     chapterLabel.classList.remove("chapter-label-enter");
     void chapterLabel.offsetWidth;
     chapterLabel.classList.add("chapter-label-enter");
+  }
+  if (!chapterLabel.dataset.splashShown || labelChanged) {
+    showChapterSplash(chapter);
+    chapterLabel.dataset.splashShown = "true";
   }
   document.getElementById("returnMain").hidden = !replayMode;
   document.getElementById("saveManual").disabled = replayMode;
