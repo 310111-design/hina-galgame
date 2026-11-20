@@ -86,7 +86,7 @@
 | `IMG_2964.jpeg` | `home-living-room-day-v01.jpeg` | `home-living-room-day-v01.webp` | 住處客廳・白天 | D03／D06 |
 | `IMG_2965.jpeg` | `neighborhood-park-evening-v01.jpeg` | `neighborhood-park-evening-v01.webp` | 住宅街公園・傍晚 | D04／D07 |
 
-**視覺驗收注意：** 多張辦公室／咖啡店背景的告示、文件或招牌含有生成式文字細節；目前以背景柔焦、暗化遮罩降低干擾，仍應在實際遊戲畫面檢查文字安全區。D08F 已改為書店咖啡角，使用 cafe-day-v01.jpeg；D08P 改為校園庭院社區閱讀活動，使用 school-courtyard-sunset-v01.jpeg。原始 JPEG 保留作來源備份；13 張來源圖均已轉為 WebP（quality 84），總容量由 2,510,935 bytes 降至 1,852,924 bytes，減少 26.2%。目前 runtime 映射使用其中 12 張；校園中庭 WebP 暫不接入成年篇，保留作校園場景備用。BG-001 生成版另行保留作辦公室 CSS fallback。
+**視覺驗收注意：** 多張辦公室／咖啡店背景的告示、文件或招牌含有生成式文字細節；目前以背景柔焦、暗化遮罩降低干擾，仍應在實際遊戲畫面檢查文字安全區。D08F 已改為書店咖啡角，使用 cafe-day-v01.jpeg；D08P 劇情改為社區圖書館戶外閱讀活動，目前 runtime 暫以 neighborhood-park-evening-v01.webp 作為公共戶外空間回退；校園中庭 WebP 保留作校園場景備用，不接入成年篇。13 張來源圖均已轉為 WebP（quality 84），總容量由 2,510,935 bytes 降至 1,852,924 bytes，減少 26.2%；目前 runtime 映射使用其中 12 張。BG-001 生成版另行保留作辦公室 CSS fallback。
 
 
 ## CI 圖片中繼資料（2026-11-20）
