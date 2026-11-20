@@ -35,7 +35,72 @@ let typingTimer = null;
 let typingLine = null;
 let dialogueHistory = [];
 let lastHistoryKey = "";
-const TYPEWRITER_DELAY = 26;
+const READING_SETTINGS_KEY = isTestplay ? "hina-reading-settings-testplay-v1" : "hina-reading-settings-v1";
+let readingSettings = loadReadingSettings();
+let autoAdvanceTimer = null;
+
+function loadReadingSettings() {
+  const defaults = { speed: 26, autoPlay: false };
+  try {
+    const saved = JSON.parse(localStorage.getItem(READING_SETTINGS_KEY) || "null");
+    const allowedSpeeds = [44, 26, 12];
+    return {
+      speed: allowedSpeeds.includes(saved?.speed) ? saved.speed : defaults.speed,
+      autoPlay: saved?.autoPlay === true
+    };
+  } catch (_) {
+    return defaults;
+  }
+}
+
+function saveReadingSettings() {
+  try {
+    localStorage.setItem(READING_SETTINGS_KEY, JSON.stringify(readingSettings));
+  } catch (_) {}
+}
+
+function clearAutoAdvance() {
+  if (autoAdvanceTimer !== null) window.clearTimeout(autoAdvanceTimer);
+  autoAdvanceTimer = null;
+}
+
+function scheduleAutoAdvance() {
+  clearAutoAdvance();
+  if (!readingSettings.autoPlay || state.phase === "choice" || state.phase === "complete") return;
+  if (document.getElementById("logPanel").classList.contains("is-open")) return;
+  autoAdvanceTimer = window.setTimeout(() => {
+    autoAdvanceTimer = null;
+    advanceLine();
+  }, 1100);
+}
+
+function startTypewriterTimer() {
+  if (typingTimer) window.clearInterval(typingTimer);
+  if (!typingLine) return;
+  typingTimer = window.setInterval(() => {
+    if (!typingLine) {
+      window.clearInterval(typingTimer);
+      typingTimer = null;
+      return;
+    }
+    typingLine.index += 1;
+    typingLine.node.textContent = typingLine.characters.slice(0, typingLine.index).join("");
+    if (typingLine.index >= typingLine.characters.length) {
+      window.clearInterval(typingTimer);
+      typingTimer = null;
+      typingLine = null;
+      document.getElementById("dialogueHint").textContent = "點擊畫面任意空白處繼續　›";
+      scheduleAutoAdvance();
+    }
+  }, readingSettings.speed);
+}
+
+function updateReadingControls() {
+  const speed = document.getElementById("typingSpeed");
+  const auto = document.getElementById("autoPlayToggle");
+  if (speed) speed.value = String(readingSettings.speed);
+  if (auto) auto.checked = readingSettings.autoPlay;
+}
 
 function loadState() {
   try {
@@ -101,10 +166,12 @@ function revealCurrentLine() {
   typingLine.node.textContent = typingLine.fullText;
   typingLine = null;
   document.getElementById("dialogueHint").textContent = "點擊畫面任意空白處繼續　›";
+  scheduleAutoAdvance();
   return true;
 }
 
 function advanceLine() {
+  clearAutoAdvance();
   if (revealCurrentLine()) return;
   const chapter = chapters[state.chapter];
   if (!chapter) return;
@@ -233,6 +300,8 @@ function toggleHistory(forceOpen) {
   panel.setAttribute("aria-hidden", String(!open));
   panel.inert = !open;
   document.getElementById("logToggle").setAttribute("aria-expanded", String(open));
+  if (open) clearAutoAdvance();
+  else if (!typingLine) scheduleAutoAdvance();
   if (open) renderHistory();
 }
 
@@ -240,6 +309,7 @@ function renderDialogue([kind, text, mood]) {
   if (typingTimer) window.clearInterval(typingTimer);
   typingTimer = null;
   typingLine = null;
+  clearAutoAdvance();
   const story = document.getElementById("story");
   story.replaceChildren();
   const p = document.createElement("p");
@@ -269,21 +339,7 @@ function renderDialogue([kind, text, mood]) {
   }
   typingLine = { characters, fullText: text, node: textNode, index: 0 };
   document.getElementById("dialogueHint").textContent = "點擊可立即顯示完整句";
-  typingTimer = window.setInterval(() => {
-    if (!typingLine) {
-      window.clearInterval(typingTimer);
-      typingTimer = null;
-      return;
-    }
-    typingLine.index += 1;
-    typingLine.node.textContent = typingLine.characters.slice(0, typingLine.index).join("");
-    if (typingLine.index >= typingLine.characters.length) {
-      window.clearInterval(typingTimer);
-      typingTimer = null;
-      typingLine = null;
-      document.getElementById("dialogueHint").textContent = "點擊畫面任意空白處繼續　›";
-    }
-  }, TYPEWRITER_DELAY);
+  startTypewriterTimer();
 }
 
 function renderFlags() {
@@ -300,6 +356,7 @@ function renderFlags() {
 }
 
 function render() {
+  clearAutoAdvance();
   const chapter = chapters[state.chapter];
   if (!chapter) return;
 
@@ -486,6 +543,17 @@ document.getElementById("fullscreenToggle").addEventListener("click", async () =
 document.getElementById("chapterMenu").addEventListener("click", openChapterMenu);
 document.getElementById("logToggle").addEventListener("click", () => toggleHistory());
 document.getElementById("logClose").addEventListener("click", () => toggleHistory(false));
+document.getElementById("typingSpeed").addEventListener("change", event => {
+  readingSettings.speed = Number(event.currentTarget.value);
+  saveReadingSettings();
+  if (typingLine) startTypewriterTimer();
+});
+document.getElementById("autoPlayToggle").addEventListener("change", event => {
+  readingSettings.autoPlay = event.currentTarget.checked;
+  saveReadingSettings();
+  if (readingSettings.autoPlay && !typingLine) scheduleAutoAdvance();
+  else clearAutoAdvance();
+});
 document.getElementById("closeChapterMenu").addEventListener("click", () => document.getElementById("chapterDialog").close());
 document.getElementById("restart").addEventListener("click", restart);
 document.getElementById("saveManual").addEventListener("click", saveManual);
@@ -511,4 +579,5 @@ document.addEventListener("keydown", event => {
   }
 });
 
+updateReadingControls();
 render();
