@@ -418,6 +418,7 @@ function restart() {
 }
 
 function openChapterMenu() {
+  clearAutoAdvance();
   const list = document.getElementById("chapterList");
   list.innerHTML = "";
   chapters.forEach((chapter, index) => {
@@ -554,7 +555,10 @@ document.getElementById("autoPlayToggle").addEventListener("change", event => {
   if (readingSettings.autoPlay && !typingLine) scheduleAutoAdvance();
   else clearAutoAdvance();
 });
-document.getElementById("closeChapterMenu").addEventListener("click", () => document.getElementById("chapterDialog").close());
+document.getElementById("closeChapterMenu").addEventListener("click", () => {
+  document.getElementById("chapterDialog").close();
+  if (!typingLine) scheduleAutoAdvance();
+});
 document.getElementById("restart").addEventListener("click", restart);
 document.getElementById("saveManual").addEventListener("click", saveManual);
 document.getElementById("loadManual").addEventListener("click", loadManual);
