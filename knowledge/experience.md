@@ -566,3 +566,10 @@
 - **做法：** 在既有資料驗證腳本讀取 game.js 的靜態 SCENE_BY_CHAPTER／BACKGROUND_BY_CHAPTER map，檢查章節覆蓋、場景類型白名單、背景檔案存在性與明確核准的 D08F fallback；另收集所有靜態 getElementById 參照，逐一確認 game.html 與 testplay.html 都有對應 id。
 - **限制：** 這是靜態完整性檢查，不會驗證圖片實際載入成功、畫面裁切、對話可讀性或 DOM 元件的互動行為；仍需瀏覽器／實機 QA。
 - **未來可用於：** 本作新增背景、章節或第二個遊戲頁面時，避免錯誤路徑與缺少控制節點；也適用於任何共用 JavaScript 的多頁面靜態 Web App。
+
+
+### 2026-11-20：為共用遊戲腳本加入 HTML shell 靜態檢查
+
+- **觀察：** 正式版與試玩版共用 `game.js`，只檢查 JavaScript 語法和遊戲資料，無法發現其中一個 HTML 缺少新控制元件，直到瀏覽器初始化事件監聽器時才出錯。
+- **做法：** 新增 `scripts/validate-game-shells.js`，從 `game.js` 擷取字串形式的 `getElementById` 需求，檢查 `game.html` 與 `testplay.html` 是否各自包含且只包含一次對應 ID；把檢查加入 Pages workflow。
+- **未來可用於：** 本作新增閱讀設定、存檔、章節選單或其他共用控制時，及早攔截正式版／試玩版 DOM 不同步；也適用於共用 JavaScript 的多頁面靜態網站。
