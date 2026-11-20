@@ -12,14 +12,15 @@ const chapters = sandbox.window.HINA_GAME_DATA;
 const errors = [];
 
 const targets = [
-  { id: "D08F", minimum: 2500, pathMinimum: 2500, status: "expanded draft" },
-  { id: "D08P", minimum: 2500, pathMinimum: 2500, status: "expanded draft" },
-  { id: "D08R", minimum: 2500, pathMinimum: 2500, status: "expanded draft" }
+  { id: "D08F", minimum: 2500, pathMinimum: 2500, status: "reviewed draft" },
+  { id: "D08P", minimum: 2500, pathMinimum: 2500, status: "reviewed draft" },
+  { id: "D08R", minimum: 2500, pathMinimum: 2500, status: "reviewed draft" }
 ];
 
 for (const target of targets) {
   const chapter = chapters.find(item => item.id === target.id);
   const markdownPath = path.join(root, "story", "chapters", target.id + ".md");
+
   if (!chapter) {
     errors.push("Missing game data chapter " + target.id);
     continue;
@@ -28,6 +29,7 @@ for (const target of targets) {
     errors.push("Missing Markdown draft " + target.id + ".md");
     continue;
   }
+
   const lines = [
     ...(chapter.intro || []),
     ...Object.values(chapter.branches || {}).flat(),
@@ -35,72 +37,8 @@ for (const target of targets) {
   ];
   const count = lines.reduce((sum, line) => sum + String(line[1] || "").length, 0);
   const markdown = fs.readFileSync(markdownPath, "utf8");
-  const markdownDialogueLines = markdown.split(/\r?\n/).flatMap(line => {
-    const text = line.trim();
-    let match = text.match(/^【旁白】(.*)$/);
-    if (match) return [["narration", match[1]]];
-    match = text.match(/^【陽奈｜([^】]+)】(.*)$/);
-    if (match) return [["hina", match[2], match[1]]];
-    match = text.match(/^【系統】(.*)$/);
-    if (match) return [["system", match[1]]];
-    return [];
-  });
-  if (markdownDialogueLines.length !== lines.length) {
-    errors.push(target.id + ": Markdown dialogue line count " + markdownDialogueLines.length + " does not match game data " + lines.length);
-  }
-  const compareLength = Math.min(markdownDialogueLines.length, lines.length);
-  for (let index = 0; index < compareLength; index += 1) {
-    if (JSON.stringify(markdownDialogueLines[index]) !== JSON.stringify(lines[index])) {
-      errors.push(target.id + ": Markdown dialogue differs from game data at dialogue line " + (index + 1));
-      break;
-    }
-  }
-  const markdownDialogueLines = markdown.split(/\r?\n/).flatMap(line => {
-    const text = line.trim();
-    let match = text.match(/^【旁白】(.*)$/);
-    if (match) return [["narration", match[1]]];
-    match = text.match(/^【陽奈｜([^】]+)】(.*)$/);
-    if (match) return [["hina", match[2], match[1]]];
-    match = text.match(/^【系統】(.*)$/);
-    if (match) return [["system", match[1]]];
-    return [];
-  });
-  if (markdownDialogueLines.length !== lines.length) {
-    errors.push(target.id + ": Markdown dialogue line count " + markdownDialogueLines.length + " does not match game data " + lines.length);
-  }
-  const compareLength = Math.min(markdownDialogueLines.length, lines.length);
-  for (let index = 0; index < compareLength; index += 1) {
-    if (JSON.stringify(markdownDialogueLines[index]) !== JSON.stringify(lines[index])) {
-      errors.push(target.id + ": Markdown dialogue differs from game data at dialogue line " + (index + 1));
-      break;
-    }
-  }
-  const runtimeDialogue = lines.map(line => JSON.stringify(line));
-  const markdownDialogue = [];
-  markdown.split(/\r?\n/).forEach(line => {
-    let dialogueMatch;
-    if ((dialogueMatch = line.match(/^【旁白】(.*)$/))) {
-      markdownDialogue.push(JSON.stringify(["narration", dialogueMatch[1]]));
-    } else if ((dialogueMatch = line.match(/^【陽奈｜([^】]+)】(.*)$/))) {
-      markdownDialogue.push(JSON.stringify(["hina", dialogueMatch[2], dialogueMatch[1]]));
-    } else if ((dialogueMatch = line.match(/^【系統】(.*)$/))) {
-      markdownDialogue.push(JSON.stringify(["system", dialogueMatch[1]]));
-    }
-  });
-  if (runtimeDialogue.length !== markdownDialogue.length) {
-    errors.push(target.id + ": Markdown dialogue line count " + markdownDialogue.length + " does not match runtime " + runtimeDialogue.length);
-  } else {
-    runtimeDialogue.forEach((line, index) => {
-      if (line !== markdownDialogue[index]) {
-        errors.push(target.id + ": Markdown/runtime dialogue mismatch at line " + index);
-      }
-    });
-  }
-  const match = markdown.match(/正文統計[^0-9]*(\d+)/);
-  if (!match) errors.push(target.id + ": missing declared character count in Markdown");
-  else if (Number(match[1]) !== count) errors.push(target.id + ": Markdown count " + match[1] + " does not match game data " + count);
-  if (count < target.minimum) errors.push(target.id + ": " + count + " characters below minimum " + target.minimum);
-  const markdownLines = markdown.split(/\r?\n/).flatMap(rawLine => {
+
+  const markdownDialogue = markdown.split(/\r?\n/).flatMap(rawLine => {
     const line = rawLine.trim();
     let match = line.match(/^【旁白】(.*)$/);
     if (match) return [["narration", match[1]]];
@@ -110,23 +48,28 @@ for (const target of targets) {
     if (match) return [["system", match[1]]];
     return [];
   });
-  const runtimeLines = [
-    ...(chapter.intro || []),
-    ...Object.values(chapter.branches || {}).flat(),
-    ...(chapter.common || [])
-  ];
-  if (markdownLines.length !== runtimeLines.length) {
-    errors.push(target.id + ": Markdown has " + markdownLines.length + " dialogue lines; game data has " + runtimeLines.length);
-  } else {
-    for (let index = 0; index < runtimeLines.length; index += 1) {
-      const expected = runtimeLines[index];
-      const actual = markdownLines[index];
-      if (expected[0] !== actual[0] || expected[1] !== actual[1] || (expected[2] || "") !== (actual[2] || "")) {
-        errors.push(target.id + ": Markdown/runtime content mismatch at dialogue line " + (index + 1));
-        break;
-      }
+
+  if (markdownDialogue.length !== lines.length) {
+    errors.push(target.id + ": Markdown dialogue line count " + markdownDialogue.length + " does not match runtime " + lines.length);
+  }
+  const compareLength = Math.min(markdownDialogue.length, lines.length);
+  for (let index = 0; index < compareLength; index += 1) {
+    if (JSON.stringify(markdownDialogue[index]) !== JSON.stringify(lines[index])) {
+      errors.push(target.id + ": Markdown/runtime dialogue mismatch at line " + (index + 1));
+      break;
     }
   }
+
+  const match = markdown.match(/正文統計[^0-9]*(\d+)/);
+  if (!match) {
+    errors.push(target.id + ": missing declared character count in Markdown");
+  } else if (Number(match[1]) !== count) {
+    errors.push(target.id + ": Markdown count " + match[1] + " does not match game data " + count);
+  }
+  if (count < target.minimum) {
+    errors.push(target.id + ": " + count + " characters below minimum " + target.minimum);
+  }
+
   const pathCounts = Object.entries(chapter.branches || {}).map(([letter, branch]) => {
     const pathCount = [...(chapter.intro || []), ...branch, ...(chapter.common || [])]
       .reduce((sum, line) => sum + String(line[1] || "").length, 0);
@@ -135,6 +78,7 @@ for (const target of targets) {
     }
     return letter + "=" + pathCount;
   });
+
   console.log(target.id + ": " + count + " total characters; paths " + pathCounts.join(", ") + " — " + target.status);
 }
 
