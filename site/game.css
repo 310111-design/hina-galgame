@@ -1196,3 +1196,15 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 @media (prefers-reduced-motion: reduce) {
   .scene-art.scene-transition { animation: none; }
 }
+
+
+/* Unified keyboard focus treatment for all game controls. */
+.game-shell button:focus-visible,
+.game-shell a:focus-visible,
+.game-shell select:focus-visible,
+.game-shell input:focus-visible,
+.log-panel button:focus-visible,
+.chapter-dialog button:focus-visible {
+  outline: 2px solid #e3d2ff;
+  outline-offset: 3px;
+}
