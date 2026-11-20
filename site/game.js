@@ -361,18 +361,18 @@ function setSpriteEmotion(mood) {
 }
 
 const BACKGROUND_BY_CHAPTER = {
-  P01: "office-sunset-v01.jpeg", P02: "office-overcast-v01.jpeg", P03: "office-day-v01.jpeg",
-  A01: "office-sunset-v01.jpeg", A02: "office-sunset-v01.jpeg", A03: "office-sunset-v01.jpeg",
-  A04: "school-corridor-sunset-v01.jpeg", A05: "office-night-v01.jpeg", A06: "office-night-v01.jpeg",
-  B01: "office-day-v01.jpeg", B02: "office-day-v01.jpeg", B03: "office-rainy-day-v01.jpeg",
-  B04: "office-overcast-v01.jpeg", B05: "office-overcast-v01.jpeg", B06: "office-overcast-v01.jpeg",
-  B07: "office-night-v01.jpeg", B08: "office-night-v01.jpeg",
-  C01: "office-day-v01.jpeg", C02: "office-day-v01.jpeg", C03: "rooftop-sunset-v01.jpeg",
-  C04: "office-overcast-v01.jpeg", C05: "office-day-v01.jpeg", C06: "school-gate-evening-v01.jpeg",
-  D01: "cafe-day-v01.jpeg", D02: "cafe-rainy-evening-v01.jpeg", D03: "home-living-room-day-v01.jpeg",
-  D04: "neighborhood-park-evening-v01.jpeg", D05: "cafe-day-v01.jpeg", D06: "home-living-room-day-v01.jpeg",
-  D07: "neighborhood-park-evening-v01.jpeg", D08F: "cafe-day-v01.jpeg", D08P: "school-courtyard-sunset-v01.jpeg",
-  D08R: "cafe-rainy-evening-v01.jpeg"
+  P01: "office-sunset-v01.webp", P02: "office-overcast-v01.webp", P03: "office-day-v01.webp",
+  A01: "office-sunset-v01.webp", A02: "office-sunset-v01.webp", A03: "office-sunset-v01.webp",
+  A04: "school-corridor-sunset-v01.webp", A05: "office-night-v01.webp", A06: "office-night-v01.webp",
+  B01: "office-day-v01.webp", B02: "office-day-v01.webp", B03: "office-rainy-day-v01.webp",
+  B04: "office-overcast-v01.webp", B05: "office-overcast-v01.webp", B06: "office-overcast-v01.webp",
+  B07: "office-night-v01.webp", B08: "office-night-v01.webp",
+  C01: "office-day-v01.webp", C02: "office-day-v01.webp", C03: "rooftop-sunset-v01.webp",
+  C04: "office-overcast-v01.webp", C05: "office-day-v01.webp", C06: "school-gate-evening-v01.webp",
+  D01: "cafe-day-v01.webp", D02: "cafe-rainy-evening-v01.webp", D03: "home-living-room-day-v01.webp",
+  D04: "neighborhood-park-evening-v01.webp", D05: "cafe-day-v01.webp", D06: "home-living-room-day-v01.webp",
+  D07: "neighborhood-park-evening-v01.webp", D08F: "cafe-day-v01.webp", D08P: "school-courtyard-sunset-v01.webp",
+  D08R: "cafe-rainy-evening-v01.webp"
 };
 
 const SCENE_BY_CHAPTER = {
