@@ -154,6 +154,37 @@ data.forEach(chapter => {
 });
 
 
+// Keep documented branch outcomes aligned with the runtime choice flag mappings.
+const chapterDocsPath = path.join(__dirname, "..", "story", "chapters");
+data.forEach(chapter => {
+  if (!chapter.choices?.length || chapter.choices.some(choice => choice.route)) return;
+  const documentPath = path.join(chapterDocsPath, chapter.id + ".md");
+  if (!fs.existsSync(documentPath)) {
+    errors.push(chapter.id + ": missing chapter source for choice flag alignment");
+    return;
+  }
+  const document = fs.readFileSync(documentPath, "utf8");
+  const headingPattern = /^【分支\\s+([ABC])[^】]*】|^#{2,3}\\s+(?:[A-Z]\\d{2}[A-Z]?[-–—])?([ABC])(?:\\s|$|：|:)/gm;
+  const headings = [...document.matchAll(headingPattern)];
+  const documentedFlags = new Map();
+  headings.forEach((heading, index) => {
+    const letter = heading[1] || heading[2];
+    const end = headings[index + 1]?.index ?? document.length;
+    const branch = document.slice(heading.index, end);
+    const flags = [...branch.matchAll(/【系統：旗標】\\s*\\`([a-z_]+)\\s*\\+\\s*\\d+\\`/g)].map(match => match[1]);
+    documentedFlags.set(letter, flags);
+  });
+  if (![...documentedFlags.values()].some(flags => flags.length > 0)) return;
+  chapter.choices.forEach(choice => {
+    const flags = documentedFlags.get(choice.letter) || [];
+    if (flags.length !== 1) {
+      errors.push(chapter.id + "." + choice.letter + ": documented branch must have exactly one choice flag annotation");
+    } else if (flags[0] !== choice.flag) {
+      errors.push(chapter.id + "." + choice.letter + ": choice flag " + choice.flag + " does not match documented branch flag " + flags[0]);
+    }
+  });
+});
+
 // Every non-ending choice flag must be consumed by a later conditional memory line.
 data.forEach((chapter, chapterIndex) => {
   if (chapter?.endOfRoute) return;
