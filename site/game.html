@@ -2,54 +2,49 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#15121f">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090912">
   <title>放學後的十分鐘｜全篇 30 節體驗版</title>
   <link rel="stylesheet" href="game.css">
 </head>
 <body>
   <main class="game-shell">
     <header class="game-header">
-      <a class="back" href="./">← 企劃首頁</a>
-      <div>
-        <span class="eyebrow">全篇 30 節體驗版</span>
-        <h1>放學後的十分鐘</h1>
+      <a class="back" href="./" aria-label="返回企劃首頁">← 首頁</a>
+      <div class="brand"><span class="eyebrow">HINA GALGAME</span><h1>放學後的十分鐘</h1></div>
+      <div class="top-actions">
+        <button id="chapterMenu" class="ghost" type="button">章節</button>
+        <button id="restart" class="ghost" type="button">重來</button>
       </div>
-      <button id="restart" class="ghost" type="button">重新開始</button>
     </header>
-
     <section class="status" aria-label="遊戲進度">
       <div class="progress-track"><div id="progress" class="progress"></div></div>
-      <div class="status-row">
-        <span id="chapterLabel">A01｜第二次放學後</span>
-        <div id="flags" class="flags"></div>
-      </div>
+      <div class="status-row"><span id="chapterLabel">P01</span><span id="saveState">自動存檔</span></div>
     </section>
-
-    <section class="visual" aria-label="場景">
+    <section id="gameStage" class="game-stage" aria-label="遊戲畫面">
       <div id="sceneArt" class="scene-art office">
+        <div class="scene-backdrop"></div><div class="scene-vignette"></div>
         <div class="scene-light"></div>
-        <div class="window"></div>
-        <div class="desk"><div class="papers"></div><div class="cup"></div></div>
         <img id="hinaSprite" class="hina-sprite" src="assets/hina-sprite.svg" alt="空崎陽奈立繪">
       </div>
-      <div class="visual-controls">
-        <span id="mood" class="mood">認真</span>
-        <button id="audioToggle" class="audio-toggle" type="button" aria-label="切換音樂">♫ 音樂開</button>
-      </div>
+      <div class="visual-controls"><span id="mood" class="mood">認真</span><button id="audioToggle" class="audio-toggle" type="button" aria-label="切換音樂">♫</button></div>
+      <section class="dialogue-panel">
+        <div id="story" class="story" aria-live="polite"></div>
+        <div id="choices" class="choices"></div>
+        <div class="dialogue-hint" id="dialogueHint">點擊畫面任意空白處繼續　›</div>
+      </section>
     </section>
-
-    <section class="dialogue-panel">
-      <div id="story" class="story" aria-live="polite"></div>
-      <div id="choices" class="choices"></div>
-    </section>
-
     <footer class="game-footer">
-      <span>本體驗版會將選擇與旗標保存在瀏覽器中。</span>
-      <span id="saveState">尚未開始</span>
+      <button id="saveManual" class="footer-action" type="button">手動存檔</button>
+      <button id="loadManual" class="footer-action" type="button">讀取存檔</button>
+      <span>進度會自動保存在此裝置的瀏覽器</span>
     </footer>
   </main>
-  <script src="game-data.js"></script>
-  <script src="game.js"></script>
+  <dialog id="chapterDialog" class="chapter-dialog">
+    <div class="dialog-head"><div><span class="eyebrow">CHAPTER SELECT</span><h2>選擇章節</h2></div><button id="closeChapterMenu" class="ghost" type="button">關閉</button></div>
+    <p class="dialog-note">所有章節皆可直接進入。選擇章節會從該章開頭開始，並保留目前累積的旗標。</p>
+    <div id="chapterList" class="chapter-list"></div>
+  </dialog>
+  <script src="game-data.js"></script><script src="game.js"></script>
 </body>
 </html>
