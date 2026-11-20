@@ -8,12 +8,13 @@ const root = path.join(__dirname, "..");
 const source = fs.readFileSync(path.join(root, "site", "game.js"), "utf8");
 const requiredIds = [...new Set([...source.matchAll(/getElementById\("([^"]+)"\)/g)].map(match => match[1]))];
 const pages = ["game.html", "testplay.html"];
-const backgroundMap = source.match(/const BACKGROUND_BY_CHAPTER = \\{([\\s\\S]*?)\\n\\};/);
+const errors = [];
+const backgroundMap = source.match(/const BACKGROUND_BY_CHAPTER = \{([\s\S]*?)\n\};/);
 if (!backgroundMap) {
   errors.push("Missing BACKGROUND_BY_CHAPTER mapping.");
 } else {
-  const backgroundFiles = [...backgroundMap[1].matchAll(/"([^"]+\\.(?:webp|jpe?g))"/gi)].map(match => match[1]);
-  const roofOverride = source.match(/const backgroundFile = roofScene \\? "([^"]+)"/);
+  const backgroundFiles = [...backgroundMap[1].matchAll(/"([^"]+\.(?:webp|jpe?g))"/gi)].map(match => match[1]);
+  const roofOverride = source.match(/const backgroundFile = roofScene \? "([^"]+)"/);
   if (roofOverride) backgroundFiles.push(roofOverride[1]);
   [...new Set(backgroundFiles)].forEach(file => {
     if (!file.toLowerCase().endsWith(".webp")) errors.push("Runtime background must use WebP: " + file);
@@ -22,7 +23,6 @@ if (!backgroundMap) {
     }
   });
 }
-const errors = [];
 let pageSpriteSource = "";
 
 for (const page of pages) {
