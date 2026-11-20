@@ -352,3 +352,11 @@
 - **做法：** 依 BG-001 清冊規格生成黃昏辦公室背景初稿，使用百葉窗夕光、文件堆、寬桌與暖飲等元素，避免人物、文字和 UI，預留角色立繪疊加空間。更新 D-03 與素材清冊，將目標 repo 路徑統一為 site/assets/backgrounds/prefect-office-evening-v01.png。
 - **限制：** 圖片已在本工作階段生成，但目前可用的 GitHub 連線沒有直接二進位上傳動作；base64 blob 需要把大型圖片資料帶入工具參數，現階段不以不可靠方式宣稱已提交。圖像尚未進入 repo，也尚未接入 Pages。
 - **未來可用於：** 其他 Galgame 場景底圖、同一場景的日夜／天候差分，以及建立「生成→檢視→入庫→接入遊戲→清冊更新」的素材流程。
+
+
+### 2026-11-20：把遊戲資料檢查納入 Pages CI
+
+- **觀察：** 手動靜態檢查可以在本次迭代發現資料問題，但若每次新增章節都依賴人工記得執行，後續容易漏掉章節 ID、選項分支或條件旗標錯誤。
+- **做法：** 新增 scripts/validate-game-data.js，使用 Node 內建 fs/path 解析 site/game-data.js，檢查預期章節順序、唯一 ID、每章三個選項、branch key 對應、非空 dialogue tuple、choice flag 與 flaggedIntro 條件。將驗證步驟放在 .github/workflows/pages.yml checkout 後、Pages 部署前。
+- **未來可用於：** 每次推送自動阻擋格式錯誤的 Galgame 資料、後續新增章節與旗標時的回歸檢查，以及其他以 JSON 資料驅動的靜態互動小說。
+- **限制：** 腳本已提交並接入 workflow；實際執行結果以最新 GitHub Actions run 為準，尚未宣稱通過。
