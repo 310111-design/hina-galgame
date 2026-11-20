@@ -2,6 +2,8 @@ const isTestplay = location.pathname.includes("testplay");
 const STORAGE_KEY = isTestplay ? "hina-galgame-testplay-v3" : "hina-galgame-full-v4";
 const LEGACY_STORAGE_KEY = isTestplay ? "hina-galgame-testplay-v2" : "hina-galgame-act1-v3";
 const MANUAL_SAVE_KEY = isTestplay ? "hina-galgame-testplay-manual-v1" : "hina-galgame-manual-v1";
+const MANUAL_SLOTS_KEY = isTestplay ? "hina-galgame-testplay-manual-slots-v2" : "hina-galgame-manual-slots-v2";
+const MANUAL_SLOT_COUNT = 6;
 const chapters = window.HINA_GAME_DATA || [];
 const SPRITE_FALLBACK = "assets/hina-sprite.svg";
 const EMOTION_SPRITES = {
@@ -38,6 +40,9 @@ let lastHistoryKey = "";
 const READING_SETTINGS_KEY = isTestplay ? "hina-reading-settings-testplay-v1" : "hina-reading-settings-v1";
 let readingSettings = loadReadingSettings();
 let autoAdvanceTimer = null;
+let replayMode = false;
+let mainStateSnapshot = null;
+let saveDialogMode = "save";
 
 function loadReadingSettings() {
   const defaults = { speed: 26, autoPlay: false };
@@ -134,7 +139,15 @@ function loadState() {
   return defaultState();
 }
 
+function cloneState(source) {
+  return JSON.parse(JSON.stringify(source));
+}
+
 function saveState() {
+  if (replayMode) {
+    document.getElementById("saveState").textContent = "章節重玩｜主線存檔不變";
+    return;
+  }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   document.getElementById("saveState").textContent = "已自動保存";
 }
@@ -361,6 +374,8 @@ function render() {
   if (!chapter) return;
 
   document.getElementById("chapterLabel").textContent = `${chapter.id}｜${chapter.title}`;
+  document.getElementById("returnMain").hidden = !replayMode;
+  document.getElementById("saveManual").disabled = replayMode;
   document.getElementById("progress").style.width = `${((state.chapter + 1) / chapters.length) * 100}%`;
   renderFlags();
   updateScene();
@@ -408,13 +423,36 @@ function choose(choice) {
 }
 
 function restart() {
-  if (!window.confirm("要從序章重新開始嗎？目前自動存檔會更新。")) return;
-  state = defaultState();
+  const message = replayMode
+    ? "要重新開始目前的重玩章節嗎？主線存檔不會受到影響。"
+    : "要從序章重新開始嗎？目前自動存檔會更新。";
+  if (!window.confirm(message)) return;
+  if (replayMode) {
+    const chapterIndex = state.chapter;
+    const preservedFlags = { ...state.flags };
+    state = defaultState();
+    state.chapter = chapterIndex;
+    state.flags = preservedFlags;
+  } else {
+    state = defaultState();
+  }
   dialogueHistory = [];
   lastHistoryKey = "";
   renderHistory();
   render();
   playConfirmSound();
+}
+
+function returnToMain() {
+  if (!replayMode || !mainStateSnapshot) return;
+  state = mainStateSnapshot;
+  mainStateSnapshot = null;
+  replayMode = false;
+  dialogueHistory = [];
+  lastHistoryKey = "";
+  renderHistory();
+  render();
+  document.getElementById("saveState").textContent = "已返回主線進度";
 }
 
 function openChapterMenu() {
@@ -428,10 +466,18 @@ function openChapterMenu() {
     const current = index === state.chapter;
     button.innerHTML = `<span class="chapter-code">${chapter.id}</span><span class="chapter-title">${chapter.title}</span><span class="chapter-status">${current ? "目前章節" : "直接進入"} ›</span>`;
     button.addEventListener("click", () => {
+      if (!replayMode) {
+        mainStateSnapshot = cloneState(state);
+        replayMode = true;
+      }
+      state = cloneState(mainStateSnapshot);
       state.chapter = index;
       state.phase = "intro";
       state.line = 0;
       document.getElementById("chapterDialog").close();
+      dialogueHistory = [];
+      lastHistoryKey = "";
+      renderHistory();
       render();
     });
     list.appendChild(button);
@@ -439,41 +485,143 @@ function openChapterMenu() {
   document.getElementById("chapterDialog").showModal();
 }
 
-function saveManual() {
+function loadManualSlots() {
   try {
-    const payload = { ...state, savedAt: new Date().toISOString() };
-    localStorage.setItem(MANUAL_SAVE_KEY, JSON.stringify(payload));
-    document.getElementById("saveState").textContent = "手動存檔完成";
+    const stored = JSON.parse(localStorage.getItem(MANUAL_SLOTS_KEY) || "null");
+    if (Array.isArray(stored)) {
+      return Array.from({ length: MANUAL_SLOT_COUNT }, (_, index) => stored[index] || null);
+    }
+    const legacy = JSON.parse(localStorage.getItem(MANUAL_SAVE_KEY) || "null");
+    const slots = Array(MANUAL_SLOT_COUNT).fill(null);
+    if (legacy && isValidManualSave(legacy)) {
+      slots[0] = legacy;
+      localStorage.setItem(MANUAL_SLOTS_KEY, JSON.stringify(slots));
+    }
+    return slots;
+  } catch (_) {
+    return Array(MANUAL_SLOT_COUNT).fill(null);
+  }
+}
+
+function isValidManualSave(saved) {
+  return Boolean(saved &&
+    Number.isInteger(saved.chapter) && saved.chapter >= 0 && saved.chapter < chapters.length &&
+    ["intro", "choice", "branch", "common", "complete"].includes(saved.phase) &&
+    Number.isInteger(saved.line) && saved.line >= 0 &&
+    (!saved.choices || typeof saved.choices === "object") &&
+    (!saved.flags || typeof saved.flags === "object"));
+}
+
+function openSaveMenu(mode) {
+  saveDialogMode = mode;
+  document.getElementById("saveDialogTitle").textContent = mode === "save" ? "選擇存檔欄位" : "讀取存檔";
+  document.getElementById("saveDialogNote").textContent = mode === "save"
+    ? (replayMode ? "章節重玩期間不能覆蓋主線存檔。" : "選擇一個欄位保存目前進度；已有資料的欄位會先詢問是否覆蓋。")
+    : "選擇要載入的進度。讀取主線存檔會結束目前的章節重玩。";
+  renderSaveSlots();
+  document.getElementById("saveDialog").showModal();
+}
+
+function renderSaveSlots() {
+  const list = document.getElementById("saveSlots");
+  list.replaceChildren();
+  const slots = loadManualSlots();
+  slots.forEach((saved, index) => {
+    const article = document.createElement("article");
+    article.className = "save-slot";
+    const heading = document.createElement("strong");
+    heading.className = "save-slot-title";
+    heading.textContent = `存檔欄位 ${index + 1}`;
+    const detail = document.createElement("p");
+    detail.className = "save-slot-detail";
+    if (saved && isValidManualSave(saved)) {
+      const chapter = chapters[saved.chapter];
+      const phaseNames = { intro: "劇情中", choice: "等待選擇", branch: "分支中", common: "共通劇情", complete: "內容完成" };
+      const date = saved.savedAt ? new Date(saved.savedAt) : null;
+      const dateText = date && !Number.isNaN(date.getTime()) ? date.toLocaleString("zh-TW") : "時間未記錄";
+      const flags = Object.entries(saved.flags || {}).filter(([, value]) => Number(value) > 0)
+        .map(([name, value]) => `${name} ${value}`).join(" · ");
+      detail.textContent = `${chapter.id}｜${chapter.title} · ${phaseNames[saved.phase]}\n${dateText}${flags ? "\n" + flags : ""}`;
+    } else {
+      detail.textContent = "空欄位";
+    }
+    const action = document.createElement("button");
+    action.type = "button";
+    action.className = "save-slot-action";
+    if (saveDialogMode === "save") {
+      action.textContent = "儲存到此欄";
+      action.disabled = replayMode;
+      action.addEventListener("click", () => saveManualSlot(index));
+    } else {
+      action.textContent = "讀取此欄";
+      action.disabled = !saved || !isValidManualSave(saved);
+      action.addEventListener("click", () => loadManualSlot(index));
+    }
+    article.append(heading, detail, action);
+    list.appendChild(article);
+  });
+}
+
+function saveManualSlot(index) {
+  if (replayMode) {
+    document.getElementById("saveState").textContent = "章節重玩不會覆蓋主線存檔";
+    return;
+  }
+  const slots = loadManualSlots();
+  if (slots[index] && !window.confirm(`確定覆蓋存檔欄位 ${index + 1} 嗎？`)) return;
+  try {
+    slots[index] = {
+      ...cloneState(state),
+      version: 3,
+      savedAt: new Date().toISOString()
+    };
+    localStorage.setItem(MANUAL_SLOTS_KEY, JSON.stringify(slots));
+    document.getElementById("saveDialog").close();
+    document.getElementById("saveState").textContent = `手動存檔完成（欄位 ${index + 1}）`;
   } catch (_) {
     document.getElementById("saveState").textContent = "存檔失敗：儲存空間不可用";
   }
 }
 
-function loadManual() {
-  try {
-    const raw = localStorage.getItem(MANUAL_SAVE_KEY);
-    if (!raw) {
-      document.getElementById("saveState").textContent = "尚無手動存檔";
-      return;
-    }
-    const saved = JSON.parse(raw);
-    if (!Number.isInteger(saved.chapter) || saved.chapter < 0 || saved.chapter >= chapters.length ||
-        !["intro", "choice", "branch", "common", "complete"].includes(saved.phase) ||
-        !Number.isInteger(saved.line) || saved.line < 0) {
-      document.getElementById("saveState").textContent = "手動存檔格式無效";
-      return;
-    }
-    state = {
-      ...defaultState(),
-      ...saved,
-      version: 2,
-      flags: { ...defaultState().flags, ...(saved.flags || {}) }
-    };
-    render();
-    document.getElementById("saveState").textContent = "已讀取手動存檔";
-  } catch (_) {
-    document.getElementById("saveState").textContent = "讀取失敗：存檔資料無效";
+function loadManualSlot(index) {
+  const saved = loadManualSlots()[index];
+  if (!isValidManualSave(saved)) {
+    document.getElementById("saveState").textContent = "存檔格式無效或已損壞";
+    return;
   }
+  const defaults = defaultState().flags;
+  const flags = { ...defaults };
+  Object.keys(defaults).forEach(key => {
+    const value = Number(saved.flags?.[key] ?? 0);
+    flags[key] = Number.isFinite(value) && value >= 0 ? value : 0;
+  });
+  state = {
+    ...defaultState(),
+    ...saved,
+    version: 3,
+    choices: saved.choices && typeof saved.choices === "object" ? saved.choices : {},
+    flags
+  };
+  replayMode = false;
+  mainStateSnapshot = null;
+  dialogueHistory = [];
+  lastHistoryKey = "";
+  renderHistory();
+  document.getElementById("saveDialog").close();
+  render();
+  document.getElementById("saveState").textContent = `已讀取存檔欄位 ${index + 1}`;
+}
+
+function saveManual() {
+  if (replayMode) {
+    document.getElementById("saveState").textContent = "章節重玩不會覆蓋主線存檔";
+    return;
+  }
+  openSaveMenu("save");
+}
+
+function loadManual() {
+  openSaveMenu("load");
 }
 
 function ensureAudio() {
@@ -544,6 +692,8 @@ document.getElementById("fullscreenToggle").addEventListener("click", async () =
 document.getElementById("chapterMenu").addEventListener("click", openChapterMenu);
 document.getElementById("logToggle").addEventListener("click", () => toggleHistory());
 document.getElementById("logClose").addEventListener("click", () => toggleHistory(false));
+document.getElementById("closeSaveMenu").addEventListener("click", () => document.getElementById("saveDialog").close());
+document.getElementById("returnMain").addEventListener("click", returnToMain);
 document.getElementById("typingSpeed").addEventListener("change", event => {
   readingSettings.speed = Number(event.currentTarget.value);
   saveReadingSettings();
