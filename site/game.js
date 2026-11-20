@@ -33,12 +33,28 @@ let musicEnabled = true;
 function loadState() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (saved && Number.isInteger(saved.chapter)) {
-      return {
+    if (
+      saved &&
+      Number.isInteger(saved.chapter) &&
+      saved.chapter >= 0 &&
+      saved.chapter < chapters.length
+    ) {
+      const restored = {
         ...defaultState(),
         ...saved,
         flags: { ...defaultState().flags, ...(saved.flags || {}) }
       };
+      const validPhases = ["intro", "choice", "branch", "common", "complete"];
+      if (!validPhases.includes(restored.phase)) return defaultState();
+      if (!Number.isInteger(restored.line) || restored.line < 0) restored.line = 0;
+
+      // If an older build saved its final chapter as complete, continue at the next chapter.
+      if (restored.phase === "complete" && restored.chapter < chapters.length - 1) {
+        restored.chapter += 1;
+        restored.phase = "intro";
+        restored.line = 0;
+      }
+      return restored;
     }
   } catch (_) {}
   return defaultState();
