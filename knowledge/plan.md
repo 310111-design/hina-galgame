@@ -62,6 +62,7 @@
 - [x] 修正環境音樂啟動時機：在玩家首次點擊／按鍵推進對話時啟動 Web Audio，符合瀏覽器需由使用者手勢觸發音訊的限制。
 - [x] 啟用跨章節旗標回應：A02、B01、C01、D01 依先前選擇的 rest／teamwork／ordinary_day／daily_checkin／self_rest 顯示條件對話，讓早期選擇在後續章節留下可見影響；文字來源集中於 `knowledge/flag-dialogue.md`。
 - [x] 核對 D06／D07 實際分支狀態，修正章節卡避免將局部 A／B／C 選項誤記為已完成 R1／R2／R3 長線結局。
+- [x] 新增 scripts/validate-game-data.js，並接入 Pages workflow，部署前自動檢查 27 節順序、唯一 ID、三選項／分支對應、對話 tuple 與條件旗標格式。
 - [ ] 依 D-09 推薦，在成年篇加入明確關係方向選擇，再製作朋友／搭檔／戀愛路線差分與結局。
 - [x] 完成第一幕第二章 A02「退回的公務」，建立休息、分工與回顧規則三種局部分支（`story/chapters/A02.md`）。
 - [x] 完成第一幕第三章 A03「分工清單」，建立決策、確認與可分工事項的界線（`story/chapters/A03.md`）。
