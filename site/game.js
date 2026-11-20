@@ -26,7 +26,8 @@ const defaultState = () => ({
   phase: "intro",
   line: 0,
   choices: {},
-  flags: { rest: 0, teamwork: 0, ordinary_day: 0, daily_checkin: 0, self_rest: 0 }
+  flags: { rest: 0, teamwork: 0, ordinary_day: 0, daily_checkin: 0, self_rest: 0 },
+  route: null
 });
 
 let state = loadState();
@@ -218,14 +219,19 @@ function loadState() {
         ...saved,
         version: 2,
         chapter: chapterIndex,
-        flags: { ...defaultState().flags, ...(saved.flags || {}) }
+        flags: { ...defaultState().flags, ...(saved.flags || {}) },
+        route: ["friend", "partner", "romance"].includes(saved.route) ? saved.route : null
       };
       const validPhases = ["intro", "choice", "branch", "common", "complete"];
       if (!validPhases.includes(restored.phase)) return defaultState();
       if (!Number.isInteger(restored.line) || restored.line < 0) restored.line = 0;
 
       // Legacy saves gain the three newly playable prologue chapters at the front.
-      if (restored.phase === "complete" && restored.chapter < chapters.length - 1) {
+      if (restored.phase === "complete" && chapters[restored.chapter]?.id === "D07" && !restored.route) {
+        restored.chapter = chapters.findIndex(item => item.id === "D06");
+        restored.phase = "intro";
+        restored.line = 0;
+      } else if (restored.phase === "complete" && !chapters[restored.chapter]?.endOfRoute && restored.chapter < chapters.length - 1) {
         restored.chapter += 1;
         restored.phase = "intro";
         restored.line = 0;
@@ -305,12 +311,14 @@ function advanceLine() {
     state.phase = "common";
   } else if (state.phase === "common") {
     state.line = 0;
-    if (state.chapter === chapters.length - 1) state.phase = "complete";
-    else {
-      state.chapter += 1;
-      state.phase = "intro";
-      chapterChanged = true;
-    }
+    if (chapter.endOfRoute) state.phase = "complete";
+    else if (chapter.nextByRoute) {
+      let nextIndex = chapter.nextByRoute[state.route] ? chapters.findIndex(item => item.id === chapter.nextByRoute[state.route]) : -1;
+      if (nextIndex < 0) nextIndex = chapters.findIndex(item => item.id === "D06");
+      if (nextIndex < 0) state.phase = "complete";
+      else { state.chapter = nextIndex; state.phase = "intro"; chapterChanged = true; }
+    } else if (state.chapter === chapters.length - 1) state.phase = "complete";
+    else { state.chapter += 1; state.phase = "intro"; chapterChanged = true; }
   }
   render();
   if (chapterChanged) playChapterTransitionSound();
@@ -355,7 +363,8 @@ const SCENE_BY_CHAPTER = {
   A01: "office", A02: "office", A03: "office", A04: "corridor", A05: "office", A06: "office",
   B01: "office", B02: "office", B03: "office", B04: "office", B05: "office", B06: "office", B07: "office", B08: "office",
   C01: "office", C02: "office", C03: "rooftop", C04: "office", C05: "office", C06: "rooftop",
-  D01: "cafe", D02: "cafe", D03: "home", D04: "outdoor", D05: "cafe", D06: "home", D07: "cafe"
+  D01: "cafe", D02: "cafe", D03: "home", D04: "outdoor", D05: "cafe", D06: "home", D07: "cafe",
+  D08F: "outdoor", D08P: "office", D08R: "cafe"
 };
 
 const MUSIC_PROFILES = {
@@ -526,7 +535,7 @@ function render() {
   } else if (state.phase === "complete") {
     document.getElementById("story").innerHTML =
       '<p class="hina"><strong>目前可玩內容完成</strong></p>' +
-      '<p class="narration">已完成序章 P01～P03 與 A01～D07 共 30 節內容。你的選擇與旗標會保存在這個瀏覽器中。</p>' +
+      '<p class="narration">已完成 30 節共通篇，並抵達所選路線的專屬結局。你的選擇與旗標會保存在這個瀏覽器中。</p>' +
       `<p class="system">rest ${state.flags.rest}｜teamwork ${state.flags.teamwork}｜ordinary_day ${state.flags.ordinary_day}｜daily_checkin ${state.flags.daily_checkin}｜self_rest ${state.flags.self_rest}</p>`;
     const button = document.createElement("button");
     button.type = "button";
@@ -543,7 +552,8 @@ function render() {
 
 function choose(choice) {
   const chapter = chapters[state.chapter];
-  state.flags[choice.flag] = (state.flags[choice.flag] || 0) + 1;
+  if (choice.flag) state.flags[choice.flag] = (state.flags[choice.flag] || 0) + 1;
+  if (choice.route) state.route = choice.route;
   if (chapter.id === "A06") state.flags.daily_checkin += 1;
   state.choices[chapter.id] = choice;
   dialogueHistory.push({ chapter: chapter.id, speaker: "你的選擇", text: choice.label });
@@ -642,7 +652,8 @@ function isValidManualSave(saved) {
   if (!Number.isInteger(saved.chapter) || saved.chapter < 0 || saved.chapter >= chapters.length) return false;
   if (!["intro", "choice", "branch", "common", "complete"].includes(saved.phase)) return false;
   if (!Number.isInteger(saved.line) || saved.line < 0) return false;
-  if (saved.phase === "complete") return saved.chapter === chapters.length - 1;
+  if (saved.route != null && !["friend", "partner", "romance"].includes(saved.route)) return false;
+  if (saved.phase === "complete") return !!chapters[saved.chapter]?.endOfRoute || chapters[saved.chapter]?.id === "D07";
   const chapter = chapters[saved.chapter];
   if (saved.phase === "choice") return saved.line === 0;
   let sequence = [];
@@ -736,7 +747,8 @@ function renderSaveSlots() {
         .map(([name, value]) => `${name} ${value}`).join(" · ");
       const phaseProgress = { intro: 0.15, choice: 0.3, branch: 0.55, common: 0.8, complete: 1 }[saved.phase] || 0;
       const progress = Math.min(100, Math.round(((saved.chapter + phaseProgress) / chapters.length) * 100));
-      detail.textContent = `${chapter.id}｜${chapter.title} · ${phaseNames[saved.phase]}\n全篇進度約 ${progress}% · ${dateText}${flags ? "\n" + flags : ""}`;
+      const routeName = ({ friend: "朋友線", partner: "搭檔線", romance: "戀愛線" })[saved.route] || "";
+      detail.textContent = `${chapter.id}｜${chapter.title} · ${phaseNames[saved.phase]}${routeName ? " · " + routeName : ""}\n全篇進度約 ${progress}% · ${dateText}${flags ? "\n" + flags : ""}`;
     } else {
       detail.textContent = saved ? "存檔資料無效" : "空欄位";
     }
@@ -795,8 +807,14 @@ function loadManualSlot(index) {
     ...saved,
     version: 3,
     choices: saved.choices && typeof saved.choices === "object" ? saved.choices : {},
-    flags
+    flags,
+    route: ["friend", "partner", "romance"].includes(saved.route) ? saved.route : null
   };
+  if (state.phase === "complete" && chapters[state.chapter]?.id === "D07" && !state.route) {
+    state.chapter = chapters.findIndex(item => item.id === "D06");
+    state.phase = "intro";
+    state.line = 0;
+  }
   replayMode = false;
   mainStateSnapshot = null;
   dialogueHistory = [];

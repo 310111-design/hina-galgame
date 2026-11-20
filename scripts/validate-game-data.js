@@ -18,11 +18,12 @@ const expectedIds = [
   "A01", "A02", "A03", "A04", "A05", "A06",
   "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08",
   "C01", "C02", "C03", "C04", "C05", "C06",
-  "D01", "D02", "D03", "D04", "D05", "D06", "D07"
+  "D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08F", "D08P", "D08R"
 ];
 const defaultFlags = new Set([
   "rest", "teamwork", "ordinary_day", "daily_checkin", "self_rest"
 ]);
+const routeKeys = new Set(["friend", "partner", "romance"]);
 const errors = [];
 let choiceCount = 0;
 let branchCount = 0;
@@ -84,13 +85,26 @@ data.forEach(chapter => {
   }
 
   chapter.choices.forEach(choice => {
-    if (!defaultFlags.has(choice?.flag)) {
+    if (choice?.route !== undefined) {
+      if (!routeKeys.has(choice.route)) errors.push(id + ": unknown route " + choice.route);
+      if (choice.flag !== undefined) errors.push(id + ": route choices must not modify legacy story flags");
+    } else if (!defaultFlags.has(choice?.flag)) {
       errors.push(id + ": unknown choice flag " + choice?.flag);
     }
     checkLines(chapter.branches?.[choice.letter], id + ".branches." + choice.letter);
     branchCount += 1;
   });
 
+  if (chapter.nextByRoute !== undefined) {
+    const keys = Object.keys(chapter.nextByRoute || {}).sort();
+    if (JSON.stringify(keys) !== JSON.stringify([...routeKeys].sort())) errors.push(id + ": nextByRoute must map all three routes");
+    Object.values(chapter.nextByRoute || {}).forEach(target => {
+      const targetChapter = data.find(item => item.id === target);
+      if (!targetChapter || !targetChapter.endOfRoute) errors.push(id + ": nextByRoute target must be an endOfRoute chapter");
+    });
+  }
+  if (chapter.endOfRoute && !routeKeys.has(chapter.routeEnding)) errors.push(id + ": endOfRoute requires a valid routeEnding");
+  if (id === "D06" && JSON.stringify(chapter.choices.map(choice => choice.route).sort()) !== JSON.stringify([...routeKeys].sort())) errors.push("D06 must offer all three explicit relationship routes");
   if (chapter.flaggedIntro !== undefined) {
     if (!Array.isArray(chapter.flaggedIntro)) {
       errors.push(id + ": flaggedIntro must be an array");
