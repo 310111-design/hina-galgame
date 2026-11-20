@@ -232,12 +232,6 @@ function render() {
     box.appendChild(button);
   } else {
     renderDialogue(currentLine());
-    const next = document.createElement("button");
-    next.type = "button";
-    next.className = "next";
-    next.textContent = "點一下繼續";
-    next.addEventListener("click", advanceLine);
-    box.appendChild(next);
   }
   saveState();
 }
@@ -304,6 +298,24 @@ function playConfirmSound() {
   oscillator.start();
   oscillator.stop(audioContext.currentTime + 0.18);
 }
+
+document.getElementById("gameStage").addEventListener("click", event => {
+  if (event.target.closest("button, a, input, select, textarea")) return;
+  if (state.phase === "choice" || state.phase === "complete") return;
+  advanceLine();
+});
+
+document.getElementById("fullscreenToggle").addEventListener("click", async () => {
+  try {
+    if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+      await document.documentElement.requestFullscreen();
+    } else if (document.fullscreenElement && document.exitFullscreen) {
+      await document.exitFullscreen();
+    }
+  } catch (_) {
+    document.getElementById("saveState").textContent = "此瀏覽器不支援全螢幕切換";
+  }
+});
 
 document.getElementById("restart").addEventListener("click", restart);
 document.getElementById("audioToggle").addEventListener("click", event => {
