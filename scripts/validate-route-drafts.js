@@ -60,7 +60,7 @@ for (const target of targets) {
     }
   }
 
-  const match = markdown.match(/^\*\*正文統計：\*\* ([\d,]+) 個中文字元（/m);
+  const match = markdown.match(/正文統計[^0-9]*([0-9,]+)\s*個中文字元/);
   if (!match) {
     errors.push(target.id + ": missing declared character count in Markdown");
   } else if (Number(match[1].replace(/,/g, "")) !== count) {
