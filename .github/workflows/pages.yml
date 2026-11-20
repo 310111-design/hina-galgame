@@ -29,6 +29,8 @@ jobs:
         run: node scripts/validate-game-data.js
       - name: Validate game HTML shells
         run: node scripts/validate-game-shells.js
+      - name: Inspect visual asset metadata
+        run: node scripts/inspect-visual-assets.js
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
         with:
