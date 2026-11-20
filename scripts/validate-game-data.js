@@ -154,6 +154,20 @@ data.forEach(chapter => {
 });
 
 
+// Every non-ending choice flag must be consumed by a later conditional memory line.
+data.forEach((chapter, chapterIndex) => {
+  if (chapter?.endOfRoute) return;
+  (chapter.choices || []).forEach(choice => {
+    if (!choice?.flag) return;
+    const hasLaterDialogue = data.slice(chapterIndex + 1).some(laterChapter =>
+      (laterChapter.flaggedIntro || []).some(group => group.flag === choice.flag)
+    );
+    if (!hasLaterDialogue) {
+      errors.push(chapter.id + ": choice flag " + choice.flag + " has no later conditional dialogue response");
+    }
+  });
+});
+
 const flagDialoguePath = path.join(__dirname, "..", "knowledge", "flag-dialogue.md");
 if (!fs.existsSync(flagDialoguePath)) {
   errors.push("Missing knowledge/flag-dialogue.md");
