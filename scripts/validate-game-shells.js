@@ -13,14 +13,21 @@ let pageSpriteSource = "";
 
 for (const page of pages) {
   const html = fs.readFileSync(path.join(root, "site", page), "utf8");
-  const spriteMatch = html.match(/<img\\b[^>]*\\bid="hinaSprite"[^>]*\\bsrc="([^"]+)"/);
-  if (!spriteMatch) {
+  const spriteIdIndex = html.indexOf('id="hinaSprite"');
+  const spriteTagStart = spriteIdIndex >= 0 ? html.lastIndexOf("<img", spriteIdIndex) : -1;
+  const spriteTagEnd = spriteTagStart >= 0 ? html.indexOf(">", spriteTagStart) : -1;
+  const spriteTag = spriteTagEnd >= 0 ? html.slice(spriteTagStart, spriteTagEnd + 1) : "";
+  const srcMarker = 'src="';
+  const srcStart = spriteTag.indexOf(srcMarker);
+  const srcEnd = srcStart >= 0 ? spriteTag.indexOf('"', srcStart + srcMarker.length) : -1;
+  const spriteSource = srcEnd >= 0 ? spriteTag.slice(srcStart + srcMarker.length, srcEnd) : "";
+  if (!spriteSource) {
     errors.push(page + ": missing hinaSprite image source");
   } else {
-    const spritePath = path.join(root, "site", spriteMatch[1]);
-    if (!fs.existsSync(spritePath)) errors.push(page + ": missing hinaSprite asset " + spriteMatch[1]);
-    if (pageSpriteSource && pageSpriteSource !== spriteMatch[1]) errors.push(page + ": hinaSprite source differs from the other page shell");
-    pageSpriteSource = spriteMatch[1];
+    const spritePath = path.join(root, "site", spriteSource);
+    if (!fs.existsSync(spritePath)) errors.push(page + ": missing hinaSprite asset " + spriteSource);
+    if (pageSpriteSource && pageSpriteSource !== spriteSource) errors.push(page + ": hinaSprite source differs from the other page shell");
+    pageSpriteSource = spriteSource;
   }
   const ids = [...html.matchAll(/id="([^"]+)"/g)].map(match => match[1]);
   const idSet = new Set(ids);
@@ -35,5 +42,5 @@ if (errors.length) {
   errors.forEach(error => console.error("- " + error));
   process.exitCode = 1;
 } else {
-  console.log("Game shells OK: " + requiredIds.length + " JavaScript-required IDs exist exactly once in both pages.");
+  console.log("Game shells OK: " + requiredIds.length + " JavaScript-required IDs exist exactly once in both pages; sprite source is shared and present: " + pageSpriteSource + ".");
 }
