@@ -14,12 +14,14 @@
       <div class="brand"><span class="eyebrow">HINA GALGAME</span><h1>放學後的十分鐘</h1></div>
       <div class="top-actions">
         <button id="chapterMenu" class="ghost" type="button">章節</button>
-        <button id="restart" class="ghost" type="button">重來</button>
+        <button id="saveManual" class="ghost" type="button">存檔</button>
+        <button id="loadManual" class="ghost" type="button">讀檔</button>
+        <button id="fullscreenToggle" class="ghost" type="button">全螢幕</button>
       </div>
     </header>
     <section class="status" aria-label="遊戲進度">
       <div class="progress-track"><div id="progress" class="progress"></div></div>
-      <div class="status-row"><span id="chapterLabel">P01</span><span id="saveState">自動存檔</span></div>
+      <div class="status-row"><span id="chapterLabel">P01</span><span id="saveState">自動存檔</span><div id="flags" class="flags" aria-label="劇情旗標"></div></div>
     </section>
     <section id="gameStage" class="game-stage" aria-label="遊戲畫面">
       <div id="sceneArt" class="scene-art office">
