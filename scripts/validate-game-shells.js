@@ -9,9 +9,19 @@ const source = fs.readFileSync(path.join(root, "site", "game.js"), "utf8");
 const requiredIds = [...new Set([...source.matchAll(/getElementById\("([^"]+)"\)/g)].map(match => match[1]))];
 const pages = ["game.html", "testplay.html"];
 const errors = [];
+let pageSpriteSource = "";
 
 for (const page of pages) {
   const html = fs.readFileSync(path.join(root, "site", page), "utf8");
+  const spriteMatch = html.match(/<img\\b[^>]*\\bid="hinaSprite"[^>]*\\bsrc="([^"]+)"/);
+  if (!spriteMatch) {
+    errors.push(page + ": missing hinaSprite image source");
+  } else {
+    const spritePath = path.join(root, "site", spriteMatch[1]);
+    if (!fs.existsSync(spritePath)) errors.push(page + ": missing hinaSprite asset " + spriteMatch[1]);
+    if (pageSpriteSource && pageSpriteSource !== spriteMatch[1]) errors.push(page + ": hinaSprite source differs from the other page shell");
+    pageSpriteSource = spriteMatch[1];
+  }
   const ids = [...html.matchAll(/id="([^"]+)"/g)].map(match => match[1]);
   const idSet = new Set(ids);
   const missing = requiredIds.filter(id => !idSet.has(id));
