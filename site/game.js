@@ -511,7 +511,8 @@ function render() {
   const chapter = chapters[state.chapter];
   if (!chapter) return;
 
-  document.getElementById("chapterLabel").textContent = `${chapter.id}｜${chapter.title}`;
+  const routeLabel = (["D06", "D07"].includes(chapter.id) || chapter.routeEnding) ? ({ friend: "朋友線", partner: "搭檔線", romance: "戀愛線" })[state.route] : "";
+  document.getElementById("chapterLabel").textContent = `${chapter.id}｜${chapter.title}${routeLabel ? "｜" + routeLabel : ""}`;
   document.getElementById("returnMain").hidden = !replayMode;
   document.getElementById("saveManual").disabled = replayMode;
   document.getElementById("progress").style.width = `${state.phase === "complete" ? 100 : ((state.chapter + 1) / chapters.length) * 100}%`;
@@ -573,9 +574,11 @@ function restart() {
   if (replayMode) {
     const chapterIndex = state.chapter;
     const preservedFlags = { ...state.flags };
+    const preservedRoute = state.route;
     state = defaultState();
     state.chapter = chapterIndex;
     state.flags = preservedFlags;
+    state.route = preservedRoute;
   } else {
     state = defaultState();
   }
@@ -615,6 +618,7 @@ function openChapterMenu() {
       }
       state = cloneState(mainStateSnapshot);
       state.chapter = index;
+      if (chapter.routeEnding) state.route = chapter.routeEnding;
       state.phase = "intro";
       state.line = 0;
       document.getElementById("chapterDialog").close();
