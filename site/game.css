@@ -1097,3 +1097,10 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 .save-slot-preview.home { background: linear-gradient(145deg, #887d9c, #4a405d 58%, #201a2e); }
 .save-slot-preview.outdoor { background: linear-gradient(145deg, #7b9b87, #3c5d5a 58%, #1b2830); }
 .save-slot-preview.empty { align-items: center; justify-content: center; background: linear-gradient(145deg, #282433, #17141f); }
+
+
+/* Use the finished office background in save previews when available. */
+.save-slot-preview.office {
+  background: linear-gradient(0deg, #080710a8, #08071012),
+    url("assets/backgrounds/prefect-office-evening-v01.webp") center / cover no-repeat;
+}
