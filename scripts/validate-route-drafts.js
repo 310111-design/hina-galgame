@@ -12,9 +12,9 @@ const chapters = sandbox.window.HINA_GAME_DATA;
 const errors = [];
 
 const targets = [
-  { id: "D08F", minimum: 2500, status: "expanded draft" },
-  { id: "D08P", minimum: 2500, status: "expanded draft" },
-  { id: "D08R", minimum: 2500, status: "expanded draft" }
+  { id: "D08F", minimum: 2500, pathMinimum: 2500, status: "expanded draft" },
+  { id: "D08P", minimum: 2500, pathMinimum: 2500, status: "expanded draft" },
+  { id: "D08R", minimum: 2500, pathMinimum: 2500, status: "expanded draft" }
 ];
 
 for (const target of targets) {
@@ -39,7 +39,15 @@ for (const target of targets) {
   if (!match) errors.push(target.id + ": missing declared character count in Markdown");
   else if (Number(match[1]) !== count) errors.push(target.id + ": Markdown count " + match[1] + " does not match game data " + count);
   if (count < target.minimum) errors.push(target.id + ": " + count + " characters below minimum " + target.minimum);
-  console.log(target.id + ": " + count + " characters (including mutually exclusive branches) — " + target.status);
+  const pathCounts = Object.entries(chapter.branches || {}).map(([letter, branch]) => {
+    const pathCount = [...(chapter.intro || []), ...branch, ...(chapter.common || [])]
+      .reduce((sum, line) => sum + String(line[1] || "").length, 0);
+    if (pathCount < target.pathMinimum) {
+      errors.push(target.id + " branch " + letter + ": " + pathCount + " characters below per-path minimum " + target.pathMinimum);
+    }
+    return letter + "=" + pathCount;
+  });
+  console.log(target.id + ": " + count + " total characters; paths " + pathCounts.join(", ") + " — " + target.status);
 }
 
 if (errors.length) {
