@@ -66,7 +66,7 @@
 ## 路線實作狀態
 
 - A01～D07 現行可玩資料已有逐章局部分支與共通回收；跨章節旗標已開始影響 A02、B01、C01、D01 的 intro。
-- D06 由玩家明確選擇 friend／partner／romance；D07 的 `nextByRoute` 會分別銜接 D08F／D08P／D08R，三個結局節點皆標記 `endOfRoute: true`。
+- D06 由玩家明確選擇 friend／partner／romance；D07 的 `nextByRoute` 會分別銜接 D08F／D08P／D08R，三個結局節點皆標記 `endOfRoute: true`。D07 共通段需承接既有路線選擇，且不得假設 A／B／C 都執行關閉手機等分支專屬動作。
 - D06／D07／D08F／D08P／D08R 的章節 Markdown 已完成第一稿同步；每次調整任一端，必須檢查兩端內容與路線拓撲一致。`scripts/validate-game-data.js` 會檢查 D06 三種 route、D07 對應目標及三個唯一結局節點；文字內容仍需人工審校。
 
 ## 跨章節旗標回應表
