@@ -359,4 +359,5 @@
 - **觀察：** 手動靜態檢查可以在本次迭代發現資料問題，但若每次新增章節都依賴人工記得執行，後續容易漏掉章節 ID、選項分支或條件旗標錯誤。
 - **做法：** 新增 scripts/validate-game-data.js，使用 Node 內建 fs/path 解析 site/game-data.js，檢查預期章節順序、唯一 ID、每章三個選項、branch key 對應、非空 dialogue tuple、choice flag 與 flaggedIntro 條件。將驗證步驟放在 .github/workflows/pages.yml checkout 後、Pages 部署前。
 - **未來可用於：** 每次推送自動阻擋格式錯誤的 Galgame 資料、後續新增章節與旗標時的回歸檢查，以及其他以 JSON 資料驅動的靜態互動小說。
-- **限制：** 腳本已提交並接入 workflow；實際執行結果以最新 GitHub Actions run 為準，尚未宣稱通過。
+- **驗收：** 首次 GitHub Actions run 44705505009 的 Validate game data、Upload site artifact 與 Deploy to GitHub Pages 步驟均成功。
+- **限制：** 這是靜態資料與 Pages 部署驗證，不等於真實瀏覽器 E2E 測試；存檔遷移、音訊播放與互動流程仍待實機驗收。
