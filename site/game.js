@@ -375,7 +375,17 @@ function updateScene() {
   const sceneType = roofScene ? "rooftop" : (SCENE_BY_CHAPTER[chapter?.id] || "office");
   activeSceneType = sceneType;
   if (audioContext && ambientNodes.length && currentMusicScene !== sceneType) transitionAmbient(sceneType);
+  const previousSceneType = scene.dataset.sceneType || "";
+  const previousChapter = scene.dataset.chapter || "";
+  const shouldTransition = (previousSceneType && previousSceneType !== sceneType) ||
+    (previousChapter && previousChapter !== (chapter?.id || ""));
   scene.className = "scene-art " + sceneType;
+  if (shouldTransition) {
+    scene.classList.remove("scene-transition");
+    void scene.offsetWidth;
+    scene.classList.add("scene-transition");
+  }
+  scene.dataset.sceneType = sceneType;
   scene.dataset.chapter = chapter?.id || "";
   setMood(chapter?.mood || "認真");
 
@@ -410,7 +420,7 @@ function renderHistory() {
   }
   dialogueHistory.forEach(entry => {
     const article = document.createElement("article");
-    article.className = "log-entry";
+    article.className = entry.speaker === "你的選擇" ? "log-entry choice-log-entry" : "log-entry";
     const meta = document.createElement("div");
     meta.className = "log-meta";
     meta.textContent = `${entry.chapter} · ${entry.speaker}`;
@@ -536,6 +546,9 @@ function choose(choice) {
   state.flags[choice.flag] = (state.flags[choice.flag] || 0) + 1;
   if (chapter.id === "A06") state.flags.daily_checkin += 1;
   state.choices[chapter.id] = choice;
+  dialogueHistory.push({ chapter: chapter.id, speaker: "你的選擇", text: choice.label });
+  if (dialogueHistory.length > 500) dialogueHistory.shift();
+  renderHistory();
   state.phase = "branch";
   state.line = 0;
   render();
