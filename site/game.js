@@ -149,13 +149,22 @@ function setSpriteEmotion(mood) {
   sprite.src = source;
 }
 
+const SCENE_BY_CHAPTER = {
+  P01: "office", P02: "office", P03: "office",
+  A01: "office", A02: "office", A03: "office", A04: "corridor", A05: "office", A06: "office",
+  B01: "office", B02: "office", B03: "office", B04: "office", B05: "office", B06: "office", B07: "office", B08: "office",
+  C01: "office", C02: "office", C03: "rooftop", C04: "office", C05: "office", C06: "rooftop",
+  D01: "cafe", D02: "cafe", D03: "home", D04: "outdoor", D05: "cafe", D06: "home", D07: "cafe"
+};
+
 function updateScene() {
   const chapter = chapters[state.chapter];
   const scene = document.getElementById("sceneArt");
   const selected = chapter ? state.choices[chapter.id]?.letter : null;
   const roofScene = ["P01", "P02"].includes(chapter?.id) && state.phase === "branch" && selected === "C";
-  const sceneType = chapter?.id === "A04" ? "corridor" : roofScene ? "rooftop" : "office";
+  const sceneType = roofScene ? "rooftop" : (SCENE_BY_CHAPTER[chapter?.id] || "office");
   scene.className = "scene-art " + sceneType;
+  scene.dataset.chapter = chapter?.id || "";
   setMood(chapter?.mood || "認真");
 
   if (state.phase === "choice") setMood("等待選擇");
