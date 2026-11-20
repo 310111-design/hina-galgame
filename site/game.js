@@ -1,6 +1,6 @@
-const STORAGE_KEY = location.pathname.includes("testplay")
-  ? "hina-galgame-testplay-v2"
-  : "hina-galgame-act1-v3";
+const isTestplay = location.pathname.includes("testplay");
+const STORAGE_KEY = isTestplay ? "hina-galgame-testplay-v3" : "hina-galgame-full-v4";
+const LEGACY_STORAGE_KEY = isTestplay ? "hina-galgame-testplay-v2" : "hina-galgame-act1-v3";
 const chapters = window.HINA_GAME_DATA || [];
 const SPRITE_FALLBACK = "assets/hina-sprite.svg";
 const EMOTION_SPRITES = {
@@ -18,6 +18,7 @@ const EMOTION_SPRITES = {
 };
 
 const defaultState = () => ({
+  version: 2,
   chapter: 0,
   phase: "intro",
   line: 0,
@@ -32,23 +33,25 @@ let musicEnabled = true;
 
 function loadState() {
   try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (
-      saved &&
-      Number.isInteger(saved.chapter) &&
-      saved.chapter >= 0 &&
-      saved.chapter < chapters.length
-    ) {
+    const currentRaw = localStorage.getItem(STORAGE_KEY);
+    const legacyRaw = currentRaw ? null : localStorage.getItem(LEGACY_STORAGE_KEY);
+    const saved = JSON.parse(currentRaw || legacyRaw || "null");
+    const legacyOffset = currentRaw && saved?.version === 2 ? 0 : 3;
+    const chapterIndex = Number.isInteger(saved?.chapter) ? saved.chapter + legacyOffset : -1;
+
+    if (saved && chapterIndex >= 0 && chapterIndex < chapters.length) {
       const restored = {
         ...defaultState(),
         ...saved,
+        version: 2,
+        chapter: chapterIndex,
         flags: { ...defaultState().flags, ...(saved.flags || {}) }
       };
       const validPhases = ["intro", "choice", "branch", "common", "complete"];
       if (!validPhases.includes(restored.phase)) return defaultState();
       if (!Number.isInteger(restored.line) || restored.line < 0) restored.line = 0;
 
-      // If an older build saved its final chapter as complete, continue at the next chapter.
+      // Legacy saves gain the three newly playable prologue chapters at the front.
       if (restored.phase === "complete" && restored.chapter < chapters.length - 1) {
         restored.chapter += 1;
         restored.phase = "intro";
@@ -148,7 +151,10 @@ function setSpriteEmotion(mood) {
 function updateScene() {
   const chapter = chapters[state.chapter];
   const scene = document.getElementById("sceneArt");
-  scene.className = "scene-art " + (chapter?.id === "A04" ? "corridor" : "office");
+  const selected = chapter ? state.choices[chapter.id]?.letter : null;
+  const roofScene = ["P01", "P02"].includes(chapter?.id) && state.phase === "branch" && selected === "C";
+  const sceneType = chapter?.id === "A04" ? "corridor" : roofScene ? "roof" : "office";
+  scene.className = "scene-art " + sceneType;
   setMood(chapter?.mood || "認真");
 
   if (state.phase === "choice") setMood("等待選擇");
@@ -216,7 +222,7 @@ function render() {
   } else if (state.phase === "complete") {
     document.getElementById("story").innerHTML =
       '<p class="hina"><strong>目前可玩內容完成</strong></p>' +
-      '<p class="narration">已完成 A01～D07 共 27 節內容，涵蓋第一幕至第四幕。你的選擇與旗標會保存在這個瀏覽器中。</p>' +
+      '<p class="narration">已完成序章 P01～P03 與 A01～D07 共 30 節內容。你的選擇與旗標會保存在這個瀏覽器中。</p>' +
       `<p class="system">rest ${state.flags.rest}｜teamwork ${state.flags.teamwork}｜ordinary_day ${state.flags.ordinary_day}｜daily_checkin ${state.flags.daily_checkin}｜self_rest ${state.flags.self_rest}</p>`;
     const button = document.createElement("button");
     button.type = "button";
