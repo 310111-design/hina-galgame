@@ -153,7 +153,7 @@ function updateScene() {
   const scene = document.getElementById("sceneArt");
   const selected = chapter ? state.choices[chapter.id]?.letter : null;
   const roofScene = ["P01", "P02"].includes(chapter?.id) && state.phase === "branch" && selected === "C";
-  const sceneType = chapter?.id === "A04" ? "corridor" : roofScene ? "roof" : "office";
+  const sceneType = chapter?.id === "A04" ? "corridor" : roofScene ? "rooftop" : "office";
   scene.className = "scene-art " + sceneType;
   setMood(chapter?.mood || "認真");
 
