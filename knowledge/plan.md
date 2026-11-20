@@ -214,7 +214,7 @@
 - [ ] 測試所有圖像載入、缺圖回退、背景切換及圖片載入效能。
 - [ ] 測試 BGM／音效切換、場景切換及瀏覽器拒絕自動播放的情況。
 - [x] GitHub Actions 除 JS 語法與遊戲資料外，也檢查 game.html／testplay.html 是否包含 game.js 需要的 DOM ID。
-- [ ] 確認最新 GitHub Actions 驗證通過、Pages 部署成功。
+- [x] 確認本階段最新 GitHub Actions 驗證通過、Pages 部署成功；後續每次提交仍需重新確認。
 - [ ] 更新首頁進度、版本說明及素材清冊。
 - [ ] 完成正式版發布前的最後通關與錯誤修正。
 

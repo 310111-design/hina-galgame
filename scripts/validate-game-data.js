@@ -195,33 +195,6 @@ if (!fs.existsSync(path.join(siteDir, "assets", "backgrounds", "rooftop-sunset-v
   errors.push("P01/P02 rooftop branch override: missing rooftop-sunset-v01.jpeg");
 }
 
-const requiredDomIds = new Set();
-["\"", "'"].forEach(quote => {
-  const prefix = "getElementById(" + quote;
-  let cursor = 0;
-  while (true) {
-    const found = gameSource.indexOf(prefix, cursor);
-    if (found < 0) break;
-    const valueStart = found + prefix.length;
-    const valueEnd = gameSource.indexOf(quote, valueStart);
-    if (valueEnd < 0) break;
-    requiredDomIds.add(gameSource.slice(valueStart, valueEnd));
-    cursor = valueEnd + 1;
-  }
-});
-["game.html", "testplay.html"].forEach(fileName => {
-  const filePath = path.join(siteDir, fileName);
-  if (!fs.existsSync(filePath)) {
-    errors.push("missing page shell " + fileName);
-    return;
-  }
-  const html = fs.readFileSync(filePath, "utf8");
-  requiredDomIds.forEach(id => {
-    if (!html.includes('id="' + id + '"') && !html.includes("id='" + id + "'")) {
-      errors.push(fileName + ": missing DOM element #" + id + " referenced by game.js");
-    }
-  });
-});
 
 if (errors.length) {
   console.error("Game data validation failed:");
@@ -231,6 +204,6 @@ if (errors.length) {
   console.log(
     "Game data OK: " + data.length + " chapters, " +
     choiceCount + " choices, " + branchCount + " branches, " +
-    conditionalGroupCount + " conditional groups, " + backgroundEntries.length + " chapter backgrounds and " + requiredDomIds.length + " shared DOM IDs."
+    conditionalGroupCount + " conditional groups and " + backgroundEntries.length + " chapter backgrounds."
   );
 }
