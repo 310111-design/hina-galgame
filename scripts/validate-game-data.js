@@ -171,7 +171,7 @@ data.forEach(chapter => {
     const letter = heading[1] || heading[2];
     const end = headings[index + 1]?.index ?? document.length;
     const branch = document.slice(heading.index, end);
-    const flags = [...branch.matchAll(/【系統：旗標】\s*\`([a-z_]+)\s*\\+\s*\d+\`/g)].map(match => match[1]);
+    const flags = [...branch.matchAll(/【系統：旗標】\s*\`([a-z_]+)\s*\+\s*\d+\`/g)].map(match => match[1]);
     documentedFlags.set(letter, flags);
   });
   if (![...documentedFlags.values()].some(flags => flags.length > 0)) return;
