@@ -550,3 +550,11 @@
 - **做法：** 將 `chapterToast`、`skipRead` 與 `dialogueFontSize` 控制同步到 `testplay.html`，保留試玩版獨立 localStorage key。每次共用腳本新增必要 DOM ID 時，對照兩個 HTML 頁面確認都存在。
 - **限制：** 已完成靜態 ID 對照；仍需分別開啟正式版與試玩版，確認閱讀設定、已讀跳過、章節提示與存檔功能能正常互動。
 - **未來可用於：** 本作正式版／試玩版共用引擎維護；也適用於任何以多個 HTML shell 共用同一套 JavaScript 的靜態 Web App。
+
+
+### 2026-11-20：瀏覽器音訊在後續使用者手勢中恢復
+
+- **觀察：** 若玩家已保存自動播放設定，頁面載入後可能先由自動推進計時器建立 AudioContext；瀏覽器可能因此將 context 保持在 suspended。舊版 startAmbient 在音訊節點已建立時直接 return，後續真正的點擊手勢不會再次呼叫 resume，可能造成音樂一直無聲。
+- **做法：** startAmbient 每次被呼叫時先檢查既有 AudioContext 是否 suspended，若是就嘗試 resume，再判斷是否需要建立新的場景節點；ensureAudio 的 resume promise 加上 catch，避免瀏覽器拒絕啟動時產生未處理 rejection。
+- **限制：** 這是依瀏覽器音訊政策進行的程式防護，不能取代 iOS Safari／桌面瀏覽器實測；仍需測試「自動播放先啟動、第一次點擊後恢復」及靜音／取消靜音。
+- **未來可用於：** 本作 BGM、音效及未來語音播放的 AudioContext 喚醒；也適用於所有受 autoplay policy 限制的 Web Audio App。

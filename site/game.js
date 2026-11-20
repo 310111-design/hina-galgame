@@ -893,7 +893,7 @@ function loadManual() {
 
 function ensureAudio() {
   if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  if (audioContext.state === "suspended") audioContext.resume();
+  if (audioContext.state === "suspended") audioContext.resume().catch(() => {});
 }
 
 function createAmbient(sceneType, fadeSeconds = 0.7) {
@@ -923,7 +923,11 @@ function createAmbient(sceneType, fadeSeconds = 0.7) {
 }
 
 function startAmbient() {
-  if (!musicEnabled || ambientNodes.length) return;
+  if (!musicEnabled) return;
+  // A prior autoplay timeout may have created nodes before a user gesture.
+  // Always retry resume from the current interaction, even when nodes already exist.
+  if (audioContext?.state === "suspended") audioContext.resume().catch(() => {});
+  if (ambientNodes.length) return;
   createAmbient(activeSceneType);
 }
 
