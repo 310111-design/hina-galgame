@@ -229,6 +229,7 @@ function advanceLine() {
   if (!chapter) return;
   if (state.phase === "complete") return;
   startAmbient();
+  let chapterChanged = false;
 
   const sequence = getSequence();
   if (state.line < sequence.length - 1) {
@@ -245,9 +246,11 @@ function advanceLine() {
     else {
       state.chapter += 1;
       state.phase = "intro";
+      chapterChanged = true;
     }
   }
   render();
+  if (chapterChanged) playChapterTransitionSound();
 }
 
 function currentLine() {
@@ -529,6 +532,7 @@ function openChapterMenu() {
       lastHistoryKey = "";
       renderHistory();
       render();
+      playChapterTransitionSound();
     });
     list.appendChild(button);
   });
@@ -791,6 +795,24 @@ function stopAmbient() {
   ambientNodes = [];
   ambientMaster = null;
   currentMusicScene = null;
+}
+
+function playChapterTransitionSound() {
+  if (!musicEnabled || audioSettings.sfxVolume <= 0) return;
+  ensureAudio();
+  [523.25, 659.25].forEach((frequency, index) => {
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    const start = audioContext.currentTime + index * 0.11;
+    oscillator.type = "sine";
+    oscillator.frequency.value = frequency;
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.linearRampToValueAtTime(0.035 * audioSettings.sfxVolume, start + 0.035);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.34);
+    oscillator.connect(gain).connect(audioContext.destination);
+    oscillator.start(start);
+    oscillator.stop(start + 0.36);
+  });
 }
 
 function playConfirmSound() {
