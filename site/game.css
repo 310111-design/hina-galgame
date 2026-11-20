@@ -623,3 +623,210 @@ body {
 .scene-art.outdoor::before {
   background: linear-gradient(150deg, #8197a9 0%, #c49c9a 46%, #25243b 100%);
 }
+
+
+/* 2026 visual polish: quiet editorial chrome, clearer hierarchy, safer mobile layout */
+:root {
+  --ink: #fbf6ff;
+  --muted: #d0c5d9;
+  --violet: #d6c0ff;
+  --rose: #f3bfd5;
+  --gold: #f2d6a8;
+}
+html, body { background: #0d0b14; }
+.game-header {
+  min-height: 76px;
+  padding-left: max(18px, env(safe-area-inset-left));
+  padding-right: max(18px, env(safe-area-inset-right));
+  background: linear-gradient(180deg, #090710ed 0%, #090710a8 62%, transparent 100%);
+}
+.game-header .brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.game-header .brand .eyebrow {
+  color: #e8c3d7;
+  letter-spacing: .22em;
+}
+.game-header h1 {
+  margin: 0;
+  font-family: Georgia, "Noto Serif TC", serif;
+  font-weight: 500;
+  letter-spacing: .035em;
+}
+.game-header .back {
+  padding: 7px 12px;
+  border: 1px solid #ffffff2a;
+  border-radius: 99px;
+  background: #100d1d99;
+  backdrop-filter: blur(12px);
+}
+.top-actions { gap: 8px; }
+.ghost {
+  min-height: 36px;
+  border-color: #ffffff35;
+  background: #100d1dbd;
+  color: #f5effb;
+  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+}
+.ghost:hover {
+  border-color: #d6c0ff9c;
+  background: #cbb2ff1d;
+  transform: translateY(-1px);
+}
+.status {
+  top: 82px;
+  left: max(18px, env(safe-area-inset-left));
+  right: max(18px, env(safe-area-inset-right));
+}
+.progress-track { height: 2px; background: #ffffff20; }
+.progress { background: linear-gradient(90deg, #b9a0f4, #efb9d2, #f2d6a8); }
+.status-row {
+  color: #e2d7e9;
+  text-shadow: 0 2px 10px #000;
+}
+.flag {
+  border-color: #d6c0ff55;
+  background: #100d1d99;
+  color: #e0ceff;
+  backdrop-filter: blur(8px);
+}
+.game-stage { background: #15101d; }
+.scene-art::before {
+  filter: blur(3px) brightness(.72) saturate(.88);
+}
+.scene-vignette {
+  background:
+    linear-gradient(90deg, #08071055 0%, transparent 34%, transparent 70%, #08071066 100%),
+    linear-gradient(0deg, #080710d9 0%, transparent 54%);
+}
+.hina-sprite {
+  filter: drop-shadow(0 20px 34px #05040bbb);
+}
+.visual-controls {
+  z-index: 12;
+  left: max(18px, env(safe-area-inset-left));
+  right: max(18px, env(safe-area-inset-right));
+}
+.mood, .audio-toggle {
+  min-height: 34px;
+  border-color: #ffffff3b;
+  background: #100d1dbb;
+  color: #f7e6cb;
+  box-shadow: 0 8px 24px #0003;
+}
+.dialogue-panel {
+  max-height: 42svh;
+  padding: clamp(18px, 3.2vh, 32px) clamp(20px, 8vw, 116px) max(22px, env(safe-area-inset-bottom));
+  border-top: 1px solid #ffffff38;
+  background:
+    linear-gradient(120deg, #ffffff0b, transparent 38%),
+    linear-gradient(180deg, #11101bdc, #0a0912f2);
+  box-shadow: 0 -20px 70px #05040c70;
+  backdrop-filter: blur(22px) saturate(.82);
+}
+.story p {
+  max-width: 1040px;
+  font-size: clamp(1.02rem, 1.7vw, 1.3rem);
+  line-height: 1.85;
+  letter-spacing: .035em;
+}
+.story .narration { color: #e0d7e7; }
+.story .hina strong {
+  color: #f5c5da;
+  letter-spacing: .14em;
+  font-size: .82rem;
+}
+.choices { gap: 10px; margin-top: 16px; }
+.choice {
+  min-height: 60px;
+  padding: 12px 16px;
+  border-color: #ffffff36;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ffffff10, #ffffff05);
+  line-height: 1.55;
+}
+.choice:hover, .choice:focus-visible {
+  border-color: #d6c0ffb8;
+  background: #cbb2ff20;
+  outline: none;
+}
+.choice small { color: #c8bbd2; }
+.next {
+  border-color: #d6c0ff66;
+  border-radius: 99px;
+  background: #cbb2ff12;
+}
+.dialogue-hint {
+  color: #c8bbd2;
+  letter-spacing: .04em;
+}
+.chapter-dialog {
+  padding: 24px;
+  border: 1px solid #ffffff35;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #282033, #11101a 75%);
+  color: var(--ink);
+  box-shadow: 0 24px 100px #000a;
+}
+.chapter-dialog::backdrop { background: #05040bbd; backdrop-filter: blur(8px); }
+.dialog-head { display:flex; justify-content:space-between; align-items:center; gap:16px; }
+.dialog-head h2 { margin:4px 0 0; font-family:Georgia,"Noto Serif TC",serif; font-weight:500; }
+.dialog-note { color:var(--muted); font-size:.9rem; }
+.chapter-item { border-radius:10px; transition:.18s ease; }
+.chapter-item:focus-visible { outline:2px solid var(--violet); outline-offset:2px; }
+@media (min-width: 1100px) {
+  .dialogue-panel { max-height: 36svh; }
+  .hina-sprite { right: clamp(5%, 12vw, 16%); }
+}
+@media (max-width: 720px) {
+  .game-header {
+    min-height: 62px;
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-bottom: 8px;
+    gap: 8px;
+  }
+  .game-header .back { display: none; }
+  .game-header .brand { flex: 1 1 auto; min-width: 0; }
+  .game-header h1 { font-size: .98rem; }
+  .game-header .brand .eyebrow { font-size: .54rem; }
+  .top-actions { flex: 0 0 auto; gap: 4px; }
+  .ghost { min-height: 32px; padding: 4px 7px; font-size: .68rem; }
+  .status { top: 66px; }
+  .status-row { font-size: .68rem; }
+  .visual-controls { top: 104px; }
+  .mood, .audio-toggle { min-height: 30px; padding: 3px 9px; font-size: .7rem; }
+  .hina-sprite {
+    right: -4%;
+    bottom: -5%;
+    height: min(72%, 620px);
+    max-width: 82vw;
+  }
+  .dialogue-panel {
+    max-height: 49svh;
+    padding: 16px max(16px, env(safe-area-inset-left)) max(18px, env(safe-area-inset-bottom));
+  }
+  .story p { font-size: .98rem; line-height: 1.72; }
+  .choices { gap: 7px; margin-top: 10px; }
+  .choice { min-height: 48px; padding: 10px 12px; font-size: .88rem; }
+  .choice small { font-size: .72rem; }
+  .dialogue-hint { font-size: .68rem; }
+  .chapter-dialog { padding: 18px; }
+}
+@media (max-width: 390px) {
+  .game-header h1 { font-size: .86rem; }
+  .game-header .brand .eyebrow { letter-spacing: .14em; }
+  .ghost { padding: 4px 5px; font-size: .63rem; }
+  .top-actions { gap: 3px; }
+}
+@media (max-height: 560px) and (orientation: landscape) {
+  .game-header { min-height: 48px; padding-top: max(5px, env(safe-area-inset-top)); }
+  .status { top: 52px; }
+  .visual-controls { top: 72px; }
+  .dialogue-panel { max-height: 45svh; padding-top: 9px; padding-bottom: 9px; }
+  .story p { font-size: .88rem; line-height: 1.4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior:auto!important; animation-duration:.01ms!important; transition-duration:.01ms!important; }
+}
