@@ -4,6 +4,8 @@
 
 **企劃展示頁：** [GitHub Pages](https://310111-design.github.io/hina-galgame/)
 
+**角色素材預覽：** [8 張角色 PNG 總覽](https://310111-design.github.io/hina-galgame/character-preview.html)
+
 ## 專案內容
 
 - `knowledge/plan.md`：願景、規格與路線圖

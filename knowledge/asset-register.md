@@ -5,7 +5,7 @@
 | ID | 素材 | 狀態 | 規格與用途 | 建議路徑 |
 | --- | --- | --- | --- | --- |
 | BG-001 | 風紀委員會辦公室・黃昏 | <badge>已生成並入庫，已接入遊戲</badge> | 原始生成圖 1672×941；部署版壓縮為 512×288 WebP（16:9），金紫夕光、百葉窗影、文件、會議桌與熱飲，無人物與文字；作為辦公室場景底圖，角色另層疊加。 | `site/assets/backgrounds/prefect-office-evening-v01.webp` |
-| BG-002 | 格黑娜校舍屋頂・黃昏 | 待章節確認 | 作為初始 C 分支的候選背景；需先確認實際正文是否保留屋頂事件。 | `assets/backgrounds/gehenna-rooftop-evening-v01.png` |
+| BG-002 | 格黑娜校舍屋頂・夕陽 | 已視覺盤點並接入 | 使用者提供的 IMG_2959.jpeg 建立語意別名；供 C03 屋頂章節及 P01／P02 的 C 分支使用，原始 IMG 檔保留。 | `site/assets/backgrounds/rooftop-sunset-v01.jpeg` |
 | SPR-001 | 空崎陽奈基礎立繪與表情 | 8 張 PNG 已檢視，暫不作為 sprite | 8 張均為不透明全身插畫，姿勢／服裝／構圖不一致；IMG_2975 是目前較適合的基礎立繪參考，但仍需重新產生一致、透明背景的 sprite 組。原始檔名完整保留。 | `site/assets/characters/` |
 | CG-001 | 開場熱飲事件 CG | 待正文確認 | 只在場景構圖與角色狀態確定後製作，避免與立繪需求重複。 | `assets/cg/opening-hot-drink-v01.png` |
 
@@ -40,6 +40,8 @@
 - `site/assets/backgrounds/IMG_2965.jpeg`
 
 ### 角色輸出 PNG（使用者提供）
+
+- **集中預覽頁：** https://310111-design.github.io/hina-galgame/character-preview.html（以原始檔名與透明棋盤格展示；頁面不預設表情標籤）
 
 - `site/assets/characters/IMG_2972.png`
 - `site/assets/characters/IMG_2973.png`
