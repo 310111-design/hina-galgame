@@ -5,19 +5,21 @@ const MANUAL_SAVE_KEY = isTestplay ? "hina-galgame-testplay-manual-v1" : "hina-g
 const MANUAL_SLOTS_KEY = isTestplay ? "hina-galgame-testplay-manual-slots-v2" : "hina-galgame-manual-slots-v2";
 const MANUAL_SLOT_COUNT = 6;
 const chapters = window.HINA_GAME_DATA || [];
-const SPRITE_FALLBACK = "assets/hina-sprite.svg";
+// Provisional mapping follows the eight-expression prompt/export sequence.
+// Keep original upload filenames until each image receives visual confirmation.
+const SPRITE_FALLBACK = "assets/characters/IMG_2972.png";
 const EMOTION_SPRITES = {
-  "意外": "assets/hina/emotion-surprised.png",
-  "克制": "assets/hina/emotion-composed.png",
-  "微羞": "assets/hina/emotion-shy.png",
-  "嚴謹": "assets/hina/emotion-serious.png",
-  "不安": "assets/hina/emotion-uneasy.png",
-  "認真": "assets/hina/emotion-serious.png",
-  "疲倦": "assets/hina/emotion-tired.png",
-  "沉思": "assets/hina/emotion-thinking.png",
-  "微笑": "assets/hina/emotion-smile.png",
-  "安心": "assets/hina/emotion-relieved.png",
-  "警戒": "assets/hina/emotion-alert.png"
+  "意外": "assets/characters/IMG_2976.png",
+  "克制": "assets/characters/IMG_2972.png",
+  "微羞": "assets/characters/IMG_2980.png",
+  "嚴謹": "assets/characters/IMG_2972.png",
+  "不安": "assets/characters/IMG_2978.png",
+  "認真": "assets/characters/IMG_2972.png",
+  "疲倦": "assets/characters/IMG_2972.png",
+  "沉思": "assets/characters/IMG_2977.png",
+  "微笑": "assets/characters/IMG_2973.png",
+  "安心": "assets/characters/IMG_2975.png",
+  "警戒": "assets/characters/IMG_2979.png"
 };
 
 const defaultState = () => ({

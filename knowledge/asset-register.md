@@ -6,7 +6,7 @@
 | --- | --- | --- | --- | --- |
 | BG-001 | 風紀委員會辦公室・黃昏 | <badge>已生成並入庫，已接入遊戲</badge> | 原始生成圖 1672×941；部署版壓縮為 512×288 WebP（16:9），金紫夕光、百葉窗影、文件、會議桌與熱飲，無人物與文字；作為辦公室場景底圖，角色另層疊加。 | `site/assets/backgrounds/prefect-office-evening-v01.webp` |
 | BG-002 | 格黑娜校舍屋頂・黃昏 | 待章節確認 | 作為初始 C 分支的候選背景；需先確認實際正文是否保留屋頂事件。 | `assets/backgrounds/gehenna-rooftop-evening-v01.png` |
-| SPR-001 | 空崎陽奈基礎立繪與表情 | 8 張 PNG 已入庫，待逐張檢視與分類 | 原始輸出保存在 `site/assets/characters/`，尚未確認哪張是基礎立繪或表情差分；未檢視前不改名、不猜測情緒、不接入。遊戲暫用 SVG 回退。 | `site/assets/characters/`、`site/assets/hina-sprite.svg` |
+| SPR-001 | 空崎陽奈基礎立繪與表情 | 8 張 PNG 已接入，暫定映射待視覺驗收 | 依先前 8 種表情提示詞的生成／匯出順序暫接：2972 normal、2973 smile、2975 happy、2976 surprised、2977 confused、2978 worried、2979 angry、2980 shy。此對照尚未看圖驗證；保留原始檔名，IMG_2972 作缺圖回退。 | `site/assets/characters/` |
 | CG-001 | 開場熱飲事件 CG | 待正文確認 | 只在場景構圖與角色狀態確定後製作，避免與立繪需求重複。 | `assets/cg/opening-hot-drink-v01.png` |
 
 ## 風格基準（暫定）
@@ -56,7 +56,7 @@
 
 ### 接入前注意
 
-- 目前遊戲的 `EMOTION_SPRITES` 仍指向 `assets/hina/emotion-*.png`，該資料夾尚未建立；在角色圖檢視與分類完成前，SVG 是預期回退，不可把 8 張 PNG 任意對應到情緒。
+- 目前 `EMOTION_SPRITES` 已改為指向 `assets/characters/IMG_*.png`，以先前提示詞順序暫時對應；未逐張視覺檢查前，不可把此對照當成正式分類。缺圖回退使用 IMG_2972。
 - 角色圖需確認透明背景、完整頭／腳、實際尺寸、人物位置及是否同一套服裝，再決定統一命名和載入方式。
 - 背景圖已完成初步章節映射；仍需實機檢查文字安全區、裁切與載入速度。角色圖需待可預覽後再確認透明背景、完整度及情緒分類。
 
