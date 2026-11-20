@@ -69,21 +69,21 @@
 
 13 張背景已逐張預覽；新增語意化路徑使用相同 Git blob，原始 IMG 檔名完整保留，不重複上傳圖像內容。
 
-| 原始檔 | 語意化檔名 | 視覺分類 | 主要用途 |
-| --- | --- | --- | --- |
-| `IMG_2953.jpeg` | `office-sunset-v01.jpeg` | 風紀委員會辦公室・夕照 | P01／A01–A03 |
-| `IMG_2954.jpeg` | `office-overcast-v01.jpeg` | 風紀委員會辦公室・陰天 | P02／B04–B06／C04 |
-| `IMG_2955.jpeg` | `office-rainy-day-v01.jpeg` | 風紀委員會辦公室・雨天 | B03 |
-| `IMG_2956.jpeg` | `office-night-v01.jpeg` | 風紀委員會辦公室・夜間桌燈 | A05–A06／B07–B08 |
-| `IMG_2957.jpeg` | `office-day-v01.jpeg` | 風紀委員會辦公室・白天 | P03／B01–B02／C01–C02／C05 |
-| `IMG_2958.jpeg` | `school-corridor-sunset-v01.jpeg` | 校舍走廊・夕照 | A04 |
-| `IMG_2959.jpeg` | `rooftop-sunset-v01.jpeg` | 校舍屋頂・夕陽 | C03及 P01／P02 的 C 分支 |
-| `IMG_2960.jpeg` | `school-courtyard-sunset-v01.jpeg` | 校園中庭・夕照 | D08P |
-| `IMG_2961.jpeg` | `school-gate-evening-v01.jpeg` | 校門・傍晚 | C06 |
-| `IMG_2962.jpeg` | `cafe-day-v01.jpeg` | 車站附近咖啡店・白天 | D01／D05 |
-| `IMG_2963.jpeg` | `cafe-rainy-evening-v01.jpeg` | 車站附近咖啡店・雨夜 | D02／D08R |
-| `IMG_2964.jpeg` | `home-living-room-day-v01.jpeg` | 住處客廳・白天 | D03／D06 |
-| `IMG_2965.jpeg` | `neighborhood-park-evening-v01.jpeg` | 住宅街公園・傍晚 | D04／D07 |
+| 原始檔 | 語意化來源 JPEG | Runtime WebP | 視覺分類 | 主要用途 |
+| --- | --- | --- | --- | --- |
+| `IMG_2953.jpeg` | `office-sunset-v01.jpeg` | `office-sunset-v01.webp` | 風紀委員會辦公室・夕照 | P01／A01–A03 |
+| `IMG_2954.jpeg` | `office-overcast-v01.jpeg` | `office-overcast-v01.webp` | 風紀委員會辦公室・陰天 | P02／B04–B06／C04 |
+| `IMG_2955.jpeg` | `office-rainy-day-v01.jpeg` | `office-rainy-day-v01.webp` | 風紀委員會辦公室・雨天 | B03 |
+| `IMG_2956.jpeg` | `office-night-v01.jpeg` | `office-night-v01.webp` | 風紀委員會辦公室・夜間桌燈 | A05–A06／B07–B08 |
+| `IMG_2957.jpeg` | `office-day-v01.jpeg` | `office-day-v01.webp` | 風紀委員會辦公室・白天 | P03／B01–B02／C01–C02／C05 |
+| `IMG_2958.jpeg` | `school-corridor-sunset-v01.jpeg` | `school-corridor-sunset-v01.webp` | 校舍走廊・夕照 | A04 |
+| `IMG_2959.jpeg` | `rooftop-sunset-v01.jpeg` | `rooftop-sunset-v01.webp` | 校舍屋頂・夕陽 | C03及 P01／P02 的 C 分支 |
+| `IMG_2960.jpeg` | `school-courtyard-sunset-v01.jpeg` | `school-courtyard-sunset-v01.webp` | 校園中庭・夕照 | D08P |
+| `IMG_2961.jpeg` | `school-gate-evening-v01.jpeg` | `school-gate-evening-v01.webp` | 校門・傍晚 | C06 |
+| `IMG_2962.jpeg` | `cafe-day-v01.jpeg` | `cafe-day-v01.webp` | 車站附近咖啡店・白天 | D01／D05／D08F |
+| `IMG_2963.jpeg` | `cafe-rainy-evening-v01.jpeg` | `cafe-rainy-evening-v01.webp` | 車站附近咖啡店・雨夜 | D02／D08R |
+| `IMG_2964.jpeg` | `home-living-room-day-v01.jpeg` | `home-living-room-day-v01.webp` | 住處客廳・白天 | D03／D06 |
+| `IMG_2965.jpeg` | `neighborhood-park-evening-v01.jpeg` | `neighborhood-park-evening-v01.webp` | 住宅街公園・傍晚 | D04／D07 |
 
 **視覺驗收注意：** 多張辦公室／咖啡店背景的告示、文件或招牌含有生成式文字細節；目前以背景柔焦、暗化遮罩降低干擾，仍應在實際遊戲畫面檢查文字安全區。D08F 已改為書店咖啡角，使用 cafe-day-v01.jpeg；D08P 改為校園庭院社區閱讀活動，使用 school-courtyard-sunset-v01.jpeg。原始 JPEG 保留作來源備份；遊戲實際載入 13 張 WebP 版本（quality 84），總容量由 2,510,935 bytes 降至 1,852,924 bytes，減少 26.2%。
 
