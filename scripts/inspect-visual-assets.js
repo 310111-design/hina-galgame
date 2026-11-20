@@ -3,9 +3,20 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const crypto = require("node:crypto");
+const zlib = require("node:zlib");
 
 const root = path.join(__dirname, "..", "site", "assets");
 const errors = [];
+
+function paethPredictor(left, up, upperLeft) {
+  const estimate = left + up - upperLeft;
+  const leftDistance = Math.abs(estimate - left);
+  const upDistance = Math.abs(estimate - up);
+  const upperLeftDistance = Math.abs(estimate - upperLeft);
+  if (leftDistance <= upDistance && leftDistance <= upperLeftDistance) return left;
+  if (upDistance <= upperLeftDistance) return up;
+  return upperLeft;
+}
 
 function pngInfo(buffer) {
   const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
@@ -14,16 +25,72 @@ function pngInfo(buffer) {
   const height = buffer.readUInt32BE(20);
   const bitDepth = buffer[24];
   const colorType = buffer[25];
+  const interlaceMethod = buffer[28];
   let hasAlphaChannel = colorType === 4 || colorType === 6;
   let offset = 8;
+  const idatChunks = [];
   while (offset + 12 <= buffer.length) {
     const length = buffer.readUInt32BE(offset);
     const type = buffer.toString("ascii", offset + 4, offset + 8);
     if (type === "tRNS") hasAlphaChannel = true;
+    if (type === "IDAT") idatChunks.push(buffer.subarray(offset + 8, offset + 8 + length));
     offset += 12 + length;
     if (type === "IEND") break;
   }
-  return { format: "PNG", width, height, bitDepth, colorType, hasAlphaChannel, pixelTransparencyInspected: false };
+
+  let pixelTransparencyInspected = false;
+  let transparentPixels = null;
+  let partialTransparencyPixels = null;
+  let opaquePixels = null;
+  let minAlpha = null;
+  let maxAlpha = null;
+  if (colorType === 6 && bitDepth === 8 && interlaceMethod === 0 && idatChunks.length) {
+    const stride = width * 4;
+    const inflated = zlib.inflateSync(Buffer.concat(idatChunks));
+    const expectedLength = (stride + 1) * height;
+    if (inflated.length < expectedLength) throw new Error("PNG pixel data is truncated.");
+    let cursor = 0;
+    let previous = Buffer.alloc(stride);
+    transparentPixels = 0;
+    partialTransparencyPixels = 0;
+    opaquePixels = 0;
+    minAlpha = 255;
+    maxAlpha = 0;
+    for (let y = 0; y < height; y += 1) {
+      const filter = inflated[cursor++];
+      const filtered = inflated.subarray(cursor, cursor + stride);
+      cursor += stride;
+      const row = Buffer.allocUnsafe(stride);
+      for (let i = 0; i < stride; i += 1) {
+        const left = i >= 4 ? row[i - 4] : 0;
+        const up = previous[i];
+        const upperLeft = i >= 4 ? previous[i - 4] : 0;
+        let predictor = 0;
+        if (filter === 1) predictor = left;
+        else if (filter === 2) predictor = up;
+        else if (filter === 3) predictor = Math.floor((left + up) / 2);
+        else if (filter === 4) predictor = paethPredictor(left, up, upperLeft);
+        else if (filter !== 0) throw new Error("Unsupported PNG filter: " + filter);
+        row[i] = (filtered[i] + predictor) & 0xff;
+      }
+      for (let i = 3; i < stride; i += 4) {
+        const alpha = row[i];
+        if (alpha === 0) transparentPixels += 1;
+        else if (alpha === 255) opaquePixels += 1;
+        else partialTransparencyPixels += 1;
+        if (alpha < minAlpha) minAlpha = alpha;
+        if (alpha > maxAlpha) maxAlpha = alpha;
+      }
+      previous = row;
+    }
+    pixelTransparencyInspected = true;
+  }
+
+  return {
+    format: "PNG", width, height, bitDepth, colorType, interlaceMethod, hasAlphaChannel,
+    pixelTransparencyInspected, transparentPixels, partialTransparencyPixels, opaquePixels, minAlpha, maxAlpha,
+    pixelsFullyOpaque: pixelTransparencyInspected && transparentPixels === 0 && partialTransparencyPixels === 0
+  };
 }
 
 function jpegInfo(buffer) {
@@ -65,6 +132,9 @@ function inspect(directory, extensions, parser) {
 const characters = inspect(path.join(root, "characters"), [".png"], pngInfo);
 const backgrounds = inspect(path.join(root, "backgrounds"), [".jpg", ".jpeg"], jpegInfo);
 if (!characters.length) errors.push("No character PNG assets found.");
+characters.forEach(image => {
+  if (!image.pixelTransparencyInspected) errors.push("Pixel alpha not inspected for: " + image.paths.join(", "));
+});
 if (!backgrounds.length) errors.push("No JPEG background assets found.");
 console.log("Character PNG metadata (identical files grouped by SHA-256):");
 console.log(JSON.stringify(characters, null, 2));
