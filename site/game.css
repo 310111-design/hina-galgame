@@ -1010,3 +1010,19 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   .save-slot { min-height: 130px; }
   .save-dialog { padding: 18px; }
 }
+
+
+.reading-settings .volume-setting {
+  flex: 1 1 140px;
+  justify-content: space-between;
+  min-width: 128px;
+}
+.reading-settings input[type="range"] {
+  width: clamp(82px, 24vw, 132px);
+  accent-color: #cbb2ff;
+}
+@media (max-width: 600px) {
+  .reading-settings { gap: 10px 14px; }
+  .reading-settings .volume-setting { flex-basis: calc(50% - 10px); }
+  .reading-settings input[type="range"] { width: 92px; }
+}
