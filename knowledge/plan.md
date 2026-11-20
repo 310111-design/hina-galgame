@@ -144,7 +144,7 @@
 - [x] 加入 BGM／SFX 獨立音量控制及設定記憶。
 - [x] 加入選項、章節切換及結局收束提示音。
 - [x] 建立 GitHub Actions：JavaScript 語法、遊戲資料、章節背景映射及頁面 DOM ID 等檢查。
-- [x] GitHub Pages 部署流程已運作；最近已知 run #314（commit `c8482a5`）成功。
+- [x] GitHub Pages 部署流程已運作；最近已完成成功 run #316（commit `9e27884`）；後續 main 更新仍需以最新 Actions run 確認。
 
 ---
 
