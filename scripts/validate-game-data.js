@@ -180,7 +180,7 @@ data.forEach(chapter => {
 
 const backgroundEntries = readStaticMap("BACKGROUND_BY_CHAPTER");
 const backgroundIds = new Set(backgroundEntries.map(item => item.id));
-const backgroundFallbackIds = new Set(["D08F"]);
+const backgroundFallbackIds = new Set([]);
 backgroundEntries.forEach(item => {
   if (!ids.includes(item.id)) errors.push("BACKGROUND_BY_CHAPTER: unknown chapter " + item.id);
   const filePath = path.join(siteDir, "assets", "backgrounds", item.value);

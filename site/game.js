@@ -382,7 +382,7 @@ const BACKGROUND_BY_CHAPTER = {
   C04: "office-overcast-v01.jpeg", C05: "office-day-v01.jpeg", C06: "school-gate-evening-v01.jpeg",
   D01: "cafe-day-v01.jpeg", D02: "cafe-rainy-evening-v01.jpeg", D03: "home-living-room-day-v01.jpeg",
   D04: "neighborhood-park-evening-v01.jpeg", D05: "cafe-day-v01.jpeg", D06: "home-living-room-day-v01.jpeg",
-  D07: "neighborhood-park-evening-v01.jpeg", D08P: "school-courtyard-sunset-v01.jpeg",
+  D07: "neighborhood-park-evening-v01.jpeg", D08F: "cafe-day-v01.jpeg", D08P: "school-courtyard-sunset-v01.jpeg",
   D08R: "cafe-rainy-evening-v01.jpeg"
 };
 
