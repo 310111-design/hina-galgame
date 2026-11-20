@@ -598,6 +598,37 @@ function openSaveMenu(mode) {
   document.getElementById("saveDialog").showModal();
 }
 
+function estimateSaveProgress(saved) {
+  if (saved.phase === "complete") return 100;
+  const chapter = chapters[saved.chapter];
+  const bands = {
+    intro: [0, 0.4],
+    choice: [0.4, 0.46],
+    branch: [0.46, 0.8],
+    common: [0.8, 1]
+  };
+  const [start, end] = bands[saved.phase] || [0, 0];
+  let sequence = [];
+  if (saved.phase === "intro") {
+    sequence = [...(chapter.intro || [])];
+    if (Array.isArray(chapter.flaggedIntro)) {
+      const flags = saved.flags || {};
+      sequence.push(...chapter.flaggedIntro
+        .filter(item => Number(flags[item.flag] || 0) >= (item.min || 1))
+        .flatMap(item => item.lines || []));
+    }
+  } else if (saved.phase === "branch") {
+    const letter = saved.choices?.[chapter.id]?.letter;
+    sequence = chapter.branches?.[letter] || [];
+  } else if (saved.phase === "common") {
+    sequence = chapter.common || [];
+  }
+  sequence = sequence.filter(line => Array.isArray(line) && String(line[1] || "").trim());
+  const ratio = sequence.length ? Math.min(1, (saved.line + 1) / sequence.length) : 0;
+  const chapterRatio = start + (end - start) * ratio;
+  return Math.max(0, Math.min(100, Math.round(((saved.chapter + chapterRatio) / chapters.length) * 100)));
+}
+
 function renderSaveSlots() {
   const list = document.getElementById("saveSlots");
   list.replaceChildren();
