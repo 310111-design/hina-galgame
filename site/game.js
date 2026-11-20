@@ -1,6 +1,7 @@
 const isTestplay = location.pathname.includes("testplay");
 const STORAGE_KEY = isTestplay ? "hina-galgame-testplay-v3" : "hina-galgame-full-v4";
 const LEGACY_STORAGE_KEY = isTestplay ? "hina-galgame-testplay-v2" : "hina-galgame-act1-v3";
+const MANUAL_SAVE_KEY = isTestplay ? "hina-galgame-testplay-manual-v1" : "hina-galgame-manual-v1";
 const chapters = window.HINA_GAME_DATA || [];
 const SPRITE_FALLBACK = "assets/hina-sprite.svg";
 const EMOTION_SPRITES = {
@@ -248,9 +249,68 @@ function choose(choice) {
 }
 
 function restart() {
+  if (!window.confirm("要從序章重新開始嗎？目前自動存檔會更新。")) return;
   state = defaultState();
   render();
   playConfirmSound();
+}
+
+function openChapterMenu() {
+  const list = document.getElementById("chapterList");
+  list.innerHTML = "";
+  chapters.forEach((chapter, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "chapter-item";
+    const current = index === state.chapter;
+    button.innerHTML = `<span class="chapter-code">${chapter.id}</span><span class="chapter-title">${chapter.title}</span><span class="chapter-status">${current ? "目前章節" : "直接進入"} ›</span>`;
+    button.addEventListener("click", () => {
+      state.chapter = index;
+      state.phase = "intro";
+      state.line = 0;
+      document.getElementById("chapterDialog").close();
+      render();
+    });
+    list.appendChild(button);
+  });
+  document.getElementById("chapterDialog").showModal();
+}
+
+function saveManual() {
+  try {
+    const payload = { ...state, savedAt: new Date().toISOString() };
+    localStorage.setItem(MANUAL_SAVE_KEY, JSON.stringify(payload));
+    document.getElementById("saveState").textContent = "手動存檔完成";
+  } catch (_) {
+    document.getElementById("saveState").textContent = "存檔失敗：儲存空間不可用";
+  }
+}
+
+function loadManual() {
+  try {
+    const raw = localStorage.getItem(MANUAL_SAVE_KEY);
+    if (!raw) {
+      document.getElementById("saveState").textContent = "尚無手動存檔";
+      return;
+    }
+    const saved = JSON.parse(raw);
+    if (!Number.isInteger(saved.chapter) || saved.chapter < 0 || saved.chapter >= chapters.length ||
+        !["intro", "choice", "branch", "common", "complete"].includes(saved.phase) ||
+        !Number.isInteger(saved.line) || saved.line < 0) {
+      document.getElementById("saveState").textContent = "手動存檔格式無效";
+      return;
+    }
+    state = {
+      ...defaultState(),
+      ...saved,
+      version: 2,
+      flags: { ...defaultState().flags, ...(saved.flags || {}) }
+    };
+    render();
+    document.getElementById("saveState").textContent = "已讀取手動存檔";
+  } catch (_) {
+    document.getElementById("saveState").textContent = "讀取失敗：存檔資料無效";
+  }
 }
 
 function ensureAudio() {
@@ -317,7 +377,11 @@ document.getElementById("fullscreenToggle").addEventListener("click", async () =
   }
 });
 
+document.getElementById("chapterMenu").addEventListener("click", openChapterMenu);
+document.getElementById("closeChapterMenu").addEventListener("click", () => document.getElementById("chapterDialog").close());
 document.getElementById("restart").addEventListener("click", restart);
+document.getElementById("saveManual").addEventListener("click", saveManual);
+document.getElementById("loadManual").addEventListener("click", loadManual);
 document.getElementById("audioToggle").addEventListener("click", event => {
   musicEnabled = !musicEnabled;
   event.currentTarget.textContent = musicEnabled ? "♫ 音樂開" : "♫ 音樂關";
