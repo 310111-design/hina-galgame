@@ -363,3 +363,226 @@ button, a { font: inherit; }
   .choice { min-height: 52px; }
   .game-footer { align-items: flex-start; flex-direction: column; justify-content: center; }
 }
+
+
+/* Fullscreen visual-novel presentation */
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body {
+  min-height: 100svh;
+  background: #080811;
+}
+.game-shell {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 100svh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.game-header {
+  position: absolute;
+  z-index: 20;
+  inset: 0 0 auto;
+  min-height: 68px;
+  padding: max(10px, env(safe-area-inset-top)) clamp(12px, 3vw, 34px) 12px;
+  background: linear-gradient(180deg, #080811d9, #08081100);
+}
+.game-header .brand { margin-right: auto; }
+.game-header h1 { font-size: clamp(.95rem, 2vw, 1.35rem); }
+.game-header .eyebrow { font-size: .62rem; }
+.top-actions { display: flex; align-items: center; gap: 7px; }
+.ghost {
+  border-color: #ffffff42;
+  background: #100d1d99;
+  color: #f4efff;
+  padding: 6px 11px;
+  font-size: .82rem;
+  backdrop-filter: blur(12px);
+}
+.status {
+  position: absolute;
+  z-index: 15;
+  top: 72px;
+  left: clamp(14px, 3vw, 36px);
+  right: clamp(14px, 3vw, 36px);
+  margin: 0;
+  pointer-events: none;
+}
+.status-row { min-height: 28px; font-size: .76rem; text-shadow: 0 1px 8px #000; }
+.flags { margin-left: auto; }
+.game-stage {
+  position: absolute;
+  inset: 0;
+  min-height: 100svh;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: #171326;
+  cursor: pointer;
+  isolation: isolate;
+}
+.scene-art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: transparent !important;
+  transition: opacity .45s ease, filter .45s ease;
+}
+.scene-art::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  background: linear-gradient(145deg, #6b4f69 0%, #3d314d 58%, #201a2e 100%);
+  filter: blur(5px) brightness(.76) saturate(.82);
+  transform: scale(1.035);
+  transition: background .45s ease;
+}
+.scene-art.office::before { background: linear-gradient(145deg, #98716f 0%, #55435f 48%, #171626 100%); }
+.scene-art.corridor::before { background: linear-gradient(150deg, #7c8798 0%, #3d455a 54%, #171725 100%); }
+.scene-art.rooftop::before { background: linear-gradient(160deg, #7186ac 0%, #c39baa 48%, #31263c 100%); }
+.scene-backdrop, .scene-vignette, .scene-light {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.scene-vignette {
+  z-index: 2;
+  background: linear-gradient(90deg, #09081266, transparent 45%, #09081255), linear-gradient(0deg, #080811aa, transparent 58%);
+}
+.scene-light { z-index: 3; }
+.hina-sprite {
+  z-index: 5;
+  left: auto;
+  right: clamp(2%, 9vw, 13%);
+  bottom: -12%;
+  width: auto;
+  height: min(91%, 900px);
+  max-width: 58vw;
+  transform: none;
+  filter: drop-shadow(0 18px 30px #080611bb);
+}
+.hina-sprite.thinking { transform: rotate(-1deg); }
+@keyframes spriteSpeak {
+  0%,100% { transform: translateY(0); }
+  35% { transform: translateY(-5px); }
+  70% { transform: translateX(2px); }
+}
+.visual-controls {
+  z-index: 12;
+  top: 112px;
+  bottom: auto;
+  left: clamp(14px, 3vw, 36px);
+  right: clamp(14px, 3vw, 36px);
+}
+.mood, .audio-toggle {
+  border: 1px solid #ffffff38;
+  background: #0b0915a8;
+  color: #fff0cf;
+  backdrop-filter: blur(12px);
+}
+.dialogue-panel {
+  position: absolute;
+  z-index: 10;
+  inset: auto 0 0;
+  min-height: 0;
+  max-height: 43svh;
+  overflow-y: auto;
+  border: 0;
+  border-top: 1px solid #ffffff35;
+  border-radius: 0;
+  padding: clamp(18px, 3vh, 30px) clamp(18px, 7vw, 100px) max(22px, env(safe-area-inset-bottom));
+  background: #080810c9;
+  box-shadow: 0 -18px 60px #05040c66;
+  backdrop-filter: blur(18px) saturate(.8);
+  cursor: default;
+}
+.story {
+  min-height: 0;
+  max-height: none;
+  overflow: visible;
+  padding: 0;
+}
+.story p {
+  max-width: 1100px;
+  margin: 0 auto 10px;
+  font-size: clamp(1rem, 1.7vw, 1.28rem);
+  line-height: 1.8;
+  letter-spacing: .025em;
+}
+.story .narration { color: #e2dceb; }
+.story .hina { color: #fff; }
+.story .hina strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #ffc5dc;
+  font-size: .88rem;
+  letter-spacing: .08em;
+}
+.choices {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 18px auto 0;
+  max-width: 1100px;
+}
+.choice {
+  min-height: 56px;
+  background: #ffffff12;
+  border-color: #ffffff38;
+}
+.choice:hover { background: #c7a7ff25; }
+.dialogue-hint {
+  display: block;
+  max-width: 1100px;
+  margin: 12px auto 0;
+  color: #c5b9d3;
+  font-size: .76rem;
+  text-align: right;
+  opacity: .78;
+  pointer-events: none;
+}
+.game-footer { display: none; }
+.chapter-dialog {
+  z-index: 40;
+  width: min(760px, calc(100% - 24px));
+  max-height: min(82svh, 760px);
+  overflow: auto;
+}
+@media (min-width: 900px) {
+  .dialogue-panel { max-height: 38svh; }
+}
+@media (max-width: 720px) {
+  .game-header {
+    align-items: center;
+    gap: 8px;
+    min-height: 60px;
+    padding-left: max(10px, env(safe-area-inset-left));
+    padding-right: max(10px, env(safe-area-inset-right));
+  }
+  .game-header .back { display: none; }
+  .game-header .brand { min-width: 0; }
+  .game-header h1 { font-size: .95rem; white-space: nowrap; }
+  .top-actions { gap: 4px; }
+  .ghost { padding: 5px 8px; font-size: .72rem; }
+  .status { top: 62px; }
+  .visual-controls { top: 96px; }
+  .hina-sprite {
+    right: -2%;
+    bottom: -6%;
+    height: min(76%, 680px);
+    max-width: 78vw;
+  }
+  .dialogue-panel {
+    max-height: 48svh;
+    padding: 16px max(16px, env(safe-area-inset-left)) max(18px, env(safe-area-inset-bottom));
+  }
+  .story p { font-size: 1rem; line-height: 1.68; }
+  .choices { grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
+  .choice { min-height: 48px; text-align: left; }
+  .dialogue-hint { margin-top: 8px; }
+}
+@media (max-height: 560px) and (orientation: landscape) {
+  .dialogue-panel { max-height: 46svh; padding-top: 10px; padding-bottom: 10px; }
+  .story p { font-size: .92rem; line-height: 1.45; }
+  .hina-sprite { height: 82%; }
+  .visual-controls { top: 76px; }
+}
