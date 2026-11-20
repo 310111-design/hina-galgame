@@ -514,7 +514,7 @@ function render() {
   document.getElementById("chapterLabel").textContent = `${chapter.id}｜${chapter.title}`;
   document.getElementById("returnMain").hidden = !replayMode;
   document.getElementById("saveManual").disabled = replayMode;
-  document.getElementById("progress").style.width = `${((state.chapter + 1) / chapters.length) * 100}%`;
+  document.getElementById("progress").style.width = `${state.phase === "complete" ? 100 : ((state.chapter + 1) / chapters.length) * 100}%`;
   renderFlags();
   updateScene();
 
@@ -535,7 +535,7 @@ function render() {
   } else if (state.phase === "complete") {
     document.getElementById("story").innerHTML =
       '<p class="hina"><strong>目前可玩內容完成</strong></p>' +
-      '<p class="narration">已完成 30 節共通篇，並抵達所選路線的專屬結局。你的選擇與旗標會保存在這個瀏覽器中。</p>' +
+      `<p class="narration">已完成 30 節共通篇，並抵達${({ friend: "朋友線", partner: "搭檔線", romance: "戀愛線" })[state.route] || "所選路線"}專屬結局。你的選擇與旗標會保存在這個瀏覽器中。</p>` +
       `<p class="system">rest ${state.flags.rest}｜teamwork ${state.flags.teamwork}｜ordinary_day ${state.flags.ordinary_day}｜daily_checkin ${state.flags.daily_checkin}｜self_rest ${state.flags.self_rest}</p>`;
     const button = document.createElement("button");
     button.type = "button";

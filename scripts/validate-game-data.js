@@ -87,6 +87,7 @@ data.forEach(chapter => {
   chapter.choices.forEach(choice => {
     if (choice?.route !== undefined) {
       if (!routeKeys.has(choice.route)) errors.push(id + ": unknown route " + choice.route);
+      if (id !== "D06") errors.push(id + ": route choices are only allowed in D06");
       if (choice.flag !== undefined) errors.push(id + ": route choices must not modify legacy story flags");
     } else if (!defaultFlags.has(choice?.flag)) {
       errors.push(id + ": unknown choice flag " + choice?.flag);
@@ -101,9 +102,11 @@ data.forEach(chapter => {
     Object.values(chapter.nextByRoute || {}).forEach(target => {
       const targetChapter = data.find(item => item.id === target);
       if (!targetChapter || !targetChapter.endOfRoute) errors.push(id + ": nextByRoute target must be an endOfRoute chapter");
+      else if (targetChapter.routeEnding !== Object.entries(chapter.nextByRoute).find(([, value]) => value === target)?.[0]) errors.push(id + ": nextByRoute target routeEnding must match its route key");
     });
   }
   if (chapter.endOfRoute && !routeKeys.has(chapter.routeEnding)) errors.push(id + ": endOfRoute requires a valid routeEnding");
+  if (chapter.endOfRoute && chapter.nextByRoute !== undefined) errors.push(id + ": route endings cannot branch to another route");
   if (id === "D06" && JSON.stringify(chapter.choices.map(choice => choice.route).sort()) !== JSON.stringify([...routeKeys].sort())) errors.push("D06 must offer all three explicit relationship routes");
   if (chapter.flaggedIntro !== undefined) {
     if (!Array.isArray(chapter.flaggedIntro)) {
