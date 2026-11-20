@@ -164,14 +164,14 @@ data.forEach(chapter => {
     return;
   }
   const document = fs.readFileSync(documentPath, "utf8");
-  const headingPattern = /^【分支\\s+([ABC])[^】]*】|^#{2,3}\\s+(?:[A-Z]\\d{2}[A-Z]?[-–—])?([ABC])(?:\\s|$|：|:)/gm;
+  const headingPattern = /^【分支\s+([ABC])[^】]*】|^#{2,3}\s+(?:[A-Z]\d{2}[A-Z]?[-–—])?([ABC])(?:\s|$|：|:)/gm;
   const headings = [...document.matchAll(headingPattern)];
   const documentedFlags = new Map();
   headings.forEach((heading, index) => {
     const letter = heading[1] || heading[2];
     const end = headings[index + 1]?.index ?? document.length;
     const branch = document.slice(heading.index, end);
-    const flags = [...branch.matchAll(/【系統：旗標】\\s*\\`([a-z_]+)\\s*\\+\\s*\\d+\\`/g)].map(match => match[1]);
+    const flags = [...branch.matchAll(/【系統：旗標】\s*\`([a-z_]+)\s*\\+\s*\d+\`/g)].map(match => match[1]);
     documentedFlags.set(letter, flags);
   });
   if (![...documentedFlags.values()].some(flags => flags.length > 0)) return;
