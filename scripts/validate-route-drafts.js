@@ -35,6 +35,26 @@ for (const target of targets) {
   ];
   const count = lines.reduce((sum, line) => sum + String(line[1] || "").length, 0);
   const markdown = fs.readFileSync(markdownPath, "utf8");
+  const markdownDialogueLines = markdown.split(/\r?\n/).flatMap(line => {
+    const text = line.trim();
+    let match = text.match(/^【旁白】(.*)$/);
+    if (match) return [["narration", match[1]]];
+    match = text.match(/^【陽奈｜([^】]+)】(.*)$/);
+    if (match) return [["hina", match[2], match[1]]];
+    match = text.match(/^【系統】(.*)$/);
+    if (match) return [["system", match[1]]];
+    return [];
+  });
+  if (markdownDialogueLines.length !== lines.length) {
+    errors.push(target.id + ": Markdown dialogue line count " + markdownDialogueLines.length + " does not match game data " + lines.length);
+  }
+  const compareLength = Math.min(markdownDialogueLines.length, lines.length);
+  for (let index = 0; index < compareLength; index += 1) {
+    if (JSON.stringify(markdownDialogueLines[index]) !== JSON.stringify(lines[index])) {
+      errors.push(target.id + ": Markdown dialogue differs from game data at dialogue line " + (index + 1));
+      break;
+    }
+  }
   const match = markdown.match(/正文統計[^0-9]*(\d+)/);
   if (!match) errors.push(target.id + ": missing declared character count in Markdown");
   else if (Number(match[1]) !== count) errors.push(target.id + ": Markdown count " + match[1] + " does not match game data " + count);
@@ -55,5 +75,5 @@ if (errors.length) {
   errors.forEach(error => console.error("- " + error));
   process.exitCode = 1;
 } else {
-  console.log("Route draft validation OK: game data and Markdown counts match.");
+  console.log("Route draft validation OK: Markdown dialogue, character counts and per-path lengths match game data.");
 }
