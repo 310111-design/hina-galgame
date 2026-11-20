@@ -1095,3 +1095,11 @@
 - **做法：** 在遊戲資料 CI 中，逐章檢查所有非結局選項的 `choice.flag`，確認後續至少有一個 `flaggedIntro` 群組讀取相同旗標。D08F／D08P／D08R 是結局節點，其分支本身已是直接結果，因此不要求結局後再有章節消費旗標。
 - **限制：** 此檢查證明旗標存在下游讀取，不代表每個選項都產生足夠明顯或不同的劇情後果；仍需人工檢查分支內容、條件門檻與合流段。
 - **未來可用於：** 本作所有非結局選項與新增章節；也適用於有累積狀態、旗標與多章節回憶對話的互動敘事。
+
+
+### 2026-11-20：GitHub Pages 部署重試前先檢查同一 run 的 artifact 數量
+
+- **觀察：** run #385 的程式檢查與 Pages artifact 上傳均成功，但部署 API 曾短暫回報找不到 artifact。只重跑 deploy job 時，該 workflow run 又多出一份同名 `github-pages` artifact，後續部署因此改為回報找到多個同名 artifact。
+- **做法：** 對 artifact metadata 暫時性錯誤，不連續重跑同一 run 的 deploy job；改以新的完整 workflow run 重新產生單一 artifact。先確認最新 commit 的語法、資料及路線檢查通過，再檢查全新 run 的部署結果。
+- **限制：** 這類錯誤不代表程式或靜態頁面內容有問題；除非新的 run 仍在程式檢查階段失敗，否則不要因此修改遊戲程式或 Pages 設定。
+- **未來可用於：** 本作 GitHub Pages 部署流程；也適用於任何以 workflow artifact 作為部署輸入的 GitHub Actions 專案。
