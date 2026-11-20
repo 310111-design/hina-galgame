@@ -1139,3 +1139,39 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   .game-header .brand { flex-basis: 32%; }
   .top-actions { max-width: 68vw; }
 }
+
+
+/* Read-only skip control: stays disabled until the current line has been fully read. */
+.dialogue-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+}
+.dialogue-footer .dialogue-hint { margin-top: 0; }
+.skip-read {
+  flex: 0 0 auto;
+  min-height: 32px;
+  padding: 5px 12px;
+  border: 1px solid #d6c0ff55;
+  border-radius: 999px;
+  background: #cbb2ff12;
+  color: #e7dcf6;
+  font-size: .75rem;
+  cursor: pointer;
+}
+.skip-read:disabled {
+  border-color: #ffffff18;
+  background: #ffffff05;
+  color: #82798d;
+  cursor: not-allowed;
+}
+.skip-read:not(:disabled):focus-visible {
+  outline: 2px solid #d6c0ff;
+  outline-offset: 2px;
+}
+@media (max-width: 420px) {
+  .dialogue-footer { align-items: flex-start; }
+  .skip-read { min-height: 30px; padding: 4px 9px; font-size: .7rem; }
+}

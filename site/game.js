@@ -41,6 +41,7 @@ let dialogueHistory = [];
 let lastHistoryKey = "";
 const READING_SETTINGS_KEY = isTestplay ? "hina-reading-settings-testplay-v1" : "hina-reading-settings-v1";
 const AUDIO_SETTINGS_KEY = isTestplay ? "hina-audio-settings-testplay-v1" : "hina-audio-settings-v1";
+const READ_LINES_KEY = isTestplay ? "hina-read-lines-testplay-v1" : "hina-read-lines-v1";
 let readingSettings = loadReadingSettings();
 let audioSettings = loadAudioSettings();
 let musicEnabled = audioSettings.enabled;
@@ -48,6 +49,66 @@ let autoAdvanceTimer = null;
 let replayMode = false;
 let mainStateSnapshot = null;
 let saveDialogMode = "save";
+let readLineKeys = loadReadLineKeys();
+
+function loadReadLineKeys() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(READ_LINES_KEY) || "[]");
+    return new Set(Array.isArray(saved) ? saved.filter(item => typeof item === "string").slice(-5000) : []);
+  } catch (_) {
+    return new Set();
+  }
+}
+
+function currentReadLineKey() {
+  const chapter = chapters[state.chapter];
+  const line = currentLine();
+  return chapter ? `${chapter.id}:${state.phase}:${state.line}:${String(line[1] || "")}` : "";
+}
+
+function markCurrentLineRead() {
+  const key = currentReadLineKey();
+  if (!key || readLineKeys.has(key)) return;
+  readLineKeys.add(key);
+  while (readLineKeys.size > 5000) readLineKeys.delete(readLineKeys.values().next().value);
+  try {
+    localStorage.setItem(READ_LINES_KEY, JSON.stringify([...readLineKeys]));
+  } catch (_) {}
+  updateSkipReadControl();
+}
+
+function updateSkipReadControl() {
+  const button = document.getElementById("skipRead");
+  if (!button) return;
+  const canSkip = state.phase !== "choice" && state.phase !== "complete" && readLineKeys.has(currentReadLineKey());
+  button.disabled = !canSkip;
+  button.setAttribute("aria-label", canSkip ? "跳過已讀內容直到下一段未讀內容" : "目前內容尚未讀完，無法跳過");
+}
+
+function skipReadContent() {
+  clearAutoAdvance();
+  if (state.phase === "choice" || state.phase === "complete" || !readLineKeys.has(currentReadLineKey())) return;
+  if (typingTimer) window.clearInterval(typingTimer);
+  typingTimer = null;
+  if (typingLine) {
+    typingLine.node.textContent = typingLine.fullText;
+    typingLine = null;
+  }
+  let steps = 0;
+  while (
+    state.phase !== "choice" &&
+    state.phase !== "complete" &&
+    readLineKeys.has(currentReadLineKey()) &&
+    steps < 10000
+  ) {
+    const before = `${state.chapter}:${state.phase}:${state.line}`;
+    advanceLine();
+    const after = `${state.chapter}:${state.phase}:${state.line}`;
+    steps += 1;
+    if (before === after) break;
+  }
+  updateSkipReadControl();
+}
 
 function loadReadingSettings() {
   const defaults = { speed: 26, autoPlay: false };
@@ -129,6 +190,7 @@ function startTypewriterTimer() {
       window.clearInterval(typingTimer);
       typingTimer = null;
       typingLine = null;
+      markCurrentLineRead();
       document.getElementById("dialogueHint").textContent = "點擊畫面任意空白處繼續　›";
       scheduleAutoAdvance();
     }
@@ -217,6 +279,7 @@ function revealCurrentLine() {
   typingTimer = null;
   typingLine.node.textContent = typingLine.fullText;
   typingLine = null;
+  markCurrentLineRead();
   document.getElementById("dialogueHint").textContent = "點擊畫面任意空白處繼續　›";
   scheduleAutoAdvance();
   return true;
@@ -400,11 +463,14 @@ function renderDialogue([kind, text, mood]) {
 
   const characters = Array.from(text);
   if (!characters.length) {
+    markCurrentLineRead();
     document.getElementById("dialogueHint").textContent = "點擊畫面任意空白處繼續　›";
+    updateSkipReadControl();
     return;
   }
   typingLine = { characters, fullText: text, node: textNode, index: 0 };
   document.getElementById("dialogueHint").textContent = "點擊可立即顯示完整句";
+  updateSkipReadControl();
   startTypewriterTimer();
 }
 
@@ -461,6 +527,7 @@ function render() {
   } else {
     renderDialogue(currentLine());
   }
+  updateSkipReadControl();
   saveState();
 }
 
@@ -880,6 +947,7 @@ document.getElementById("fullscreenToggle").addEventListener("click", async () =
 });
 
 document.getElementById("chapterMenu").addEventListener("click", openChapterMenu);
+document.getElementById("skipRead").addEventListener("click", skipReadContent);
 document.getElementById("logToggle").addEventListener("click", () => toggleHistory());
 document.getElementById("logClose").addEventListener("click", () => toggleHistory(false));
 document.getElementById("closeSaveMenu").addEventListener("click", () => document.getElementById("saveDialog").close());
