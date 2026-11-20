@@ -1090,7 +1090,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   font-size: .72rem;
   letter-spacing: .08em;
 }
-.save-slot-preview.office { background: linear-gradient(145deg, #8c6574, #44364f 58%, #201a2e); }
+.save-slot-preview.office { background-image: linear-gradient(145deg, #201a2e55, #201a2eaa), url("assets/backgrounds/prefect-office-evening-v01.webp"); background-size: cover; background-position: center; }
 .save-slot-preview.corridor { background: linear-gradient(145deg, #8792a6, #3e4659 58%, #1c1a29); }
 .save-slot-preview.rooftop { background: linear-gradient(145deg, #8a9ebd, #b38a9d 48%, #31263c); }
 .save-slot-preview.cafe { background: linear-gradient(145deg, #b98b68, #624a4b 58%, #261d29); }
