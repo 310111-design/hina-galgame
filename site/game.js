@@ -382,9 +382,9 @@ const SCENE_BY_CHAPTER = {
   P01: "office", P02: "office", P03: "office",
   A01: "office", A02: "office", A03: "office", A04: "corridor", A05: "office", A06: "office",
   B01: "office", B02: "office", B03: "office", B04: "office", B05: "office", B06: "office", B07: "office", B08: "office",
-  C01: "office", C02: "office", C03: "rooftop", C04: "office", C05: "office", C06: "rooftop",
-  D01: "cafe", D02: "cafe", D03: "home", D04: "outdoor", D05: "cafe", D06: "home", D07: "cafe",
-  D08F: "outdoor", D08P: "office", D08R: "cafe"
+  C01: "office", C02: "office", C03: "rooftop", C04: "office", C05: "office", C06: "outdoor",
+  D01: "cafe", D02: "cafe", D03: "home", D04: "outdoor", D05: "cafe", D06: "home", D07: "outdoor",
+  D08F: "cafe", D08P: "outdoor", D08R: "cafe"
 };
 
 const MUSIC_PROFILES = {

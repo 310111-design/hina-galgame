@@ -519,3 +519,10 @@
 - **做法：** 在全視窗容器加入 `svh` 後接 `dvh` 的漸進式高度宣告，保留 safe-area inset；對話文字、角色載入與章節標題加入短淡入，並以全域 `prefers-reduced-motion: reduce` 降低動畫與轉場時間。
 - **限制：** 目前只完成 CSS／JS 接入；iPhone Safari 的動態網址列、安全區、橫向與直向高度仍需實機確認，不能把 CSS 支援當成裝置驗收完成。
 - **未來可用於：** 本作全螢幕體驗與其他 iOS Web App 的動態 viewport、安全區及輔助使用支援。
+
+
+### 2026-11-20：背景場景與音訊場景類型保持一致
+
+- **觀察：** 新背景接入後，SCENE_BY_CHAPTER 仍沿用早期臨時分類：C06 校門、D07 河岸與 D08P 校園中庭卻分別沿用屋頂／咖啡店／辦公室的 BGM profile，造成畫面與聲音場景不一致。
+- **做法：** 將 C06、D07、D08P 改為 outdoor；D08F 是室內書店，先使用 cafe 的安靜室內 profile，視覺背景仍保留漸層回退，直到取得書店專用圖。
+- **未來可用於：** 每次新增場景背景或改動章節地點時，同步檢查 SCENE_BY_CHAPTER、BACKGROUND_BY_CHAPTER 與 MUSIC_PROFILES，避免只有畫面或只有音樂更新。
