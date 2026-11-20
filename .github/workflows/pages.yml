@@ -27,6 +27,8 @@ jobs:
         run: node --check site/game.js
       - name: Validate game data
         run: node scripts/validate-game-data.js
+      - name: Validate route draft lengths and Markdown sync
+        run: node scripts/validate-route-drafts.js
       - name: Validate game HTML shells
         run: node scripts/validate-game-shells.js
       - name: Inspect visual asset metadata
