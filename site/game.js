@@ -351,6 +351,11 @@ function setSpriteEmotion(mood) {
   const source = EMOTION_SPRITES[mood];
   if (!source || sprite.dataset.emotion === mood) return;
   sprite.dataset.emotion = mood;
+  sprite.classList.add("sprite-changing");
+  sprite.onload = () => {
+    sprite.onload = null;
+    sprite.classList.remove("sprite-changing");
+  };
   sprite.onerror = () => {
     sprite.onerror = null;
     sprite.src = SPRITE_FALLBACK;
@@ -530,7 +535,15 @@ function render() {
   if (!chapter) return;
 
   const routeLabel = (["D06", "D07"].includes(chapter.id) || chapter.routeEnding) ? ({ friend: "朋友線", partner: "搭檔線", romance: "戀愛線" })[state.route] : "";
-  document.getElementById("chapterLabel").textContent = `${chapter.id}｜${chapter.title}${routeLabel ? "｜" + routeLabel : ""}`;
+  const chapterLabel = document.getElementById("chapterLabel");
+  const labelChanged = chapterLabel.dataset.chapter && chapterLabel.dataset.chapter !== chapter.id;
+  chapterLabel.textContent = `${chapter.id}｜${chapter.title}${routeLabel ? "｜" + routeLabel : ""}`;
+  chapterLabel.dataset.chapter = chapter.id;
+  if (labelChanged) {
+    chapterLabel.classList.remove("chapter-label-enter");
+    void chapterLabel.offsetWidth;
+    chapterLabel.classList.add("chapter-label-enter");
+  }
   document.getElementById("returnMain").hidden = !replayMode;
   document.getElementById("saveManual").disabled = replayMode;
   document.getElementById("progress").style.width = `${state.phase === "complete" ? 100 : ((state.chapter + 1) / chapters.length) * 100}%`;
