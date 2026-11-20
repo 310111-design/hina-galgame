@@ -41,7 +41,6 @@ let dialogueHistory = [];
 let lastHistoryKey = "";
 const READING_SETTINGS_KEY = isTestplay ? "hina-reading-settings-testplay-v1" : "hina-reading-settings-v1";
 const AUDIO_SETTINGS_KEY = isTestplay ? "hina-audio-settings-testplay-v1" : "hina-audio-settings-v1";
-const AUDIO_SETTINGS_KEY = isTestplay ? "hina-audio-settings-testplay-v1" : "hina-audio-settings-v1";
 let readingSettings = loadReadingSettings();
 let audioSettings = loadAudioSettings();
 let musicEnabled = audioSettings.enabled;
@@ -49,41 +48,6 @@ let autoAdvanceTimer = null;
 let replayMode = false;
 let mainStateSnapshot = null;
 let saveDialogMode = "save";
-
-function loadAudioSettings() {
-  const defaults = { musicEnabled: true, musicVolume: 0.35, sfxVolume: 0.55 };
-  try {
-    const saved = JSON.parse(localStorage.getItem(AUDIO_SETTINGS_KEY) || "null");
-    const clamp = value => Number.isFinite(Number(value)) ? Math.max(0, Math.min(1, Number(value))) : null;
-    return {
-      musicEnabled: saved?.musicEnabled !== false,
-      musicVolume: clamp(saved?.musicVolume) ?? defaults.musicVolume,
-      sfxVolume: clamp(saved?.sfxVolume) ?? defaults.sfxVolume
-    };
-  } catch (_) {
-    return defaults;
-  }
-}
-
-const initialAudioSettings = loadAudioSettings();
-musicEnabled = initialAudioSettings.musicEnabled;
-musicVolume = initialAudioSettings.musicVolume;
-sfxVolume = initialAudioSettings.sfxVolume;
-
-function saveAudioSettings() {
-  try {
-    localStorage.setItem(AUDIO_SETTINGS_KEY, JSON.stringify({ musicEnabled, musicVolume, sfxVolume }));
-  } catch (_) {}
-}
-
-function updateAudioControls() {
-  const music = document.getElementById("musicVolume");
-  const sfx = document.getElementById("sfxVolume");
-  if (music) music.value = String(Math.round(musicVolume * 100));
-  if (sfx) sfx.value = String(Math.round(sfxVolume * 100));
-  const toggle = document.getElementById("audioToggle");
-  if (toggle) toggle.textContent = musicEnabled ? "♫ 音樂開" : "♫ 音樂關";
-}
 
 function loadReadingSettings() {
   const defaults = { speed: 26, autoPlay: false };
