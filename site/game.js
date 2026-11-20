@@ -33,6 +33,8 @@ let state = loadState();
 let audioContext = null;
 let ambientNodes = [];
 let ambientMaster = null;
+let activeSceneType = "office";
+let currentMusicScene = null;
 let typingTimer = null;
 let typingLine = null;
 let dialogueHistory = [];
@@ -326,12 +328,23 @@ const SCENE_BY_CHAPTER = {
   D01: "cafe", D02: "cafe", D03: "home", D04: "outdoor", D05: "cafe", D06: "home", D07: "cafe"
 };
 
+const MUSIC_PROFILES = {
+  office: { notes: [220, 277.18, 329.63], type: "sine" },
+  corridor: { notes: [196, 246.94, 293.66], type: "triangle" },
+  rooftop: { notes: [164.81, 207.65, 246.94], type: "sine" },
+  cafe: { notes: [174.61, 220, 261.63], type: "triangle" },
+  home: { notes: [196, 233.08, 293.66], type: "sine" },
+  outdoor: { notes: [185, 233.08, 277.18], type: "sine" }
+};
+
 function updateScene() {
   const chapter = chapters[state.chapter];
   const scene = document.getElementById("sceneArt");
   const selected = chapter ? state.choices[chapter.id]?.letter : null;
   const roofScene = ["P01", "P02"].includes(chapter?.id) && state.phase === "branch" && selected === "C";
   const sceneType = roofScene ? "rooftop" : (SCENE_BY_CHAPTER[chapter?.id] || "office");
+  activeSceneType = sceneType;
+  if (audioContext && ambientNodes.length && currentMusicScene !== sceneType) transitionAmbient(sceneType);
   scene.className = "scene-art " + sceneType;
   scene.dataset.chapter = chapter?.id || "";
   setMood(chapter?.mood || "認真");
@@ -713,33 +726,88 @@ function ensureAudio() {
   if (audioContext.state === "suspended") audioContext.resume();
 }
 
+function createAmbient(sceneType, fadeSeconds = 0.7) {
+  ensureAudio();
+  const profile = MUSIC_PROFILES[sceneType] || MUSIC_PROFILES.office;
+  const now = audioContext.currentTime;
+  const master = audioContext.createGain();
+  master.gain.setValueAtTime(0, now);
+  master.gain.linearRampToValueAtTime(0.018 * audioSettings.bgmVolume, now + fadeSeconds);
+  master.connect(audioContext.destination);
+
+  const nodes = [];
+  profile.notes.forEach((frequency, index) => {
+    const oscillator = audioContext.createOscillator();
+    const voiceGain = audioContext.createGain();
+    oscillator.type = profile.type;
+    oscillator.frequency.value = frequency;
+    voiceGain.gain.value = index === 0 ? 0.9 : 0.34;
+    oscillator.connect(voiceGain).connect(master);
+    oscillator.start(now);
+    nodes.push(oscillator);
+  });
+  nodes.push(master);
+  ambientNodes = nodes;
+  ambientMaster = master;
+  currentMusicScene = sceneType;
+}
+
 function startAmbient() {
   if (!musicEnabled || ambientNodes.length) return;
-  ensureAudio();
-  const master = audioContext.createGain();
-  master.gain.value = 0.018 * audioSettings.bgmVolume;
-  master.connect(audioContext.destination);
-  ambientMaster = master;
-  [220, 277.18, 329.63].forEach((frequency, index) => {
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-    oscillator.type = "sine";
-    oscillator.frequency.value = frequency;
-    gain.gain.value = index === 0 ? 0.9 : 0.35;
-    oscillator.connect(gain).connect(master);
-    oscillator.start();
-    ambientNodes.push(oscillator);
+  createAmbient(activeSceneType);
+}
+
+function transitionAmbient(sceneType) {
+  if (!musicEnabled || !audioContext || !ambientNodes.length || currentMusicScene === sceneType) return;
+  const oldNodes = ambientNodes;
+  const oldMaster = ambientMaster;
+  const now = audioContext.currentTime;
+  if (oldMaster) {
+    oldMaster.gain.cancelScheduledValues(now);
+    oldMaster.gain.setTargetAtTime(0, now, 0.12);
+  }
+  oldNodes.forEach(node => {
+    if (node !== oldMaster && typeof node.stop === "function") {
+      try { node.stop(now + 0.65); } catch (_) {}
+    }
   });
-  ambientNodes.push(master);
+  window.setTimeout(() => {
+    oldNodes.forEach(node => {
+      if (typeof node.disconnect === "function") node.disconnect();
+    });
+  }, 800);
+  ambientNodes = [];
+  ambientMaster = null;
+  currentMusicScene = null;
+  createAmbient(sceneType, 0.75);
 }
 
 function stopAmbient() {
-  ambientNodes.forEach(node => {
-    if (typeof node.stop === "function") node.stop();
-    if (typeof node.disconnect === "function") node.disconnect();
-  });
+  const oldNodes = ambientNodes;
+  const oldMaster = ambientMaster;
+  if (audioContext && oldMaster) {
+    const now = audioContext.currentTime;
+    oldMaster.gain.cancelScheduledValues(now);
+    oldMaster.gain.setTargetAtTime(0, now, 0.06);
+    oldNodes.forEach(node => {
+      if (node !== oldMaster && typeof node.stop === "function") {
+        try { node.stop(now + 0.3); } catch (_) {}
+      }
+    });
+    window.setTimeout(() => {
+      oldNodes.forEach(node => {
+        if (typeof node.disconnect === "function") node.disconnect();
+      });
+    }, 450);
+  } else {
+    oldNodes.forEach(node => {
+      if (typeof node.stop === "function") node.stop();
+      if (typeof node.disconnect === "function") node.disconnect();
+    });
+  }
   ambientNodes = [];
   ambientMaster = null;
+  currentMusicScene = null;
 }
 
 function playConfirmSound() {
