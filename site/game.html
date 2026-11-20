@@ -14,6 +14,7 @@
       <div class="brand"><span class="eyebrow">HINA GALGAME</span><h1>放學後的十分鐘</h1></div>
       <div class="top-actions">
         <button id="chapterMenu" class="ghost" type="button">章節</button>
+        <button id="logToggle" class="ghost" type="button" aria-controls="logPanel" aria-expanded="false">紀錄</button>
         <button id="saveManual" class="ghost" type="button">存檔</button>
         <button id="loadManual" class="ghost" type="button">讀檔</button>
         <button id="restart" class="ghost" type="button">重來</button>
@@ -38,6 +39,10 @@
       </section>
     </section>
     </main>
+  <aside id="logPanel" class="log-panel" aria-label="對話紀錄" aria-hidden="true" inert>
+    <div class="log-head"><div><span class="eyebrow">DIALOGUE LOG</span><h2>對話紀錄</h2></div><button id="logClose" class="ghost" type="button">關閉</button></div>
+    <div id="logList" class="log-list" aria-live="polite"></div>
+  </aside>
   <dialog id="chapterDialog" class="chapter-dialog">
     <div class="dialog-head"><div><span class="eyebrow">CHAPTER SELECT</span><h2>選擇章節</h2></div><button id="closeChapterMenu" class="ghost" type="button">關閉</button></div>
     <p class="dialog-note">所有章節皆可直接進入。選擇章節會從該章開頭開始，並保留目前累積的旗標。</p>
