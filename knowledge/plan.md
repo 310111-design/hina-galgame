@@ -252,7 +252,7 @@
 ### Phase 6｜角色美術（本輪第一順位，已恢復）
 
 - [x] 對既有 8 張 PNG 製作透明背景副本；原始圖保持不變，未去除人物外的特效或裝飾。
-- [ ] 逐張精修透明邊緣，只清除可確認的背景底色／殘留；依 D-22 保留陰影、人物外光環、問號等畫面元素及髮絲／服裝細節，無法辨別時不修改。目前抽樣只證明 alpha 通道存在，不代表邊緣乾淨。依 `knowledge/character-sprite-spec.md` 與 `knowledge/art-prompts.md` 驗收。
+- [ ] 逐張精修透明邊緣，只清除可確認的背景底色／殘留；依 D-22 保留陰影、人物外光環、問號等畫面元素及髮絲／服裝細節，無法辨別時不修改。目前抽樣只證明 alpha 通道存在，不代表邊緣乾淨。依 `knowledge/character-sprite-spec.md` 與 `knowledge/art-prompts.md` 驗收。 Windows Paint 試作另存後 alpha 仍全為 255，未採用；`work/hina-art/cutouts-v2` 僅作本機待精修草稿。
 - [ ] 正式 sprite 必須固定姿勢、服裝、配件、鏡頭、比例與構圖，並通過逐像素透明度及邊緣品質檢查。
 - [ ] 完成一致的基礎立繪與八種表情差分，再更新 `EMOTION_SPRITES`。
 - [ ] 接入後驗收手機直向、手機橫向及桌面比例；未通過前繼續使用 SVG 暫定立繪。
