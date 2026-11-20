@@ -829,15 +829,6 @@ document.getElementById("typingSpeed").addEventListener("change", event => {
   saveReadingSettings();
   if (typingLine) startTypewriterTimer();
 });
-document.getElementById("musicVolume").addEventListener("input", event => {
-  musicVolume = Math.max(0, Math.min(1, Number(event.currentTarget.value) / 100));
-  if (ambientMasterGain && audioContext) ambientMasterGain.gain.setTargetAtTime(0.018 * musicVolume, audioContext.currentTime, 0.08);
-  saveAudioSettings();
-});
-document.getElementById("sfxVolume").addEventListener("input", event => {
-  sfxVolume = Math.max(0, Math.min(1, Number(event.currentTarget.value) / 100));
-  saveAudioSettings();
-});
 document.getElementById("autoPlayToggle").addEventListener("change", event => {
   readingSettings.autoPlay = event.currentTarget.checked;
   saveReadingSettings();
