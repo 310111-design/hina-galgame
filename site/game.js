@@ -32,13 +32,16 @@ const defaultState = () => ({
 let state = loadState();
 let audioContext = null;
 let ambientNodes = [];
-let musicEnabled = true;
+let ambientMaster = null;
+let musicEnabled = audioSettings.enabled;
 let typingTimer = null;
 let typingLine = null;
 let dialogueHistory = [];
 let lastHistoryKey = "";
 const READING_SETTINGS_KEY = isTestplay ? "hina-reading-settings-testplay-v1" : "hina-reading-settings-v1";
+const AUDIO_SETTINGS_KEY = isTestplay ? "hina-audio-settings-testplay-v1" : "hina-audio-settings-v1";
 let readingSettings = loadReadingSettings();
+let audioSettings = loadAudioSettings();
 let autoAdvanceTimer = null;
 let replayMode = false;
 let mainStateSnapshot = null;
@@ -56,6 +59,36 @@ function loadReadingSettings() {
   } catch (_) {
     return defaults;
   }
+}
+
+function loadAudioSettings() {
+  const defaults = { bgmVolume: 0.55, sfxVolume: 0.65, enabled: true };
+  try {
+    const saved = JSON.parse(localStorage.getItem(AUDIO_SETTINGS_KEY) || "null");
+    const clamp = value => Math.min(1, Math.max(0, Number(value)));
+    return {
+      bgmVolume: Number.isFinite(Number(saved?.bgmVolume)) ? clamp(saved.bgmVolume) : defaults.bgmVolume,
+      sfxVolume: Number.isFinite(Number(saved?.sfxVolume)) ? clamp(saved.sfxVolume) : defaults.sfxVolume,
+      enabled: saved?.enabled !== false
+    };
+  } catch (_) {
+    return defaults;
+  }
+}
+
+function saveAudioSettings() {
+  try {
+    localStorage.setItem(AUDIO_SETTINGS_KEY, JSON.stringify(audioSettings));
+  } catch (_) {}
+}
+
+function updateAudioControls() {
+  const bgm = document.getElementById("bgmVolume");
+  const sfx = document.getElementById("sfxVolume");
+  if (bgm) bgm.value = String(audioSettings.bgmVolume);
+  if (sfx) sfx.value = String(audioSettings.sfxVolume);
+  const toggle = document.getElementById("audioToggle");
+  if (toggle) toggle.textContent = musicEnabled ? "♫ 音樂開" : "♫ 音樂關";
 }
 
 function saveReadingSettings() {
@@ -633,8 +666,9 @@ function startAmbient() {
   if (!musicEnabled || ambientNodes.length) return;
   ensureAudio();
   const master = audioContext.createGain();
-  master.gain.value = 0.018;
+  master.gain.value = 0.018 * audioSettings.bgmVolume;
   master.connect(audioContext.destination);
+  ambientMaster = master;
   [220, 277.18, 329.63].forEach((frequency, index) => {
     const oscillator = audioContext.createOscillator();
     const gain = audioContext.createGain();
@@ -654,16 +688,17 @@ function stopAmbient() {
     if (typeof node.disconnect === "function") node.disconnect();
   });
   ambientNodes = [];
+  ambientMaster = null;
 }
 
 function playConfirmSound() {
-  if (!musicEnabled) return;
+  if (!musicEnabled || audioSettings.sfxVolume <= 0) return;
   ensureAudio();
   const oscillator = audioContext.createOscillator();
   const gain = audioContext.createGain();
   oscillator.type = "sine";
   oscillator.frequency.value = 440;
-  gain.gain.setValueAtTime(0.08, audioContext.currentTime);
+  gain.gain.setValueAtTime(0.08 * audioSettings.sfxVolume, audioContext.currentTime);
   gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.18);
   oscillator.connect(gain).connect(audioContext.destination);
   oscillator.start();
@@ -712,11 +747,23 @@ document.getElementById("closeChapterMenu").addEventListener("click", () => {
 document.getElementById("restart").addEventListener("click", restart);
 document.getElementById("saveManual").addEventListener("click", saveManual);
 document.getElementById("loadManual").addEventListener("click", loadManual);
-document.getElementById("audioToggle").addEventListener("click", event => {
+document.getElementById("audioToggle").addEventListener("click", () => {
   musicEnabled = !musicEnabled;
-  event.currentTarget.textContent = musicEnabled ? "♫ 音樂開" : "♫ 音樂關";
+  audioSettings.enabled = musicEnabled;
+  saveAudioSettings();
+  updateAudioControls();
   if (musicEnabled) startAmbient();
   else stopAmbient();
+});
+document.getElementById("bgmVolume").addEventListener("input", event => {
+  audioSettings.bgmVolume = Math.min(1, Math.max(0, Number(event.currentTarget.value)));
+  saveAudioSettings();
+  if (ambientMaster) ambientMaster.gain.setTargetAtTime(0.018 * audioSettings.bgmVolume, audioContext.currentTime, 0.06);
+  else if (musicEnabled && audioSettings.bgmVolume > 0) startAmbient();
+});
+document.getElementById("sfxVolume").addEventListener("input", event => {
+  audioSettings.sfxVolume = Math.min(1, Math.max(0, Number(event.currentTarget.value)));
+  saveAudioSettings();
 });
 
 document.addEventListener("keydown", event => {
@@ -734,4 +781,5 @@ document.addEventListener("keydown", event => {
 });
 
 updateReadingControls();
+updateAudioControls();
 render();
