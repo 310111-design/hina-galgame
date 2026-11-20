@@ -353,6 +353,9 @@ function choose(choice) {
 function restart() {
   if (!window.confirm("要從序章重新開始嗎？目前自動存檔會更新。")) return;
   state = defaultState();
+  dialogueHistory = [];
+  lastHistoryKey = "";
+  renderHistory();
   render();
   playConfirmSound();
 }
@@ -494,6 +497,10 @@ document.getElementById("audioToggle").addEventListener("click", event => {
 });
 
 document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && document.getElementById("logPanel").classList.contains("is-open")) {
+    toggleHistory(false);
+    return;
+  }
   if (event.target.closest("button, a, input, select, textarea") || document.querySelector("dialog[open]") || document.getElementById("logPanel").classList.contains("is-open")) return;
   if (event.key === "Enter" || event.key === " " || event.key === "ArrowRight") {
     if (state.phase !== "choice" && state.phase !== "complete") {
