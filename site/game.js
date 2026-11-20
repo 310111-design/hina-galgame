@@ -830,7 +830,7 @@ function renderSaveSlots() {
       const flags = Object.entries(saved.flags || {}).filter(([, value]) => Number(value) > 0)
         .map(([name, value]) => `${name} ${value}`).join(" · ");
       const phaseProgress = { intro: 0.15, choice: 0.3, branch: 0.55, common: 0.8, complete: 1 }[saved.phase] || 0;
-      const progress = Math.min(100, Math.round(((saved.chapter + phaseProgress) / chapters.length) * 100));
+      const progress = saved.phase === "complete" ? 100 : Math.min(100, Math.round(((saved.chapter + phaseProgress) / chapters.length) * 100));
       const routeName = ({ friend: "朋友線", partner: "搭檔線", romance: "戀愛線" })[saved.route] || "";
       detail.textContent = `${chapter.id}｜${chapter.title} · ${phaseNames[saved.phase]}${routeName ? " · " + routeName : ""}\n全篇進度約 ${progress}% · ${dateText}${flags ? "\n" + flags : ""}`;
     } else {
