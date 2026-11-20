@@ -14,16 +14,16 @@ function pngInfo(buffer) {
   const height = buffer.readUInt32BE(20);
   const bitDepth = buffer[24];
   const colorType = buffer[25];
-  let hasTransparency = colorType === 4 || colorType === 6;
+  let hasAlphaChannel = colorType === 4 || colorType === 6;
   let offset = 8;
   while (offset + 12 <= buffer.length) {
     const length = buffer.readUInt32BE(offset);
     const type = buffer.toString("ascii", offset + 4, offset + 8);
-    if (type === "tRNS") hasTransparency = true;
+    if (type === "tRNS") hasAlphaChannel = true;
     offset += 12 + length;
     if (type === "IEND") break;
   }
-  return { format: "PNG", width, height, bitDepth, colorType, hasTransparency };
+  return { format: "PNG", width, height, bitDepth, colorType, hasAlphaChannel, pixelTransparencyInspected: false };
 }
 
 function jpegInfo(buffer) {

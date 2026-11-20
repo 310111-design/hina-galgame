@@ -7,20 +7,9 @@ const MANUAL_SLOT_COUNT = 6;
 const chapters = window.HINA_GAME_DATA || [];
 // Provisional mapping follows the eight-expression prompt/export sequence.
 // Keep original upload filenames until each image receives visual confirmation.
-const SPRITE_FALLBACK = "assets/characters/IMG_2972.png";
-const EMOTION_SPRITES = {
-  "意外": "assets/characters/IMG_2976.png",
-  "克制": "assets/characters/IMG_2972.png",
-  "微羞": "assets/characters/IMG_2980.png",
-  "嚴謹": "assets/characters/IMG_2972.png",
-  "不安": "assets/characters/IMG_2978.png",
-  "認真": "assets/characters/IMG_2972.png",
-  "疲倦": "assets/characters/IMG_2972.png",
-  "沉思": "assets/characters/IMG_2977.png",
-  "微笑": "assets/characters/IMG_2973.png",
-  "安心": "assets/characters/IMG_2975.png",
-  "警戒": "assets/characters/IMG_2979.png"
-};
+const SPRITE_FALLBACK = "assets/hina-sprite.svg";
+// Opaque PNG illustrations are retained as references, not layered sprite assets.
+const EMOTION_SPRITES = {};
 
 const defaultState = () => ({
   version: 2,
