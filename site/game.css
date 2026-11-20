@@ -919,3 +919,35 @@ html, body { background: #0d0b14; }
 @media (prefers-reduced-motion: reduce) {
   .log-panel { transition: none; }
 }
+
+
+/* Reading preferences inside the dialogue history drawer */
+.reading-settings {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  padding: 13px 0;
+  border-bottom: 1px solid #ffffff20;
+  color: #e8deef;
+  font-size: .82rem;
+}
+.reading-settings label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.reading-settings select {
+  min-height: 34px;
+  padding: 4px 26px 4px 10px;
+  border: 1px solid #ffffff38;
+  border-radius: 8px;
+  background: #171322;
+  color: var(--ink);
+}
+.auto-play-setting input {
+  width: 17px;
+  height: 17px;
+  accent-color: #cbb2ff;
+}
