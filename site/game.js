@@ -83,6 +83,7 @@ function advanceLine() {
   const chapter = chapters[state.chapter];
   if (!chapter) return;
   if (state.phase === "complete") return;
+  startAmbient();
 
   const sequence = getSequence();
   if (state.line < sequence.length - 1) {
