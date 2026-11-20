@@ -75,6 +75,27 @@ for (const target of targets) {
       break;
     }
   }
+  const runtimeDialogue = lines.map(line => JSON.stringify(line));
+  const markdownDialogue = [];
+  markdown.split(/\r?\n/).forEach(line => {
+    let dialogueMatch;
+    if ((dialogueMatch = line.match(/^【旁白】(.*)$/))) {
+      markdownDialogue.push(JSON.stringify(["narration", dialogueMatch[1]]));
+    } else if ((dialogueMatch = line.match(/^【陽奈｜([^】]+)】(.*)$/))) {
+      markdownDialogue.push(JSON.stringify(["hina", dialogueMatch[2], dialogueMatch[1]]));
+    } else if ((dialogueMatch = line.match(/^【系統】(.*)$/))) {
+      markdownDialogue.push(JSON.stringify(["system", dialogueMatch[1]]));
+    }
+  });
+  if (runtimeDialogue.length !== markdownDialogue.length) {
+    errors.push(target.id + ": Markdown dialogue line count " + markdownDialogue.length + " does not match runtime " + runtimeDialogue.length);
+  } else {
+    runtimeDialogue.forEach((line, index) => {
+      if (line !== markdownDialogue[index]) {
+        errors.push(target.id + ": Markdown/runtime dialogue mismatch at line " + index);
+      }
+    });
+  }
   const match = markdown.match(/正文統計[^0-9]*(\d+)/);
   if (!match) errors.push(target.id + ": missing declared character count in Markdown");
   else if (Number(match[1]) !== count) errors.push(target.id + ": Markdown count " + match[1] + " does not match game data " + count);
