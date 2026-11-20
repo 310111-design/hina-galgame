@@ -154,6 +154,75 @@ data.forEach(chapter => {
 });
 
 
+const flagDialoguePath = path.join(__dirname, "..", "knowledge", "flag-dialogue.md");
+if (!fs.existsSync(flagDialoguePath)) {
+  errors.push("Missing knowledge/flag-dialogue.md");
+} else {
+  const flagDocument = fs.readFileSync(flagDialoguePath, "utf8");
+  const documentedGroups = new Map();
+  let currentChapterId = null;
+  let currentGroup = null;
+
+  flagDocument.split(/\r?\n/).forEach(line => {
+    const heading = line.match(/^## ([A-Z]\d{2})(?:：.*)?$/);
+    if (heading) {
+      currentChapterId = heading[1];
+      if (!documentedGroups.has(currentChapterId)) documentedGroups.set(currentChapterId, []);
+      currentGroup = null;
+      return;
+    }
+    if (/^##\s/.test(line)) {
+      currentChapterId = null;
+      currentGroup = null;
+      return;
+    }
+    const condition = line.match(/^\s*-\s*\*\*條件：\*\*\s*`([a-z_]+)\s*>=\s*(\d+)`/);
+    if (condition && currentChapterId) {
+      currentGroup = {
+        flag: condition[1],
+        min: Number(condition[2]),
+        lines: []
+      };
+      documentedGroups.get(currentChapterId).push(currentGroup);
+      return;
+    }
+    if (!currentGroup) return;
+    let dialogue = line.match(/^\s*-\s*【旁白】(.*)$/);
+    if (dialogue) {
+      currentGroup.lines.push(["narration", dialogue[1]]);
+      return;
+    }
+    dialogue = line.match(/^\s*-\s*【陽奈｜([^】]+)】(.*)$/);
+    if (dialogue) {
+      currentGroup.lines.push(["hina", dialogue[2], dialogue[1]]);
+      return;
+    }
+    dialogue = line.match(/^\s*-\s*【系統】(.*)$/);
+    if (dialogue) currentGroup.lines.push(["system", dialogue[1]]);
+  });
+
+  const documentedIds = [...documentedGroups.entries()]
+    .filter(([, groups]) => groups.length > 0)
+    .map(([id]) => id)
+    .sort();
+  const runtimeGroups = data.filter(chapter => Array.isArray(chapter.flaggedIntro) && chapter.flaggedIntro.length > 0);
+  const runtimeIds = runtimeGroups.map(chapter => chapter.id).sort();
+
+  if (JSON.stringify(documentedIds) !== JSON.stringify(runtimeIds)) {
+    errors.push("flag-dialogue.md chapter IDs do not match runtime flaggedIntro chapters");
+  }
+  runtimeGroups.forEach(chapter => {
+    const documented = documentedGroups.get(chapter.id) || [];
+    if (JSON.stringify(documented) !== JSON.stringify(chapter.flaggedIntro)) {
+      errors.push(chapter.id + ": flag-dialogue.md groups do not match runtime flaggedIntro");
+    }
+  });
+  const documentedCount = [...documentedGroups.values()].reduce((sum, groups) => sum + groups.length, 0);
+  if (documentedCount !== conditionalGroupCount) {
+    errors.push("flag-dialogue.md has " + documentedCount + " groups; runtime has " + conditionalGroupCount);
+  }
+}
+
 const siteDir = path.join(__dirname, "..", "site");
 const gameSource = fs.readFileSync(path.join(siteDir, "game.js"), "utf8");
 
