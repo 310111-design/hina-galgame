@@ -12,7 +12,7 @@ if (!source.startsWith(prefix)) {
   throw new Error("game-data.js must begin with: " + prefix);
 }
 
-const data = JSON.parse(source.slice(prefix.length).trim().replace(/;\\s*$/, ""));
+const data = JSON.parse(source.slice(prefix.length).trim().replace(/;\s*$/, ""));
 const expectedIds = [
   "A01", "A02", "A03", "A04", "A05", "A06",
   "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08",
