@@ -39,6 +39,7 @@ let dialogueHistory = [];
 let lastHistoryKey = "";
 const READING_SETTINGS_KEY = isTestplay ? "hina-reading-settings-testplay-v1" : "hina-reading-settings-v1";
 const AUDIO_SETTINGS_KEY = isTestplay ? "hina-audio-settings-testplay-v1" : "hina-audio-settings-v1";
+const AUDIO_SETTINGS_KEY = isTestplay ? "hina-audio-settings-testplay-v1" : "hina-audio-settings-v1";
 let readingSettings = loadReadingSettings();
 let audioSettings = loadAudioSettings();
 let musicEnabled = audioSettings.enabled;
@@ -46,6 +47,41 @@ let autoAdvanceTimer = null;
 let replayMode = false;
 let mainStateSnapshot = null;
 let saveDialogMode = "save";
+
+function loadAudioSettings() {
+  const defaults = { musicEnabled: true, musicVolume: 0.35, sfxVolume: 0.55 };
+  try {
+    const saved = JSON.parse(localStorage.getItem(AUDIO_SETTINGS_KEY) || "null");
+    const clamp = value => Number.isFinite(Number(value)) ? Math.max(0, Math.min(1, Number(value))) : null;
+    return {
+      musicEnabled: saved?.musicEnabled !== false,
+      musicVolume: clamp(saved?.musicVolume) ?? defaults.musicVolume,
+      sfxVolume: clamp(saved?.sfxVolume) ?? defaults.sfxVolume
+    };
+  } catch (_) {
+    return defaults;
+  }
+}
+
+const initialAudioSettings = loadAudioSettings();
+musicEnabled = initialAudioSettings.musicEnabled;
+musicVolume = initialAudioSettings.musicVolume;
+sfxVolume = initialAudioSettings.sfxVolume;
+
+function saveAudioSettings() {
+  try {
+    localStorage.setItem(AUDIO_SETTINGS_KEY, JSON.stringify({ musicEnabled, musicVolume, sfxVolume }));
+  } catch (_) {}
+}
+
+function updateAudioControls() {
+  const music = document.getElementById("musicVolume");
+  const sfx = document.getElementById("sfxVolume");
+  if (music) music.value = String(Math.round(musicVolume * 100));
+  if (sfx) sfx.value = String(Math.round(sfxVolume * 100));
+  const toggle = document.getElementById("audioToggle");
+  if (toggle) toggle.textContent = musicEnabled ? "♫ 音樂開" : "♫ 音樂關";
+}
 
 function loadReadingSettings() {
   const defaults = { speed: 26, autoPlay: false };
@@ -181,8 +217,12 @@ function saveState() {
     document.getElementById("saveState").textContent = "章節重玩｜主線存檔不變";
     return;
   }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  document.getElementById("saveState").textContent = "已自動保存";
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    document.getElementById("saveState").textContent = "已自動保存";
+  } catch (_) {
+    document.getElementById("saveState").textContent = "自動存檔失敗：瀏覽器儲存空間不可用";
+  }
 }
 
 function getSequence() {
@@ -537,12 +577,23 @@ function loadManualSlots() {
 }
 
 function isValidManualSave(saved) {
-  return Boolean(saved &&
-    Number.isInteger(saved.chapter) && saved.chapter >= 0 && saved.chapter < chapters.length &&
-    ["intro", "choice", "branch", "common", "complete"].includes(saved.phase) &&
-    Number.isInteger(saved.line) && saved.line >= 0 &&
-    (!saved.choices || typeof saved.choices === "object") &&
-    (!saved.flags || typeof saved.flags === "object"));
+  if (!saved || typeof saved !== "object" || Array.isArray(saved)) return false;
+  if (!Number.isInteger(saved.chapter) || saved.chapter < 0 || saved.chapter >= chapters.length) return false;
+  if (!["intro", "choice", "branch", "common", "complete"].includes(saved.phase)) return false;
+  if (!Number.isInteger(saved.line) || saved.line < 0) return false;
+  if (saved.phase === "complete" && saved.chapter !== chapters.length - 1) return false;
+  if (saved.phase !== "complete") {
+    const chapter = chapters[saved.chapter];
+    const sequence = saved.phase === "intro" ? chapter.intro
+      : saved.phase === "common" ? chapter.common
+      : saved.phase === "branch" ? chapter.branches?.[saved.choices?.[chapter.id]?.letter]
+      : [];
+    if (saved.phase !== "choice" && (!Array.isArray(sequence) || saved.line >= sequence.length)) return false;
+    if (saved.phase === "choice" && saved.line !== 0) return false;
+  }
+  if (saved.choices !== undefined && (!saved.choices || typeof saved.choices !== "object" || Array.isArray(saved.choices))) return false;
+  if (saved.flags !== undefined && (!saved.flags || typeof saved.flags !== "object" || Array.isArray(saved.flags))) return false;
+  return true;
 }
 
 function openSaveMenu(mode) {
@@ -733,6 +784,15 @@ document.getElementById("typingSpeed").addEventListener("change", event => {
   readingSettings.speed = Number(event.currentTarget.value);
   saveReadingSettings();
   if (typingLine) startTypewriterTimer();
+});
+document.getElementById("musicVolume").addEventListener("input", event => {
+  musicVolume = Math.max(0, Math.min(1, Number(event.currentTarget.value) / 100));
+  if (ambientMasterGain && audioContext) ambientMasterGain.gain.setTargetAtTime(0.018 * musicVolume, audioContext.currentTime, 0.08);
+  saveAudioSettings();
+});
+document.getElementById("sfxVolume").addEventListener("input", event => {
+  sfxVolume = Math.max(0, Math.min(1, Number(event.currentTarget.value) / 100));
+  saveAudioSettings();
 });
 document.getElementById("autoPlayToggle").addEventListener("change", event => {
   readingSettings.autoPlay = event.currentTarget.checked;
