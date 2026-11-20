@@ -60,9 +60,22 @@ if (new Set(ids).size !== ids.length) {
   errors.push("chapter IDs must be unique");
 }
 if (JSON.stringify(ids) !== JSON.stringify(expectedIds)) {
-  errors.push("chapter order/IDs differ from expected A01-D07 list");
+  errors.push("chapter order/IDs differ from expected P01-D08R route-aware sequence");
 }
 
+const expectedRouteTargets = { friend: "D08F", partner: "D08P", romance: "D08R" };
+const routeEndings = data.filter(chapter => chapter?.endOfRoute);
+if (JSON.stringify(routeEndings.map(chapter => chapter.id)) !== JSON.stringify(["D08F", "D08P", "D08R"])) {
+  errors.push("route ending chapters must be exactly D08F, D08P, D08R in sequence");
+}
+const routeEndingByKey = new Map(routeEndings.map(chapter => [chapter.routeEnding, chapter.id]));
+if (routeEndingByKey.size !== 3) {
+  errors.push("each relationship route must have exactly one unique ending");
+}
+const d07 = data.find(chapter => chapter?.id === "D07");
+if (!d07 || JSON.stringify(d07.nextByRoute || {}) !== JSON.stringify(expectedRouteTargets)) {
+  errors.push("D07 must route friend/partner/romance to D08F/D08P/D08R respectively");
+}
 data.forEach(chapter => {
   const id = chapter?.id || "(missing id)";
   checkLines(chapter?.intro, id + ".intro");
@@ -108,6 +121,8 @@ data.forEach(chapter => {
   if (chapter.endOfRoute && !routeKeys.has(chapter.routeEnding)) errors.push(id + ": endOfRoute requires a valid routeEnding");
   if (chapter.endOfRoute && chapter.nextByRoute !== undefined) errors.push(id + ": route endings cannot branch to another route");
   if (id === "D06" && JSON.stringify(chapter.choices.map(choice => choice.route).sort()) !== JSON.stringify([...routeKeys].sort())) errors.push("D06 must offer all three explicit relationship routes");
+  if (id !== "D06" && chapter.choices.some(choice => choice?.route !== undefined)) errors.push(id + ": relationship route selection must remain at D06");
+  if (chapter.endOfRoute && routeEndingByKey.get(chapter.routeEnding) !== id) errors.push(id + ": routeEnding must be unique and match its route key");
   if (chapter.flaggedIntro !== undefined) {
     if (!Array.isArray(chapter.flaggedIntro)) {
       errors.push(id + ": flaggedIntro must be an array");
