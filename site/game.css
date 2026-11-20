@@ -1039,3 +1039,32 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   .volume-setting { width: 100%; justify-content: space-between; }
   .volume-setting input[type="range"] { flex: 0 1 58%; }
 }
+
+
+.save-slot-preview {
+  position: relative;
+  display: flex;
+  align-items: end;
+  min-height: 74px;
+  margin-top: 9px;
+  padding: 8px 10px;
+  overflow: hidden;
+  border: 1px solid #ffffff1f;
+  border-radius: 8px;
+  color: #fff7ed;
+  font-family: Georgia, "Noto Serif TC", serif;
+  font-size: .85rem;
+  letter-spacing: .12em;
+  text-shadow: 0 2px 9px #000;
+  background-size: cover;
+  background-position: center;
+}
+.scene-preview-office {
+  background-image: linear-gradient(0deg, #080710a8, #08071012), url("assets/backgrounds/prefect-office-evening-v01.webp");
+}
+.scene-preview-corridor { background-image: linear-gradient(135deg, #78849b, #38354f 55%, #151321); }
+.scene-preview-rooftop { background-image: linear-gradient(135deg, #7588aa, #b18eaa 48%, #272338); }
+.scene-preview-cafe { background-image: linear-gradient(135deg, #ad887d, #67485f 55%, #211a2b); }
+.scene-preview-home { background-image: linear-gradient(135deg, #9691b0, #5d5878 55%, #201d32); }
+.scene-preview-outdoor { background-image: linear-gradient(135deg, #9bb2bf, #c6a3a5 48%, #28243c); }
+.scene-preview-empty { align-items:center; justify-content:center; color:#a69caf; background:linear-gradient(135deg,#211d2c,#11101a); }
