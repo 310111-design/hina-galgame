@@ -466,6 +466,7 @@ function playConfirmSound() {
 
 document.getElementById("gameStage").addEventListener("click", event => {
   if (event.target.closest("button, a, input, select, textarea")) return;
+  if (document.getElementById("logPanel").classList.contains("is-open")) return;
   if (state.phase === "choice" || state.phase === "complete") return;
   advanceLine();
 });
