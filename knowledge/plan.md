@@ -149,7 +149,7 @@
 - [x] 加入 BGM／SFX 獨立音量控制及設定記憶。
 - [x] 加入選項、章節切換及結局收束提示音。
 - [x] 建立 GitHub Actions：JavaScript 語法、遊戲資料、章節背景映射及頁面 DOM ID 等檢查。
-- [x] GitHub Pages 部署流程已運作；最近一次已知成功部署 run #330；其後的文件／路線稿修正須以最新 Actions run 確認，不能沿用舊成功紀錄。
+- [x] GitHub Pages 部署流程已運作；部署 workflow 已加入舊 Pages artifact 清理步驟。每次 main 更新仍以該 commit 對應的最新 Actions run 驗證；若上傳／部署再次失敗，先檢查 artifact 數量與工作流程紀錄。
 
 ---
 
