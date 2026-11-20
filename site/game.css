@@ -1026,3 +1026,16 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   .reading-settings .volume-setting { flex-basis: calc(50% - 10px); }
   .reading-settings input[type="range"] { width: 92px; }
 }
+
+
+/* Separate persistent BGM and sound-effect volume controls */
+.volume-setting { display: inline-flex; align-items: center; gap: 9px; }
+.volume-setting input[type="range"] {
+  width: 112px;
+  accent-color: #cbb2ff;
+  cursor: pointer;
+}
+@media (max-width: 420px) {
+  .volume-setting { width: 100%; justify-content: space-between; }
+  .volume-setting input[type="range"] { flex: 0 1 58%; }
+}
