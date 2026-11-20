@@ -146,13 +146,25 @@ const siteDir = path.join(__dirname, "..", "site");
 const gameSource = fs.readFileSync(path.join(siteDir, "game.js"), "utf8");
 
 function readStaticMap(name) {
-  const match = gameSource.match(new RegExp("const " + name + " = \\{([\\s\\S]*?)\\n\\};"));
-  if (!match) {
+  const prefix = "const " + name + " = {";
+  const start = gameSource.indexOf(prefix);
+  if (start < 0) {
     errors.push("game.js: missing " + name + " map");
     return [];
   }
-  return [...match[1].matchAll(/([A-Z0-9]+):\\s*"([^"]+)"/g)]
-    .map(item => ({ id: item[1], value: item[2] }));
+  const end = gameSource.indexOf("\n};", start);
+  if (end < 0) {
+    errors.push("game.js: unterminated " + name + " map");
+    return [];
+  }
+  const body = gameSource.slice(start + prefix.length, end);
+  return body.split(",").map(entry => entry.trim()).filter(Boolean).map(entry => {
+    const colon = entry.indexOf(":");
+    if (colon < 0) return null;
+    const id = entry.slice(0, colon).trim();
+    const rawValue = entry.slice(colon + 1).trim();
+    return { id, value: rawValue.slice(1, -1) };
+  }).filter(item => item && /^[A-Z0-9]+$/.test(item.id));
 }
 
 const sceneEntries = readStaticMap("SCENE_BY_CHAPTER");
@@ -183,7 +195,20 @@ if (!fs.existsSync(path.join(siteDir, "assets", "backgrounds", "rooftop-sunset-v
   errors.push("P01/P02 rooftop branch override: missing rooftop-sunset-v01.jpeg");
 }
 
-const requiredDomIds = [...new Set([...gameSource.matchAll(/getElementById\\(["']([^"']+)["']\\)/g)].map(item => item[1]))];
+const requiredDomIds = new Set();
+["\"", "'"].forEach(quote => {
+  const prefix = "getElementById(" + quote;
+  let cursor = 0;
+  while (true) {
+    const found = gameSource.indexOf(prefix, cursor);
+    if (found < 0) break;
+    const valueStart = found + prefix.length;
+    const valueEnd = gameSource.indexOf(quote, valueStart);
+    if (valueEnd < 0) break;
+    requiredDomIds.add(gameSource.slice(valueStart, valueEnd));
+    cursor = valueEnd + 1;
+  }
+});
 ["game.html", "testplay.html"].forEach(fileName => {
   const filePath = path.join(siteDir, fileName);
   if (!fs.existsSync(filePath)) {
