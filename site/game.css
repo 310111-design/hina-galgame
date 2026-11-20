@@ -1104,3 +1104,38 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   background: linear-gradient(0deg, #080710a8, #08071012),
     url("assets/backgrounds/prefect-office-evening-v01.webp") center / cover no-repeat;
 }
+
+
+/* Keep the full control set reachable on narrow phones without widening the viewport. */
+@media (max-width: 720px) {
+  .game-header {
+    display: flex;
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+  .game-header .brand {
+    flex: 0 1 38%;
+    min-width: 0;
+  }
+  .game-header h1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .top-actions {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 64vw;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .top-actions::-webkit-scrollbar { display: none; }
+  .top-actions .ghost { flex: 0 0 auto; }
+}
+@media (max-width: 360px) {
+  .game-header .brand { flex-basis: 32%; }
+  .top-actions { max-width: 68vw; }
+}
