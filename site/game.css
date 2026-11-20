@@ -1253,3 +1253,47 @@ button:disabled { opacity: .58; cursor: not-allowed; }
     transition-duration: .01ms !important;
   }
 }
+
+
+/* Non-blocking chapter title cue shown only when the active chapter changes. */
+.chapter-toast {
+  position: absolute;
+  z-index: 6;
+  top: clamp(82px, 13vh, 138px);
+  left: 50%;
+  max-width: min(82vw, 620px);
+  padding: 9px 20px;
+  overflow: hidden;
+  border: 1px solid #ffffff35;
+  border-radius: 999px;
+  background: #100d1dcc;
+  color: #f7eefa;
+  font-size: clamp(.78rem, 1.4vw, .95rem);
+  letter-spacing: .08em;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -8px);
+  backdrop-filter: blur(12px);
+}
+.chapter-toast.is-visible {
+  animation: chapterToastReveal 2.4s ease both;
+}
+@keyframes chapterToastReveal {
+  0% { opacity: 0; transform: translate(-50%, -8px); }
+  14%, 78% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -4px); }
+}
+@media (max-width: 520px) {
+  .chapter-toast { top: 76px; padding: 7px 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chapter-toast.is-visible { animation: chapterToastReduced 2.4s linear both; }
+  @keyframes chapterToastReduced {
+    0%, 10% { opacity: 0; }
+    15%, 80% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+}

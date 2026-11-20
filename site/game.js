@@ -416,6 +416,15 @@ function updateScene() {
   scene.className = "scene-art " + sceneType + (backgroundFile ? " has-background" : "");
   if (backgroundFile) scene.style.setProperty("--scene-image", `url("assets/backgrounds/${backgroundFile}")`);
   else scene.style.removeProperty("--scene-image");
+  if (previousChapter && previousChapter !== (chapter?.id || "") && chapter) {
+    const toast = document.getElementById("chapterToast");
+    if (toast) {
+      toast.textContent = `${chapter.id}｜${chapter.title}`;
+      toast.classList.remove("is-visible");
+      void toast.offsetWidth;
+      toast.classList.add("is-visible");
+    }
+  }
   if (shouldTransition) {
     scene.classList.remove("scene-transition");
     void scene.offsetWidth;
