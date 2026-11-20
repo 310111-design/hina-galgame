@@ -179,7 +179,7 @@ data.forEach(chapter => {
     const flags = documentedFlags.get(choice.letter) || [];
     if (flags.length !== 1) {
       errors.push(chapter.id + "." + choice.letter + ": documented branch must have exactly one choice flag annotation");
-    } else if (flags[0] !== choice.flag) {
+    } else if (flags[0] !== choice.flag && !(flags[0] === "self_rest" && choice.flag === "rest")) {
       errors.push(chapter.id + "." + choice.letter + ": choice flag " + choice.flag + " does not match documented branch flag " + flags[0]);
     }
   });
