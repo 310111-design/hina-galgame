@@ -638,9 +638,21 @@ function renderSaveSlots() {
       const dateText = date && !Number.isNaN(date.getTime()) ? date.toLocaleString("zh-TW") : "時間未記錄";
       const flags = Object.entries(saved.flags || {}).filter(([, value]) => Number(value) > 0)
         .map(([name, value]) => `${name} ${value}`).join(" · ");
-      detail.textContent = `${chapter.id}｜${chapter.title} · ${phaseNames[saved.phase]}\n${dateText}${flags ? "\n" + flags : ""}`;
+      const phaseProgress = { intro: 0.15, choice: 0.3, branch: 0.55, common: 0.8, complete: 1 }[saved.phase] || 0;
+      const progress = Math.min(100, Math.round(((saved.chapter + phaseProgress) / chapters.length) * 100));
+      detail.textContent = `${chapter.id}｜${chapter.title} · ${phaseNames[saved.phase]}\n全篇進度約 ${progress}% · ${dateText}${flags ? "\n" + flags : ""}`;
     } else {
       detail.textContent = "空欄位";
+    }
+    const preview = document.createElement("div");
+    preview.className = "save-slot-preview";
+    if (saved && isValidManualSave(saved)) {
+      const previewScene = SCENE_BY_CHAPTER[chapters[saved.chapter].id] || "office";
+      preview.classList.add(`scene-preview-${previewScene}`);
+      preview.textContent = chapters[saved.chapter].id;
+    } else {
+      preview.classList.add("scene-preview-empty");
+      preview.textContent = "EMPTY SLOT";
     }
     const action = document.createElement("button");
     action.type = "button";
@@ -654,7 +666,7 @@ function renderSaveSlots() {
       action.disabled = !saved || !isValidManualSave(saved);
       action.addEventListener("click", () => loadManualSlot(index));
     }
-    article.append(heading, detail, action);
+    article.append(heading, preview, detail, action);
     list.appendChild(article);
   });
 }
