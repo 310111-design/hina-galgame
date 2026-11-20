@@ -6,7 +6,7 @@
 | --- | --- | --- | --- | --- |
 | BG-001 | 風紀委員會辦公室・黃昏 | <badge>已生成並入庫，已接入遊戲</badge> | 原始生成圖 1672×941；部署版壓縮為 512×288 WebP（16:9），金紫夕光、百葉窗影、文件、會議桌與熱飲，無人物與文字；作為辦公室場景底圖，角色另層疊加。 | `site/assets/backgrounds/prefect-office-evening-v01.webp` |
 | BG-002 | 格黑娜校舍屋頂・夕陽 | 已視覺盤點並接入 | 使用者提供的 IMG_2959.jpeg 建立語意別名；供 C03 屋頂章節及 P01／P02 的 C 分支使用，原始 IMG 檔保留。 | `site/assets/backgrounds/rooftop-sunset-v01.jpeg` |
-| SPR-001 | 空崎陽奈基礎立繪與表情 | 8 張 PNG 已檢視，暫不作為 sprite | 8 張均為不透明全身插畫，姿勢／服裝／構圖不一致；IMG_2975 僅作基礎立繪風格參考。正式 sprite 需依 `knowledge/character-sprite-spec.md` 重新生成真正透明且構圖一致的整組圖片。原始檔名完整保留。 | `site/assets/characters/` |
+| SPR-001 | 空崎陽奈基礎立繪與表情參考 | 8 張 PNG 已建立語意別名，暫不作為 sprite | 依使用者指定順序建立普通、微笑、開心、驚訝、困惑、擔憂、生氣、害羞 8 個語意別名；原始 IMG 檔案保留。圖片仍是不透明參考插畫，不直接作為透明 sprite。正式 sprite 需依 `knowledge/character-sprite-spec.md` 重新生成真正透明且構圖一致的整組圖片。 | `site/assets/characters/hina_*.png` |
 | CG-001 | 開場熱飲事件 CG | 待正文確認 | 只在場景構圖與角色狀態確定後製作，避免與立繪需求重複。 | `assets/cg/opening-hot-drink-v01.png` |
 
 ## 風格基準（暫定）
@@ -21,7 +21,7 @@
 
 ## 已入庫原始素材與檢查狀態
 
-以下列出使用者提供的原始檔路徑。13 張背景已完成視覺分類與章節映射；8 張角色 PNG 已逐張預覽並建立暫定分類，但確認為不透明參考插畫，未接入 sprite。
+以下列出使用者提供的原始檔路徑。13 張背景已完成視覺分類與章節映射；8 張角色 PNG 已依使用者指定順序建立語意別名；檔案仍是不透明參考插畫，未接入 sprite。
 
 ### 背景原始圖（使用者提供）
 
@@ -43,16 +43,17 @@
 
 - **正式 sprite 重新生成規格：** `knowledge/character-sprite-spec.md`
 
-- **集中預覽頁：** https://310111-design.github.io/hina-galgame/character-preview.html（以原始檔名與透明棋盤格展示；頁面不預設表情標籤）
+- **集中預覽頁：** https://310111-design.github.io/hina-galgame/character-preview.html（以使用者指定順序的語意檔名與表情標籤展示；原始檔案保留）
 
-- `site/assets/characters/IMG_2972.png`
-- `site/assets/characters/IMG_2973.png`
-- `site/assets/characters/IMG_2975.png`
-- `site/assets/characters/IMG_2976.png`
-- `site/assets/characters/IMG_2977.png`
-- `site/assets/characters/IMG_2978.png`
-- `site/assets/characters/IMG_2979.png`
-- `site/assets/characters/IMG_2980.png`
+原始檔案保留，並新增同內容語意別名（依使用者指定順序）：
+- `hina_normal.png` — 普通（來源 `IMG_2972.png`）
+- `hina_smile.png` — 微笑（來源 `IMG_2973.png`）
+- `hina_happy.png` — 開心（來源 `IMG_2975.png`）
+- `hina_surprised.png` — 驚訝（來源 `IMG_2976.png`）
+- `hina_confused.png` — 困惑（來源 `IMG_2977.png`）
+- `hina_worried.png` — 擔憂（來源 `IMG_2978.png`）
+- `hina_angry.png` — 生氣（來源 `IMG_2979.png`）
+- `hina_shy.png` — 害羞（來源 `IMG_2980.png`）
 
 ### 舊角色參考圖
 
