@@ -14,7 +14,7 @@ const errors = [];
 const targets = [
   { id: "D08F", minimum: 2500, status: "expanded draft" },
   { id: "D08P", minimum: 2500, status: "expanded draft" },
-  { id: "D08R", minimum: 500, status: "first draft; expansion review pending" }
+  { id: "D08R", minimum: 2500, status: "expanded draft" }
 ];
 
 for (const target of targets) {
