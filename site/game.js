@@ -75,6 +75,12 @@ function getSequence() {
     sequence = selected ? chapter.branches[selected] || [] : [];
   }
   if (state.phase === "common") sequence = chapter.common;
+  if (state.phase === "intro" && Array.isArray(chapter.flaggedIntro)) {
+    const conditionalLines = chapter.flaggedIntro
+      .filter(item => (state.flags[item.flag] || 0) >= (item.min || 1))
+      .flatMap(item => item.lines || []);
+    sequence = [...sequence, ...conditionalLines];
+  }
   sequence = sequence.filter(line => Array.isArray(line) && String(line[1] || "").trim());
   return sequence;
 }
