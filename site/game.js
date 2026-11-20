@@ -38,7 +38,6 @@ let activeSceneType = "office";
 let currentMusicScene = null;
 let typingTimer = null;
 let typingLine = null;
-let chapterSplashTimer = null;
 let dialogueHistory = [];
 let lastHistoryKey = "";
 const READING_SETTINGS_KEY = isTestplay ? "hina-reading-settings-testplay-v1" : "hina-reading-settings-v1";
@@ -113,13 +112,14 @@ function skipReadContent() {
 }
 
 function loadReadingSettings() {
-  const defaults = { speed: 26, autoPlay: false };
+  const defaults = { speed: 26, autoPlay: false, fontSize: 18 };
   try {
     const saved = JSON.parse(localStorage.getItem(READING_SETTINGS_KEY) || "null");
     const allowedSpeeds = [44, 26, 12];
     return {
       speed: allowedSpeeds.includes(saved?.speed) ? saved.speed : defaults.speed,
-      autoPlay: saved?.autoPlay === true
+      autoPlay: saved?.autoPlay === true,
+      fontSize: [16, 18, 20].includes(saved?.fontSize) ? saved.fontSize : defaults.fontSize
     };
   } catch (_) {
     return defaults;
@@ -202,8 +202,11 @@ function startTypewriterTimer() {
 function updateReadingControls() {
   const speed = document.getElementById("typingSpeed");
   const auto = document.getElementById("autoPlayToggle");
+  const fontSize = document.getElementById("dialogueFontSize");
   if (speed) speed.value = String(readingSettings.speed);
   if (auto) auto.checked = readingSettings.autoPlay;
+  if (fontSize) fontSize.value = String(readingSettings.fontSize);
+  document.documentElement.style.setProperty("--dialogue-font-size", `${readingSettings.fontSize}px`);
 }
 
 function loadState() {
@@ -530,23 +533,6 @@ function renderFlags() {
   });
 }
 
-function showChapterSplash(chapter) {
-  const splash = document.getElementById("chapterSplash");
-  if (!splash) return;
-  splash.querySelector(".chapter-splash-code").textContent = chapter.id;
-  splash.querySelector(".chapter-splash-title").textContent = chapter.title;
-  splash.setAttribute("aria-hidden", "false");
-  splash.classList.remove("is-visible");
-  void splash.offsetWidth;
-  splash.classList.add("is-visible");
-  if (chapterSplashTimer !== null) window.clearTimeout(chapterSplashTimer);
-  chapterSplashTimer = window.setTimeout(() => {
-    splash.classList.remove("is-visible");
-    splash.setAttribute("aria-hidden", "true");
-    chapterSplashTimer = null;
-  }, 1150);
-}
-
 function render() {
   clearAutoAdvance();
   const chapter = chapters[state.chapter];
@@ -561,10 +547,6 @@ function render() {
     chapterLabel.classList.remove("chapter-label-enter");
     void chapterLabel.offsetWidth;
     chapterLabel.classList.add("chapter-label-enter");
-  }
-  if (!chapterLabel.dataset.splashShown || labelChanged) {
-    showChapterSplash(chapter);
-    chapterLabel.dataset.splashShown = "true";
   }
   document.getElementById("returnMain").hidden = !replayMode;
   document.getElementById("saveManual").disabled = replayMode;
@@ -1046,6 +1028,11 @@ document.getElementById("logToggle").addEventListener("click", () => toggleHisto
 document.getElementById("logClose").addEventListener("click", () => toggleHistory(false));
 document.getElementById("closeSaveMenu").addEventListener("click", () => document.getElementById("saveDialog").close());
 document.getElementById("returnMain").addEventListener("click", returnToMain);
+document.getElementById("dialogueFontSize").addEventListener("change", event => {
+  readingSettings.fontSize = [16, 18, 20].includes(Number(event.currentTarget.value)) ? Number(event.currentTarget.value) : 18;
+  document.documentElement.style.setProperty("--dialogue-font-size", `${readingSettings.fontSize}px`);
+  saveReadingSettings();
+});
 document.getElementById("typingSpeed").addEventListener("change", event => {
   readingSettings.speed = Number(event.currentTarget.value);
   saveReadingSettings();

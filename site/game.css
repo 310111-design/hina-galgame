@@ -9,6 +9,7 @@
   --rose: #ffb8ce;
   --line: #493d5d;
   --gold: #ffd9a1;
+  --dialogue-font-size: 18px;
 }
 
 * { box-sizing: border-box; }
@@ -289,6 +290,8 @@ button, a { font: inherit; }
 }
 
 .story {
+  font-size: var(--dialogue-font-size);
+  line-height: 1.8;
   min-height: 118px;
   max-height: 410px;
   overflow-y: auto;
@@ -1250,66 +1253,3 @@ button:disabled { opacity: .58; cursor: not-allowed; }
     transition-duration: .01ms !important;
   }
 }
-
-
-/* Brief, non-blocking chapter title card and a clearer route ending state. */
-.chapter-splash {
-  position: absolute;
-  z-index: 11;
-  top: 42%;
-  left: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  width: min(76vw, 520px);
-  padding: 18px 24px;
-  border: 1px solid #e7d5ff55;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #171322d9, #2a2038d9);
-  box-shadow: 0 18px 60px #05040c66;
-  backdrop-filter: blur(16px);
-  text-align: center;
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, -44%);
-}
-.chapter-splash.is-visible {
-  animation: chapterSplashIn 1.15s ease both;
-}
-.chapter-splash-code {
-  color: #e9c5d5;
-  font-size: .72rem;
-  letter-spacing: .2em;
-}
-.chapter-splash-title {
-  color: #fff4fb;
-  font-size: clamp(1.05rem, 3vw, 1.5rem);
-  font-weight: 600;
-}
-@keyframes chapterSplashIn {
-  0% { opacity: 0; transform: translate(-50%, -38%); }
-  18%, 78% { opacity: 1; transform: translate(-50%, -50%); }
-  100% { opacity: 0; transform: translate(-50%, -56%); }
-}
-.story.is-complete {
-  display: flex;
-  min-height: 100%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 0 14px;
-  text-align: center;
-}
-.story.is-complete .hina {
-  color: #f3d9ff;
-  font-size: 1.18rem;
-}
-.story.is-complete .narration {
-  max-width: 42rem;
-}
-.story.is-complete .system {
-  color: #e7c9a1;
-}
-.story.is-complete + .choices:empty { display: none; }

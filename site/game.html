@@ -32,8 +32,7 @@
         <div class="scene-light"></div>
         <img id="hinaSprite" class="hina-sprite" src="assets/hina-sprite.svg" alt="空崎陽奈立繪">
       </div>
-      <div id="chapterSplash" class="chapter-splash" aria-live="polite" aria-atomic="true" aria-hidden="true"><span class="chapter-splash-code"></span><strong class="chapter-splash-title"></strong></div>
-      <div class="visual-controls"><span id="mood" class="mood"><button id="audioToggle" class="audio-toggle" type="button" aria-label="切換音樂">♫</button></div>
+      <div class="visual-controls"><span id="mood" class="mood">認真</span><button id="audioToggle" class="audio-toggle" type="button" aria-label="切換音樂">♫</button></div>
       <section class="dialogue-panel">
         <div id="story" class="story" aria-live="polite"></div>
         <div id="choices" class="choices"></div>
@@ -44,6 +43,13 @@
   <aside id="logPanel" class="log-panel" aria-label="對話紀錄" aria-hidden="true" inert>
     <div class="log-head"><div><span class="eyebrow">DIALOGUE LOG</span><h2>對話紀錄</h2></div><button id="logClose" class="ghost" type="button">關閉</button></div>
     <section class="reading-settings" aria-label="閱讀設定">
+      <label for="dialogueFontSize">文字大小
+        <select id="dialogueFontSize">
+          <option value="16">標準</option>
+          <option value="18">稍大</option>
+          <option value="20">大字</option>
+        </select>
+      </label>
       <label for="typingSpeed">文字速度
         <select id="typingSpeed">
           <option value="44">慢</option>
