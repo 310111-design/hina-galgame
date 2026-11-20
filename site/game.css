@@ -1297,3 +1297,43 @@ button:disabled { opacity: .58; cursor: not-allowed; }
     100% { opacity: 0; }
   }
 }
+
+
+/* Route ending summary: a clear stopping point with replay navigation. */
+.ending-card {
+  display: grid;
+  gap: 11px;
+  margin: 4px 0 12px;
+  padding: clamp(16px, 3vw, 26px);
+  border: 1px solid #d6c0ff55;
+  border-radius: 16px;
+  background:
+    radial-gradient(ellipse at 50% 0%, #c7a7ff18, transparent 72%),
+    linear-gradient(145deg, #211b31eF, #100e19f5);
+  text-align: center;
+}
+.ending-eyebrow {
+  margin: 0;
+  color: #d9c8ff;
+  font-size: .68rem;
+  letter-spacing: .2em;
+}
+.ending-card h2 {
+  margin: 0;
+  color: #f5eaff;
+  font-size: clamp(1.25rem, 3vw, 1.7rem);
+  line-height: 1.35;
+}
+.ending-summary {
+  margin: 0;
+  color: #f0d7b7;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.ending-card .narration,
+.ending-card .system { margin: 0; }
+.next.secondary {
+  color: var(--ink);
+  border-color: #ffffff35;
+  background: #ffffff08;
+}

@@ -578,16 +578,44 @@ function render() {
       box.appendChild(button);
     });
   } else if (state.phase === "complete") {
-    document.getElementById("story").innerHTML =
-      '<p class="hina"><strong>目前可玩內容完成</strong></p>' +
-      `<p class="narration">已完成 30 節共通篇，並抵達${({ friend: "朋友線", partner: "搭檔線", romance: "戀愛線" })[state.route] || "所選路線"}專屬結局。你的選擇與旗標會保存在這個瀏覽器中。</p>` +
-      `<p class="system">rest ${state.flags.rest}｜teamwork ${state.flags.teamwork}｜ordinary_day ${state.flags.ordinary_day}｜daily_checkin ${state.flags.daily_checkin}｜self_rest ${state.flags.self_rest}</p>`;
+    const routeNames = { friend: "朋友線", partner: "搭檔線", romance: "戀愛線" };
+    const routeSummaries = {
+      friend: "以自在分享、互相支持與保留空間延續友誼。",
+      partner: "以平等分工、共同目標與互相信任延續合作。",
+      romance: "以成年後的雙向選擇、尊重與溝通為基礎，慢慢建立新的關係。"
+    };
+    const story = document.getElementById("story");
+    const card = document.createElement("section");
+    card.className = "ending-card";
+    card.setAttribute("aria-labelledby", "endingCardTitle");
+    const eyebrow = document.createElement("p");
+    eyebrow.className = "ending-eyebrow";
+    eyebrow.textContent = "ROUTE COMPLETE";
+    const title = document.createElement("h2");
+    title.id = "endingCardTitle";
+    title.textContent = (routeNames[state.route] || "故事") + "結局";
+    const summary = document.createElement("p");
+    summary.className = "ending-summary";
+    summary.textContent = routeSummaries[state.route] || "本次遊玩內容已完成。";
+    const description = document.createElement("p");
+    description.className = "narration";
+    description.textContent = "已完成 30 節共通篇並抵達路線結局。你的選擇與旗標會保存在這個瀏覽器中；也可以從章節選單回看其他段落。";
+    const flags = document.createElement("p");
+    flags.className = "system";
+    flags.textContent = `rest ${state.flags.rest}｜teamwork ${state.flags.teamwork}｜ordinary_day ${state.flags.ordinary_day}｜daily_checkin ${state.flags.daily_checkin}｜self_rest ${state.flags.self_rest}`;
+    card.append(eyebrow, title, summary, description, flags);
+    story.replaceChildren(card);
     const button = document.createElement("button");
     button.type = "button";
     button.className = "next";
     button.textContent = "重新開始完整體驗版";
     button.addEventListener("click", restart);
-    box.appendChild(button);
+    const chapterButton = document.createElement("button");
+    chapterButton.type = "button";
+    chapterButton.className = "next secondary";
+    chapterButton.textContent = "回到章節選單";
+    chapterButton.addEventListener("click", openChapterMenu);
+    box.append(button, chapterButton);
   } else {
     renderDialogue(currentLine());
   }
