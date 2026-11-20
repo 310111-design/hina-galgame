@@ -564,10 +564,11 @@ function render() {
     prompt.className = "narration";
     prompt.textContent = "陽奈等著你回答。這個選擇會保留在之後的章節中。";
     document.getElementById("story").replaceChildren(prompt);
-    chapter.choices.forEach(choice => {
+    chapter.choices.forEach((choice, index) => {
       const button = document.createElement("button");
       button.type = "button";
-      button.className = "choice";
+      button.className = "choice choice-enter";
+      button.style.animationDelay = `${index * 55}ms`;
       const label = document.createElement("span");
       label.className = "choice-label";
       label.textContent = choice.label;
