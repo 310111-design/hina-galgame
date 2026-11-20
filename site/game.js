@@ -390,8 +390,12 @@ document.getElementById("audioToggle").addEventListener("click", event => {
 });
 
 document.addEventListener("keydown", event => {
+  if (event.target.closest("button, a, input, select, textarea") || document.querySelector("dialog[open]")) return;
   if (event.key === "Enter" || event.key === " " || event.key === "ArrowRight") {
-    if (state.phase !== "choice" && state.phase !== "complete") advanceLine();
+    if (state.phase !== "choice" && state.phase !== "complete") {
+      event.preventDefault();
+      advanceLine();
+    }
   }
 });
 
