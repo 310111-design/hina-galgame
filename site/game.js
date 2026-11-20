@@ -303,6 +303,7 @@ function advanceLine() {
   if (state.phase === "complete") return;
   startAmbient();
   let chapterChanged = false;
+  let routeEndingReached = false;
 
   const sequence = getSequence();
   if (state.line < sequence.length - 1) {
@@ -315,7 +316,7 @@ function advanceLine() {
     state.phase = "common";
   } else if (state.phase === "common") {
     state.line = 0;
-    if (chapter.endOfRoute) state.phase = "complete";
+    if (chapter.endOfRoute) { state.phase = "complete"; routeEndingReached = true; }
     else if (chapter.nextByRoute) {
       let nextIndex = chapter.nextByRoute[state.route] ? chapters.findIndex(item => item.id === chapter.nextByRoute[state.route]) : -1;
       if (nextIndex < 0) nextIndex = chapters.findIndex(item => item.id === "D06");
@@ -326,6 +327,7 @@ function advanceLine() {
   }
   render();
   if (chapterChanged) playChapterTransitionSound();
+  if (routeEndingReached) playRouteEndingSound();
 }
 
 function currentLine() {
@@ -1027,6 +1029,25 @@ function playChapterTransitionSound() {
     oscillator.connect(gain).connect(audioContext.destination);
     oscillator.start(start);
     oscillator.stop(start + 0.36);
+  });
+}
+
+function playRouteEndingSound() {
+  if (!musicEnabled || audioSettings.sfxVolume <= 0) return;
+  ensureAudio();
+  // A quiet three-note cadence distinguishes a route ending from an ordinary chapter change.
+  [392, 493.88, 587.33].forEach((frequency, index) => {
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    const start = audioContext.currentTime + index * 0.16;
+    oscillator.type = "sine";
+    oscillator.frequency.value = frequency;
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.linearRampToValueAtTime(0.045 * audioSettings.sfxVolume, start + 0.045);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.52);
+    oscillator.connect(gain).connect(audioContext.destination);
+    oscillator.start(start);
+    oscillator.stop(start + 0.54);
   });
 }
 
