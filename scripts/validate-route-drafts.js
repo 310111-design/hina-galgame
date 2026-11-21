@@ -27,6 +27,8 @@ const targets = [
   { id: "B03", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
   { id: "B04", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
   { id: "B05", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
+  { id: "B06", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
+  { id: "B07", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
   { id: "D01", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D02", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D03", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
