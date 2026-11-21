@@ -17,6 +17,8 @@ const targets = [
   { id: "A01", dialogueOnly: true, status: "continuity review; fixes pending" },
   { id: "A02", dialogueOnly: true, status: "continuity review; fixes pending" },
   { id: "A03", dialogueOnly: true, status: "continuity review; fixes pending" },
+  { id: "A04", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
+  { id: "A05", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
   { id: "D01", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D02", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D03", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
@@ -28,6 +30,67 @@ const targets = [
   { id: "D08P", minimum: 2500, pathMinimum: 2500, status: "reviewed draft" },
   { id: "D08R", minimum: 2500, pathMinimum: 2500, status: "reviewed draft" }
 ];
+
+function parseDialogue(markdown, target) {
+  return markdown.split(/\r?\n/).flatMap(rawLine => {
+    const line = rawLine.trim();
+    if (!line) return [];
+    let match = line.match(/^【旁白】(.*)$/);
+    if (match) return [["narration", match[1]]];
+    match = line.match(/^【陽奈｜([^】]+)】(.*)$/);
+    // A01/A02 use standalone mood cues followed by explicit narration.
+    // Those cues are not spoken lines in runtime. Keep adult checks strict.
+    if (match) return target.dialogueOnly && !match[2] ? [] : [["hina", match[2], match[1]]];
+    match = line.match(/^【系統】(.*)$/);
+    if (match) return [["system", match[1]]];
+    if (
+      line.startsWith("【") ||
+      line.startsWith("#") ||
+      line.startsWith("**") ||
+      line.startsWith("-") ||
+      /^[ABC]\./.test(line) ||
+      line.startsWith("`")
+    ) return [];
+    return [["narration", line]];
+  });
+}
+
+function compareDialogue(label, expected, actual) {
+  if (expected.length !== actual.length) {
+    errors.push(label + ": Markdown dialogue line count " + expected.length + " does not match runtime " + actual.length);
+  }
+  const compareLength = Math.min(expected.length, actual.length);
+  for (let index = 0; index < compareLength; index += 1) {
+    if (JSON.stringify(expected[index]) !== JSON.stringify(actual[index])) {
+      errors.push(label + ": Markdown/runtime dialogue mismatch at line " + (index + 1));
+      break;
+    }
+  }
+}
+
+// Opt in only for drafts with this exact section format. A flattened sequence
+// cannot detect a line moved across intro/branch/common boundaries.
+function compareSections(markdown, chapter, target) {
+  const markers = [...markdown.matchAll(/^【(選擇|分支 [ABC]：[^】]+|共通回收)】\s*$/gm)];
+  const names = markers.map(match => match[1].split("：")[0]);
+  const expectedNames = ["選擇", "分支 A", "分支 B", "分支 C", "共通回收"];
+  if (JSON.stringify(names) !== JSON.stringify(expectedNames)) {
+    errors.push(target.id + ": missing, duplicate or out-of-order Markdown section markers");
+    return;
+  }
+  const sections = [
+    ["intro", markdown.slice(0, markers[0].index), chapter.intro || []],
+    ...["A", "B", "C"].map((letter, index) => [
+      "branch " + letter,
+      markdown.slice(markers[index + 1].index + markers[index + 1][0].length, markers[index + 2].index),
+      (chapter.branches || {})[letter] || []
+    ]),
+    ["common", markdown.slice(markers[4].index + markers[4][0].length), chapter.common || []]
+  ];
+  for (const [name, text, runtime] of sections) {
+    compareDialogue(target.id + " " + name, parseDialogue(text, target), runtime);
+  }
+}
 
 for (const target of targets) {
   const chapter = chapters.find(item => item.id === target.id);
@@ -53,42 +116,13 @@ for (const target of targets) {
   if (target.syncDialogue !== false) {
     const dialogueMarkdown = markdown
       .split(/^\s*(?:## 資料同步註記|【節末記錄】)\s*$/m)[0];
-    const markdownDialogue = dialogueMarkdown.split(/\r?\n/).flatMap(rawLine => {
-      const line = rawLine.trim();
-      if (!line) return [];
-      let match = line.match(/^【旁白】(.*)$/);
-      if (match) return [["narration", match[1]]];
-      match = line.match(/^【陽奈｜([^】]+)】(.*)$/);
-      // A01/A02 use standalone mood cues followed by explicit narration.
-      // Those cues are not spoken lines in runtime. Keep adult checks strict.
-      if (match) return target.dialogueOnly && !match[2] ? [] : [["hina", match[2], match[1]]];
-      match = line.match(/^【系統】(.*)$/);
-      if (match) return [["system", match[1]]];
-      if (
-        line.startsWith("【") ||
-        line.startsWith("#") ||
-        line.startsWith("**") ||
-        line.startsWith("-") ||
-        /^[ABC]\./.test(line) ||
-        line.startsWith("`")
-      ) return [];
-      return [["narration", line]];
-    });
-
-    if (markdownDialogue.length !== lines.length) {
-      errors.push(target.id + ": Markdown dialogue line count " + markdownDialogue.length + " does not match runtime " + lines.length);
-    }
-    const compareLength = Math.min(markdownDialogue.length, lines.length);
-    for (let index = 0; index < compareLength; index += 1) {
-      if (JSON.stringify(markdownDialogue[index]) !== JSON.stringify(lines[index])) {
-        errors.push(target.id + ": Markdown/runtime dialogue mismatch at line " + (index + 1));
-        break;
-      }
-    }
+    compareDialogue(target.id, parseDialogue(dialogueMarkdown, target), lines);
+    if (target.syncSections) compareSections(dialogueMarkdown, chapter, target);
   }
 
   if (target.dialogueOnly) {
-    console.log(target.id + ": " + lines.length + " dialogue tuples checked (intro/branches/common only; no count threshold) — " + target.status);
+    console.log(target.id + ": " + lines.length + " dialogue tuples checked (intro/branches/common only; " +
+      (target.syncSections ? "section boundaries checked; " : "") + "no count threshold) — " + target.status);
     continue;
   }
 
