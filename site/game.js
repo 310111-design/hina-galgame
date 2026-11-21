@@ -466,6 +466,8 @@ function updateScene() {
   scene.dataset.sceneType = sceneType;
   scene.dataset.chapter = chapter?.id || "";
   setMood(chapter?.mood || "認真");
+  const sprite = document.getElementById("hinaSprite");
+  if (!sprite.dataset.emotion) setSpriteEmotion(chapter?.mood || "認真");
 
   if (state.phase === "choice") setMood("等待選擇");
   if (state.phase === "complete") setMood("目前內容完成");
