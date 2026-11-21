@@ -5,11 +5,31 @@ const MANUAL_SAVE_KEY = isTestplay ? "hina-galgame-testplay-manual-v1" : "hina-g
 const MANUAL_SLOTS_KEY = isTestplay ? "hina-galgame-testplay-manual-slots-v2" : "hina-galgame-manual-slots-v2";
 const MANUAL_SLOT_COUNT = 6;
 const chapters = window.HINA_GAME_DATA || [];
-// Provisional mapping follows the eight-expression prompt/export sequence.
-// Keep original upload filenames until each image receives visual confirmation.
 const SPRITE_FALLBACK = "assets/hina-sprite.svg";
-// Opaque PNG illustrations are retained as references, not layered sprite assets.
-const EMOTION_SPRITES = {};
+// User-approved cutout set. The source poses vary; use each as supplied and keep
+// the original reference PNGs untouched. SVG remains the load-error fallback.
+const EMOTION_SPRITES = {
+  認真: "assets/characters/hina-cutout-v2-normal.png",
+  嚴肅: "assets/characters/hina-cutout-v2-normal.png",
+  嚴謹: "assets/characters/hina-cutout-v2-normal.png",
+  克制: "assets/characters/hina-cutout-v2-normal.png",
+  安定: "assets/characters/hina-cutout-v2-normal.png",
+  微笑: "assets/characters/hina-cutout-v2-smile.png",
+  放鬆: "assets/characters/hina-cutout-v2-smile.png",
+  安心: "assets/characters/hina-cutout-v2-happy.png",
+  意外: "assets/characters/hina-cutout-v2-surprised.png",
+  好奇: "assets/characters/hina-cutout-v2-confused.png",
+  沉思: "assets/characters/hina-cutout-v2-confused.png",
+  思考: "assets/characters/hina-cutout-v2-confused.png",
+  不安: "assets/characters/hina-cutout-v2-worried.png",
+  疲倦: "assets/characters/hina-cutout-v2-worried.png",
+  疲憊: "assets/characters/hina-cutout-v2-worried.png",
+  困倦: "assets/characters/hina-cutout-v2-worried.png",
+  不耐: "assets/characters/hina-cutout-v2-angry.png",
+  警戒: "assets/characters/hina-cutout-v2-angry.png",
+  警惕: "assets/characters/hina-cutout-v2-angry.png",
+  微羞: "assets/characters/hina-cutout-v2-shy.png"
+};
 
 const defaultState = () => ({
   version: 2,
@@ -349,7 +369,7 @@ function setMood(text) {
 
 function animateSprite(kind, text) {
   const sprite = document.getElementById("hinaSprite");
-  sprite.className = "hina-sprite";
+  sprite.className = sprite.dataset.emotion ? "hina-sprite user-cutout" : "hina-sprite";
   const lower = text;
   if (lower.includes("疲")) sprite.classList.add("tired");
   if (lower.includes("微笑") || lower.includes("放鬆")) sprite.classList.add("smile");
@@ -365,6 +385,7 @@ function setSpriteEmotion(mood) {
   const source = EMOTION_SPRITES[mood];
   if (!source || sprite.dataset.emotion === mood) return;
   sprite.dataset.emotion = mood;
+  sprite.classList.add("user-cutout");
   sprite.classList.add("sprite-changing");
   sprite.onload = () => {
     sprite.onload = null;
@@ -372,6 +393,8 @@ function setSpriteEmotion(mood) {
   };
   sprite.onerror = () => {
     sprite.onerror = null;
+    sprite.dataset.emotion = "";
+    sprite.classList.remove("user-cutout");
     sprite.src = SPRITE_FALLBACK;
   };
   sprite.src = source;
