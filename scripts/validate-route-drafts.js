@@ -19,6 +19,7 @@ const targets = [
   { id: "A03", dialogueOnly: true, status: "continuity review; fixes pending" },
   { id: "A04", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
   { id: "A05", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
+  { id: "A06", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
   { id: "D01", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D02", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D03", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
