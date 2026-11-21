@@ -214,7 +214,7 @@
 - [x] 第一輪全篇規模盤點：去重後 82,138 字元／3,679 條唯一台詞文字；原始 82,856 字元／3,775 條 tuple，含 21 組條件對話（676 字元）。30 節共通篇單次路徑估算 61,421～62,211 字元；加上一個路線結局後，朋友線約 64,066～64,900、搭檔線約 64,042～64,861、戀愛線約 64,016～65,077 字元，未計旗標額外台詞。80,000～150,000 字元的全分支唯一正文目標已達成。
 - [x] 前段跨幕交界人工文本審校（P03→A01、A06→B01）：完整閱讀四節章稿，檢查兩組交界各九種局部分支組合及條件回憶前提；記錄 A01 到訪次數／分工回憶、A06 離場燈光／角色語氣、B01 時段／工作量敘述等七項待修或待釐清事項。僅審校，不代表修復。證據與推薦見 `knowledge/reviews/early-act-transitions.md`；三個固定 validator 均通過。
 - [ ] 修訂前段跨幕審校 EAT-01～07，同步章稿、runtime 與名稱引用並復驗。當前工具截斷大型檔案且不提供 append／patch，無法安全覆寫完整 runtime；待安全局部編輯能力後優先處理，不只修改 Markdown 留下不同步。
-- [ ] 將前批經驗補記 `knowledge/experience-early-act-transitions.md` 安全追加至 `knowledge/experience.md`；主檔回傳截斷，保留原檔未覆蓋。補記已包含可複用方法、限制與未來適用範圍。
+- [x] 將前批經驗補記 `knowledge/experience-early-act-transitions.md` 的可複用方法、限制與未來適用範圍合併至 `knowledge/experience.md`；保留補記原檔作為審校來源，不覆蓋歷史內容。
 - [x] 序章內部銜接人工文本審校（P01→P02→P03）：完整閱讀三節章稿與 runtime 回傳前綴內的三個完整節點，檢查兩組交界各九種局部組合及 P03 九種入口旗標歷史；記錄 PRT-01～07 場景殘留、昨日回憶前提、清單欄位、回室與便條來源、稿末導航等待修／待釐清事項。證據見 `knowledge/reviews/prologue-transitions.md`；三個固定 validator 均通過，僅審校、不代表修復或實機通關。
 - [ ] 修訂／釐清序章審校 PRT-01～07，同步章稿、runtime 與稿末導航，並補序章格式適用的稿件對照；同受安全局部編輯工具阻塞，未單改正文。既有 routes validator 不涵蓋序章。
 - [ ] 將本批經驗補記 `knowledge/experience-prologue-transitions.md` 安全追加至 `knowledge/experience.md`；本批保留主檔，補記已由本計畫索引。
