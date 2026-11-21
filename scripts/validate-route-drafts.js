@@ -12,6 +12,11 @@ const chapters = sandbox.window.HINA_GAME_DATA;
 const errors = [];
 
 const targets = [
+  // Early drafts have no declared runtime count. Check dialogue only; do not
+  // mistake the editorial character-count goal for measured metadata.
+  { id: "A01", dialogueOnly: true, status: "continuity review; fixes pending" },
+  { id: "A02", dialogueOnly: true, status: "continuity review; fixes pending" },
+  { id: "A03", dialogueOnly: true, status: "continuity review; fixes pending" },
   { id: "D01", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D02", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D03", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
@@ -54,7 +59,9 @@ for (const target of targets) {
       let match = line.match(/^【旁白】(.*)$/);
       if (match) return [["narration", match[1]]];
       match = line.match(/^【陽奈｜([^】]+)】(.*)$/);
-      if (match) return [["hina", match[2], match[1]]];
+      // A01/A02 use standalone mood cues followed by explicit narration.
+      // Those cues are not spoken lines in runtime. Keep adult checks strict.
+      if (match) return target.dialogueOnly && !match[2] ? [] : [["hina", match[2], match[1]]];
       match = line.match(/^【系統】(.*)$/);
       if (match) return [["system", match[1]]];
       if (
@@ -67,7 +74,7 @@ for (const target of targets) {
       ) return [];
       return [["narration", line]];
     });
-  
+
     if (markdownDialogue.length !== lines.length) {
       errors.push(target.id + ": Markdown dialogue line count " + markdownDialogue.length + " does not match runtime " + lines.length);
     }
@@ -78,8 +85,11 @@ for (const target of targets) {
         break;
       }
     }
-  
-  
+  }
+
+  if (target.dialogueOnly) {
+    console.log(target.id + ": " + lines.length + " dialogue tuples checked (intro/branches/common only; no count threshold) — " + target.status);
+    continue;
   }
 
   const match = markdown.match(/正文統計[^0-9]*([0-9,]+)\s*個中文字元/);
