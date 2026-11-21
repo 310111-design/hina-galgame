@@ -4,6 +4,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
 const assert = require("node:assert/strict");
+const { runRegressionFixtures, auditChapter } = require("./chapter-length-audit.js");
 
 const root = path.join(__dirname, "..");
 const source = fs.readFileSync(path.join(root, "site", "game-data.js"), "utf8");
@@ -237,6 +238,11 @@ for (const target of targets) {
 
   console.log(target.id + ": " + count + " total characters; paths " + pathCounts.join(", ") + " — " + target.status);
 }
+
+// Advisory inventory is separate from existing adult minimum gates. A passing
+// sync check does not certify B05's narrative quality or reference length.
+runRegressionFixtures();
+auditChapter(chapters.find(chapter => chapter.id === "B05"));
 
 if (errors.length) {
   console.error("Route draft validation failed:");
