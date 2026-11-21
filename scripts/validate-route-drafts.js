@@ -3,6 +3,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
+const assert = require("node:assert/strict");
 
 const root = path.join(__dirname, "..");
 const source = fs.readFileSync(path.join(root, "site", "game-data.js"), "utf8");
@@ -20,9 +21,9 @@ const targets = [
   { id: "A04", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
   { id: "A05", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
   { id: "A06", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
-  { id: "B01", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
-  { id: "B02", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
-  { id: "B03", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
+  { id: "B01", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
+  { id: "B02", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
+  { id: "B03", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
   { id: "D01", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D02", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D03", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
@@ -72,6 +73,42 @@ function compareDialogue(label, expected, actual) {
   }
 }
 
+// Only the text between the choice and branch-A markers is accepted. Never
+// normalize punctuation or ignore malformed options: labels are player promises.
+function choiceSyncErrors(block, choices) {
+  const lines = block.split(/\r?\n/).map(line => line.trim())
+    .filter(line => line && line !== "---");
+  const parsed = lines.map(line => line.match(/^([ABC])\.\s+(.+)$/));
+  if (parsed.length !== 3 || parsed.some(match => !match) ||
+      parsed.map(match => match[1]).join("") !== "ABC") {
+    return ["choice block must contain exactly A/B/C labels in order"];
+  }
+  const expected = parsed.map(match => [match[1], match[2]]);
+  const actual = (choices || []).map(choice => [choice.letter, choice.label]);
+  return JSON.stringify(expected) === JSON.stringify(actual)
+    ? [] : ["Markdown/runtime choice letters or labels differ"];
+}
+
+// In-memory regression fixtures: no story files or runtime data are mutated.
+const choiceFixture = "A. 先休息。\nB. 先交付。\nC. 先詢問。\n\n---\n";
+const fixtureChoices = ["先休息。", "先交付。", "先詢問。"].map((label, index) => ({
+  letter: "ABC"[index], label
+}));
+assert.equal(choiceSyncErrors(choiceFixture, fixtureChoices).length, 0);
+assert.equal(choiceSyncErrors(choiceFixture.replace(/\n/g, "\r\n"), fixtureChoices).length, 0);
+for (const badBlock of [
+  choiceFixture.replace("先休息。", "先工作。"),
+  choiceFixture.replace("B.", "A."),
+  choiceFixture.replace("B. 先交付。\n", ""),
+  choiceFixture.replace("C. 先詢問。", "C. "),
+  choiceFixture.replace("C.", "D."),
+  choiceFixture + "A. 多一個選項。\n",
+  choiceFixture.replace("B. 先交付。\nC. 先詢問。", "C. 先詢問。\nB. 先交付。")
+]) assert.ok(choiceSyncErrors(badBlock, fixtureChoices).length > 0);
+assert.ok(choiceSyncErrors(choiceFixture, [...fixtureChoices].reverse()).length > 0);
+assert.ok(choiceSyncErrors(choiceFixture, undefined).length > 0);
+console.log("Choice sync regression fixtures OK: 2 positive and 9 negative cases.");
+
 // Opt in only for drafts with this exact section format. A flattened sequence
 // cannot detect a line moved across intro/branch/common boundaries.
 function compareSections(markdown, chapter, target) {
@@ -81,6 +118,10 @@ function compareSections(markdown, chapter, target) {
   if (JSON.stringify(names) !== JSON.stringify(expectedNames)) {
     errors.push(target.id + ": missing, duplicate or out-of-order Markdown section markers");
     return;
+  }
+  if (target.syncChoices) {
+    const block = markdown.slice(markers[0].index + markers[0][0].length, markers[1].index);
+    errors.push(...choiceSyncErrors(block, chapter.choices).map(error => target.id + ": " + error));
   }
   const sections = [
     ["intro", markdown.slice(0, markers[0].index), chapter.intro || []],
@@ -126,7 +167,8 @@ for (const target of targets) {
 
   if (target.dialogueOnly) {
     console.log(target.id + ": " + lines.length + " dialogue tuples checked (intro/branches/common only; " +
-      (target.syncSections ? "section boundaries checked; " : "") + "no count threshold) — " + target.status);
+      (target.syncSections ? "section boundaries checked; " : "") +
+      (target.syncChoices ? "choice labels checked; " : "") + "no count threshold) — " + target.status);
     continue;
   }
 

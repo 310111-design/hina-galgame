@@ -1,6 +1,6 @@
 # 空崎陽奈二創 Galgame｜總願景、現況與執行路線圖
 
-> 最後整理：2026-11-21；本輪補記：第一幕末段 A05→A06 人工文本審校，以及 A06 逐句與分段同步驗證（AFT 修訂仍待安全局部編輯工具）。
+> 最後整理：2026-11-21；本輪補記：第二幕前段 B01→B02→B03 人工文本審校，以及三節逐句與分段同步驗證（BAT 修訂仍待安全局部編輯工具）。
 > 本文件是目前唯一的專案總路線圖。狀態以 repo 實際檔案、程式、CI 與已確認的使用者決策為準；若舊文件或舊對話與本文衝突，以本文為目前執行依據。
 > **勾選規則：** [x] 已完成且有檔案／程式／驗證依據；[ ] 尚未完成；「待驗收」代表程式已存在，但尚未完成指定裝置或人工驗收。不能因程式碼存在就把實機驗收勾成完成。
 
@@ -112,6 +112,7 @@
 - [x] 將 A01／A02／A03 正文逐句同步加入固定 routes validator：117／107／106 條 tuple 通過；支援早期稿的裸情緒提示，不誤套正文統計或成年篇字數門檻。此檢查比較展平序列，不涵蓋分段邊界、選項 label 或敘事語義；A02 條件對話另由 game-data 對照。
 - [x] 將 A04／A05 正文逐句及五段邊界同步加入固定 routes validator：100／108 條 tuple 通過；各自核對 intro／A／B／C／common，並檢查章稿標記順序及唯一性。不涵蓋選項 label、敘事語義或早期篇幅門檻，既有成年篇規則維持。
 - [x] 將 A06 正文逐句與五段邊界同步加入固定 routes validator：104 條 tuple 通過；A01～A06 合計 642 條正文展平對照，A04～A06 另有分段檢查。不涵蓋 choices label、敘事語義或早期篇幅門檻。
+- [x] 將 B01～B03 正文逐句與五段同步加入固定 routes validator：78／122／115 條 tuple 通過；新增 315 條，A01～B03 合計 957 條展平對照，A04～B03 有分段檢查。不涵蓋 choices label、敘事語義或早期篇幅門檻。
 
 ### 3.2 遊戲核心與閱讀功能
 
@@ -200,7 +201,7 @@
 - [x] 第三批選項影響審校（C01～C06）：六節的 A／B／C 均帶來不同事件或互動方式，共通段回收仍不假設單一分支；修正 C01～C06 選項累積旗標與分支實際結果的錯配；舊存檔依已選字母遷移，並加入劇情稿與 runtime 旗標 CI 對照。
 - [x] 第四批選項影響審校（D01～D07、D08F／D08P／D08R）：D01～D05 的回憶／日常分支、D06 路線選擇、D07 關係收束與三結局的分支後果均有實際差異；修正 D01～D05、D07 選項旗標與分支意義的錯配；舊存檔依已選字母遷移，D08 三線旗標維持一致。
 - [x] 第一批共通回收與分支狀態審校（C01～C06）：對照各節 A／B／C 的物件、引用句和已完成動作，修正 C04 只有 C 分支才寫下的三個詞、C06 只有 A 分支才寫下的便條被共通段引用；同步 Markdown 與 runtime，保留分支專屬結果在原分支。
-- [x] 第二批共通回收與分支狀態審校（B01～B08）：逐節對照 A／B／C 結果與共通段；修正 B05 共通段重複所有路徑皆交付設備回報第一輪核對、因此抹平 B 選項差異的問題，改為共通時間拆分與回查安排，分支交付仍只在 B 路徑發生；同步 Markdown 與 runtime。其餘 B01～B04、B06～B08 未發現共通段依賴單一路徑才成立的物件或動作。
+- [x] 第二批共通回收與分支狀態審校（B01～B08）：逐節對照 A／B／C 結果與共通段；修正 B05 共通段重複所有路徑皆交付設備回報第一輪核對、因此抹平 B 選項差異的問題，改為共通時間拆分與回查安排，分支交付仍只在 B 路徑發生；同步 Markdown 與 runtime。其餘 B01～B04、B06～B08 當時未發現單一路徑假設。**後續重查：** BAT-02／06 找出 B02／B03 合流問題，此歷史勾選不代表已無缺陷。
 - [x] 第三批共通回收與分支狀態審校（A01～A06）：逐節比對分支動作與合流敘述；修正 A05 共通段把「原定時間延後開始休息」誤寫成「錯過十分鐘」的矛盾，避免否定 A 分支結果；同步 Markdown 與 runtime。其餘 A01～A04、A06 未發現單一路徑限定假設。
 - [x] 序章共通會合審校（P01～P03）：檢查選項後的場景狀態；修正 P01 共通段仍描述室內翻閱桌面文件、把杯子移到桌角，與 C 分支前往屋頂且未回辦公室的狀態衝突；同步劇情稿與 runtime。P02 以辦公室／紙袋／屋頂多種物件位置明確涵蓋各路徑，P03 收束不依賴單一路徑動作。**後續重查：** 本輪 PRT-01 找出 P01 尚存百葉窗／收公文的地點限定；P02→P03 轉場及便條來源另列 PRT-05／06 待釐清。此歷史勾選只代表該次局部修訂，不代表序章已無問題。
 - [x] 成年篇 D07 共通回收場景連貫性檢查：A 路徑走到咖啡店後，共通段原先仍持續描寫河面、河岸與河風，未交代回到河邊；改為地點中性的收束，三條路徑各自留在已選場景，並同步 Markdown 與 runtime。正文統計更新為 2,689 字元；CI 確認 A／B／C 路徑為 2,571／2,584／2,582 字元。
@@ -224,6 +225,9 @@
 - [x] 第一幕末段銜接人工文本審校（A05→A06）：完整閱讀兩節章稿，核對九種局部分支組合；記錄 AFT-01～03 日期／赴約、明日預留與今晚成果、B 分工及共通收束待釐清事項。詳見 `knowledge/reviews/first-act-ending-transitions.md`；A06 新增逐句與五段同步，三個固定 validators 並行通過。EAT／AMT 原問題未修，不重複結案。
 - [ ] 修訂／釐清 AFT-01～03，同步章稿與 runtime；採 A06 隔日傍晚、先交代放學前約定已履行，再規劃下一日，區分預留與實際休息。安全局部編輯仍受阻，審校通過不代表修復。
 - [ ] 將 `knowledge/experience-first-act-ending.md` 安全追加至 `knowledge/experience.md`；補記含方法與未來適用範圍，保留主檔歷史。
+- [x] 第二幕前段銜接人工文本審校（B01→B02→B03）：完整閱讀三節章稿、核對十八種局部組合；BAT-01～07 記錄等待規則、互斥成果合流、說話者、計時器、核對紙版本及返件日期／狀態待修事項。詳見 `knowledge/reviews/second-act-opening-transitions.md`；新增 315 條逐句／五段同步，三個固定 validators 通過。僅審校與驗證程式完成，非敘事修復。
+- [ ] 修訂／釐清 BAT-01～07，同步章稿與 runtime；保留不同任務／規則版本及 A／B／C 結果，BAT-03 另修說話者。安全局部編輯仍受阻，EAT-06／07 原問題未修。
+- [ ] 將 `knowledge/experience-second-act-opening.md` 安全追加至 `knowledge/experience.md`；已記方法與適用範圍，主檔未覆蓋。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
 
 ### Phase 2｜背景與遊戲畫面實機驗收
@@ -287,7 +291,7 @@
 ## 5. 下一步執行順序
 
 1. **角色美術（最高優先）**：精修 8 張透明背景副本；逐張清除可確認的背景殘留、保留所有畫面元素並驗收邊緣，同時判斷獨立插畫用途與同姿勢 sprite 重製需求，再更新素材清冊。原圖保留不動。
-2. **全篇分支連貫性 QA**：選項局部影響審校已完成，接著檢查全篇共通回收、分支假設、旗標回收與路線入口出口。已交付前段跨幕 EAT、序章內部 PRT、第一幕前段 AAT、中段 AMT 與末段 AFT 審校；有安全局部編輯能力時依序修復 EAT-01～07、PRT-01～07、AAT-01～07、AMT-01～08、AFT-01～03，並合併五份經驗補記。若工具仍受限，接續 B01→B02→B03 的時段／交付／退回流程審校，不重複已交付的 A05→A06 或 A06→B01，也不宣稱前批問題已修復。
+2. **全篇分支連貫性 QA**：已交付 EAT、PRT、AAT、AMT、AFT 與 BAT 審校；有安全局部編輯能力時依序修復 EAT-01～07、PRT-01～07、AAT-01～07、AMT-01～08、AFT-01～03、BAT-01～07，並合併六份經驗補記。若工具仍受限，接續 B03→B04→B05 的流程重核與期限銜接審校，不重複已交付的 B01→B02→B03，也不宣稱前批問題已修復。
 3. **背景與 UI 實機驗收**：驗證真實裝置的背景裁切、可讀性及操作品質。
 4. **存檔、分支及音訊相容性驗收**：完成後再執行跨裝置完整 QA 與發布檢查。
 
@@ -298,7 +302,7 @@
 - 開始前讀取本文件、`knowledge/experience.md`、`knowledge/decision.md`，並檢查 GitHub main 最新 commit、工作目錄及 Actions 狀態。
 - 只從本文件尚未完成且不受阻塞的最前面項目開始；不要重做已完成工作。
 - 完成一個階段後更新本文件勾選狀態，並將可重用經驗及適用範圍回流到 `knowledge/experience.md`。
-- 工具截斷期間，經驗暫存 `knowledge/experience-early-act-transitions.md`、`knowledge/experience-prologue-transitions.md`、`knowledge/experience-first-act-opening.md`、`knowledge/experience-first-act-middle.md` 與 `knowledge/experience-first-act-ending.md`，後續讀取時一併參考；不可將截斷前綴覆寫主檔。工具阻塞、推薦及驗證界線詳見五份對應審校紀錄。
+- 工具截斷期間，經驗暫存 `knowledge/experience-early-act-transitions.md`、`knowledge/experience-prologue-transitions.md`、`knowledge/experience-first-act-opening.md`、`knowledge/experience-first-act-middle.md`、`knowledge/experience-first-act-ending.md` 與 `knowledge/experience-second-act-opening.md`，後續讀取時一併參考；不可將截斷前綴覆寫主檔。工具阻塞、推薦及驗證界線詳見對應審校紀錄。
 - 重大設計決策或暫停／恢復狀態變更時，同步更新 `knowledge/decision.md`。
 - 程式已接入不等於驗收完成；只有實際測試完成才勾選實機 QA。
 - 修改遊戲資料時執行 `scripts/validate-game-data.js`；有對應檢查時一併執行素材與路線驗證。
@@ -325,6 +329,8 @@
 | `knowledge/reviews/first-act-middle-transitions.md` | A03→A04→A05 審校矩陣、AMT 待修項及驗證範圍 |
 | `knowledge/experience-first-act-ending.md` | 第一幕末段邀約履行與時間分層經驗補記，待安全追加回主檔 |
 | `knowledge/reviews/first-act-ending-transitions.md` | A05→A06 九種局部組合、AFT 待釐清項與驗證範圍 |
+| `knowledge/experience-second-act-opening.md` | 第二幕前段任務身分／規則版本與合流經驗補記，待安全追加回主檔 |
+| `knowledge/reviews/second-act-opening-transitions.md` | B01→B02→B03 十八格審校、BAT 待修項及驗證範圍 |
 | `knowledge/decision.md` | 重大設計決策、原因及狀態 |
 | `knowledge/asset-register.md` | 背景、角色及其他美術素材清冊 |
 | `knowledge/story-bible.md` | 角色、世界觀與設定依據 |
