@@ -24,6 +24,8 @@ const targets = [
   { id: "B01", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
   { id: "B02", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
   { id: "B03", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
+  { id: "B04", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
+  { id: "B05", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
   { id: "D01", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D02", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D03", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
@@ -49,26 +51,25 @@ function parseDialogue(markdown, target) {
     match = line.match(/^【系統】(.*)$/);
     if (match) return [["system", match[1]]];
     if (
-      line.startsWith("【") ||
-      line.startsWith("#") ||
-      line.startsWith("**") ||
-      line.startsWith("-") ||
-      /^[ABC]\./.test(line) ||
-      line.startsWith("`")
+      line.startsWith("【") || line.startsWith("#") ||
+      line.startsWith("**") || line.startsWith("-") ||
+      /^[ABC]\./.test(line) || line.startsWith("`")
     ) return [];
     return [["narration", line]];
   });
 }
 
-function compareDialogue(label, expected, actual) {
+function compareDialogue(label, expected, actual, issues = errors) {
   if (expected.length !== actual.length) {
-    errors.push(label + ": Markdown dialogue line count " + expected.length + " does not match runtime " + actual.length);
+    issues.push(label + ": Markdown dialogue line count " + expected.length + " does not match runtime " + actual.length);
   }
   const compareLength = Math.min(expected.length, actual.length);
   for (let index = 0; index < compareLength; index += 1) {
     if (JSON.stringify(expected[index]) !== JSON.stringify(actual[index])) {
-      errors.push(label + ": Markdown/runtime dialogue mismatch at line " + (index + 1));
-      break;
+      // Report only mismatched dialogue tuples, not the entire runtime file.
+      issues.push(label + ": Markdown/runtime dialogue mismatch at line " + (index + 1) +
+        "\n  Markdown: " + JSON.stringify(expected[index]) +
+        "\n  runtime:  " + JSON.stringify(actual[index]));
     }
   }
 }
@@ -111,17 +112,17 @@ console.log("Choice sync regression fixtures OK: 2 positive and 9 negative cases
 
 // Opt in only for drafts with this exact section format. A flattened sequence
 // cannot detect a line moved across intro/branch/common boundaries.
-function compareSections(markdown, chapter, target) {
+function compareSections(markdown, chapter, target, issues = errors) {
   const markers = [...markdown.matchAll(/^【(選擇|分支 [ABC]：[^】]+|共通回收)】\s*$/gm)];
   const names = markers.map(match => match[1].split("：")[0]);
   const expectedNames = ["選擇", "分支 A", "分支 B", "分支 C", "共通回收"];
   if (JSON.stringify(names) !== JSON.stringify(expectedNames)) {
-    errors.push(target.id + ": missing, duplicate or out-of-order Markdown section markers");
+    issues.push(target.id + ": missing, duplicate or out-of-order Markdown section markers");
     return;
   }
   if (target.syncChoices) {
     const block = markdown.slice(markers[0].index + markers[0][0].length, markers[1].index);
-    errors.push(...choiceSyncErrors(block, chapter.choices).map(error => target.id + ": " + error));
+    issues.push(...choiceSyncErrors(block, chapter.choices).map(error => target.id + ": " + error));
   }
   const sections = [
     ["intro", markdown.slice(0, markers[0].index), chapter.intro || []],
@@ -133,9 +134,52 @@ function compareSections(markdown, chapter, target) {
     ["common", markdown.slice(markers[4].index + markers[4][0].length), chapter.common || []]
   ];
   for (const [name, text, runtime] of sections) {
-    compareDialogue(target.id + " " + name, parseDialogue(text, target), runtime);
+    compareDialogue(target.id + " " + name, parseDialogue(text, target), runtime, issues);
   }
 }
+
+// Exercise the section parser, not just the flattened dialogue comparison.
+// Each case has its own collector, so expected failures cannot hide real errors.
+const sectionTarget = { id: "fixture", dialogueOnly: true, syncChoices: true };
+const sectionFixture = "# fixture\n【旁白】入口。\n【選擇】\n" + choiceFixture +
+  "【分支 A：甲】\n【陽奈｜認真】甲。\n【分支 B：乙】\n【旁白】乙。\n" +
+  "【分支 C：丙】\n【旁白】丙。\n【共通回收】\n【旁白】收束。\n";
+const sectionChapter = {
+  intro: [["narration", "入口。"]], choices: fixtureChoices,
+  branches: { A: [["hina", "甲。", "認真"]], B: [["narration", "乙。"]], C: [["narration", "丙。"]] },
+  common: [["narration", "收束。"]]
+};
+for (const markdown of [sectionFixture, sectionFixture.replace(/\n/g, "\r\n")]) {
+  const issues = [];
+  compareSections(markdown, sectionChapter, sectionTarget, issues);
+  assert.deepEqual(issues, []);
+}
+const movedLines = [
+  ["intro to A", sectionFixture.replace("【旁白】入口。\n", "")
+    .replace("【分支 A：甲】\n", "【分支 A：甲】\n【旁白】入口。\n"), "fixture intro:"],
+  ["A to B", sectionFixture.replace("【陽奈｜認真】甲。\n【分支 B：乙】", "【分支 B：乙】\n【陽奈｜認真】甲。"), "fixture branch A:"],
+  ["C to common", sectionFixture.replace("【旁白】丙。\n【共通回收】", "【共通回收】\n【旁白】丙。"), "fixture branch C:"]
+];
+for (const [name, markdown, diagnostic] of movedLines) {
+  // Prove that a flattened-only check would miss these boundary mutations.
+  assert.deepEqual(parseDialogue(markdown, sectionTarget), parseDialogue(sectionFixture, sectionTarget), name);
+  const issues = [];
+  compareSections(markdown, sectionChapter, sectionTarget, issues);
+  assert.ok(issues.some(issue => issue.startsWith(diagnostic)), name);
+}
+for (const [name, markdown, diagnostic] of [
+  ["missing marker", sectionFixture.replace("【共通回收】\n", ""), "section markers"],
+  ["duplicate marker", sectionFixture + "【共通回收】\n", "section markers"],
+  ["reordered markers", sectionFixture.replace("【分支 A：甲】", "【分支 B：甲】")
+    .replace("【分支 B：乙】", "【分支 A：乙】"), "section markers"],
+  ["speaker drift", sectionFixture.replace("【陽奈｜認真】甲。", "【旁白】甲。"), "dialogue mismatch"],
+  ["mood drift", sectionFixture.replace("【陽奈｜認真】", "【陽奈｜微笑】"), "dialogue mismatch"]
+]) {
+  const issues = [];
+  compareSections(markdown, sectionChapter, sectionTarget, issues);
+  assert.ok(issues.some(issue => issue.includes(diagnostic)), name);
+}
+console.log("Section sync regression fixtures OK: 2 positive and 8 negative cases (3 preserve flattened dialogue).");
 
 for (const target of targets) {
   const chapter = chapters.find(item => item.id === target.id);
