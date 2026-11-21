@@ -217,7 +217,7 @@
 - [x] 將前批經驗補記 `knowledge/experience-early-act-transitions.md` 的可複用方法、限制與未來適用範圍合併至 `knowledge/experience.md`；保留補記原檔作為審校來源，不覆蓋歷史內容。
 - [x] 序章內部銜接人工文本審校（P01→P02→P03）：完整閱讀三節章稿與 runtime 回傳前綴內的三個完整節點，檢查兩組交界各九種局部組合及 P03 九種入口旗標歷史；記錄 PRT-01～07 場景殘留、昨日回憶前提、清單欄位、回室與便條來源、稿末導航等待修／待釐清事項。證據見 `knowledge/reviews/prologue-transitions.md`；三個固定 validator 均通過，僅審校、不代表修復或實機通關。
 - [ ] 修訂／釐清序章審校 PRT-01～07，同步章稿、runtime 與稿末導航，並補序章格式適用的稿件對照；同受安全局部編輯工具阻塞，未單改正文。既有 routes validator 不涵蓋序章。
-- [ ] 將本批經驗補記 `knowledge/experience-prologue-transitions.md` 安全追加至 `knowledge/experience.md`；本批保留主檔，補記已由本計畫索引。
+- [x] 將本批經驗補記 `knowledge/experience-prologue-transitions.md` 的跨選擇前提、條件回憶時序、場景狀態及稿件導航分層方法合併至 `knowledge/experience.md`；保留補記原檔作為審校來源。
 - [x] 第一幕前段銜接人工文本審校（A01→A02→A03）：完整閱讀三節章稿，核對十八種局部分支組合及 A02 累積回憶反例；記錄 AAT-01～07 昨日指涉、ordinary_day 回憶前提、提交次數、燈光、C 選項承諾、欄位變化及送客動作待修／待釐清事項。詳見 `knowledge/reviews/first-act-opening-transitions.md`；新增逐句同步與三個固定 validators 均通過，非劇情修復或實機 QA。
 - [ ] 修訂／釐清 AAT-01～07，同步章稿與 runtime；AAT-02 另同步 `knowledge/flag-dialogue.md`，AAT-05 人工核對 choices label。安全局部編輯仍受阻，不把同步檢查通過當成敘事問題已修。
 - [ ] 將 `knowledge/experience-first-act-opening.md` 安全追加至 `knowledge/experience.md`；補記已包含方法與未來適用範圍，原歷史未覆蓋。
@@ -334,7 +334,7 @@
 | `knowledge/experience.md` | 可複用的製作經驗與工作流程 |
 | `knowledge/experience-early-act-transitions.md` | 前段跨幕經驗補記，待安全追加回主檔 |
 | `knowledge/reviews/early-act-transitions.md` | 前段跨幕交界審校結果、待修項與驗證證據 |
-| `knowledge/experience-prologue-transitions.md` | 序章內部銜接經驗補記，待安全追加回主檔 |
+| `knowledge/experience-prologue-transitions.md` | 序章內部銜接經驗補記來源；可複用方法已合併至主經驗檔 |
 | `knowledge/reviews/prologue-transitions.md` | 序章交界／旗標歷史核對、PRT 待修項與驗證界線 |
 | `knowledge/experience-first-act-opening.md` | 第一幕前段回憶前提與同步驗證經驗補記，待安全追加回主檔 |
 | `knowledge/reviews/first-act-opening-transitions.md` | A01→A02→A03 審校矩陣、AAT 待修項及驗證範圍 |
