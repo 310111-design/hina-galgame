@@ -230,8 +230,8 @@
 - [x] 修訂 AAT-01～07：同步 A01／A02／A03、runtime 與 `knowledge/flag-dialogue.md`；對齊提交狀態、燈光、choice label、欄位狀態及 A01 結尾。`game-data`、`routes`、`shells`、`prologue-revisions` 四項固定驗證通過；無瀏覽器通關／全篇 QA。詳見 `knowledge/reviews/first-act-opening-transitions.md`。
 - [x] 將第一幕前段回憶前提、事件狀態、選項承諾與稿件/runtime 精確局部替換經驗合併至 `knowledge/experience.md`；保留補記原檔。
 - [x] 第一幕中段銜接人工文本審校（A03→A04→A05）：完整閱讀三節章稿，核對十八種局部分支組合；記錄 AMT-01～08 日期、交付結果、清單所有權與欄位、重複返室、時鐘／熱飲、昨日指涉、巡邏狀態及重複熄燈待修／待釐清。詳見 `knowledge/reviews/first-act-middle-transitions.md`；A04／A05 新增逐句與分段同步，三個固定 validators 並行通過。僅審校與驗證程式完成，不代表敘事修復。
-- [ ] 修訂／釐清 AMT-01～08，同步章稿與 runtime；採 A03→A04 隔日更新清單、A04→A05 同日傍晚承接，保留分支專屬結果。沿用精確 runtime 章節替換流程；歷史 A01～A06 共通審校勾選不代表本批新問題已解決。
-- [ ] 將 `knowledge/experience-first-act-middle.md` 安全追加至 `knowledge/experience.md`；已記可複用方法及未來適用範圍，主檔未覆蓋。
+- [x] 修訂 AMT-01～08：同步 A03／A04／A05 章稿與 runtime，補明隔日承接、資料簽收、清單交還、巡邏判斷與休息語意，刪除 A04 重複返室及 A05 重複熄燈。`routes`、`game-data`、`shells` 通過；未做瀏覽器／裝置 QA。詳見 `knowledge/reviews/first-act-middle-transitions.md`。
+- [x] 將第一幕中段跨章日期、交接狀態、清單所有權、分支限定動作與場景連續性經驗合併至 `knowledge/experience.md`，保留補記作為詳情來源。
 - [x] 第一幕末段銜接人工文本審校（A05→A06）：完整閱讀兩節章稿，核對九種局部分支組合；記錄 AFT-01～03 日期／赴約、明日預留與今晚成果、B 分工及共通收束待釐清事項。詳見 `knowledge/reviews/first-act-ending-transitions.md`；A06 新增逐句與五段同步，三個固定 validators 並行通過。EAT／AMT 原問題未修，不重複結案。
 - [ ] 修訂／釐清 AFT-01～03，同步章稿與 runtime；採 A06 隔日傍晚、先交代放學前約定已履行，再規劃下一日，區分預留與實際休息。沿用精確 runtime 章節替換流程；審校通過不代表修復。
 - [ ] 將 `knowledge/experience-first-act-ending.md` 安全追加至 `knowledge/experience.md`；補記含方法與未來適用範圍，保留主檔歷史。
@@ -245,6 +245,10 @@
 - [ ] 修訂／釐清 BCT-01～07，同步章稿與 runtime；推薦 B06 為 B05 同日晚間收尾，兩個初始例外僅一項待回查，B07 作額外熱飲及唯一離場，修正 B 選項「喝完」承諾。沿用精確 runtime 章節替換流程；先前完成勾選不代表新問題已解決。
 - [ ] 將 `knowledge/experience-second-act-closing.md` 安全追加至 `knowledge/experience.md`；本輪主檔仍截斷，補記保存方法與未來適用範圍，未宣稱主檔合併完成。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
+
+### Pages 發布入口精簡
+
+- [x] 正作 `game.html` 為唯一首頁公開遊戲入口；移除「試玩版 2」連結，後續完成更新直接整合到正作並隨 main 發布。`testplay.html` 僅保留作內部回歸頁，不列為產品入口。
 
 ### 視覺介面美化｜主頁與 Galgame 畫面
 
@@ -318,7 +322,7 @@
 ## 5. 下一步執行順序
 
 1. **美術接入規則**：八張角色表情圖已接入並部署，下一步保留手機／桌面顯示驗收。事件 CG 暫定 27 張，情境清單已建立，待使用者分批交付後接入；不自行生成、繪製或修圖。
-2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07 與 AAT-01～07 已同步修訂並驗證。下一批依序修訂／釐清 AMT-01～08、AFT-01～03、BOT-01～07、BMT-01～07、BCT-01～07，逐批同步章稿與 runtime，並合併仍未回流的經驗補記。完成已交付審校後，繼續全篇共通回收、分支假設、旗標回收與路線入口出口 QA；B07→B08→C01 的熱飲定位、收工承諾及團隊交接已列為後續內容審校候選，不重做 B05→B06→B07。遇遠端分歧先安全同步，不 force push。
+2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07 與 AAT-01～07 已同步修訂並驗證。下一批依序修訂／釐清 AFT-01～03、BOT-01～07、BMT-01～07、BCT-01～07，逐批同步章稿與 runtime，並合併仍未回流的經驗補記。完成已交付審校後，繼續全篇共通回收、分支假設、旗標回收與路線入口出口 QA；B07→B08→C01 的熱飲定位、收工承諾及團隊交接已列為後續內容審校候選，不重做 B05→B06→B07。遇遠端分歧先安全同步，不 force push。
 3. **背景與 UI 實機驗收**：驗證真實裝置的背景裁切、可讀性及操作品質。
 4. **存檔、分支及音訊相容性驗收**：完成後再執行跨裝置完整 QA 與發布檢查。
 
@@ -357,7 +361,7 @@
 | `knowledge/reviews/prologue-transitions.md` | 序章交界／旗標歷史核對、PRT 待修項與驗證界線 |
 | `knowledge/experience-first-act-opening.md` | 第一幕前段回憶前提與同步驗證的保留來源補記 |
 | `knowledge/reviews/first-act-opening-transitions.md` | A01→A02→A03 審校矩陣、AAT 待修項及驗證範圍 |
-| `knowledge/experience-first-act-middle.md` | 第一幕中段任務／道具狀態與分段同步經驗補記，待安全追加回主檔 |
+| `knowledge/experience-first-act-middle.md` | 第一幕中段任務／道具狀態與分段同步經驗詳情來源 |
 | `knowledge/reviews/first-act-middle-transitions.md` | A03→A04→A05 審校矩陣、AMT 待修項及驗證範圍 |
 | `knowledge/experience-first-act-ending.md` | 第一幕末段邀約履行與時間分層經驗補記，待安全追加回主檔 |
 | `knowledge/reviews/first-act-ending-transitions.md` | A05→A06 九種局部組合、AFT 待釐清項與驗證範圍 |
