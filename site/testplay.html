@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#090912">
   <title>放學後的十分鐘｜試玩版 2</title>
-  <link rel="stylesheet" href="game.css?v=sprite-no-flash-20261122">
+  <link rel="stylesheet" href="game.css?v=chapter-card-20261123">
+  <link rel="stylesheet" href="chapter-intro.css?v=chapter-card-20261123">
 </head>
 <body>
   <main class="game-shell">
@@ -26,13 +27,22 @@
       <div class="progress-track"><div id="progress" class="progress"></div></div>
       <div class="status-row"><span id="chapterLabel">P01</span><span id="saveState">自動存檔</span><div id="flags" class="flags" aria-label="劇情旗標"></div></div>
     </section>
-    <section id="gameStage" class="game-stage" aria-label="遊戲畫面">
+    <section id="gameStage" class="game-stage" aria-label="遊戲畫面" tabindex="-1">
       <div id="sceneArt" class="scene-art office">
         <div id="chapterToast" class="chapter-toast" aria-live="polite"></div>
         <div class="scene-backdrop"></div><div class="scene-vignette"></div>
         <div class="scene-light"></div>
         <img id="hinaSprite" class="hina-sprite" src="assets/hina-sprite.svg" alt="空崎陽奈立繪" decoding="async" fetchpriority="high">
       </div>
+      <section id="chapterIntro" class="chapter-intro-backdrop" role="dialog" aria-modal="true" aria-labelledby="chapterIntroTitle" hidden>
+        <div class="chapter-intro-card">
+          <span class="chapter-intro-kicker">HINA GALGAME · TESTPLAY</span>
+          <span id="chapterIntroCode" class="chapter-intro-code"></span>
+          <h2 id="chapterIntroTitle" class="chapter-intro-title">放學後的十分鐘</h2>
+          <p class="chapter-intro-copy">在故事開始前，先留一點時間給這個場景。</p>
+          <button id="chapterIntroStart" class="chapter-intro-start" type="button">開始閱讀</button>
+        </div>
+      </section>
       <div class="visual-controls"><span id="mood" class="mood">認真</span><button id="audioToggle" class="audio-toggle" type="button" aria-label="切換音樂">♫</button></div>
       <section class="dialogue-panel">
         <div id="story" class="story" aria-live="polite"></div>
@@ -40,7 +50,7 @@
         <div class="dialogue-footer"><div class="dialogue-hint" id="dialogueHint">點擊畫面任意空白處繼續　›</div><button id="skipRead" class="skip-read" type="button" disabled>跳過已讀</button></div>
       </section>
     </section>
-    </main>
+  </main>
   <aside id="logPanel" class="log-panel" aria-label="對話紀錄" aria-hidden="true" inert>
     <div class="log-head"><div><span class="eyebrow">DIALOGUE LOG</span><h2>對話紀錄</h2></div><button id="logClose" class="ghost" type="button">關閉</button></div>
     <section class="reading-settings" aria-label="閱讀設定">
@@ -78,6 +88,8 @@
     <p id="saveDialogNote" class="dialog-note">選擇一個欄位保存目前進度。</p>
     <div id="saveSlots" class="save-slots"></div>
   </dialog>
-  <script src="game-data.js?v=sprite-no-flash-20261122"></script><script src="game.js?v=sprite-no-flash-20261122"></script>
+  <script src="game-data.js?v=chapter-card-20261123"></script>
+  <script src="game.js?v=chapter-card-20261123"></script>
+  <script src="chapter-intro.js?v=chapter-card-20261123"></script>
 </body>
 </html>

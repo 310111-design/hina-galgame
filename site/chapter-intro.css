@@ -1,0 +1,79 @@
+/* Chapter opening card: a lightweight, accessible pause before each newly entered chapter. */
+.chapter-intro-backdrop {
+  position: absolute;
+  z-index: 18;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: max(24px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
+  background: linear-gradient(145deg, #0a0812b8, #100c1bd9 58%, #17101bbd);
+  backdrop-filter: blur(8px) saturate(.78);
+  opacity: 1;
+  transition: opacity .28s ease;
+}
+.chapter-intro-backdrop[hidden] { display: none; }
+.chapter-intro-backdrop.is-leaving { opacity: 0; pointer-events: none; }
+.chapter-intro-card {
+  width: min(560px, 100%);
+  padding: clamp(26px, 6vw, 54px);
+  border: 1px solid #ffffff42;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #292035f2, #100e19f5 74%);
+  box-shadow: 0 28px 100px #0009, inset 0 1px #ffffff16;
+  text-align: center;
+}
+.chapter-intro-kicker {
+  color: #e9c7d9;
+  font-size: .74rem;
+  letter-spacing: .24em;
+}
+.chapter-intro-code {
+  display: block;
+  margin: 18px 0 4px;
+  color: #f0d6b0;
+  font-family: Georgia, serif;
+  font-size: .9rem;
+  letter-spacing: .18em;
+}
+.chapter-intro-title {
+  margin: 0;
+  color: #fbf6ff;
+  font-family: Georgia, "Noto Serif TC", serif;
+  font-size: clamp(1.55rem, 5vw, 2.45rem);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: .06em;
+}
+.chapter-intro-copy {
+  margin: 16px 0 28px;
+  color: #d0c5d9;
+  font-size: .95rem;
+}
+.chapter-intro-start {
+  min-width: 180px;
+  min-height: 48px;
+  padding: 10px 22px;
+  border: 1px solid #e4c6e8a8;
+  border-radius: 999px;
+  background: linear-gradient(120deg, #cbb2ff2c, #efb9d226);
+  color: #fff7ff;
+  font: inherit;
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+}
+.chapter-intro-start:hover,
+.chapter-intro-start:focus-visible {
+  transform: translateY(-2px);
+  border-color: #f5d6ed;
+  background: linear-gradient(120deg, #cbb2ff52, #efb9d24a);
+  outline: 2px solid #e5c8ff55;
+  outline-offset: 3px;
+}
+.chapter-intro-start:active { transform: translateY(0); }
+@media (max-width: 720px) {
+  .chapter-intro-card { border-radius: 16px; }
+  .chapter-intro-copy { line-height: 1.7; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chapter-intro-backdrop, .chapter-intro-start { transition: none; }
+}
