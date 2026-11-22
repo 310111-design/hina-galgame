@@ -5,6 +5,7 @@ const path = require("node:path");
 const vm = require("node:vm");
 const assert = require("node:assert/strict");
 const { runRegressionFixtures, auditChapter } = require("./chapter-length-audit.js");
+const targets = require("./route-draft-targets.js");
 
 const root = path.join(__dirname, "..");
 const source = fs.readFileSync(path.join(root, "site", "game-data.js"), "utf8");
@@ -13,40 +14,7 @@ vm.runInNewContext(source, sandbox);
 const chapters = sandbox.window.HINA_GAME_DATA;
 const errors = [];
 
-const targets = [
-  // Early drafts have no declared runtime count. Check dialogue only; do not
-  // mistake the editorial character-count goal for measured metadata.
-  { id: "A01", dialogueOnly: true, status: "continuity review; fixes pending" },
-  { id: "A02", dialogueOnly: true, status: "continuity review; fixes pending" },
-  { id: "A03", dialogueOnly: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "A04", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
-  { id: "A05", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
-  { id: "A06", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
-  { id: "B01", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "B02", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "B03", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "B04", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "B05", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "B06", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "B07", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "B08", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "C01", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "C02", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "C03", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "C04", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "C05", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "D01", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
-  { id: "D02", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
-  { id: "D03", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
-  { id: "D04", minimum: 2500, pathMinimum: 2500, status: "revised draft" },
-  { id: "D05", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
-  { id: "D06", minimum: 2500, pathMinimum: 2500, status: "route bridge draft" },
-  { id: "D07", minimum: 2500, pathMinimum: 2500, status: "route bridge draft" },
-  { id: "D08F", minimum: 2500, pathMinimum: 2500, status: "reviewed draft" },
-  { id: "D08P", minimum: 2500, pathMinimum: 2500, status: "reviewed draft" },
-  { id: "D08R", minimum: 2500, pathMinimum: 2500, status: "reviewed draft" }
-];
-
+const targets = require("./route-draft-targets.js");
 function parseDialogue(markdown, target) {
   return markdown.split(/\r?\n/).flatMap(rawLine => {
     const line = rawLine.trim();
