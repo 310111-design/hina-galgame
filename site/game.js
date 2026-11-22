@@ -370,6 +370,8 @@ function setMood(text) {
 function animateSprite(kind, text) {
   const sprite = document.getElementById("hinaSprite");
   sprite.className = sprite.dataset.emotion ? "hina-sprite user-cutout" : "hina-sprite";
+  if (sprite.dataset.ready === "true") sprite.classList.add("sprite-ready");
+  else sprite.classList.add("sprite-changing");
   const lower = text;
   if (lower.includes("疲")) sprite.classList.add("tired");
   if (lower.includes("微笑") || lower.includes("放鬆")) sprite.classList.add("smile");
@@ -389,12 +391,20 @@ function setSpriteEmotion(mood) {
   sprite.classList.add("sprite-changing");
   sprite.onload = () => {
     sprite.onload = null;
+    sprite.dataset.ready = "true";
+    sprite.classList.add("sprite-ready");
     sprite.classList.remove("sprite-changing");
   };
   sprite.onerror = () => {
     sprite.onerror = null;
     sprite.dataset.emotion = "";
     sprite.classList.remove("user-cutout");
+    sprite.onload = () => {
+      sprite.onload = null;
+      sprite.dataset.ready = "true";
+      sprite.classList.add("sprite-ready");
+      sprite.classList.remove("sprite-changing");
+    };
     sprite.src = SPRITE_FALLBACK;
   };
   sprite.src = source;

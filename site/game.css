@@ -1238,6 +1238,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   transition: opacity .24s ease, filter .3s ease;
 }
 .hina-sprite.sprite-changing { opacity: .42; }
+.hina-sprite:not(.sprite-ready) { opacity: 0; }
 .hina-sprite.user-cutout { bottom: 0; }
 .chapter-label.chapter-label-enter {
   animation: chapterLabelEnter .42s ease both;
