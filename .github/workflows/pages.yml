@@ -30,6 +30,8 @@ jobs:
         run: node scripts/validate-game-data.js
       - name: Validate story and route draft lengths and Markdown sync
         run: node scripts/validate-route-drafts.js
+      - name: Validate prologue revision sync
+        run: node scripts/validate-prologue-revisions.js
       - name: Validate game HTML shells
         run: node scripts/validate-game-shells.js
       - name: Inspect visual asset metadata
