@@ -18,7 +18,7 @@ const targets = [
   // mistake the editorial character-count goal for measured metadata.
   { id: "A01", dialogueOnly: true, status: "continuity review; fixes pending" },
   { id: "A02", dialogueOnly: true, status: "continuity review; fixes pending" },
-  { id: "A03", dialogueOnly: true, status: "continuity review; fixes pending" },
+  { id: "A03", dialogueOnly: true, syncChoices: true, status: "continuity review; fixes pending" },
   { id: "A04", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
   { id: "A05", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
   { id: "A06", dialogueOnly: true, syncSections: true, status: "continuity review; fixes pending" },
