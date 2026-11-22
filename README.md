@@ -4,7 +4,7 @@
 
 **企劃展示頁：** [GitHub Pages](https://310111-design.github.io/hina-galgame/)
 
-**角色素材預覽：** [8 張角色 PNG 總覽](https://310111-design.github.io/hina-galgame/character-preview.html)
+**角色素材預覽：** [正作使用的 13 種表情](https://310111-design.github.io/hina-galgame/character-preview.html)
 
 ## 專案內容
 
@@ -16,7 +16,7 @@
 - `knowledge/flag-dialogue.md`：跨章節旗標條件對話文字來源
 - `knowledge/decision.md`：待決事項與推薦方案
 - `knowledge/asset-register.md`：視覺素材清冊
-- `knowledge/art-prompts.md`：透明角色 sprite 基礎立繪與八種表情的共通提示詞
+- `knowledge/art-prompts.md`：後續透明角色 sprite 的立繪與表情提示詞參考
 - `knowledge/device-qa-checklist.md`：iPhone Safari 與桌面瀏覽器人工驗收清單
 - `story/chapters/`：逐節 Galgame 正文稿與分支；P01～P03 序章與 A01～D07 共 30 節共通篇，另有 D08F／D08P／D08R 三個路線結局
 - `site/`：GitHub Pages 靜態企劃頁與 30 節共通篇＋三路線結局體驗版（`game.html`、`testplay.html`）
@@ -25,8 +25,8 @@
 ## 目前美術狀態
 
 - 13 張背景已完成章節映射，並提供 WebP runtime 版本；原始 JPEG 保留。
-- 8 張角色 PNG 已保留為全身參考插畫，但背景不透明且構圖不一致，尚未作為遊戲 sprite；正式版與試玩版暫用 SVG 佔位立繪。
-- [角色素材預覽頁](https://310111-design.github.io/hina-galgame/character-preview.html) 可查看原圖與暫定分類。
+- 13 張使用者提供的角色表情 PNG 已接入正作，包含替換原有 8 種及新增 5 種；原有素材仍保留。
+- [角色素材預覽頁](https://310111-design.github.io/hina-galgame/character-preview.html) 可查看正作使用的 13 種表情。
 
 ## 自動檢查
 

@@ -6,29 +6,40 @@ const MANUAL_SLOTS_KEY = isTestplay ? "hina-galgame-testplay-manual-slots-v2" : 
 const MANUAL_SLOT_COUNT = 6;
 const chapters = window.HINA_GAME_DATA || [];
 const SPRITE_FALLBACK = "assets/hina-sprite.svg";
-// User-approved cutout set. The source poses vary; use each as supplied and keep
-// the original reference PNGs untouched. SVG remains the load-error fallback.
+// User-provided 13-expression set (2026-11-23). Keep all source reference PNGs
+// untouched; SVG remains the load-error fallback.
 const EMOTION_SPRITES = {
-  認真: "assets/characters/hina-cutout-v2-normal.png",
-  嚴肅: "assets/characters/hina-cutout-v2-normal.png",
-  嚴謹: "assets/characters/hina-cutout-v2-normal.png",
-  克制: "assets/characters/hina-cutout-v2-normal.png",
-  安定: "assets/characters/hina-cutout-v2-normal.png",
-  微笑: "assets/characters/hina-cutout-v2-smile.png",
-  放鬆: "assets/characters/hina-cutout-v2-smile.png",
-  安心: "assets/characters/hina-cutout-v2-happy.png",
-  意外: "assets/characters/hina-cutout-v2-surprised.png",
-  好奇: "assets/characters/hina-cutout-v2-confused.png",
-  沉思: "assets/characters/hina-cutout-v2-confused.png",
-  思考: "assets/characters/hina-cutout-v2-confused.png",
-  不安: "assets/characters/hina-cutout-v2-worried.png",
-  疲倦: "assets/characters/hina-cutout-v2-worried.png",
-  疲憊: "assets/characters/hina-cutout-v2-worried.png",
-  困倦: "assets/characters/hina-cutout-v2-worried.png",
-  不耐: "assets/characters/hina-cutout-v2-angry.png",
-  警戒: "assets/characters/hina-cutout-v2-angry.png",
-  警惕: "assets/characters/hina-cutout-v2-angry.png",
-  微羞: "assets/characters/hina-cutout-v2-shy.png"
+  普通: "assets/characters/hina-expression-neutral.png",
+  認真: "assets/characters/hina-expression-serious.png",
+  嚴肅: "assets/characters/hina-expression-serious.png",
+  嚴謹: "assets/characters/hina-expression-serious.png",
+  克制: "assets/characters/hina-expression-serious.png",
+  安定: "assets/characters/hina-expression-neutral.png",
+  微笑: "assets/characters/hina-expression-smile.png",
+  放鬆: "assets/characters/hina-expression-relaxed.png",
+  安心: "assets/characters/hina-expression-relaxed.png",
+  意外: "assets/characters/hina-expression-surprised.png",
+  驚訝: "assets/characters/hina-expression-surprised.png",
+  好奇: "assets/characters/hina-expression-curious.png",
+  沉思: "assets/characters/hina-expression-confused.png",
+  思考: "assets/characters/hina-expression-confused.png",
+  疑惑: "assets/characters/hina-expression-confused.png",
+  困惑: "assets/characters/hina-expression-confused.png",
+  不安: "assets/characters/hina-expression-worried.png",
+  擔憂: "assets/characters/hina-expression-worried.png",
+  疲倦: "assets/characters/hina-expression-sleepy.png",
+  疲憊: "assets/characters/hina-expression-sleepy.png",
+  困倦: "assets/characters/hina-expression-sleepy.png",
+  生氣: "assets/characters/hina-expression-angry.png",
+  不耐: "assets/characters/hina-expression-angry.png",
+  警戒: "assets/characters/hina-expression-angry.png",
+  警惕: "assets/characters/hina-expression-angry.png",
+  害羞: "assets/characters/hina-expression-shy.png",
+  微羞: "assets/characters/hina-expression-shy.png",
+  開心: "assets/characters/hina-expression-happy.png",
+  不捨: "assets/characters/hina-expression-reluctant.png",
+  難過: "assets/characters/hina-expression-reluctant.png",
+  悲傷: "assets/characters/hina-expression-reluctant.png"
 };
 
 const defaultState = () => ({
