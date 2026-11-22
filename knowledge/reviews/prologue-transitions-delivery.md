@@ -8,5 +8,5 @@
 - 經驗補記已追加於專用 `experience-prologue-transitions.md`；`knowledge/experience.md` 受完整檔讀取／安全追加能力限制，未覆寫。
 - 先前提交嘗試曾回報 `ERROR spawn git ENOENT`，沒有 commit ID；後續證據顯示也有不同工作目錄上的分歧分支。
 - **本輪同步結果：** 查明 `work/hina-galgame-publish` 的 `8416ed7` 比 fetch 後遠端 `5f95bd7` 多 1 筆、未落後；另一工作目錄 `work/hina-galgame-live` 的 `main`（`424e37b`）則是本地獨有 1 筆、遠端獨有 18 筆。已建立備份並以一般 merge 整合兩邊提交圖為 `8de810c`；對素材／計畫衝突保留較新且與使用者已交付圖檔一致的現況。三個固定 validators 通過，沒有 force push。
-- 本次紀錄提交前，正常 push 尚待執行；若成功再以遠端 SHA 補記。未提交的 route validator 修改留在另一工作目錄，未納入本階段。
-- Actions／Pages 部署結果待 push 後查證；固定 validators 不代表部署成功。
+- **推送與部署：** 狀態紀錄已隨一般 fast-forward push 發布；`origin/main` 至少已更新至 `0d9fb9f`。該 commit 的 GitHub Pages workflow 為 `completed / success`，正式網址回應 HTTP 200。另一工作目錄未提交的 route validator 修改仍保留，未納入本階段。
+- 這證明該 commit 已部署；固定 validators 本身不代表部署成功。

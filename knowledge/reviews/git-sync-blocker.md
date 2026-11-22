@@ -7,7 +7,7 @@
 - 建立 `backup/pre-sync-20261122`；在 `recovery/main-sync-20261122` 以一般 merge 整合兩邊歷史。`knowledge/asset-register.md`、`knowledge/experience.md`、`knowledge/plan.md` 衝突逐檔核對後，採用較新的 `8416ed7` 內容：本地 `424e37b` 的角色圖未去背／未接入判定與更新素材、使用者明確指示及現行遊戲映射不符，不能覆蓋現況。Merge commit：`8de810c`。沒有 force push。
 - 另一工作目錄未提交的 `scripts/validate-route-drafts.js` 修改與 `scripts/route-draft-targets.js` 新檔保持原樣，沒有 stage；`.env` 未被追蹤。
 - 合併後 `node scripts/validate-game-data.js`、`node scripts/validate-route-drafts.js`、`node scripts/validate-game-shells.js` 全數通過。這不等同 Pages 部署或裝置 QA。
-- **下一步：** 將本次狀態文件與經驗補記提交後，以正常 fast-forward push 發布；成功後另查 Actions／Pages，不使用 force push。
+- **推送結果：** 狀態文件與經驗補記已提交並以一般 fast-forward push 發布；`origin/main` 已更新到 `0d9fb9f`。對應 Pages workflow 為 `completed / success`，正式網址回應 HTTP 200。另一工作目錄的本地 `main` 也已快轉至同一 commit，未提交 validator 檔案保持原樣。沒有 force push。
 
 ## 可複用範圍
 

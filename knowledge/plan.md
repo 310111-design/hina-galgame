@@ -165,6 +165,7 @@
 - [x] 加入選項、章節切換及結局收束提示音。
 - [x] 建立 GitHub Actions：JavaScript 語法、遊戲資料、章節背景映射及頁面 DOM ID 等檢查。
 - [x] GitHub Pages 部署流程已運作；部署 workflow 已加入舊 Pages artifact 清理步驟。每次 main 更新仍以該 commit 對應的最新 Actions run 驗證；若上傳／部署再次失敗，先檢查 artifact 數量與工作流程紀錄。
+- [x] 2026-11-22 安全整合多工作目錄的 `main` 分歧：fetch 比較共同基底、兩側提交及未提交檔案，建立備份後以一般 merge 保留提交沿革；逐檔保留較新的使用者素材狀態，三個固定 validators 通過並正常 fast-forward push。`0d9fb9f` 的 Pages workflow 成功、正式網址回應 HTTP 200；另一工作目錄未提交的 route validator 修改未納入提交。詳見 `knowledge/git-sync-status.md`。
 
 ---
 

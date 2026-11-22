@@ -11,7 +11,7 @@
 
 - `work/hina-galgame-publish` 原先在遠端 `5f95bd7` 之上的 `8416ed7`；`work/hina-galgame-live` 的 `main` 為 `424e37b`，fetch 後查得本地獨有 1 筆、遠端獨有 18 筆，共同基底 `ebce7d3`。
 - 建立 `backup/pre-sync-20261122`，並以一般 merge 把兩條歷史整合為 `8de810c`。合併涉及素材清冊、路線圖與經驗檔；舊分支美術判定已被更新素材與決策取代，因此保留較新內容並記錄原因。未提交的 route validator 修改留在另一工作目錄，未納入提交；`.env` 未被追蹤。
-- 合併後三個固定驗證均通過。此紀錄撰寫時 push 尚待執行，不能據此宣稱 GitHub 或 Pages 已更新；後續以推送結果補記。
+- 合併後三個固定驗證均通過；一般 fast-forward push 已將遠端 `main` 更新至 `0d9fb9f`。該提交的 Pages workflow 成功，正式網址回應 HTTP 200。另一個 live 工作目錄的本地 `main` 已快轉至 `0d9fb9f`；其未提交 validator 修改仍留在工作目錄，未納入推送。
 
 ## 適用範圍
 
