@@ -23,8 +23,12 @@
 
 適用於本作後續全篇審校、序章／新章插入、累積旗標回憶、跨幕出口與入口核對、重複擴寫後的場景動作清理；也適用於所有允許玩家跨分支選擇的互動小說。工具截斷的處理原則適用於大型 runtime、長期經驗檔與任何需要避免整檔資料損失的受限代理工作階段。
 
-## 下階段待辦
+## 下階段待辦（原紀錄日期 2026-11-21）
 
 1. 取得不需任意 shell 的安全局部編輯能力後，依 EAT-01～07 同步修訂章稿／runtime／名稱引用，重跑固定 validators，補足本批章節的逐句同步核對。
 2. 將本補記追加到 `knowledge/experience.md`，確認原歷史完整保留後再決定是否保留本獨立檔。
 3. 驗證該次 commit 對應的 GitHub Actions／Pages；未觀測前不得標記部署成功。
+
+## 後續狀態（2026-11-24）
+
+上述三項原始待辦已完成：EAT-01～07 修訂已進入 A01／A06／B01 章稿與 runtime；此經驗補記已合併至 `knowledge/experience.md`；查核當下 main `e52c6a0` 的 Actions build／deploy 成功且 Pages 回應 200。原清單保留為修訂當時的狀態，不再作為目前待辦；詳細證據見 `knowledge/reviews/early-act-transitions-delivery.md` 與 `knowledge/plan.md`。全篇 QA 仍未完成。
