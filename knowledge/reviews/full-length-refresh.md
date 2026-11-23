@@ -147,9 +147,17 @@
 - `validate-route-drafts.js`、`validate-game-data.js`、`validate-game-shells.js`、`validate-full-length-summary.js` 與 `git diff --check` 通過。篇幅為 runtime 理論組合，不代表玩家計時、盲讀或完整路線驗收；修改依據與可複用範圍見 `knowledge/reviews/b03-cadence-review.md`。
 - commit `f3630ec` 的 Actions run `45285892493` build／deploy 均成功；正式 `game-data.js` 回應 HTTP 200，確認 B02 與 B03 精簡均已部署。
 
-## 最新結果：B05 共通段協助範圍重述精簡後
+## 歷史快照：B05 共通段協助範圍重述精簡後
 
 - B05 三條分支已分別具體說明協助步驟、可處理時段及陽奈保留的判斷；共通段刪除重述這些承諾的旁白，保留已排定工作仍待辦、收到協助不代表核對完成的狀態。正文 53 tuples／2,012 字元，A／B／C 路徑 1,371／1,383／1,400 字元。
 - 33 個節點共 **3,439** 條對話 tuple（含 21 組條件對話），原始台詞文字合計 **79,704** 字元；完全重複文字去重後為 **79,069 字元／3,350 條唯一文字**，條件對話合計 704 字元。
 - 30 個共通節點理論路徑為 **57,452～58,475** 字元；朋友線 **60,024～61,091**、搭檔線 **59,966～61,018**、戀愛線 **59,968～61,262** 字元。唯一正文低於 80,000 字元參考下限 931 字元；不為維持篇幅加回摘要。
 - `validate-route-drafts.js`、`validate-game-data.js`、`validate-game-shells.js`、`validate-full-length-summary.js` 與 `git diff --check` 通過。篇幅為 runtime 理論組合，不代表玩家計時、盲讀或完整路線驗收；修改依據與可複用範圍見 `knowledge/reviews/b05-cadence-review.md`。
+- commit `e638036` 的 Actions run `45286370898` build／deploy 均成功；正式 `game-data.js` 回應 HTTP 200，確認 B05 精簡已部署，且線上仍標示工作待辦。
+
+## 最新結果：C05 最後一次共同協助後精簡收尾
+
+- C05 已交代這是最後一輪共同協助、例行公務會繼續；刪去其後「不是終點／流程能繼續運作」的兩句重複旁白，保留陽奈以明日公務和休息承接。正文 143 tuples／2,760 字元，A／B／C 路徑 2,471／2,485／2,494 字元。
+- 33 個節點共 **3,437** 條對話 tuple（含 21 組條件對話），原始台詞文字合計 **79,652** 字元；完全重複文字去重後為 **79,017 字元／3,348 條唯一文字**，條件對話合計 704 字元。
+- 30 個共通節點理論路徑為 **57,400～58,423** 字元；朋友線 **59,972～61,039**、搭檔線 **59,914～60,966**、戀愛線 **59,916～61,210** 字元。唯一正文低於 80,000 字元參考下限 983 字元；不為維持篇幅加回抽象收尾。
+- `validate-route-drafts.js`、`validate-game-data.js`、`validate-game-shells.js`、`validate-full-length-summary.js` 與 `git diff --check` 通過。篇幅為 runtime 理論組合，不代表玩家計時、盲讀或完整路線驗收；修改依據與可複用範圍見 `knowledge/reviews/c05-cadence-review.md`。

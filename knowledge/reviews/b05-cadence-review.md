@@ -12,6 +12,7 @@
 - B05 章稿/runtime 同步；53 tuples／2,012 字元，A／B／C 路徑 1,371／1,383／1,400 字元。
 - `validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 與 `git diff --check` 通過。
 - 全篇去重正文 79,069 字元，低於 80,000 字元參考下限 931 字元；篇幅只作盤點，不為達標補寫。此局部修訂不代表玩家計時、盲讀或跨裝置驗收。
+- commit `e638036` 的 Actions run `45286370898` build／deploy 均成功；正式 `game-data.js` 回應 HTTP 200，線上內容已確認移除摘要並保留待辦狀態。
 
 ## 可複用範圍
 
