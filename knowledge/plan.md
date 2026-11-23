@@ -497,6 +497,8 @@ A01／A02／A03 在既有 EAT／AAT 審校後，進一步加入五段及選項�
 
 A04／A05／A06 的既有分段檢查現也比對三個選項 label。B01、C01、D01 及 D08F／D08P／D08R 的條件記憶依 `knowledge/flag-dialogue.md` 逐段加入來源章稿；P03、A02 已先完成相同設定。全部 21 組條件記憶現在均檢查 flag、門檻、台詞與說話者，固定稿件／索引／runtime 三方一致。這不等於歷史選項序列或語義前提窮舉；詳見 `knowledge/reviews/conditional-manuscript-sync-review.md`。
 
+本輪公開 Pages 響應式初驗紀錄 commit `a6ac7c4` 的 Actions run `45264470054` build/deploy 成功；C04 文字修訂 commit `e24c91d`／`f765dac` 對應 runs `45265851369`／`45266672945` 均成功。最新 `f765dac` 上線後，`game.html` 與 `game-data.js` 回應 HTTP 200，線上資料含 C04 新動作並已移除七句重複旁白；此為發布確認，不代表全篇語義或實機 QA 完成。
+
 ---
 
 ## 6. 每次迭代工作規則
