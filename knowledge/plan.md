@@ -1,6 +1,6 @@
 # 空崎陽奈二創 Galgame｜總願景、現況與執行路線圖
 
-> 最後整理：2026-11-24；本輪補記：Galgame UI 2.0 已部署至 Pages；完成 TMT-01～07、CAT-01～06、DOAT-01～03、D03→D04→D05（DAIT-01～06）、D05→D06→D07（DART-01～03）及成年篇三結局旗標回憶語義審校；保留 iPhone Safari 實機驗收及全篇劇情 QA。
+> 最後整理：2026-11-24；本輪補記：Galgame UI 2.0 已部署至 Pages；完成 TMT-01～07、CAT-01～06、DOAT-01～03、D03→D04→D05（DAIT-01～06）、D05→D06→D07（DART-01～03）、成年篇三結局旗標回憶語義及稱呼／關係狀態審校；保留 iPhone Safari 實機驗收及全篇劇情 QA。
 > 本文件是目前唯一的專案總路線圖。狀態以 repo 實際檔案、程式、CI 與已確認的使用者決策為準；若舊文件或舊對話與本文衝突，以本文為目前執行依據。
 > **勾選規則：** [x] 已完成且有檔案／程式／驗證依據；[ ] 尚未完成；「待驗收」代表程式已存在，但尚未完成指定裝置或人工驗收。不能因程式碼存在就把實機驗收勾成完成。
 
@@ -265,6 +265,7 @@
 - [x] 將邀請答覆的時間點、到訪界線、路線選擇與後續活動選擇分層等經驗追加至 `knowledge/experience.md`，標明驗證限制與未來可用範圍；詳情見 `knowledge/experience-adult-route.md`。
 - [x] 成年篇三個結局條件回憶的語義前提與 common 相容性審校：逐組檢視 D08F／D08P／D08R 九組記憶的來源旗標、累積門檻、選項前提與後續 A／B／C 行動；D08P `rest` 不再預設緩衝已排定，三線 `teamwork` 不再把彙總旗標誤寫成玩家曾說過特定原句或確認過固定分工。來源文件與 runtime 同步通過 `validate-game-data.js`；人工語義檢查不等於所有旗標序列模擬或實機通關，詳見 `knowledge/reviews/adult-ending-memory-review.md`。
 - [x] 將累積旗標回憶需符合旗標可證明的最小事實、且不得預先完成選項行動的經驗回流至 `knowledge/experience.md`；適用於本作後續條件對話及其他依分類旗標個人化的敘事，詳見 `knowledge/reviews/adult-ending-memory-review.md`。
+- [x] 成年篇稱呼與路線狀態連續性檢查（D05→D08）：D05 common 在玩家與陽奈談妥新稱呼後固定轉為「陽奈」；D06、D07 及 D08F／D08P／D08R 不再退回師生稱呼。確認 D06 路線只在 D07 分流至對應結局，戀愛線 D08R 仍由 A／B／C 決定開始交往、先談界線或延後確認；朋友／搭檔線沒有戀愛承諾。詳見 `knowledge/reviews/adult-relationship-state-review.md`。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
 
 ### Pages 發布入口精簡
@@ -486,6 +487,7 @@ B07→B08→C01 與 C04／C05 章稿及 runtime 已同步；commit `7b3fba0` 的
 | `knowledge/reviews/adult-route-transitions.md` | 成年篇 D05→D06→D07 邀請答覆、路線旗標與活動分支交界審校 |
 | `knowledge/experience-adult-route.md` | 成年篇關係選擇前後的邀請答覆及路線銜接經驗 |
 | `knowledge/reviews/adult-ending-memory-review.md` | 成年篇 D08F／D08P／D08R 九組條件回憶的來源、語義與選項相容性審校 |
+| `knowledge/reviews/adult-relationship-state-review.md` | D05 新稱呼至三個成年結局的稱呼與關係狀態連續性 |
 | `knowledge/decision.md` | 重大設計決策、原因及狀態 |
 | `knowledge/asset-register.md` | 背景、角色及其他美術素材清冊 |
 | `knowledge/story-bible.md` | 角色、世界觀與設定依據 |
