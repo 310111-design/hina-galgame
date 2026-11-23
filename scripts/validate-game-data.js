@@ -29,6 +29,31 @@ let choiceCount = 0;
 let branchCount = 0;
 let conditionalGroupCount = 0;
 
+function reachableFlagSourceCount(chapters, targetIndex, flag) {
+  return chapters.slice(0, targetIndex)
+    .filter(chapter => !chapter.endOfRoute)
+    .filter(chapter => (chapter.choices || []).some(choice => choice.flag === flag))
+    .length;
+}
+
+function flagGroupIsReachable(chapters, targetIndex, group) {
+  return reachableFlagSourceCount(chapters, targetIndex, group.flag) >= (group.min ?? 1);
+}
+
+const reachabilityFixture = [
+  { id: "source-one", choices: [{ flag: "rest" }] },
+  { id: "route-ending", endOfRoute: true, choices: [{ flag: "rest" }] },
+  { id: "source-two", choices: [{ flag: "rest" }, { flag: "rest" }, { flag: "teamwork" }] },
+  { id: "target" }
+];
+if (reachableFlagSourceCount(reachabilityFixture, 3, "rest") !== 2 ||
+    !flagGroupIsReachable(reachabilityFixture, 3, { flag: "rest", min: 2 }) ||
+    flagGroupIsReachable(reachabilityFixture, 3, { flag: "teamwork", min: 2 }) ||
+    flagGroupIsReachable(reachabilityFixture, 3, { flag: "ordinary_day", min: 1 })) {
+  throw new Error("conditional flag reachability fixture failed");
+}
+console.log("Conditional flag reachability fixtures OK: distinct chapter opportunities, ending exclusion and threshold checks.");
+
 function checkLines(lines, label) {
   if (!Array.isArray(lines) || lines.length === 0) {
     errors.push(label + ": sequence must be a non-empty array");
@@ -152,6 +177,13 @@ data.forEach(chapter => {
       }
       if (!Number.isInteger(group?.min ?? 1) || (group.min ?? 1) < 1) {
         errors.push(id + ".flaggedIntro[" + index + "]: min must be a positive integer");
+      } else {
+        const targetIndex = data.indexOf(chapter);
+        const sources = reachableFlagSourceCount(data, targetIndex, group.flag);
+        if (!flagGroupIsReachable(data, targetIndex, group)) {
+          errors.push(id + ".flaggedIntro[" + index + "]: " + group.flag + " >= " + group.min +
+            " is unreachable; only " + sources + " earlier chapter opportunities exist");
+        }
       }
       checkLines(group?.lines, id + ".flaggedIntro[" + index + "].lines");
     });
