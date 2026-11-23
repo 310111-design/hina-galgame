@@ -31,8 +31,8 @@ module.exports = [
   { id: "D03", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "DOAT/DAIT revisions synchronized" },
   { id: "D04", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "DAIT revisions synchronized" },
   { id: "D05", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "manuscript/runtime synchronized" },
-  { id: "D06", minimum: 2500, pathMinimum: 2500, status: "route bridge draft" },
-  { id: "D07", minimum: 2500, pathMinimum: 2500, status: "route bridge draft" },
+  { id: "D06", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "route bridge manuscript/runtime synchronized" },
+  { id: "D07", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "route bridge manuscript/runtime synchronized" },
   { id: "D08F", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "reviewed draft" },
   { id: "D08P", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "reviewed draft" },
   { id: "D08R", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "reviewed draft" }
