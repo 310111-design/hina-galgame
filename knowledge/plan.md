@@ -1,6 +1,6 @@
 # 空崎陽奈二創 Galgame｜總願景、現況與執行路線圖
 
-> 最後整理：2026-11-24；本輪補記：完成 Galgame UI 2.0 第一階段版面與互動改版，Chromium 模擬 viewport 初驗並準備發布；保留 iPhone Safari 實機驗收及全篇劇情 QA。
+> 最後整理：2026-11-24；本輪補記：Galgame UI 2.0 已部署至 Pages；完成 C03→C04→C05 的 TMT-01～07 修訂與同步；保留 iPhone Safari 實機驗收及全篇劇情 QA。
 > 本文件是目前唯一的專案總路線圖。狀態以 repo 實際檔案、程式、CI 與已確認的使用者決策為準；若舊文件或舊對話與本文衝突，以本文為目前執行依據。
 > **勾選規則：** [x] 已完成且有檔案／程式／驗證依據；[ ] 尚未完成；「待驗收」代表程式已存在，但尚未完成指定裝置或人工驗收。不能因程式碼存在就把實機驗收勾成完成。
 
@@ -253,6 +253,8 @@
 - [x] 將週期任務結案／新案區分、資料責任與翌日承諾回收方法追加至 `knowledge/experience.md`，附限制與適用範圍；保留 `knowledge/experience-third-act-opening.md` 作詳情來源。
 - [x] 修訂 C02→C03 跨日承諾與離場動線（TAT-05／06）：C02 標明下一項資料到達後再查來源；C03 明示翌日上午核對結果及負責同伴，放學後接屋頂談話，並補清屋頂至樓梯間、回辦公室取外套及一樓出口的順序。C02／C03 runtime 同步為 147／151 dialogue tuples；routes、game-data、shells、`git diff --check` 通過。文字修復不代表動態背景切換或實機通關。
 - [x] 將翌日承諾履行、例外結案及多層場景動線方法回流至 `knowledge/experience.md`，附未完成的實機驗收範圍。
+- [x] 第三幕中段銜接人工審校與修訂（C03→C04→C05，TMT-01～07）：核對十八種局部分支組合；修明日序、歸檔負責人及回查期限，讓三詞便條留在 C 分支，保留 B 的初步分類成果，補 B 退出／返室與 C 出發，修正否定句解釋，拆清回查占用與實際休息時間，並交代私人手機與公務輪值。C04／C05 章稿與 runtime 同步為 143／145 tuples；routes、game-data、shells、JavaScript 語法及 `git diff --check` 通過。靜態檢查及人工局部矩陣不等於實機通關或全篇 QA；詳見 `knowledge/reviews/third-act-middle-transitions.md`。
+- [x] 將分支道具來源、狀態完成層級、末句否定語意、最後任務範圍、退出動作與休息時間守恆等經驗追加至 `knowledge/experience.md`，標明限制與未來適用範圍；保留 `knowledge/experience-third-act-middle.md` 作詳情。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
 
 ### Pages 發布入口精簡
@@ -334,10 +336,10 @@
 
 - [ ] 執行既有遊戲資料、DOM ID、路線及相關 CI validators。
 - [x] 確認正式版與內部 testplay 頁共用樣式／引擎時沒有明顯 UI 不一致；兩頁均以瀏覽器查看。
-- [ ] 推送後確認最新 GitHub Actions 與 Pages 部署成功，並以正式網址重新驗收。
+- [x] 推送後確認 GitHub Actions run `45215839672`（commit `fd19721`）成功；正式 Pages `https://310111-design.github.io/hina-galgame/game.html` 回應 HTTP 200，已在正式頁檢查新介面、功能選單及 Escape 收合。此為發布確認，不代表 iPhone Safari 或完整裝置 QA。
 - [ ] 將最後截圖、已知限制及完成狀態回寫本文件；只有完成指定裝置驗收才勾選對應 QA。
 
-**目前判定（2026-11-24）：** UI 2.0 主要版面、選單與互動樣式已實作；手機直向、手機橫向與桌面為 Chromium 模擬 viewport 初驗，正式版與內部 testplay 頁一致。實體 iPhone Safari、安全區／工具列變化、完整輸入與長文溢位矩陣仍待 QA，故 UI 2.0 尚未完成最終驗收。
+**目前判定（2026-11-24）：** UI 2.0 主要版面、選單與互動樣式已部署；手機直向、手機橫向與桌面為 Chromium 模擬 viewport 初驗，正式版與內部 testplay 頁一致。實體 iPhone Safari、安全區／工具列變化、完整輸入與長文溢位矩陣仍待 QA，故 UI 2.0 尚未完成最終驗收。
 
 ### 角色表情與事件 CG 素材需求
 
@@ -407,14 +409,14 @@
 
 ## 5. 下一步執行順序
 
-1. **UI 2.0 發布與追蹤**：先將已完成的介面更新部署至 Pages，確認 Actions 與正式網址；其後在實體 iPhone Safari 補安全區、動態視窗和觸控驗收，並保留完整桌面瀏覽器 QA。
-2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01、C01→C02 及 C02→C03 均已同步修訂並驗證。接續審校 C03→C04→C05，檢查新例外、團隊分工與未來話題如何銜接，再繼續全篇共通回收、分支假設、旗標回收與路線入口出口 QA。不重做已完成批次，也不把固定同步檢查宣稱為實機通關。遠端分歧時先安全同步，不 force push。
+1. **UI 2.0 實機驗收**：Pages 部署已成功；接續在實體 iPhone Safari 補安全區、動態視窗和觸控驗收，並保留完整桌面瀏覽器 QA。沒有實機時不把這些項目勾選為完成。
+2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01、C01→C02、C02→C03 及 C03→C04→C05 均已同步修訂並驗證。下一批接續 C05→C06→D01，之後處理其餘共通回收、分支前提、旗標回收與路線入口出口 QA。不重做已完成批次，也不把固定同步檢查宣稱為實機通關。遠端分歧時先安全同步，不 force push。
 3. **背景與美術實機驗收**：驗證真實裝置的背景裁切、可讀性及角色素材顯示品質；事件 CG 暫定 27 張，依素材清單待使用者交付後接入，不自行生成、繪製或修圖。
 4. **存檔、分支及音訊相容性驗收**：完成後再執行跨裝置完整 QA 與發布檢查。
 
 ### 本輪路徑同步與部署追蹤
 
-B07→B08→C01 章稿及 runtime 已同步；routes、game-data、shells 與 `git diff --check` 通過。這些靜態檢查不代表瀏覽器實機通關、裝置 QA 或 Pages 驗收。Push 後透過 GitHub Actions REST API 查最新 workflow run；只有 workflow 成功後才查 Pages 部署狀態，查不到時明確記錄未確認並繼續其他工作。
+B07→B08→C01 與 C04／C05 章稿及 runtime 已同步；本輪 routes、game-data、shells、JavaScript 語法及 `git diff --check` 通過。UI commit `fd19721` 的 Actions run `45215839672` 成功，正式 Pages 回應 HTTP 200 並已由瀏覽器檢視。靜態檢查及 Pages 發布均不代表所有分支通關、iPhone Safari 或跨裝置完整 QA。
 
 ---
 
@@ -461,6 +463,9 @@ B07→B08→C01 章稿及 runtime 已同步；routes、game-data、shells 與 `g
 | `knowledge/reviews/second-act-to-third-act-transition.md` | B07→B08→C01 局部組合、修訂結果及驗證範圍 |
 | `knowledge/experience-third-act-opening.md` | 第三幕前段週期任務、例外結案與新一輪核對經驗補記 |
 | `knowledge/reviews/third-act-opening-transitions.md` | C01→C02 與 C02→C03 局部組合、TAT-01～06 修訂結果及驗證範圍 |
+| `knowledge/plan-third-act-middle.md` | C03→C04→C05 TMT-01～07 修訂狀態、檢查結果與後續順序 |
+| `knowledge/reviews/third-act-middle-transitions.md` | C03→C04→C05 十八種局部組合、TMT 修訂結果及驗證界線 |
+| `knowledge/experience-third-act-middle.md` | 分支道具、任務層級、退出動作與休息時間守恆經驗詳情 |
 | `knowledge/decision.md` | 重大設計決策、原因及狀態 |
 | `knowledge/asset-register.md` | 背景、角色及其他美術素材清冊 |
 | `knowledge/story-bible.md` | 角色、世界觀與設定依據 |

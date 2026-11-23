@@ -1,34 +1,24 @@
-# 路線圖待合併變更：C03→C04→C05
+# 階段紀錄：C03→C04→C05
 
-> 本檔為唯一總路線圖 `knowledge/plan.md` 的階段變更單，不取代主計畫。主 plan 讀取在主要路徑表截斷，experience 亦截斷；無 append／patch／範圍讀取能力，不覆寫未讀尾段。本輪接續 `plan-third-act-opening.md`，不重做 C01→C02→C03。
+> 本檔補充唯一總路線圖 `knowledge/plan.md`。2026-11-24 完成 TMT-01～07 的章稿／runtime 同步修訂與固定驗證；主計畫已合併階段狀態，下一批為 C05→C06→D01。
 
-## 已完成（合併時加入 Phase 1／3.1）
+## 完成項
 
-- [x] 第三幕中段 C03→C04→C05 人工文本審校：完整閱讀三節，核對十八種局部分支組合；記錄 TMT-01～07 日序及最後任務範圍、編輯語、三詞便條、整理進度、返室、否定句解釋及休息／手機收束問題。見 `knowledge/reviews/third-act-middle-transitions.md`。僅審校，非修稿或實機通關。
-- [x] 固定 routes 新增 C04／C05 正文逐句、五段及六個選項同步：138／143 tuple，新增 281；A01～C05 展平共 2,194；B01～C05 十三節五段／39 選項。既有 fixtures、成年篇門檻及 B05 盤點不變，未新增 fixture。
-- [x] routes／game-data／shells 三項固定 validators 成功：33 章／99 選項／99 分支／21 條件組／33 背景，兩頁各 37 必要 ID 與共用 SVG 通過。不等於實機或部署驗收。
-- [x] 可重用經驗及未來適用範圍保存於 `knowledge/experience-third-act-middle.md`；此勾選僅指補記存在，不代表主經驗檔回流完成。
+- [x] 完整閱讀 C03／C04／C05，人工核對兩組交界各九種局部分支組合，記錄 TMT-01～07。這不是十八次瀏覽器通關；證據與逐項修改在 `knowledge/reviews/third-act-middle-transitions.md`。
+- [x] 修訂 C04／C05 日序與舊資料責任：C04 為 C03 屋頂談話翌日下午，C05 為再隔日上午；C04 指派待歸檔資料箱的整理者，並為舊表格記錄回查責任、條件與期限，C05 依狀態回收。
+- [x] 修訂分支及共通回收：C04 三詞便條只由 C 分支建立；B 分支初步分類不被 common 撤銷，最早舊表格另列待查。C05 的「最後一次」限定為陪同團隊走完新流程的最後一輪共同協助。
+- [x] 修訂 C05 場景與文字狀態：B 分支明寫離開巡查隊伍並返室等候，C 分支明寫各組出發；更正否定句解釋，分開回查占用的五分鐘與實際共同休息五分鐘；收工時帶走私人手機，值勤通知依既有輪值交接。
+- [x] C04／C05 章稿與 runtime 完全同步；routes 檢查 143／145 tuples，A01～C05 展平合計 2,199 tuples，B01～C05 十三節五段及 39 個選項同步。
+- [x] 固定 validators 成功：`validate-route-drafts.js`、`validate-game-data.js`、`validate-game-shells.js`、`node --check site/game.js`、`git diff --check`。沿用既有 fixtures，未新增案例。
+- [x] 可重用方法及未來適用範圍追加至 `knowledge/experience.md`；完整經驗詳見 `knowledge/experience-third-act-middle.md`。
 
-## 待辦（保持未勾選）
+## 尚未完成但不阻塞本階段
 
-- [ ] 同步修订 TMT-01～07 章稿與 runtime。推薦 C04 為屋頂談話翌日下午、C05 再翌日；承接舊資料責任；三詞紙留在 C 分支；保留 B 的分類成果；補 B 返室／C 出發；修正否定句的旁白解釋；明示五分鐘休息及離場手機狀態。安全局部修改工具仍是阻塞，不單改章稿。
-- [ ] 修正主計畫歷史 C04 共通回收「已修」的現況註記：本版 common 仍有「那張寫著三個詞的紙」及「筆記本裡的三個詞」，同步通過證明 runtime 亦同。歷史完成記錄不刪除，增列現版 TMT-03 待修；沒有版本差異工具，不推定問題來源。
-- [ ] 安全合併本完成項、待辦及證據至 `knowledge/plan.md`；不得勾選全篇審校完成。
-- [ ] 安全追加經驗至 `knowledge/experience.md`；EAT／PRT／AAT／AMT／AFT／BOT／BMT／BCT／BET／TAT 與 B05 補記亦依原紀錄待合併，不覆蓋未讀歷史。
-- [ ] 工具可安全局部修改後，依主計畫修 EAT→PRT→AAT→AMT→AFT→BOT→BMT→BCT→BET，再修 TAT／TMT；同步成功不結案敘事問題。
-- [ ] 角色美術 D-22／23 仍第一順位，待影像及 alpha 驗收能力；原圖／透明草稿不動、保留 SVG。
-- [ ] 遠端安全同步及最新 Actions／Pages／實機驗收；本輪無 status／fetch／merge／查詢／瀏覽器工具，不能宣稱既有非快轉阻塞已解除。
+- [ ] TAT-06 屋頂門／取外套動線依主計畫追蹤；本階段不重複結案。
+- [ ] iPhone Safari safe-area、動態視窗、實機觸控與完整多尺寸 QA 尚未完成。
+- [ ] C03→C04→C05 局部矩陣不是十八次實機通關；全篇分支 QA 仍未完成。
+- [ ] C04／C05 的 Pages 發布狀態待本階段 commit/push 後確認；UI 2.0 commit `fd19721` 已另行部署成功。
 
-## 下一步
+## 下一階段
 
-1. 具備安全編輯／同步能力時先修舊案與合併補記，不 force push。
-2. 工具仍受限時下一獨立內容批次為 C05→C06→D01：最後任務的後續責任、告別物件、成年重逢入口。需明列相較既有跨幕主題抽查的分支增量，不重複認領；C03→C04→C05 不重做。
-3. 背景、UI、存檔、音訊及跨裝置 QA 維持主計畫順序，缺實機不勾選。
-
-## 試玩、額度與提交界線
-
-已讀 `site/testplay.html`，保持 33 章共用資料／引擎／SVG；可由章節選單閱讀 C03／C04／C05 對照 review，跨章歷史仍需順序遊玩。這是既有試玩版保留，非新增遊戲內容；靜態驗證通過不代表三詞便條等內容已修。
-
-無精確 token 額度，保守以一個完整階段收束，已保留試玩入口與文件／提交額度，不再開大型修稿。主計畫未完成項維持優先順序及阻塞註記，不為消耗額度攤開無法驗收的零碎工作。
-
-文件與程式／驗證完成後才呼叫固定 commit-push；成功與否以工具結果為準。若遇非快轉拒絕，不 force push 或反覆重試，待可安全同步再推送。無 Actions／Pages 查詢，不能將 push 視為部署成功。`.env`、原圖、透明草稿、章稿及 runtime 均未修改。
+依 `knowledge/plan.md` 接續 C05→C06→D01。使用 `knowledge/reviews/third-act-ending-transitions.md` 與 `knowledge/plan-third-act-ending.md` 已有 CAT-01～06 分析，重點放在既有發現的修稿、同步與驗證，不重做已完成的人工審校；明確區分局部矩陣、靜態檢查、瀏覽器通關與裝置 QA。
