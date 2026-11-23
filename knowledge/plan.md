@@ -313,6 +313,7 @@
 - [x] D08R 共通段刪去緊接前文再次概括「親密同時保有個人生活」的抽象句，保留陽奈如何分擔責任及延續日常興趣的具體收束；同步 Markdown/runtime，D08R 為 3,476 字元、A／B／C 路徑 2,514／2,599／2,785，重算全篇為 80,381 唯一字元。詳見 `knowledge/reviews/adult-ending-route-sync-review.md` 與 `knowledge/reviews/full-length-refresh.md`。
 - [x] D08P 共通段刪去緊接陽奈說明搭檔分工後、再次抽象總結相同關係原則的旁白，保留後續的工作交接與活動改善安排；同步 Markdown/runtime，D08P 為 3,238 字元、A／B／C 路徑 2,609／2,614／2,585，重算全篇為 80,340 唯一字元。詳見 `knowledge/reviews/adult-ending-route-sync-review.md` 與 `knowledge/reviews/full-length-refresh.md`。
 - [x] D08F 結尾刪去緊接友誼界線與分享對話後、再次概括相同主題的旁白，保留陽奈的道別與系統結局標記；同步 Markdown/runtime，D08F 為 3,290 字元、A／B／C 路徑 2,583／2,627／2,592，重算全篇為 80,292 唯一字元。詳見 `knowledge/reviews/adult-ending-route-sync-review.md` 與 `knowledge/reviews/full-length-refresh.md`。
+- [x] 校正 route validator 的狀態摘要：依 BOT／BMT／BCT／TAT 與 B08 審校追記，將 B02～B08、C02～C03 從過期的「修訂待處理」改為已同步，並明確區分語義 QA 尚未完成；`validate-route-drafts.js`、`validate-game-data.js`、`validate-game-shells.js`、`validate-prologue-revisions.js` 及 `git diff --check` 通過。此摘要只描述稿件／runtime 與局部修訂狀態，不代表全篇 QA。
 - [x] A01／A02／A03 加入稿件／runtime 五段與選項同步；A02 的 `rest`、`teamwork`、`ordinary_day` 三組條件台詞標記與 flag、門檻、文字、說話者一併驗證。原本只有 runtime 與 `knowledge/flag-dialogue.md` 對照，現也防止章稿漂移；未改變任何旗標或玩家可見台詞。
 - [x] A04／A05／A06 選項 label 加入固定同步；將 B01、C01、D01、D08F、D08P、D08R 條件對話逐組標記至章稿並納入 `syncConditional`，連同已涵蓋的 P03／A02，總計 21 組條件記憶均由章稿、`knowledge/flag-dialogue.md` 與 runtime 同步保護。詳見 `knowledge/reviews/conditional-manuscript-sync-review.md`。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
@@ -394,7 +395,7 @@
 
 **UI-4｜收尾與發布**
 
-- [ ] 執行既有遊戲資料、DOM ID、路線及相關 CI validators。
+- [x] 執行既有遊戲資料、DOM ID、路線及相關 CI validators；本輪以上述四個固定 validator 本機重跑通過，並核對成功的主線 Actions build/deploy 工作；此項不代表 iPhone Safari／完整裝置驗收。
 - [x] 確認正式版與內部 testplay 頁共用樣式／引擎時沒有明顯 UI 不一致；兩頁均以瀏覽器查看。
 - [x] 推送後確認 GitHub Actions run `45215839672`（commit `fd19721`）成功；正式 Pages `https://310111-design.github.io/hina-galgame/game.html` 回應 HTTP 200，已在正式頁檢查新介面、功能選單及 Escape 收合。此為發布確認，不代表 iPhone Safari 或完整裝置 QA。
 - [ ] 將最後截圖、已知限制及完成狀態回寫本文件；只有完成指定裝置驗收才勾選對應 QA。
@@ -475,6 +476,8 @@
 4. **存檔、分支及音訊相容性驗收**：完成後再執行跨裝置完整 QA 與發布檢查。
 
 ### 本輪路徑同步與部署追蹤
+
+本輪對照審校追記，修正 `route-draft-targets.js` 中九個章節過期的「continuity review; fixes pending」狀態訊息，並保留語義／全篇 QA 尚未完成的界線。正式發布狀態以本輪推送後的 Actions run 與 Pages 回應補記；不可把本地檢查視為部署完成。
 
 B07→B08→C01 與 C04／C05 章稿及 runtime 已同步；commit `7b3fba0` 的 Actions run `45220063267` 成功，正式 Pages 回應 HTTP 200，線上 `game-data.js` 已包含 C06 CAT 修訂。UI commit `fd19721` 的 run `45215839672` 亦成功。靜態檢查及 Pages 發布均不代表所有分支通關、iPhone Safari 或跨裝置完整 QA。
 
