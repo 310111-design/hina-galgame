@@ -79,11 +79,16 @@ if (!d07 || JSON.stringify(d07.nextByRoute || {}) !== JSON.stringify(expectedRou
 const d05 = data.find(chapter => chapter?.id === "D05");
 const d06 = data.find(chapter => chapter?.id === "D06");
 const d05TeaInvitation = "下週如果你有空，要不要來我住處喝茶？";
+const d05TeaAcceptance = "下週可以到她住處喝茶";
 if (!d05?.common?.some(line => String(line[1] || "").includes(d05TeaInvitation))) {
   errors.push("D05 must establish the home-tea invitation that leads into D06");
 }
+if (!d05?.common?.some(line => String(line[1] || "").includes(d05TeaAcceptance))) {
+  errors.push("D05 must establish the player's acceptance before the home visit in D06");
+}
 if (
-  !d06?.intro?.some(line => String(line[1] || "").includes("確認你們剛才談到的下週見面安排")) ||
+  !d06?.intro?.some(line => String(line[1] || "").includes("確認你們談妥的下週見面時間")) ||
+  d06?.intro?.some(line => String(line[1] || "").includes(d05TeaInvitation)) ||
   !d06?.intro?.some(line => String(line[1] || "").includes("一起喝茶"))
 ) {
   errors.push("D06 must confirm the home-tea invitation established in D05, not repeat it as a new invitation");
