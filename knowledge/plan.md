@@ -251,6 +251,8 @@
 - [x] 第三幕前段銜接人工審校（C01→C02）：核對九種局部分支組合，確認 C01 兩項例外的結案、C02 新週期資料與交接；將 C02→C03 翌日回查列為下一輪。詳見 `knowledge/reviews/third-act-opening-transitions.md`。
 - [x] 修訂 C01→C02 週期與責任銜接（TAT-01～04）：明示一週後新一輪、保留舊例外已結案、將新數值差異定位為測量時段不同，移除正文稿件編號，釐清休息日序及收束道具動作。C02 章稿與 runtime 同步為 147 dialogue tuples；routes、game-data、shells、`git diff --check` 通過。TAT-05／06 留待 C02→C03；局部文本檢查不等於實機通關。
 - [x] 將週期任務結案／新案區分、資料責任與翌日承諾回收方法追加至 `knowledge/experience.md`，附限制與適用範圍；保留 `knowledge/experience-third-act-opening.md` 作詳情來源。
+- [x] 修訂 C02→C03 跨日承諾與離場動線（TAT-05／06）：C02 標明下一項資料到達後再查來源；C03 明示翌日上午核對結果及負責同伴，放學後接屋頂談話，並補清屋頂至樓梯間、回辦公室取外套及一樓出口的順序。C02／C03 runtime 同步為 147／151 dialogue tuples；routes、game-data、shells、`git diff --check` 通過。文字修復不代表動態背景切換或實機通關。
+- [x] 將翌日承諾履行、例外結案及多層場景動線方法回流至 `knowledge/experience.md`，附未完成的實機驗收範圍。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
 
 ### Pages 發布入口精簡
@@ -405,7 +407,7 @@
 ## 5. 下一步執行順序
 
 1. **美術接入規則**：13 張角色表情已依標題接入正作；推送部署後保留手機／桌面顯示驗收。事件 CG 暫定 27 張，情境清單已建立，待使用者分批交付後接入；不自行生成、繪製或修圖。
-2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01 及 C01→C02 均已同步修訂並驗證。接續審校 C02→C03，回收翌日資料來源核對及責任交接，再繼續全篇共通回收、分支假設、旗標回收與路線入口出口 QA。不重做已完成批次，也不把固定同步檢查宣稱為實機通關。遠端分歧時先安全同步，不 force push。
+2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01、C01→C02 及 C02→C03 均已同步修訂並驗證。接續審校 C03→C04→C05，檢查新例外、團隊分工與未來話題如何銜接，再繼續全篇共通回收、分支假設、旗標回收與路線入口出口 QA。不重做已完成批次，也不把固定同步檢查宣稱為實機通關。遠端分歧時先安全同步，不 force push。
 3. **背景與 UI 實機驗收**：驗證真實裝置的背景裁切、可讀性及操作品質。
 4. **存檔、分支及音訊相容性驗收**：完成後再執行跨裝置完整 QA 與發布檢查。
 
@@ -457,7 +459,7 @@ B07→B08→C01 章稿及 runtime 已同步；routes、game-data、shells 與 `g
 | `knowledge/experience-second-act-to-third-act.md` | 隔日承諾、分支道具消歧與跨幕例行任務經驗補記 |
 | `knowledge/reviews/second-act-to-third-act-transition.md` | B07→B08→C01 局部組合、修訂結果及驗證範圍 |
 | `knowledge/experience-third-act-opening.md` | 第三幕前段週期任務、例外結案與新一輪核對經驗補記 |
-| `knowledge/reviews/third-act-opening-transitions.md` | C01→C02 九種局部組合、修訂結果與 C02→C03 待回收承諾 |
+| `knowledge/reviews/third-act-opening-transitions.md` | C01→C02 與 C02→C03 局部組合、TAT-01～06 修訂結果及驗證範圍 |
 | `knowledge/decision.md` | 重大設計決策、原因及狀態 |
 | `knowledge/asset-register.md` | 背景、角色及其他美術素材清冊 |
 | `knowledge/story-bible.md` | 角色、世界觀與設定依據 |
