@@ -130,3 +130,4 @@
 - 33 個節點共 **3,442** 條對話 tuple（含 21 組條件對話），原始台詞文字合計 **79,832** 字元；完全重複文字去重後為 **79,197 字元／3,353 條唯一文字**，條件對話合計 704 字元。
 - 30 個共通節點理論路徑為 **57,580～58,603** 字元；朋友線 **60,152～61,219**、搭檔線 **60,094～61,146**、戀愛線 **60,096～61,390** 字元。唯一正文低於 80,000 字元參考下限 803 字元；不為維持篇幅加回階段摘要。
 - `validate-route-drafts.js`、`validate-game-data.js`、`validate-game-shells.js`、`validate-full-length-summary.js` 與 `git diff --check` 通過。篇幅為 runtime 理論組合，不代表玩家計時、盲讀或實機驗收；修改依據與可複用範圍見 `knowledge/reviews/b01-cadence-review.md`。
+- commit `65697d3` 的 Actions run `45284733094` build／deploy 均成功；正式 `game-data.js` 回應 HTTP 200，線上版本已確認套用 B01 精簡。

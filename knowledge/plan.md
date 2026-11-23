@@ -340,7 +340,7 @@
 - [x] A03 共通結尾刪去重複解說清單用途與重讀欄位的旁白，保留清單比記憶可靠、休息提示與未知資料仍可能改變的限制；並將收納便箋移至補完標題後。正文／runtime 同步，A03 為 96 tuples／2,152 字元，路徑 A／B／C 為 1,607／1,583／1,568。詳見 `knowledge/reviews/a03-cadence-review.md`；未進行第一幕完整通關或盲讀。
 - [x] A02 共通收束刪除已由未關上的公文夾、待核對欄位與明日重新提交清楚呈現的「今晚未解決、只選下一欄」總結；保留待辦狀態、具體約定及收起公文夾的動作。A02 為 106 tuples／2,520 字元，路徑 A／B／C 為 1,672／1,699／1,685。詳見 `knowledge/reviews/a02-cadence-review.md`；固定稿件同步不代表完整通關。
 - [x] A01 共通段移除直接向玩家預告「未來的分支」及列舉休息／分工主題的旁白；保留陽奈記下日期與明日便條的故事內承接，未改選項或旗標。A01 為 91 tuples／1,926 字元，路徑 A／B／C 為 1,545／1,529／1,526。詳見 `knowledge/reviews/a01-branch-meta-review.md`；未作盲讀或完整路線 QA。
-- [x] B01 共通段刪除兩句已由任務狀態、資料來源、負責人與回查時間具體呈現的階段摘要；正文/runtime 同步，B01 為 76 tuples／2,464 字元，A／B／C 路徑 2,127／2,102／2,117。詳見 `knowledge/reviews/b01-cadence-review.md`；不代表盲讀或完整路線 QA。
+- [x] B01 共通段刪除兩句已由任務狀態、資料來源、負責人與回查時間具體呈現的階段摘要；正文/runtime 同步，B01 為 76 tuples／2,464 字元，A／B／C 路徑 2,127／2,102／2,117。commit `65697d3` 的 Actions run `45284733094` build／deploy 成功，Pages runtime 確認已移除摘要；詳見 `knowledge/reviews/b01-cadence-review.md`。不代表盲讀或完整路線 QA。
 - [x] A01／A02／A03 加入稿件／runtime 五段與選項同步；A02 的 `rest`、`teamwork`、`ordinary_day` 三組條件台詞標記與 flag、門檻、文字、說話者一併驗證。原本只有 runtime 與 `knowledge/flag-dialogue.md` 對照，現也防止章稿漂移；未改變任何旗標或玩家可見台詞。
 - [x] A04／A05／A06 選項 label 加入固定同步；將 B01、C01、D01、D08F、D08P、D08R 條件對話逐組標記至章稿並納入 `syncConditional`，連同已涵蓋的 P03／A02，總計 21 組條件記憶均由章稿、`knowledge/flag-dialogue.md` 與 runtime 同步保護。詳見 `knowledge/reviews/conditional-manuscript-sync-review.md`。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
