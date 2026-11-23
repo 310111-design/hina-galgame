@@ -486,7 +486,7 @@ B07→B08→C01 與 C04／C05 章稿及 runtime 已同步；commit `7b3fba0` 的
 
 B06／B07 角色互動修訂 commit `e66b3b1` 的 Actions run `45237186357` 已成功；正式 `game.html` 回應 HTTP 200，線上 `game-data.js` 已包含 B07 核對表承接句。此次部署確認不代表實機 QA 或全篇劇情 QA 完成。
 
-D08F／D08P／D08R 稿件格式統一為可辨識的選項、分支及共通段標記，並在 `route-draft-targets.js` 啟用五段、逐句／說話者／情緒及選項標籤比對。D08R common 已移除跨選項的見面安排假設；D08F common 以書籍交流取代重複排程，並移除已建立的友誼定義；D08P common 再刪一條重複講解活動原則的陽奈台詞。`validate-route-drafts.js` 現行結果：D08F 3,290 字元（路徑 2,583／2,627／2,592）、D08P 3,197（2,568／2,573／2,544）、D08R 3,478（2,516／2,601／2,787），所有分支均超過 2,500 字元基準。尚未進行瀏覽器逐路通關、iPhone Safari 實機驗收或全篇最終 QA。詳見 `knowledge/reviews/adult-ending-route-sync-review.md`。
+D08F／D08P／D08R 稿件格式統一為可辨識的選項、分支及共通段標記，並在 `route-draft-targets.js` 啟用五段、逐句／說話者／情緒及選項標籤比對。D08R common 已移除跨選項的見面安排假設；D08F common 以書籍交流取代重複排程，並移除已建立的友誼定義；D08P common 再刪一條重複講解活動原則的陽奈台詞。`validate-route-drafts.js` 現行結果：D08F 3,290 字元（路徑 2,583／2,627／2,592）、D08P 3,197（2,568／2,573／2,544）、D08R 3,478（2,516／2,601／2,787），所有分支均超過 2,500 字元基準。尚未進行瀏覽器逐路通關、iPhone Safari 實機驗收或全篇最終 QA。詳見 `knowledge/reviews/adult-ending-route-sync-review.md`。 D08R 收尾修訂 commit `b0c155f` 的 Pages run `45260120006` build/deploy 成功；正式 `game.html` 回應 HTTP 200，線上 `game-data.js` 含新車站道別並已移除舊抽象句。此為發布驗收，仍不代表逐路瀏覽器或實機 QA。
 
 D06／D07 此前雖完成部分路線交界審校，routes 尚未固定核對稿件五段與實際選項文字。新增同步後，D06 原稿將 runtime 另以 hint 顯示的路線名重複寫進選項 label，現已移除這些多餘括號並保留 hint；D07 尾段原有「故事在這裡暫時停下」，但三個路線專屬結局 D08F／P／R 緊接其後，已刪除此過早收尾。D06=2,796 字元（路徑 2,576／2,569／2,569），D07=2,653（2,535／2,548／2,546），逐句／情緒／五段／選項與篇幅門檻均通過。未做瀏覽器通關或跨裝置驗收；詳見 `knowledge/reviews/adult-route-bridge-review.md`。
 
@@ -555,7 +555,7 @@ A04／A05／A06 的既有分段檢查現也比對三個選項 label。B01、C01�
 | `knowledge/reviews/adult-relationship-state-review.md` | D05 新稱呼至三個成年結局的稱呼與關係狀態連續性 |
 | `knowledge/reviews/full-length-refresh.md` | 最新 runtime 全篇唯一正文、條件台詞與三線單次路徑重算方法及數字 |
 | `knowledge/reviews/full-story-timeline-audit.md` | 全篇 33 節時間錨點及跨章相對日序盤點；另列尚未指定精確日期的彈性間隔 |
-| `knowledge/reviews/full-story-hina-voice-review.md` | 陽奈跨階段聲線抽查、D08P 結尾重複說理修訂及驗證界線 |
+| `knowledge/reviews/full-story-hina-voice-review.md` | 陽奈跨階段聲線抽查、D08P／D08R 結尾修訂及驗證界線 |
 | `knowledge/reviews/b08-character-choice-review.md` | B08 聲線、三選項承諾、時間錨點、分支返場及收束修訂與驗證範圍 |
 | `knowledge/reviews/adult-manuscript-runtime-sync-review.md` | D02／D05 逐句、五段與選項同步檢查重新啟用的依據及限制 |
 | `knowledge/reviews/prologue-full-sync-review.md` | P01～P03 全文與條件台詞同步門檻恢復依據、格式及驗證界線 |
