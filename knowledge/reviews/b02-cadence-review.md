@@ -12,6 +12,7 @@
 - B02 章稿/runtime 同步；110 tuples／2,767 字元，A／B／C 路徑 2,045／2,053／1,931 字元。
 - `validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 與 `git diff --check` 通過。
 - 全篇去重正文 79,155 字元，低於 80,000 字元參考下限 845 字元；不為維持統計加回重複句。這次是局部節奏修訂，不代表完整路線、盲讀或實機驗收。
+- commit `f3630ec` 的 Actions run `45285892493` build／deploy 均成功；正式 `game-data.js` 回應 HTTP 200，確認 B02 刪除句已部署。
 
 ## 可複用範圍
 
