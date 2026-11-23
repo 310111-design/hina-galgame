@@ -1,6 +1,6 @@
 # 空崎陽奈二創 Galgame｜總願景、現況與執行路線圖
 
-> 最後整理：2026-11-23；本輪補記：完成 BOT-01～07、BMT-01～07、BCT-01～07 及 B07→B08→C01 跨章修訂與經驗回流；保留既有 Galgame UI 2.0 路線圖及 13 張角色表情接入紀錄。
+> 最後整理：2026-11-23；本輪補記：完成 BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01 及 C01→C02 跨章修訂與經驗回流；保留既有 Galgame UI 2.0 路線圖及 13 張角色表情接入紀錄。
 > 本文件是目前唯一的專案總路線圖。狀態以 repo 實際檔案、程式、CI 與已確認的使用者決策為準；若舊文件或舊對話與本文衝突，以本文為目前執行依據。
 > **勾選規則：** [x] 已完成且有檔案／程式／驗證依據；[ ] 尚未完成；「待驗收」代表程式已存在，但尚未完成指定裝置或人工驗收。不能因程式碼存在就把實機驗收勾成完成。
 
@@ -248,6 +248,9 @@
 - [x] 第二幕至第三幕入口人工銜接審校（B07→B08→C01）：核對 B07→B08 九種局部分支組合與 B08→C01 三條入口；記錄便條指稱、舊設備回查、隔日團隊第一輪與主題回扣問題，詳見 `knowledge/reviews/second-act-to-third-act-transition.md`。
 - [x] 修訂 B07→B08→C01 入口狀態並同步 runtime：B08 明示前一晚唯一缺件於隔日七點回查完成，區分熱飲提醒與其他分支便條；common 留下所有路徑皆有的任務條件。C01 標明次日早晨交接／下午核對，把新例行任務與舊回查分開，精簡重複主題說明。B07／B08／C01 為 64／142／149 tuples；routes、game-data、shells 與 `git diff --check` 通過。非實機通關，詳見上述審校紀錄。
 - [x] 將隔日承諾、分支道具消歧、舊任務結清及新任務共通條件經驗追加至 `knowledge/experience.md`，附限制與未來適用範圍；保留 `knowledge/experience-second-act-to-third-act.md` 作詳情來源。
+- [x] 第三幕前段銜接人工審校（C01→C02）：核對九種局部分支組合，確認 C01 兩項例外的結案、C02 新週期資料與交接；將 C02→C03 翌日回查列為下一輪。詳見 `knowledge/reviews/third-act-opening-transitions.md`。
+- [x] 修訂 C01→C02 週期與責任銜接（TAT-01～04）：明示一週後新一輪、保留舊例外已結案、將新數值差異定位為測量時段不同，移除正文稿件編號，釐清休息日序及收束道具動作。C02 章稿與 runtime 同步為 147 dialogue tuples；routes、game-data、shells、`git diff --check` 通過。TAT-05／06 留待 C02→C03；局部文本檢查不等於實機通關。
+- [x] 將週期任務結案／新案區分、資料責任與翌日承諾回收方法追加至 `knowledge/experience.md`，附限制與適用範圍；保留 `knowledge/experience-third-act-opening.md` 作詳情來源。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
 
 ### Pages 發布入口精簡
@@ -402,7 +405,7 @@
 ## 5. 下一步執行順序
 
 1. **美術接入規則**：13 張角色表情已依標題接入正作；推送部署後保留手機／桌面顯示驗收。事件 CG 暫定 27 張，情境清單已建立，待使用者分批交付後接入；不自行生成、繪製或修圖。
-2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07 及 B07→B08→C01 均已同步修訂並驗證。接續審校 C01→C02，追蹤新例外的回查結果、責任及工作狀態；再繼續全篇共通回收、分支假設、旗標回收與路線入口出口 QA。不重做已完成批次，也不把固定同步檢查宣稱為實機通關。遠端分歧時先安全同步，不 force push。
+2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01 及 C01→C02 均已同步修訂並驗證。接續審校 C02→C03，回收翌日資料來源核對及責任交接，再繼續全篇共通回收、分支假設、旗標回收與路線入口出口 QA。不重做已完成批次，也不把固定同步檢查宣稱為實機通關。遠端分歧時先安全同步，不 force push。
 3. **背景與 UI 實機驗收**：驗證真實裝置的背景裁切、可讀性及操作品質。
 4. **存檔、分支及音訊相容性驗收**：完成後再執行跨裝置完整 QA 與發布檢查。
 
@@ -417,7 +420,7 @@ B07→B08→C01 章稿及 runtime 已同步；routes、game-data、shells 與 `g
 - 開始前讀取本文件、`knowledge/experience.md`、`knowledge/decision.md`，並檢查 GitHub main 最新 commit、工作目錄及 Actions 狀態。根目錄 `decision.md` 不存在時，以實際的 `knowledge/decision.md` 為準。
 - 只從本文件尚未完成且不受阻塞的最前面項目開始；不要重做已完成工作。
 - 完成一個階段後更新本文件勾選狀態，並將可重用經驗及適用範圍回流到 `knowledge/experience.md`。
-- 經驗補記 `knowledge/experience-second-act-opening.md`、`knowledge/experience-second-act-middle.md`、`knowledge/experience-second-act-closing.md` 與 `knowledge/experience-second-act-to-third-act.md` 的可複用方法、限制及適用範圍已追加至 `knowledge/experience.md`；原補記保留為詳情來源。尚待回流的補記為 `knowledge/experience-early-act-transitions.md`、`knowledge/experience-prologue-transitions.md`、`knowledge/experience-first-act-opening.md`、`knowledge/experience-first-act-middle.md` 與 `knowledge/experience-first-act-ending.md`。不可將截斷前綴覆寫主檔；工具阻塞、推薦及驗證界線詳見對應審校紀錄。
+- 經驗補記 `knowledge/experience-second-act-opening.md`、`knowledge/experience-second-act-middle.md`、`knowledge/experience-second-act-closing.md`、`knowledge/experience-second-act-to-third-act.md` 與 `knowledge/experience-third-act-opening.md` 的本階段可複用方法、限制及適用範圍已追加至 `knowledge/experience.md`；原補記保留為詳情來源。尚待回流的補記為 `knowledge/experience-early-act-transitions.md`、`knowledge/experience-prologue-transitions.md`、`knowledge/experience-first-act-opening.md`、`knowledge/experience-first-act-middle.md` 與 `knowledge/experience-first-act-ending.md`。不可將截斷前綴覆寫主檔；工具阻塞、推薦及驗證界線詳見對應審校紀錄。
 - 重大設計決策或暫停／恢復狀態變更時，同步更新 `knowledge/decision.md`。
 - 程式已接入不等於驗收完成；只有實際測試完成才勾選實機 QA。
 - 修改遊戲資料時執行 `scripts/validate-game-data.js`；有對應檢查時一併執行素材與路線驗證。
@@ -453,6 +456,8 @@ B07→B08→C01 章稿及 runtime 已同步；routes、game-data、shells 與 `g
 | `knowledge/reviews/second-act-closing-transitions.md` | B05→B06→B07 十八種局部組合、BCT 修訂結果及驗證範圍 |
 | `knowledge/experience-second-act-to-third-act.md` | 隔日承諾、分支道具消歧與跨幕例行任務經驗補記 |
 | `knowledge/reviews/second-act-to-third-act-transition.md` | B07→B08→C01 局部組合、修訂結果及驗證範圍 |
+| `knowledge/experience-third-act-opening.md` | 第三幕前段週期任務、例外結案與新一輪核對經驗補記 |
+| `knowledge/reviews/third-act-opening-transitions.md` | C01→C02 九種局部組合、修訂結果與 C02→C03 待回收承諾 |
 | `knowledge/decision.md` | 重大設計決策、原因及狀態 |
 | `knowledge/asset-register.md` | 背景、角色及其他美術素材清冊 |
 | `knowledge/story-bible.md` | 角色、世界觀與設定依據 |
