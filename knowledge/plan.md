@@ -1,6 +1,6 @@
 # 空崎陽奈二創 Galgame｜總願景、現況與執行路線圖
 
-> 最後整理：2026-11-24；本輪補記：完成 B06／B07 角色互動與重複說理修訂並同步 runtime；重算全篇規模；讀取 Key 官方開發日誌並將角色表演、路線選擇及篇幅風險轉成 QA 準則；完成 B08 角色聲線、選項承諾、分支返場及收束修訂並同步 runtime；恢復 D02／D05 章稿與 runtime 的逐句、分段及選項同步驗證。Galgame UI 2.0 已部署至 Pages；iPhone Safari 實機驗收待可用裝置，與劇情 QA 平行進行。
+> 最後整理：2026-11-24；本輪補記：完成 B06／B07 角色互動與重複說理修訂並同步 runtime；重算全篇規模；讀取 Key 官方開發日誌並將角色表演、路線選擇及篇幅風險轉成 QA 準則；完成 B08 角色聲線、選項承諾、分支返場及收束修訂並同步 runtime；恢復 D02／D05 章稿與 runtime 的逐句、分段及選項同步驗證；為 P01～P03 加入全文及條件台詞同步驗證。Galgame UI 2.0 已部署至 Pages；iPhone Safari 實機驗收待可用裝置，與劇情 QA 平行進行。
 > 本文件是目前唯一的專案總路線圖。狀態以 repo 實際檔案、程式、CI 與已確認的使用者決策為準；若舊文件或舊對話與本文衝突，以本文為目前執行依據。
 > **勾選規則：** [x] 已完成且有檔案／程式／驗證依據；[ ] 尚未完成；「待驗收」代表程式已存在，但尚未完成指定裝置或人工驗收。不能因程式碼存在就把實機驗收勾成完成。
 
@@ -258,6 +258,7 @@
 - [x] 將前批經驗補記 `knowledge/experience-early-act-transitions.md` 的可複用方法、限制與未來適用範圍合併至 `knowledge/experience.md`；保留補記原檔作為審校來源，不覆蓋歷史內容。
 - [x] 序章內部銜接人工文本審校（P01→P02→P03）：完整閱讀三節章稿與 runtime 回傳前綴內的三個完整節點，檢查兩組交界各九種局部組合及 P03 九種入口旗標歷史；記錄 PRT-01～07 場景殘留、昨日回憶前提、清單欄位、回室與便條來源、稿末導航等待修／待釐清事項。證據見 `knowledge/reviews/prologue-transitions.md`；三個固定 validator 均通過，僅審校、不代表修復或實機通關。
 - [x] 修訂序章審校 PRT-01～07：同步修改 P01 地點中性共通收束、P02 回憶前提／自由選項標籤／兩欄待定項／C 路線返回動作與杯子狀態、P03 文件物件／分工便箋及「十分鐘」便條來源；P01 導航先前已修。新增 `scripts/validate-prologue-revisions.js` 核對 15 組關鍵稿件／runtime 文字、P02 choices、P01 導航及舊句殘留，並接入 Pages workflow。固定 `game-data`、`routes`、`shells` 與專用 validator 均通過；不代表全 tuple 逐句同步、18 條瀏覽器通關或實機 QA。詳見 `knowledge/reviews/prologue-transitions.md`。
+- [x] 恢復 P01～P03 全文稿件／runtime 固定同步：修正 P01 一句旁白被合併造成的句界差異，讓 P01 選項文字符合遊戲實際顯示；P03 將三組條件台詞改為可解析的 `【條件對話：flag >= 門檻】` 標記。`validate-route-drafts.js` 現逐句比對 P01／P02／P03 共 86／47／24 條正文 tuple、三節全部選項，以及 P03 三組旗標條件與條件台詞；新增 route/prologue choice block、條件區隔與門檻錯誤 fixtures。固定路線與 prologue validators 通過；這仍是靜態同步，不代表實機通關。詳見 `knowledge/reviews/prologue-full-sync-review.md`。
 - [x] 將本批經驗補記 `knowledge/experience-prologue-transitions.md` 的跨選擇前提、條件回憶時序、場景狀態及稿件導航分層方法合併至 `knowledge/experience.md`；保留補記原檔作為審校來源。
 - [x] 第一幕前段銜接人工文本審校（A01→A02→A03）：完整閱讀三節章稿，核對十八種局部分支組合及 A02 累積回憶反例；記錄 AAT-01～07 昨日指涉、ordinary_day 回憶前提、提交次數、燈光、C 選項承諾、欄位變化及送客動作待修／待釐清事項。詳見 `knowledge/reviews/first-act-opening-transitions.md`；新增逐句同步與三個固定 validators 均通過，非劇情修復或實機 QA。
 - [x] 修訂 AAT-01～07：同步 A01／A02／A03、runtime 與 `knowledge/flag-dialogue.md`；對齊提交狀態、燈光、choice label、欄位狀態及 A01 結尾。`game-data`、`routes`、`shells`、`prologue-revisions` 四項固定驗證通過；無瀏覽器通關／全篇 QA。詳見 `knowledge/reviews/first-act-opening-transitions.md`。
@@ -529,6 +530,7 @@ B06／B07 角色互動修訂 commit `e66b3b1` 的 Actions run `45237186357` 已�
 | `knowledge/reviews/full-length-refresh.md` | 最新 runtime 全篇唯一正文、條件台詞與三線單次路徑重算方法及數字 |
 | `knowledge/reviews/b08-character-choice-review.md` | B08 聲線、三選項承諾、時間錨點、分支返場及收束修訂與驗證範圍 |
 | `knowledge/reviews/adult-manuscript-runtime-sync-review.md` | D02／D05 逐句、五段與選項同步檢查重新啟用的依據及限制 |
+| `knowledge/reviews/prologue-full-sync-review.md` | P01～P03 全文與條件台詞同步門檻恢復依據、格式及驗證界線 |
 | `knowledge/decision.md` | 重大設計決策、原因及狀態 |
 | `knowledge/asset-register.md` | 背景、角色及其他美術素材清冊 |
 | `knowledge/story-bible.md` | 角色、世界觀與設定依據 |

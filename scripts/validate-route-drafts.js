@@ -66,6 +66,63 @@ function choiceSyncErrors(block, choices) {
     ? [] : ["Markdown/runtime choice letters or labels differ"];
 }
 
+function compareChoices(markdown, chapter, target, issues = errors) {
+  const choiceMarker = "【選擇】";
+  const choiceStart = markdown.indexOf(choiceMarker);
+  const endMarker = target.choiceEndMarker || "【分支 A：";
+  const choiceEnd = choiceStart < 0 ? -1 : markdown.indexOf(endMarker, choiceStart + choiceMarker.length);
+  if (choiceStart < 0 || choiceEnd < 0) {
+    issues.push(target.id + ": could not locate the complete choice block");
+    return;
+  }
+  const block = markdown.slice(choiceStart + choiceMarker.length, choiceEnd);
+  issues.push(...choiceSyncErrors(block, chapter.choices).map(error => target.id + ": " + error));
+}
+
+function conditionalSections(markdown, target) {
+  const markers = [...markdown.matchAll(/^【條件對話：([a-z_]+)\s*>=\s*(\d+)】\s*$/gm)];
+  return markers.map((marker, index) => {
+    const start = marker.index + marker[0].length;
+    let end = markdown.length;
+    if (markers[index + 1]) end = markers[index + 1].index;
+    else {
+      const choice = markdown.indexOf("【選擇】", start);
+      if (choice >= 0) end = choice;
+    }
+    return {
+      flag: marker[1],
+      min: Number(marker[2]),
+      lines: parseDialogue(markdown.slice(start, end), target)
+    };
+  });
+}
+
+function stripConditionalSections(markdown) {
+  const markers = [...markdown.matchAll(/^【條件對話：[a-z_]+\s*>=\s*\d+】\s*$/gm)];
+  const ranges = markers.map((marker, index) => {
+    const start = marker.index;
+    let end = markdown.length;
+    if (markers[index + 1]) end = markers[index + 1].index;
+    else {
+      const choice = markdown.indexOf("【選擇】", start);
+      if (choice >= 0) end = choice;
+    }
+    return [start, end];
+  });
+  for (const [start, end] of ranges.reverse()) markdown = markdown.slice(0, start) + markdown.slice(end);
+  return markdown;
+}
+
+function compareConditionalSections(markdown, chapter, target, issues = errors) {
+  const actual = conditionalSections(markdown, target);
+  const expected = (chapter.flaggedIntro || []).map(group => ({
+    flag: group.flag, min: group.min, lines: group.lines
+  }));
+  if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+    issues.push(target.id + ": conditional manuscript dialogue, flags or thresholds differ from runtime");
+  }
+}
+
 // In-memory regression fixtures: no story files or runtime data are mutated.
 const choiceFixture = "A. 先休息。\nB. 先交付。\nC. 先詢問。\n\n---\n";
 const fixtureChoices = ["先休息。", "先交付。", "先詢問。"].map((label, index) => ({
@@ -114,6 +171,16 @@ function compareSections(markdown, chapter, target, issues = errors) {
   }
 }
 
+// Exercise choice-block discovery for both route-style and prologue manuscript headings.
+const choiceBlockIssues = [];
+compareChoices("【選擇】\n" + choiceFixture + "【分支 A：休息】\n", { choices: fixtureChoices }, { id: "choice-fixture" }, choiceBlockIssues);
+compareChoices("【選擇】\n" + choiceFixture + "## P02-A：休息\n", { choices: fixtureChoices }, { id: "choice-fixture", choiceEndMarker: "## P02-A" }, choiceBlockIssues);
+assert.deepEqual(choiceBlockIssues, []);
+const badChoiceBlockIssues = [];
+compareChoices("【選擇】\n" + choiceFixture.replace("先交付", "先休息") + "【分支 A：休息】\n", { choices: fixtureChoices }, { id: "choice-fixture" }, badChoiceBlockIssues);
+assert.ok(badChoiceBlockIssues.length > 0);
+console.log("Choice block regression fixtures OK: route and prologue headings, including one mismatch.");
+
 // Exercise the section parser, not just the flattened dialogue comparison.
 // Each case has its own collector, so expected failures cannot hide real errors.
 const sectionTarget = { id: "fixture", dialogueOnly: true, syncChoices: true };
@@ -157,6 +224,21 @@ for (const [name, markdown, diagnostic] of [
 }
 console.log("Section sync regression fixtures OK: 2 positive and 8 negative cases (3 preserve flattened dialogue).");
 
+const conditionalFixture = "# fixture\n【條件對話：rest >= 1】\n【陽奈｜安心】先休息。\n\n【條件對話：teamwork >= 1】\n【陽奈｜認真】一起確認。\n\n【選擇】\n";
+const conditionalTarget = { id: "conditional-fixture", dialogueOnly: true };
+const conditionalChapter = { flaggedIntro: [
+  { flag: "rest", min: 1, lines: [["hina", "先休息。", "安心"]] },
+  { flag: "teamwork", min: 1, lines: [["hina", "一起確認。", "認真"]] }
+] };
+const conditionalIssues = [];
+compareConditionalSections(conditionalFixture, conditionalChapter, conditionalTarget, conditionalIssues);
+assert.deepEqual(conditionalIssues, []);
+assert.deepEqual(parseDialogue(stripConditionalSections(conditionalFixture), conditionalTarget), []);
+const badConditionalIssues = [];
+compareConditionalSections(conditionalFixture.replace("teamwork >= 1", "teamwork >= 2"), conditionalChapter, conditionalTarget, badConditionalIssues);
+assert.ok(badConditionalIssues.length > 0);
+console.log("Conditional dialogue regression fixtures OK: two matched flags, main-text isolation, threshold mismatch.");
+
 for (const target of targets) {
   const chapter = chapters.find(item => item.id === target.id);
   const markdownPath = path.join(root, "story", "chapters", target.id + ".md");
@@ -181,8 +263,11 @@ for (const target of targets) {
   if (target.syncDialogue !== false) {
     const dialogueMarkdown = markdown
       .split(/^\s*(?:## 資料同步註記|【節末記錄】)\s*$/m)[0];
-    compareDialogue(target.id, parseDialogue(dialogueMarkdown, target), lines);
-    if (target.syncSections) compareSections(dialogueMarkdown, chapter, target);
+    const mainMarkdown = target.syncConditional ? stripConditionalSections(dialogueMarkdown) : dialogueMarkdown;
+    compareDialogue(target.id, parseDialogue(mainMarkdown, target), lines);
+    if (target.syncChoices && !target.syncSections) compareChoices(dialogueMarkdown, chapter, target);
+    if (target.syncConditional) compareConditionalSections(dialogueMarkdown, chapter, target);
+    if (target.syncSections) compareSections(mainMarkdown, chapter, target);
   }
 
   if (target.dialogueOnly) {

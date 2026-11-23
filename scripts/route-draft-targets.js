@@ -3,6 +3,9 @@
 // Explicit opt-ins: keep this small configuration separate from parser/fixtures.
 // Early drafts have no declared runtime count; do not apply adult length gates.
 module.exports = [
+  { id: "P01", dialogueOnly: true, syncChoices: true, status: "manuscript/runtime synchronized" },
+  { id: "P02", dialogueOnly: true, syncChoices: true, choiceEndMarker: "## P02-A", status: "manuscript/runtime synchronized" },
+  { id: "P03", dialogueOnly: true, syncChoices: true, syncConditional: true, status: "manuscript/runtime synchronized" },
   { id: "A01", dialogueOnly: true, status: "continuity review; fixes pending" },
   { id: "A02", dialogueOnly: true, status: "continuity review; fixes pending" },
   { id: "A03", dialogueOnly: true, syncChoices: true, status: "continuity review; fixes pending" },
