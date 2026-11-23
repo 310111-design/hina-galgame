@@ -1,6 +1,6 @@
 # 空崎陽奈二創 Galgame｜總願景、現況與執行路線圖
 
-> 最後整理：2026-11-23；本輪補記：完成 BOT-01～07 跨章修訂與經驗回流；保留既有 Galgame UI 2.0 路線圖及 13 張角色表情接入紀錄。
+> 最後整理：2026-11-23；本輪補記：完成 BOT-01～07、BMT-01～07 跨章修訂與經驗回流；保留既有 Galgame UI 2.0 路線圖及 13 張角色表情接入紀錄。
 > 本文件是目前唯一的專案總路線圖。狀態以 repo 實際檔案、程式、CI 與已確認的使用者決策為準；若舊文件或舊對話與本文衝突，以本文為目前執行依據。
 > **勾選規則：** [x] 已完成且有檔案／程式／驗證依據；[ ] 尚未完成；「待驗收」代表程式已存在，但尚未完成指定裝置或人工驗收。不能因程式碼存在就把實機驗收勾成完成。
 
@@ -240,8 +240,8 @@
 - [x] 修訂／釐清 BOT-01～07：B01 區分工作草稿與共用清單；B02 承接既有等待方法、分開五分鐘整理與十分鐘休息，並在共通段明確建立四點回查；B03 明示隔日下午四點的交付版本、保留各分支成果／待辦狀態並修正核對規則版本。以唯一章節物件局部替換同步 B01～B03 章稿與 runtime；`routes` 78／111／113 tuple、選項 labels、`game-data`、`shells` 及 `git diff --check` 通過。未做實機通關或全篇語意 QA；詳見 `knowledge/reviews/second-act-opening-transitions.md`。
 - [x] 將 `knowledge/experience-second-act-opening.md` 的交付版本、互斥結果、時間來源及同步驗證經驗安全合併至 `knowledge/experience.md`，補上本輪修訂結果與適用範圍；保留補記原檔作為詳情來源。
 - [x] 第二幕中段銜接人工文本審校（B03→B04→B05）：完整閱讀三節，核對十八種局部分支組合，記錄 BMT-01～07 規則版本、互斥成果、試走層級、日期／用途、估時範圍、主動求助與今晚核對閉環問題。見 `knowledge/reviews/second-act-middle-transitions.md`；確認既有逐句／分段／選項同步，新增分段比較 2 正向／8 負向測試，三個固定 validators 並行成功。僅審校及驗證器強化，未修正文。
-- [ ] 修訂／釐清 BMT-01～07，同步章稿與 runtime；推薦 B05 為 B04 翌日傍晚，保留分支專屬成果、區分第一輪估時與全部工作、明示今晚核對及自主求助。沿用精確 runtime 章節替換流程；BOT 舊案亦須先完成。
-- [ ] 將 `knowledge/experience-second-act-middle.md` 安全追加至 `knowledge/experience.md`；補記已保存方法與適用範圍，主檔歷史不覆蓋。
+- [x] 修訂／釐清 BMT-01～07，同步章稿與 runtime：B04 保留路徑專屬成果並分清樣本試讀／完整獨立試走；B05 明定隔日、截止時間與步驟範圍，三路徑均明確求助並保留判斷責任，common 分列已核對／等待回查。唯一章節物件替換後，routes（111／53 tuples）、game-data、shells 與 `git diff --check` 通過；B06 收回仍待回查的原始紀錄。詳見 `knowledge/reviews/second-act-middle-transitions.md`。
+- [x] 將 BMT 可複用的規則版本、共通段狀態、估時、求助及回查方法追加至 `knowledge/experience.md`，標明驗證界線與後續適用範圍；保留 `knowledge/experience-second-act-middle.md` 作詳情索引來源。
 - [x] 第二幕收尾銜接人工文本審校（B05→B06→B07）：完整閱讀三節，核對十八種局部分支組合，記錄 BCT-01～07 日期與核對責任、例外數量、重複離場、選項承諾、回顧與重做、十分鐘及完杯／關門收束問題。見 `knowledge/reviews/second-act-closing-transitions.md`；新增 B06／B07 逐句／五段／選項同步，三個固定 validators 成功。僅審校及驗證配置完成，不代表 BCT 或 BMT 已修。
 - [ ] 修訂／釐清 BCT-01～07，同步章稿與 runtime；推薦 B06 為 B05 同日晚間收尾，兩個初始例外僅一項待回查，B07 作額外熱飲及唯一離場，修正 B 選項「喝完」承諾。沿用精確 runtime 章節替換流程；先前完成勾選不代表新問題已解決。
 - [ ] 將 `knowledge/experience-second-act-closing.md` 安全追加至 `knowledge/experience.md`；本輪主檔仍截斷，補記保存方法與未來適用範圍，未宣稱主檔合併完成。
@@ -399,7 +399,7 @@
 ## 5. 下一步執行順序
 
 1. **美術接入規則**：13 張角色表情已依標題接入正作；推送部署後保留手機／桌面顯示驗收。事件 CG 暫定 27 張，情境清單已建立，待使用者分批交付後接入；不自行生成、繪製或修圖。
-2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07 及 BOT-01～07 已同步修訂並驗證。下一批依序修訂／釐清 BMT-01～07、BCT-01～07，逐批同步章稿與 runtime，並合併尚未回流的經驗補記。完成已交付審校後，繼續全篇共通回收、分支假設、旗標回收與路線入口出口 QA；B07→B08→C01 的熱飲定位、收工承諾及團隊交接已列為後續內容審校候選，不重做 B05→B06→B07。遇遠端分歧先安全同步，不 force push。
+2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07 及 BMT-01～07 已同步修訂並驗證。接續修訂 BCT-01～07，逐批同步章稿與 runtime、回流可複用經驗。完成已交付審校後，繼續全篇共通回收、分支假設、旗標回收與路線入口出口 QA；B07→B08→C01 的熱飲定位、收工承諾及團隊交接已列為後續內容審校候選，不重做已完成批次。遇遠端分歧先安全同步，不 force push。
 3. **背景與 UI 實機驗收**：驗證真實裝置的背景裁切、可讀性及操作品質。
 4. **存檔、分支及音訊相容性驗收**：完成後再執行跨裝置完整 QA 與發布檢查。
 
@@ -445,7 +445,7 @@
 | `knowledge/experience-second-act-opening.md` | 第二幕前段交付版本、互斥成果與選項同步經驗補記 |
 | `knowledge/reviews/second-act-opening-transitions.md` | B01→B02→B03 十八種局部組合、BOT 待修項及驗證範圍 |
 | `knowledge/experience-second-act-middle.md` | 第二幕中段分段防線、估時與可觀察求助經驗補記 |
-| `knowledge/reviews/second-act-middle-transitions.md` | B03→B04→B05 十八種局部組合、BMT 待修項及驗證範圍 |
+| `knowledge/reviews/second-act-middle-transitions.md` | B03→B04→B05 十八種局部組合、BMT 修訂結果及驗證範圍 |
 | `knowledge/experience-second-act-closing.md` | 第二幕收尾狀態守恆、選項承諾與離場動作經驗補記 |
 | `knowledge/reviews/second-act-closing-transitions.md` | B05→B06→B07 十八種局部組合、BCT 待修項及驗證範圍 |
 | `knowledge/decision.md` | 重大設計決策、原因及狀態 |
