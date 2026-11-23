@@ -321,6 +321,7 @@
 - [x] 校正 route validator 的狀態摘要：依 BOT／BMT／BCT／TAT 與 B08 審校追記，將 B02～B08、C02～C03 從過期的「修訂待處理」改為已同步，並明確區分語義 QA 尚未完成；`validate-route-drafts.js`、`validate-game-data.js`、`validate-game-shells.js`、`validate-prologue-revisions.js` 及 `git diff --check` 通過。此摘要只描述稿件／runtime 與局部修訂狀態，不代表全篇 QA。
 - [x] 全篇時間錨點盤點：對照 33 節 metadata、明示日序／時刻與既有跨章審校；未發現硬性時間矛盾，D04／D05 的「週末／幾天後」維持未鎖定日期的彈性寫法。此為錨點盤點，不代表逐句語義 QA 或實機通關；詳見 `knowledge/reviews/full-story-timeline-audit.md`。
 - [x] 陽奈全篇聲線抽查：比對 P01～D08 各節章首／章末台詞與情緒標記，並精讀 D08P、D08R common 結尾；移除重複工作流程口訣及抽象界線總結，以具體車站道別收束。routes、game-data 與 `git diff --check` 通過；此為聲線抽查，不代表全篇逐句 QA；詳見 `knowledge/reviews/full-story-hina-voice-review.md`。
+- [x] 成年篇三結局差異與關係狀態複核：對讀 D08F／D08P／D08R 的選項行動、共通回收及結局標記，並回查 D06 路線承諾；確認朋友分享、合作活動、戀愛探索各有不同體驗，D08R C 的延後交往選擇未被共通段覆蓋，無需改動正文。詳見 `knowledge/reviews/adult-ending-contrast-review.md`；未完成瀏覽器逐路通關或全篇 QA。
 - [x] A01／A02／A03 加入稿件／runtime 五段與選項同步；A02 的 `rest`、`teamwork`、`ordinary_day` 三組條件台詞標記與 flag、門檻、文字、說話者一併驗證。原本只有 runtime 與 `knowledge/flag-dialogue.md` 對照，現也防止章稿漂移；未改變任何旗標或玩家可見台詞。
 - [x] A04／A05／A06 選項 label 加入固定同步；將 B01、C01、D01、D08F、D08P、D08R 條件對話逐組標記至章稿並納入 `syncConditional`，連同已涵蓋的 P03／A02，總計 21 組條件記憶均由章稿、`knowledge/flag-dialogue.md` 與 runtime 同步保護。詳見 `knowledge/reviews/conditional-manuscript-sync-review.md`。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
@@ -477,7 +478,7 @@
 
 ## 5. 下一步執行順序
 
-1. **全篇分支連貫性與角色語氣 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01、C01→C02、C02→C03、C03→C04→C05、C05→C06→D01、D01→D02→D03、D03→D04→D05、D05→D06→D07、B08 角色聲線／情緒收束／選項互動及 D08 三結局條件回憶審校均已完成；21 組條件回憶可達性及稿件／索引／runtime 同步、A01～A06／D06／D07／D08F／D08P／D08R 五段與選項同步已加入 CI。D07 過早元敘事收束及 D08R 跨選項預約假設已修正。全篇時間錨點盤點已完成，並已按跨章精確重複句與玩家可見章號／幕次索引修訂 C04、A06、B01、B05～B08、C01、C05、D06；仍續查其他中段聲線、情感節奏及結局差異。固定同步檢查和 metadata 盤點均不等於實機通關或完整語義驗收。借鏡官方製作經驗時只採用角色語氣與路線互動的檢查方法，不推測本作有聲優演出；遠端分歧時先安全同步，不 force push。
+1. **全篇分支連貫性與角色語氣 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01、C01→C02、C02→C03、C03→C04→C05、C05→C06→D01、D01→D02→D03、D03→D04→D05、D05→D06→D07、B08 角色聲線／情緒收束／選項互動及 D08 三結局條件回憶審校均已完成；21 組條件回憶可達性及稿件／索引／runtime 同步、A01～A06／D06／D07／D08F／D08P／D08R 五段與選項同步已加入 CI。D07 過早元敘事收束及 D08R 跨選項預約假設已修正。全篇時間錨點盤點已完成，並已按跨章精確重複句與玩家可見章號／幕次索引修訂 C04、A06、B01、B05～B08、C01、C05、D06；D08 三結局差異與關係狀態另完成一次定向複核（見 `knowledge/reviews/adult-ending-contrast-review.md`），仍續查其他中段聲線與情感節奏。固定同步檢查和 metadata 盤點均不等於實機通關或完整語義驗收。借鏡官方製作經驗時只採用角色語氣與路線互動的檢查方法，不推測本作有聲優演出；遠端分歧時先安全同步，不 force push。
 2. **UI 2.0 與背景實機驗收**：Pages 部署已成功；待可用實體 iPhone Safari 驗收安全區、動態視窗和觸控，並保留完整桌面瀏覽器 QA。此待驗項不阻塞可自行進行的劇情與資產工作，沒有實機時不把它勾選為完成。
 3. **背景與美術品質驗收**：驗證真實裝置的背景裁切、可讀性及角色素材顯示品質；角色表情已接入，跨裝置仍待驗收。D08P 專用背景目前受生成工具限制，依 D-26 記錄；待內建 ImageGen 可用或使用者確認 CLI／API 路徑後再製作，不阻塞其他工作。
 4. **存檔、分支及音訊相容性驗收**：完成後再執行跨裝置完整 QA 與發布檢查。
