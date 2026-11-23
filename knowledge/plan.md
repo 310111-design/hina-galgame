@@ -1,6 +1,6 @@
 # 空崎陽奈二創 Galgame｜總願景、現況與執行路線圖
 
-> 最後整理：2026-11-24；本輪補記：完成 B06／B07 角色互動與重複說理修訂並同步 runtime；重算全篇規模；讀取 Key 官方開發日誌並將角色表演、路線選擇及篇幅風險轉成 QA 準則；完成 B08 角色聲線、選項承諾、分支返場及收束修訂並同步 runtime。Galgame UI 2.0 已部署至 Pages；iPhone Safari 實機驗收待可用裝置，與劇情 QA 平行進行。
+> 最後整理：2026-11-24；本輪補記：完成 B06／B07 角色互動與重複說理修訂並同步 runtime；重算全篇規模；讀取 Key 官方開發日誌並將角色表演、路線選擇及篇幅風險轉成 QA 準則；完成 B08 角色聲線、選項承諾、分支返場及收束修訂並同步 runtime；恢復 D02／D05 章稿與 runtime 的逐句、分段及選項同步驗證。Galgame UI 2.0 已部署至 Pages；iPhone Safari 實機驗收待可用裝置，與劇情 QA 平行進行。
 > 本文件是目前唯一的專案總路線圖。狀態以 repo 實際檔案、程式、CI 與已確認的使用者決策為準；若舊文件或舊對話與本文衝突，以本文為目前執行依據。
 > **勾選規則：** [x] 已完成且有檔案／程式／驗證依據；[ ] 尚未完成；「待驗收」代表程式已存在，但尚未完成指定裝置或人工驗收。不能因程式碼存在就把實機驗收勾成完成。
 
@@ -223,6 +223,7 @@
 - [x] 第一輪核對 D01→D02、D04→D05、D07→D08F／D08P／D08R：D01 重逢後第二個週末自然延續；D04 普通日邀請接至 D05 河邊談話；D07 已選路線方向銜接三個結局入口。
 - [x] 第一輪交叉檢查 D02→D03→D04：將 D02 的「下次見面」改為「下次聊起」，與 D03 訊息場景一致；D03 明確標示玩家透過訊息參與，D04 回收預留的三十分鐘，並避免分支限定假設。
 - [x] 修正 D02 共通段落的分支限定假設：不再引用只有 A 分支才畫出的紙巾雙欄筆記，改為所有 A／B／C 路徑都成立的中性收束。
+- [x] 恢復 D02／D05 劇情稿與 runtime 的固定同步驗證：確認 152／157 條正文 tuple 完全一致後，對兩節啟用五段、逐句及 A／B／C label 對照；`validate-route-drafts.js` 全數通過。此檢查不代表成年篇三分支瀏覽器通關；詳見 `knowledge/reviews/adult-manuscript-runtime-sync-review.md`。
 - [x] D04 共通段移除「今天買的書」與 A 分支書店停留描述，改為所有路徑都成立的沿途停留敘述。
 - [x] 局部核對 D06→D07→D08R 的路線語意與稿件同步：D06 選擇的是戀愛探索方向、D08R 才確認是否交往；D06／D07 Markdown 與 runtime 逐句一致，D08R 保留暫緩確認分支且共通段不預設已交往。
 - [x] 核對 D01→D02 重逢後第二個週末的訊息邀約，以及 D07→D08F／D08P／D08R 的路線映射與各結局開場時間跨度。
@@ -527,6 +528,7 @@ B06／B07 角色互動修訂 commit `e66b3b1` 的 Actions run `45237186357` 已�
 | `knowledge/reviews/adult-relationship-state-review.md` | D05 新稱呼至三個成年結局的稱呼與關係狀態連續性 |
 | `knowledge/reviews/full-length-refresh.md` | 最新 runtime 全篇唯一正文、條件台詞與三線單次路徑重算方法及數字 |
 | `knowledge/reviews/b08-character-choice-review.md` | B08 聲線、三選項承諾、時間錨點、分支返場及收束修訂與驗證範圍 |
+| `knowledge/reviews/adult-manuscript-runtime-sync-review.md` | D02／D05 逐句、五段與選項同步檢查重新啟用的依據及限制 |
 | `knowledge/decision.md` | 重大設計決策、原因及狀態 |
 | `knowledge/asset-register.md` | 背景、角色及其他美術素材清冊 |
 | `knowledge/story-bible.md` | 角色、世界觀與設定依據 |
