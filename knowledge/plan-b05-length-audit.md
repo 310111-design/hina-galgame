@@ -1,22 +1,21 @@
-# 路線圖完成補記：B05 現況篇幅
+# 歷史執行補記：B05 篇幅盤點
 
-> 本檔是 `knowledge/plan.md` 的待合併變更單，不取代唯一總路線圖。主 plan 回傳在主要路徑表末段截斷，主 experience 也截斷，工具沒有 patch／append；為保留未讀歷史，本輪不覆寫兩主檔。
+> 本檔記錄早期盤點階段的狀態，不是待合併變更單，也不取代唯一總路線圖。當時的 1,454 字／57 tuple 及未完成清單已被後續 BMT 修訂、跨章 QA、經驗合併與部署追蹤取代；請以 `knowledge/plan.md`、`knowledge/experience.md` 及 `knowledge/reviews/full-length-refresh.md` 的目前結果為準。B05 目前為 53 tuple／2,053 字，A／B／C 路徑 1,412／1,424／1,441。
 
 ## 已完成且有驗證依據
 
-- [x] 重新盤點 B05 現況正文及 A／B／C 單一路徑篇幅：全分支＝精確去重 1,454 字元／57 tuple；A 1,099、B 1,098、C 1,075 字元，各 41 tuple，無條件對話。不以歷史 2,555 字宣稱達標。
+- [x] 早期版本盤點快照：全分支＝精確去重 1,454 字元／57 tuple；A 1,099、B 1,098、C 1,075 字元，各 41 tuple，無條件對話。不以歷史 2,555 字宣稱達標。現況數據見上方更新與全篇重算紀錄。
 - [x] 新增 `scripts/chapter-length-audit.js` 並由固定 routes 執行；唯讀輸出五段、原始／去重總量、單一路徑、條件對話、Unicode 計量差異及節點 SHA-256；新增統計回歸 fixtures，保留既有全部同步及成年篇門檻。
 - [x] 固定 game-data／shells／routes 並行通過；既有 `site/testplay.html` 與正式頁各 37 必要 ID、SVG 及 runtime 背景靜態檢查通過。此勾選不是實機試玩驗收。
 - [x] 保存盤點證據與適用範圍：`knowledge/reviews/b05-length-audit.md`、`knowledge/experience-b05-length-audit.md`。
 
-## 尚未完成，不可連帶勾選
+## 當時尚未完成的工作（後續狀態另見主路線圖）
 
-- [ ] 安全合併本變更至 `knowledge/plan.md`：只勾 Phase 1 的「重新盤點 B05」；添加新證據連結，下一步移至 B05→B06→B07。
-- [ ] 安全追加本經驗至 `knowledge/experience.md`；前七份補記仍待合併，不覆蓋歷史。
-- [ ] 對齊 plan／BMT review 的問題索引漂移：review 的 BMT-07 是未修核對橋接，並非 plan 所述已修引號項。合併前以文件路徑＋標題辨識，不誤結案。
-- [ ] B05 篇幅補足與敘事品質修訂：先處理今晚核對／回查／明早交接，保留 B 專屬交付，不為參考字数灌水。
-- [ ] B05→B06→B07 銜接人工文本審校；本輪未執行。
-- [ ] 最新 Actions／Pages 及實機試玩驗收；當前無查詢／瀏覽器工具。
+- [x] 將盤點結果與經驗合併至主路線圖和主經驗檔；主檔更新後此子文件只保留歷史快照。
+- [x] BMT-07 工作狀態已依問題標題釐清：B05 晚間狀態與次日回查橋接已修，B06 收回未結資料；以當前 BMT 審校與主路線圖為準。
+- [ ] B05 剩餘劇情品質 QA：檢查目前正文是否仍有未兌現的回查／交接承諾；若沒有實質缺口，不因早期 2,500 字元參考或舊推薦灌入篇幅。
+- [x] B05→B06→B07 銜接人工文本審校已完成；見 `knowledge/reviews/second-act-closing-transitions.md` 與 `knowledge/plan.md`。
+- [x] 最近推送 `2ab2d9b` 的 Pages workflow 成功、`game.html` 與 `game-data.js` 回應 HTTP 200；這不等同實機試玩驗收。
 
 ## 執行限制與順序
 
