@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#090912">
   <title>放學後的十分鐘｜30 節共通篇＋三路線結局體驗版</title>
-  <link rel="stylesheet" href="game.css?v=chapter-card-20261123">
-  <link rel="stylesheet" href="chapter-intro.css?v=chapter-card-20261123">
+  <link rel="stylesheet" href="game.css?v=ui2-20261124">
+  <link rel="stylesheet" href="chapter-intro.css?v=ui2-20261124">
 </head>
 <body>
   <main class="game-shell">
@@ -14,18 +14,26 @@
       <a class="back" href="./" aria-label="返回企劃首頁">← 首頁</a>
       <div class="brand"><span class="eyebrow">HINA GALGAME</span><h1>放學後的十分鐘</h1></div>
       <div class="top-actions">
-        <button id="chapterMenu" class="ghost" type="button">章節</button>
-        <button id="returnMain" class="ghost" type="button" hidden>返回主線</button>
-        <button id="logToggle" class="ghost" type="button" aria-controls="logPanel" aria-expanded="false">紀錄</button>
-        <button id="saveManual" class="ghost" type="button">存檔</button>
-        <button id="loadManual" class="ghost" type="button">讀檔</button>
-        <button id="restart" class="ghost" type="button">重來</button>
-        <button id="fullscreenToggle" class="ghost" type="button">全螢幕</button>
+        <details id="utilityMenu" class="utility-menu">
+          <summary id="utilityMenuTrigger" class="utility-menu-trigger" aria-controls="utilityMenuPanel" aria-expanded="false"><span class="utility-menu-glyph" aria-hidden="true">☰</span><span>功能</span></summary>
+          <div id="utilityMenuPanel" class="utility-menu-panel" role="group" aria-label="遊戲功能">
+            <p class="utility-menu-heading">遊戲功能</p>
+            <a class="utility-menu-item" href="./"><span class="utility-menu-icon" aria-hidden="true">⌂</span><span>返回企劃首頁</span></a>
+            <button id="chapterMenu" class="utility-menu-item" type="button"><span class="utility-menu-icon" aria-hidden="true">▤</span><span>選擇章節</span></button>
+            <button id="returnMain" class="utility-menu-item" type="button" hidden><span class="utility-menu-icon" aria-hidden="true">↩</span><span>返回主線</span></button>
+            <button id="logToggle" class="utility-menu-item" type="button" aria-controls="logPanel" aria-expanded="false"><span class="utility-menu-icon" aria-hidden="true">☷</span><span>對話紀錄與設定</span></button>
+            <button id="saveManual" class="utility-menu-item" type="button"><span class="utility-menu-icon" aria-hidden="true">＋</span><span>存檔</span></button>
+            <button id="loadManual" class="utility-menu-item" type="button"><span class="utility-menu-icon" aria-hidden="true">▣</span><span>讀檔</span></button>
+            <button id="restart" class="utility-menu-item" type="button"><span class="utility-menu-icon" aria-hidden="true">↻</span><span>從序章重來</span></button>
+            <button id="fullscreenToggle" class="utility-menu-item" type="button" aria-label="切換全螢幕"><span class="utility-menu-icon" aria-hidden="true">⛶</span><span>全螢幕</span></button>
+            <p class="utility-menu-note">按 Esc 可關閉選單</p>
+          </div>
+        </details>
       </div>
     </header>
     <section class="status" aria-label="遊戲進度">
       <div class="progress-track"><div id="progress" class="progress"></div></div>
-      <div class="status-row"><span id="chapterLabel">P01</span><span id="saveState">自動存檔</span><div id="flags" class="flags" aria-label="劇情旗標"></div></div>
+      <div class="status-row"><span id="chapterLabel">P01</span><span id="saveState">自動存檔</span><div id="flags" class="flags visually-hidden" aria-label="劇情旗標"></div></div>
     </section>
     <section id="gameStage" class="game-stage" aria-label="遊戲畫面" tabindex="-1">
       <div id="sceneArt" class="scene-art office">
@@ -43,7 +51,7 @@
           <button id="chapterIntroStart" class="chapter-intro-start" type="button">開始閱讀</button>
         </div>
       </section>
-      <div class="visual-controls"><span id="mood" class="mood">認真</span><button id="audioToggle" class="audio-toggle" type="button" aria-label="切換音樂">♫</button></div>
+      <div class="visual-controls"><span id="mood" class="mood visually-hidden">認真</span><button id="audioToggle" class="audio-toggle" type="button" aria-label="切換音樂" aria-pressed="false"><span aria-hidden="true">♫</span><span class="audio-toggle-label">音訊</span></button></div>
       <section class="dialogue-panel">
         <div id="story" class="story" aria-live="polite"></div>
         <div id="choices" class="choices" role="group" aria-label="劇情選項" aria-live="polite"></div>
@@ -88,8 +96,8 @@
     <p id="saveDialogNote" class="dialog-note">選擇一個欄位保存目前進度。</p>
     <div id="saveSlots" class="save-slots"></div>
   </dialog>
-  <script src="game-data.js?v=chapter-card-20261123"></script>
-  <script src="game.js?v=chapter-card-20261123"></script>
-  <script src="chapter-intro.js?v=chapter-card-20261123"></script>
+  <script src="game-data.js?v=ui2-20261124"></script>
+  <script src="game.js?v=ui2-20261124"></script>
+  <script src="chapter-intro.js?v=ui2-20261124"></script>
 </body>
 </html>

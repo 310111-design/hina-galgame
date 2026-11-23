@@ -175,7 +175,12 @@ function updateAudioControls() {
   if (bgm) bgm.value = String(audioSettings.bgmVolume);
   if (sfx) sfx.value = String(audioSettings.sfxVolume);
   const toggle = document.getElementById("audioToggle");
-  if (toggle) toggle.textContent = musicEnabled ? "♫ 音樂開" : "♫ 音樂關";
+  if (toggle) {
+    const label = toggle.querySelector(".audio-toggle-label");
+    if (label) label.textContent = musicEnabled ? "音訊開" : "音訊關";
+    toggle.setAttribute("aria-pressed", String(musicEnabled));
+    toggle.setAttribute("aria-label", musicEnabled ? "關閉音訊" : "開啟音訊");
+  }
 }
 
 function saveReadingSettings() {
@@ -602,6 +607,7 @@ function render() {
   clearAutoAdvance();
   const chapter = chapters[state.chapter];
   if (!chapter) return;
+  document.getElementById("gameStage").dataset.phase = state.phase;
 
   const routeLabel = (["D06", "D07"].includes(chapter.id) || chapter.routeEnding) ? ({ friend: "朋友線", partner: "搭檔線", romance: "戀愛線" })[state.route] : "";
   const chapterLabel = document.getElementById("chapterLabel");
@@ -620,6 +626,7 @@ function render() {
   updateScene();
 
   const box = document.getElementById("choices");
+  box.dataset.selecting = "false";
   box.replaceChildren();
 
   if (state.phase === "choice") {
@@ -632,15 +639,33 @@ function render() {
       button.type = "button";
       button.className = "choice choice-enter";
       button.style.animationDelay = `${index * 55}ms`;
+      button.dataset.choice = choice.letter;
+      const marker = document.createElement("span");
+      marker.className = "choice-marker";
+      marker.setAttribute("aria-hidden", "true");
+      marker.textContent = choice.letter;
       const label = document.createElement("span");
       label.className = "choice-label";
       label.textContent = choice.label;
       const hint = document.createElement("small");
+      hint.className = "choice-hint";
       hint.id = `choice-hint-${choice.letter}`;
       hint.textContent = `影響：${choice.hint}`;
       button.setAttribute("aria-describedby", hint.id);
-      button.append(label, hint);
-      button.addEventListener("click", () => choose(choice));
+      button.append(marker, label, hint);
+      button.addEventListener("click", () => {
+        if (box.dataset.selecting === "true") return;
+        box.dataset.selecting = "true";
+        box.querySelectorAll(".choice").forEach(option => {
+          const selected = option === button;
+          option.classList.toggle("is-selected", selected);
+          option.setAttribute("aria-pressed", String(selected));
+          option.disabled = !selected;
+        });
+        const confirmChoice = () => choose(choice);
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) confirmChoice();
+        else window.setTimeout(confirmChoice, 110);
+      });
       box.appendChild(button);
     });
   } else if (state.phase === "complete") {
@@ -1185,6 +1210,33 @@ document.getElementById("audioToggle").addEventListener("click", () => {
   if (musicEnabled) startAmbient();
   else stopAmbient();
 });
+
+const utilityMenu = document.getElementById("utilityMenu");
+const utilityMenuTrigger = document.getElementById("utilityMenuTrigger");
+utilityMenu.addEventListener("toggle", () => {
+  utilityMenuTrigger.setAttribute("aria-expanded", String(utilityMenu.open));
+});
+utilityMenu.addEventListener("click", event => {
+  if (!event.target.closest(".utility-menu-item")) return;
+  utilityMenu.open = false;
+  window.requestAnimationFrame(() => {
+    const openDialog = document.querySelector("dialog[open]");
+    if (openDialog) openDialog.querySelector("button:not(:disabled)")?.focus();
+    else if (document.getElementById("logPanel").classList.contains("is-open")) document.getElementById("logClose").focus();
+    else utilityMenuTrigger.focus();
+  });
+});
+document.addEventListener("click", event => {
+  if (!utilityMenu.open || utilityMenu.contains(event.target)) return;
+  utilityMenu.open = false;
+  if (event.target.closest("#gameStage")) event.stopPropagation();
+}, true);
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && utilityMenu.open) {
+    utilityMenu.open = false;
+    utilityMenuTrigger.focus();
+  }
+});
 document.getElementById("bgmVolume").addEventListener("input", event => {
   audioSettings.bgmVolume = Math.min(1, Math.max(0, Number(event.currentTarget.value)));
   saveAudioSettings();
@@ -1201,7 +1253,7 @@ document.addEventListener("keydown", event => {
     toggleHistory(false);
     return;
   }
-  if (event.target.closest("button, a, input, select, textarea") || document.querySelector("dialog[open]") || document.getElementById("logPanel").classList.contains("is-open")) return;
+  if (event.target.closest("button, a, summary, input, select, textarea") || utilityMenu.open || document.querySelector("dialog[open]") || document.getElementById("logPanel").classList.contains("is-open")) return;
   if (event.key === "Enter" || event.key === " " || event.key === "ArrowRight") {
     if (state.phase !== "choice" && state.phase !== "complete") {
       event.preventDefault();
