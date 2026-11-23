@@ -77,6 +77,7 @@
 - 單節參考目標：約 **2,500～4,000 字、80～130 句、8～12 分鐘閱讀**。
 - 共通段落只計一次；互斥分支各自計入全篇唯一正文總量；另估算單次完整遊玩的實際閱讀量，兩者不可混為一談。
 - 目前 33 個章節節點、3,490 條對話 tuple（含 21 組條件對話）；所有可能分支及條件台詞共 80,941 字元，去除完全重複台詞後為 80,292 字元／3,400 條唯一台詞文字；21 組條件台詞合計 704 字元。
+- 純文字遊玩時間目前只能依篇幅粗估，尚無玩家計時：單一路線約 **2.5～3.5 小時**；全分支以已讀跳過重複內容、逐步看過約 **4～5.5 小時**；三線都完整重讀、不跳過重複篇章約 **6～9 小時**。估算含選擇／重玩操作的大略餘裕，個人閱讀速度會造成明顯差異；不宣稱語音或實際演出時長。
 - 篇幅是規劃指標，不得為湊數灌水；角色一致性、節奏與選項品質優先。
 
 ---
@@ -314,6 +315,7 @@
 - [x] D08P 共通段刪去緊接陽奈說明搭檔分工後、再次抽象總結相同關係原則的旁白，保留後續的工作交接與活動改善安排；同步 Markdown/runtime，D08P 為 3,238 字元、A／B／C 路徑 2,609／2,614／2,585，重算全篇為 80,340 唯一字元。詳見 `knowledge/reviews/adult-ending-route-sync-review.md` 與 `knowledge/reviews/full-length-refresh.md`。
 - [x] D08F 結尾刪去緊接友誼界線與分享對話後、再次概括相同主題的旁白，保留陽奈的道別與系統結局標記；同步 Markdown/runtime，D08F 為 3,290 字元、A／B／C 路徑 2,583／2,627／2,592，重算全篇為 80,292 唯一字元。詳見 `knowledge/reviews/adult-ending-route-sync-review.md` 與 `knowledge/reviews/full-length-refresh.md`。
 - [x] 校正 route validator 的狀態摘要：依 BOT／BMT／BCT／TAT 與 B08 審校追記，將 B02～B08、C02～C03 從過期的「修訂待處理」改為已同步，並明確區分語義 QA 尚未完成；`validate-route-drafts.js`、`validate-game-data.js`、`validate-game-shells.js`、`validate-prologue-revisions.js` 及 `git diff --check` 通過。此摘要只描述稿件／runtime 與局部修訂狀態，不代表全篇 QA。
+- [x] 全篇時間錨點盤點：對照 33 節 metadata、明示日序／時刻與既有跨章審校；未發現硬性時間矛盾，D04／D05 的「週末／幾天後」維持未鎖定日期的彈性寫法。此為錨點盤點，不代表逐句語義 QA 或實機通關；詳見 `knowledge/reviews/full-story-timeline-audit.md`。
 - [x] A01／A02／A03 加入稿件／runtime 五段與選項同步；A02 的 `rest`、`teamwork`、`ordinary_day` 三組條件台詞標記與 flag、門檻、文字、說話者一併驗證。原本只有 runtime 與 `knowledge/flag-dialogue.md` 對照，現也防止章稿漂移；未改變任何旗標或玩家可見台詞。
 - [x] A04／A05／A06 選項 label 加入固定同步；將 B01、C01、D01、D08F、D08P、D08R 條件對話逐組標記至章稿並納入 `syncConditional`，連同已涵蓋的 P03／A02，總計 21 組條件記憶均由章稿、`knowledge/flag-dialogue.md` 與 runtime 同步保護。詳見 `knowledge/reviews/conditional-manuscript-sync-review.md`。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
@@ -395,7 +397,7 @@
 
 **UI-4｜收尾與發布**
 
-- [x] 執行既有遊戲資料、DOM ID、路線及相關 CI validators；本輪以上述四個固定 validator 本機重跑通過，並核對成功的主線 Actions build/deploy 工作；此項不代表 iPhone Safari／完整裝置驗收。
+- [x] 執行既有遊戲資料、DOM ID、路線及相關 CI validators；本輪四個固定 validator 本機重跑通過，commit `e98fbc4` 的 Actions run `45256381340` build／deploy 均成功，正式 `game.html`、`game-data.js`、`testplay.html` 回應 HTTP 200；此項不代表 iPhone Safari／完整裝置驗收。
 - [x] 確認正式版與內部 testplay 頁共用樣式／引擎時沒有明顯 UI 不一致；兩頁均以瀏覽器查看。
 - [x] 推送後確認 GitHub Actions run `45215839672`（commit `fd19721`）成功；正式 Pages `https://310111-design.github.io/hina-galgame/game.html` 回應 HTTP 200，已在正式頁檢查新介面、功能選單及 Escape 收合。此為發布確認，不代表 iPhone Safari 或完整裝置 QA。
 - [ ] 將最後截圖、已知限制及完成狀態回寫本文件；只有完成指定裝置驗收才勾選對應 QA。
@@ -470,14 +472,14 @@
 
 ## 5. 下一步執行順序
 
-1. **全篇分支連貫性與角色語氣 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01、C01→C02、C02→C03、C03→C04→C05、C05→C06→D01、D01→D02→D03、D03→D04→D05、D05→D06→D07、B08 角色聲線／情緒收束／選項互動及 D08 三結局條件回憶審校均已完成；21 組條件回憶可達性及稿件／索引／runtime 同步、A01～A06／D06／D07／D08F／D08P／D08R 五段與選項同步已加入 CI。D07 過早元敘事收束及 D08R 跨選項預約假設已修正。繼續檢查全篇尚未覆蓋的時間線、角色語氣及結局情感差異；固定同步檢查不等於實機通關或語義驗收。借鏡官方製作經驗時只採用角色語氣與路線互動的檢查方法，不推測本作有聲優演出；遠端分歧時先安全同步，不 force push。
+1. **全篇分支連貫性與角色語氣 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01、C01→C02、C02→C03、C03→C04→C05、C05→C06→D01、D01→D02→D03、D03→D04→D05、D05→D06→D07、B08 角色聲線／情緒收束／選項互動及 D08 三結局條件回憶審校均已完成；21 組條件回憶可達性及稿件／索引／runtime 同步、A01～A06／D06／D07／D08F／D08P／D08R 五段與選項同步已加入 CI。D07 過早元敘事收束及 D08R 跨選項預約假設已修正。全篇時間錨點盤點已完成，現續查未覆蓋的角色語氣、情感節奏及結局差異；固定同步檢查和 metadata 盤點均不等於實機通關或完整語義驗收。借鏡官方製作經驗時只採用角色語氣與路線互動的檢查方法，不推測本作有聲優演出；遠端分歧時先安全同步，不 force push。
 2. **UI 2.0 與背景實機驗收**：Pages 部署已成功；待可用實體 iPhone Safari 驗收安全區、動態視窗和觸控，並保留完整桌面瀏覽器 QA。此待驗項不阻塞可自行進行的劇情與資產工作，沒有實機時不把它勾選為完成。
 3. **背景與美術品質驗收**：驗證真實裝置的背景裁切、可讀性及角色素材顯示品質；角色表情已接入，跨裝置仍待驗收。D08P 專用背景目前受生成工具限制，依 D-26 記錄；待內建 ImageGen 可用或使用者確認 CLI／API 路徑後再製作，不阻塞其他工作。
 4. **存檔、分支及音訊相容性驗收**：完成後再執行跨裝置完整 QA 與發布檢查。
 
 ### 本輪路徑同步與部署追蹤
 
-本輪對照審校追記，修正 `route-draft-targets.js` 中九個章節過期的「continuity review; fixes pending」狀態訊息，並保留語義／全篇 QA 尚未完成的界線。正式發布狀態以本輪推送後的 Actions run 與 Pages 回應補記；不可把本地檢查視為部署完成。
+本輪對照審校追記，修正 `route-draft-targets.js` 中九個章節過期的「continuity review; fixes pending」狀態訊息，並保留語義／全篇 QA 尚未完成的界線。commit `e98fbc4` 對應 Actions run `45256381340` 的 build 與 deploy 均成功；正式 `game.html`、`game-data.js`、`testplay.html` 全部回應 HTTP 200。此部署確認只證明該版網站已發布，不代表完整劇情 QA 或實機驗收。
 
 B07→B08→C01 與 C04／C05 章稿及 runtime 已同步；commit `7b3fba0` 的 Actions run `45220063267` 成功，正式 Pages 回應 HTTP 200，線上 `game-data.js` 已包含 C06 CAT 修訂。UI commit `fd19721` 的 run `45215839672` 亦成功。靜態檢查及 Pages 發布均不代表所有分支通關、iPhone Safari 或跨裝置完整 QA。
 
@@ -551,6 +553,7 @@ A04／A05／A06 的既有分段檢查現也比對三個選項 label。B01、C01�
 | `knowledge/reviews/adult-ending-memory-review.md` | 成年篇 D08F／D08P／D08R 九組條件回憶的來源、語義與選項相容性審校 |
 | `knowledge/reviews/adult-relationship-state-review.md` | D05 新稱呼至三個成年結局的稱呼與關係狀態連續性 |
 | `knowledge/reviews/full-length-refresh.md` | 最新 runtime 全篇唯一正文、條件台詞與三線單次路徑重算方法及數字 |
+| `knowledge/reviews/full-story-timeline-audit.md` | 全篇 33 節時間錨點及跨章相對日序盤點；另列尚未指定精確日期的彈性間隔 |
 | `knowledge/reviews/b08-character-choice-review.md` | B08 聲線、三選項承諾、時間錨點、分支返場及收束修訂與驗證範圍 |
 | `knowledge/reviews/adult-manuscript-runtime-sync-review.md` | D02／D05 逐句、五段與選項同步檢查重新啟用的依據及限制 |
 | `knowledge/reviews/prologue-full-sync-review.md` | P01～P03 全文與條件台詞同步門檻恢復依據、格式及驗證界線 |
