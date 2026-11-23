@@ -1,6 +1,6 @@
 # 空崎陽奈二創 Galgame｜總願景、現況與執行路線圖
 
-> 最後整理：2026-11-24；本輪補記：Galgame UI 2.0 已部署至 Pages；完成 TMT-01～07、CAT-01～06、DOAT-01～03、D03→D04→D05（DAIT-01～06）及 D05→D06→D07（DART-01～03）修訂與同步；保留 iPhone Safari 實機驗收及全篇劇情 QA。
+> 最後整理：2026-11-24；本輪補記：Galgame UI 2.0 已部署至 Pages；完成 TMT-01～07、CAT-01～06、DOAT-01～03、D03→D04→D05（DAIT-01～06）、D05→D06→D07（DART-01～03）及成年篇三結局旗標回憶語義審校；保留 iPhone Safari 實機驗收及全篇劇情 QA。
 > 本文件是目前唯一的專案總路線圖。狀態以 repo 實際檔案、程式、CI 與已確認的使用者決策為準；若舊文件或舊對話與本文衝突，以本文為目前執行依據。
 > **勾選規則：** [x] 已完成且有檔案／程式／驗證依據；[ ] 尚未完成；「待驗收」代表程式已存在，但尚未完成指定裝置或人工驗收。不能因程式碼存在就把實機驗收勾成完成。
 
@@ -263,6 +263,8 @@
 - [x] 將前章分支結果不可預設、跨章聯絡媒介、合流場景動線及關係階段用語等經驗追加至 `knowledge/experience.md`，附限制及未來適用範圍；詳情見 `knowledge/experience-adult-middle.md`。
 - [x] 成年篇後段邀請、路線及結局入口審校（D05→D06→D07，DART-01～03）：核對 D05 三分支至 D06、D06 三種方向與 D07 三種相處方式的局部組合；補明玩家在 D05 後以訊息接受下週到訪邀請，D06 只確認已談妥時間，避免邀請尚未答覆便直接到訪。確認 D06 路線旗標經 D07 導向 D08F／D08P／D08R，且 D07 分支不依賴特定 D06 路線；D05／D06 章稿與 runtime 同步，章節統計為 2,977／2,796 字元，固定路線與遊戲資料驗證通過。人工組合檢查不等於實機通關或全篇 QA；詳見 `knowledge/reviews/adult-route-transitions.md`。
 - [x] 將邀請答覆的時間點、到訪界線、路線選擇與後續活動選擇分層等經驗追加至 `knowledge/experience.md`，標明驗證限制與未來可用範圍；詳情見 `knowledge/experience-adult-route.md`。
+- [x] 成年篇三個結局條件回憶的語義前提與 common 相容性審校：逐組檢視 D08F／D08P／D08R 九組記憶的來源旗標、累積門檻、選項前提與後續 A／B／C 行動；D08P `rest` 不再預設緩衝已排定，三線 `teamwork` 不再把彙總旗標誤寫成玩家曾說過特定原句或確認過固定分工。來源文件與 runtime 同步通過 `validate-game-data.js`；人工語義檢查不等於所有旗標序列模擬或實機通關，詳見 `knowledge/reviews/adult-ending-memory-review.md`。
+- [x] 將累積旗標回憶需符合旗標可證明的最小事實、且不得預先完成選項行動的經驗回流至 `knowledge/experience.md`；適用於本作後續條件對話及其他依分類旗標個人化的敘事，詳見 `knowledge/reviews/adult-ending-memory-review.md`。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
 
 ### Pages 發布入口精簡
@@ -418,7 +420,7 @@
 ## 5. 下一步執行順序
 
 1. **UI 2.0 實機驗收**：Pages 部署已成功；接續在實體 iPhone Safari 補安全區、動態視窗和觸控驗收，並保留完整桌面瀏覽器 QA。沒有實機時不把這些項目勾選為完成。
-2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01、C01→C02、C02→C03、C03→C04→C05、C05→C06→D01、D01→D02→D03、D03→D04→D05 及 D05→D06→D07 均已同步修訂並驗證。接續抽查成年篇結局與旗標回收，並逐步擴展全篇角色語氣及路線入口出口檢查；不把固定同步檢查宣稱為實機通關。遠端分歧時先安全同步，不 force push。
+2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01、C01→C02、C02→C03、C03→C04→C05、C05→C06→D01、D01→D02→D03、D03→D04→D05、D05→D06→D07 及 D08 三結局條件回憶均已人工審校並同步驗證。接續擴大全篇角色語氣、時間線和路線入口出口檢查；不把固定同步檢查宣稱為實機通關。遠端分歧時先安全同步，不 force push。
 3. **背景與美術實機驗收**：驗證真實裝置的背景裁切、可讀性及角色素材顯示品質；事件 CG 暫定 27 張，依素材清單待使用者交付後接入，不自行生成、繪製或修圖。
 4. **存檔、分支及音訊相容性驗收**：完成後再執行跨裝置完整 QA 與發布檢查。
 
@@ -483,6 +485,7 @@ B07→B08→C01 與 C04／C05 章稿及 runtime 已同步；commit `7b3fba0` 的
 | `knowledge/experience-adult-middle.md` | 成年篇中段合流場景與關係階段用語經驗詳情 |
 | `knowledge/reviews/adult-route-transitions.md` | 成年篇 D05→D06→D07 邀請答覆、路線旗標與活動分支交界審校 |
 | `knowledge/experience-adult-route.md` | 成年篇關係選擇前後的邀請答覆及路線銜接經驗 |
+| `knowledge/reviews/adult-ending-memory-review.md` | 成年篇 D08F／D08P／D08R 九組條件回憶的來源、語義與選項相容性審校 |
 | `knowledge/decision.md` | 重大設計決策、原因及狀態 |
 | `knowledge/asset-register.md` | 背景、角色及其他美術素材清冊 |
 | `knowledge/story-bible.md` | 角色、世界觀與設定依據 |
