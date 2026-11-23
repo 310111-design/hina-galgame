@@ -1,5 +1,7 @@
 # 第一幕中段階段：推送阻塞
 
+## 原始狀態（2026-11-22）
+
 ## 已完成的本地交付
 
 - [審校與驗證範圍](first-act-middle-transitions.md)：A03→A04→A05；AMT-01～08 未修。
@@ -20,3 +22,8 @@
 4. 查詢該 commit 對應 Actions 與 Pages，成功後更新部署狀態。
 
 目前提供的 Git 工具只會 stage 所有非忽略變更、commit、push `main`；沒有 status、log、fetch、merge、rebase 或選擇性 stage 能力。本輪不以不斷重試、盲目新建提交或 force push 冒險；待可安全查詢／同步的 Git 能力可用後恢復。`.env` 與原始 art 不在本次操作範圍。
+
+## 後續狀態（2026-11-24）
+
+- 原始 `fetch first` 與 commit 工具錯誤屬於當時的推送嘗試，不能當成目前 Git 狀態。AMT-01～08 已由 `3864bb0` 等後續修訂同步至章稿/runtime，經驗已合併主檔；`knowledge/plan.md` 相關修訂與狀態校正已勾選。
+- 查核點 main `629468f` 的 GitHub Actions run `45292250632` build／deploy 成功，Pages 首頁與 `game-data.js` 回應 HTTP 200。原始失敗證據保留；第一幕中段修訂及部署已解除阻塞，全篇語義 QA 與實機 QA 仍未完成。

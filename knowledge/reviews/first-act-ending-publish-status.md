@@ -1,5 +1,7 @@
 # 第一幕末段階段：推送阻塞紀錄
 
+## 原始狀態（2026-11-22）
+
 ## 本地交付與驗證
 
 - [A05→A06 審校](first-act-ending-transitions.md)：九種局部分支組合，AFT-01～03 待釐清／修訂，沒有修改章稿或 runtime。
@@ -27,3 +29,9 @@ remote contains work that you do not have locally
 4. 另查對應 commit 的 Actions 與 Pages。當前工具沒有上述查詢或同步能力；這是工具阻塞，不是需要使用者決定的敘事偏好。
 
 內容側下一個獨立階段仍是 B01→B02→B03 的時段／交付／退回流程；有安全局部編輯能力後則優先修 EAT→PRT→AAT→AMT→AFT 並合併經驗補記。
+
+## 後續狀態（2026-11-24）
+
+- 原始 push 被拒絕只描述當時工作目錄；AFT-01～03 已依現版修訂／釐清，A06 章稿/runtime 與經驗記錄均已同步，相關項目在 `knowledge/plan.md` 已勾選。`07f826a` 包含第一幕末段連續性修訂。
+- 查核點 main `629468f` 的 GitHub Actions run `45292250632` build／deploy 成功，Pages 首頁與 `game-data.js` 回應 HTTP 200；不能據此宣稱全篇品質 QA 或實機通關完成。
+- 上述「下一階段」清單是 2026-11-22 當時建議，現依主路線圖執行，不再視為目前待辦。
