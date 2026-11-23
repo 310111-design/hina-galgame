@@ -1,6 +1,6 @@
 # 空崎陽奈二創 Galgame｜總願景、現況與執行路線圖
 
-> 最後整理：2026-11-23；本輪補記：完成 BOT-01～07、BMT-01～07 跨章修訂與經驗回流；保留既有 Galgame UI 2.0 路線圖及 13 張角色表情接入紀錄。
+> 最後整理：2026-11-23；本輪補記：完成 BOT-01～07、BMT-01～07、BCT-01～07 跨章修訂與經驗回流；保留既有 Galgame UI 2.0 路線圖及 13 張角色表情接入紀錄。
 > 本文件是目前唯一的專案總路線圖。狀態以 repo 實際檔案、程式、CI 與已確認的使用者決策為準；若舊文件或舊對話與本文衝突，以本文為目前執行依據。
 > **勾選規則：** [x] 已完成且有檔案／程式／驗證依據；[ ] 尚未完成；「待驗收」代表程式已存在，但尚未完成指定裝置或人工驗收。不能因程式碼存在就把實機驗收勾成完成。
 
@@ -242,9 +242,9 @@
 - [x] 第二幕中段銜接人工文本審校（B03→B04→B05）：完整閱讀三節，核對十八種局部分支組合，記錄 BMT-01～07 規則版本、互斥成果、試走層級、日期／用途、估時範圍、主動求助與今晚核對閉環問題。見 `knowledge/reviews/second-act-middle-transitions.md`；確認既有逐句／分段／選項同步，新增分段比較 2 正向／8 負向測試，三個固定 validators 並行成功。僅審校及驗證器強化，未修正文。
 - [x] 修訂／釐清 BMT-01～07，同步章稿與 runtime：B04 保留路徑專屬成果並分清樣本試讀／完整獨立試走；B05 明定隔日、截止時間與步驟範圍，三路徑均明確求助並保留判斷責任，common 分列已核對／等待回查。唯一章節物件替換後，routes（111／53 tuples）、game-data、shells 與 `git diff --check` 通過；B06 收回仍待回查的原始紀錄。詳見 `knowledge/reviews/second-act-middle-transitions.md`。
 - [x] 將 BMT 可複用的規則版本、共通段狀態、估時、求助及回查方法追加至 `knowledge/experience.md`，標明驗證界線與後續適用範圍；保留 `knowledge/experience-second-act-middle.md` 作詳情索引來源。
-- [x] 第二幕收尾銜接人工文本審校（B05→B06→B07）：完整閱讀三節，核對十八種局部分支組合，記錄 BCT-01～07 日期與核對責任、例外數量、重複離場、選項承諾、回顧與重做、十分鐘及完杯／關門收束問題。見 `knowledge/reviews/second-act-closing-transitions.md`；新增 B06／B07 逐句／五段／選項同步，三個固定 validators 成功。僅審校及驗證配置完成，不代表 BCT 或 BMT 已修。
-- [ ] 修訂／釐清 BCT-01～07，同步章稿與 runtime；推薦 B06 為 B05 同日晚間收尾，兩個初始例外僅一項待回查，B07 作額外熱飲及唯一離場，修正 B 選項「喝完」承諾。沿用精確 runtime 章節替換流程；先前完成勾選不代表新問題已解決。
-- [ ] 將 `knowledge/experience-second-act-closing.md` 安全追加至 `knowledge/experience.md`；本輪主檔仍截斷，補記保存方法與未來適用範圍，未宣稱主檔合併完成。
+- [x] 第二幕收尾銜接人工文本審校（B05→B06→B07）：完整閱讀三節，核對十八種局部分支組合，記錄 BCT-01～07 日期與核對責任、例外數量、重複離場、選項承諾、回顧與重做、十分鐘及完杯／關門收束問題。見 `knowledge/reviews/second-act-closing-transitions.md`；新增 B06／B07 逐句／五段／選項同步，三個固定 validators 成功。審校時尚未修正文，後續修訂另列如下。
+- [x] 修訂／釐清 BCT-01～07，同步章稿與 runtime：B06 明定同日晚間回報、只留一項待回查並移除重複離場；B07 對齊飲用承諾、沿用既定回查時間、區分十分鐘休息與收工熱飲，僅保留一次飲盡及正式離場。B06／B07 為 46／64 tuples；routes、game-data、shells、`git diff --check` 通過。唯讀篇幅 A/B/C 分別為 B06 1,394／1,409／1,401、B07 1,616／1,611／1,599，低於 2,500 字參考值；本階段以去除矛盾與重複動作為目標，篇幅補足留待全篇 QA。詳見 `knowledge/reviews/second-act-closing-transitions.md`。
+- [x] 將收尾狀態數量、選項承諾、文件不可逆操作與休息時段等經驗追加至 `knowledge/experience.md`，標記限制及未來適用範圍；保留 `knowledge/experience-second-act-closing.md` 作詳情來源。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
 
 ### Pages 發布入口精簡
@@ -399,7 +399,7 @@
 ## 5. 下一步執行順序
 
 1. **美術接入規則**：13 張角色表情已依標題接入正作；推送部署後保留手機／桌面顯示驗收。事件 CG 暫定 27 張，情境清單已建立，待使用者分批交付後接入；不自行生成、繪製或修圖。
-2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07 及 BMT-01～07 已同步修訂並驗證。接續修訂 BCT-01～07，逐批同步章稿與 runtime、回流可複用經驗。完成已交付審校後，繼續全篇共通回收、分支假設、旗標回收與路線入口出口 QA；B07→B08→C01 的熱飲定位、收工承諾及團隊交接已列為後續內容審校候選，不重做已完成批次。遇遠端分歧先安全同步，不 force push。
+2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07 及 BCT-01～07 已同步修訂並驗證。接續 B07→B08→C01，擴大核對休息定位、團隊交接與跨幕入口狀態；不重做已完成批次或將固定同步檢查宣稱為實機通關。再繼續全篇共通回收、分支假設、旗標回收與路線入口出口 QA。遇遠端分歧先安全同步，不 force push。
 3. **背景與 UI 實機驗收**：驗證真實裝置的背景裁切、可讀性及操作品質。
 4. **存檔、分支及音訊相容性驗收**：完成後再執行跨裝置完整 QA 與發布檢查。
 
@@ -414,7 +414,7 @@
 - 開始前讀取本文件、`knowledge/experience.md`、`knowledge/decision.md`，並檢查 GitHub main 最新 commit、工作目錄及 Actions 狀態。根目錄 `decision.md` 不存在時，以實際的 `knowledge/decision.md` 為準。
 - 只從本文件尚未完成且不受阻塞的最前面項目開始；不要重做已完成工作。
 - 完成一個階段後更新本文件勾選狀態，並將可重用經驗及適用範圍回流到 `knowledge/experience.md`。
-- 經驗補記 `knowledge/experience-second-act-opening.md` 的可複用方法、限制與適用範圍已合併至 `knowledge/experience.md`；原補記保留為 BOT 詳情來源。其餘尚待回流的補記為 `knowledge/experience-early-act-transitions.md`、`knowledge/experience-prologue-transitions.md`、`knowledge/experience-first-act-opening.md`、`knowledge/experience-first-act-middle.md`、`knowledge/experience-first-act-ending.md`、`knowledge/experience-second-act-middle.md` 與 `knowledge/experience-second-act-closing.md`。不可將截斷前綴覆寫主檔；工具阻塞、推薦及驗證界線詳見對應審校紀錄。
+- 經驗補記 `knowledge/experience-second-act-opening.md`、`knowledge/experience-second-act-middle.md`、`knowledge/experience-second-act-closing.md` 的可複用方法、限制與適用範圍已追加至 `knowledge/experience.md`；原補記保留為詳情來源。其餘尚待回流的補記為 `knowledge/experience-early-act-transitions.md`、`knowledge/experience-prologue-transitions.md`、`knowledge/experience-first-act-opening.md`、`knowledge/experience-first-act-middle.md` 與 `knowledge/experience-first-act-ending.md`。不可將截斷前綴覆寫主檔；工具阻塞、推薦及驗證界線詳見對應審校紀錄。
 - 重大設計決策或暫停／恢復狀態變更時，同步更新 `knowledge/decision.md`。
 - 程式已接入不等於驗收完成；只有實際測試完成才勾選實機 QA。
 - 修改遊戲資料時執行 `scripts/validate-game-data.js`；有對應檢查時一併執行素材與路線驗證。
@@ -447,7 +447,7 @@
 | `knowledge/experience-second-act-middle.md` | 第二幕中段分段防線、估時與可觀察求助經驗補記 |
 | `knowledge/reviews/second-act-middle-transitions.md` | B03→B04→B05 十八種局部組合、BMT 修訂結果及驗證範圍 |
 | `knowledge/experience-second-act-closing.md` | 第二幕收尾狀態守恆、選項承諾與離場動作經驗補記 |
-| `knowledge/reviews/second-act-closing-transitions.md` | B05→B06→B07 十八種局部組合、BCT 待修項及驗證範圍 |
+| `knowledge/reviews/second-act-closing-transitions.md` | B05→B06→B07 十八種局部組合、BCT 修訂結果及驗證範圍 |
 | `knowledge/decision.md` | 重大設計決策、原因及狀態 |
 | `knowledge/asset-register.md` | 背景、角色及其他美術素材清冊 |
 | `knowledge/story-bible.md` | 角色、世界觀與設定依據 |
