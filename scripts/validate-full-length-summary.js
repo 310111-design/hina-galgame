@@ -57,6 +57,43 @@ for (const chapter of chapters.filter(item => item.endOfRoute)) {
   });
 }
 
+const routeRanges = [...routeTotals.values()];
+const singleRouteCharacters = {
+  min: Math.min(...routeRanges.map(range => range.min)),
+  max: Math.max(...routeRanges.map(range => range.max))
+};
+const sharedTextPerRun = commonChapters.reduce((sum, chapter) => {
+  const metrics = summarizeChapter(chapter);
+  return sum + metrics.sections.intro.codePoints + metrics.sections.common.codePoints;
+}, 0);
+const allCommonBranchText = commonChapters.reduce((sum, chapter) => {
+  const metrics = summarizeChapter(chapter);
+  return sum + ["A", "B", "C"].reduce((subtotal, letter) => subtotal + metrics.sections[letter].codePoints, 0);
+}, 0);
+const endingPathRanges = chapters.filter(chapter => chapter.endOfRoute).map(chapter => {
+  const paths = ["A", "B", "C"].map(letter => summarizeChapter(chapter).paths[letter].codePoints);
+  return { min: Math.min(...paths), max: Math.max(...paths) };
+});
+// Three route playthroughs reread shared intros/common sections, cover A/B/C
+// once across the 30 shared chapters, and take one path in each route ending.
+const threeRouteReplayCharacters = {
+  min: 3 * sharedTextPerRun + allCommonBranchText + endingPathRanges.reduce((sum, range) => sum + range.min, 0),
+  max: 3 * sharedTextPerRun + allCommonBranchText + endingPathRanges.reduce((sum, range) => sum + range.max, 0)
+};
+
+function estimateHours(characters, charsPerMinute) {
+  return characters / charsPerMinute / 60;
+}
+
+function formatHours(hours) {
+  return hours.toFixed(1).replace(/\.0$/u, "");
+}
+
+function formatHourRange(characters) {
+  return formatHours(estimateHours(characters.min, 400)) + "～" +
+    formatHours(estimateHours(characters.max, 300));
+}
+
 function readLines(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), "utf8").split(/\r?\n/);
 }
@@ -74,6 +111,7 @@ function requireText(line, text, label) {
 const plan = readLines("knowledge/plan.md");
 const chapterPlan = readLines("knowledge/chapter-plan.md");
 const lengthReview = fs.readFileSync(path.join(root, "knowledge", "reviews", "full-length-refresh.md"), "utf8");
+const playtimeReview = fs.readFileSync(path.join(root, "knowledge", "reviews", "playtime-estimate.md"), "utf8");
 const latestReviewMarker = "## 最新結果：";
 const latestReviewStart = lengthReview.lastIndexOf(latestReviewMarker);
 if (latestReviewStart < 0) fail("full-length-refresh.md: latest snapshot marker is missing");
@@ -86,6 +124,30 @@ const allCharacterText = `${format(totalCharacters)} 字元`;
 const uniqueCharacterText = `${format(uniqueCharacters)} 字元`;
 const uniqueCountText = `${format(uniqueCount)} 條唯一`;
 const conditionalText = `${conditionalGroups} 組條件對話（${format(conditionalCharacters)} 字元）`;
+
+const planPlaytime = requireLine(plan, line => line.startsWith("- 純文字閱讀時間仍無玩家計時"), "plan.md playtime estimate");
+const chapterPlaytime = requireLine(chapterPlan, line => line.startsWith("- **純文字遊玩時間估算"), "chapter-plan.md playtime estimate");
+for (const [label, line] of [["plan.md", planPlaytime], ["chapter-plan.md", chapterPlaytime]]) {
+  requireText(line, format(singleRouteCharacters.min) + "～" + format(singleRouteCharacters.max) + " 字元", label + " single-route volume");
+  requireText(line, formatHourRange(singleRouteCharacters) + " 小時", label + " single-route time");
+  requireText(line, format(totalCharacters) + " 字元", label + " all-branch volume");
+  requireText(line, formatHourRange({ min: totalCharacters, max: totalCharacters }) + " 小時", label + " all-branch time");
+  requireText(line, format(threeRouteReplayCharacters.min) + "～" + format(threeRouteReplayCharacters.max) + " 字元", label + " three-route replay volume");
+  requireText(line, formatHourRange(threeRouteReplayCharacters) + " 小時", label + " three-route replay time");
+}
+requireText(planPlaytime, "此重讀模型不含條件對話", "plan.md three-route replay scope");
+requireText(chapterPlaytime, "此重讀模型不含條件對話", "chapter-plan.md three-route replay scope");
+requireText(playtimeReview, "300～400 字元／分鐘", "playtime estimate reading-rate assumption");
+for (const [label, range, volume] of [
+  ["single route", singleRouteCharacters, format(singleRouteCharacters.min) + "～" + format(singleRouteCharacters.max)],
+  ["all-branch coverage", { min: totalCharacters, max: totalCharacters }, format(totalCharacters)],
+  ["three-route replay", threeRouteReplayCharacters, format(threeRouteReplayCharacters.min) + "～" + format(threeRouteReplayCharacters.max)]
+]) {
+  requireText(playtimeReview, volume + " 字元", "playtime estimate " + label + " volume");
+  requireText(playtimeReview, formatHourRange(range) + " 小時", "playtime estimate " + label + " duration");
+}
+requireText(playtimeReview, "三路線完整重讀、不跳過共通內容", "playtime estimate replay scenario");
+requireText(playtimeReview, "此重讀模型不含條件對話", "playtime estimate replay scope");
 
 const planStats = requireLine(plan, line => line.startsWith("- 目前 33 個章節節點"), "plan.md global length");
 const chapterStats = requireLine(chapterPlan, line => line.includes("**全分支內容統計"), "chapter-plan.md global length");
