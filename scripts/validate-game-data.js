@@ -54,6 +54,17 @@ if (reachableFlagSourceCount(reachabilityFixture, 3, "rest") !== 2 ||
 }
 console.log("Conditional flag reachability fixtures OK: distinct chapter opportunities, ending exclusion and threshold checks.");
 
+function hasAuthoringLabelLeak(text) {
+  return /\b(?:P\d{2}|[A-D]\d{2})\b/.test(text) || /第[一二三四五六七八九十]+幕/.test(text);
+}
+
+if (!hasAuthoringLabelLeak("前一日 B05 約定的回覆送到。") ||
+    !hasAuthoringLabelLeak("第三幕開始的那天。") ||
+    hasAuthoringLabelLeak("缺件回查結束後的隔天，校園裡開始新一輪例行工作。")) {
+  throw new Error("player-facing chapter/act label guard fixture failed");
+}
+console.log("Player-facing chapter/act label guard fixtures OK: IDs and numbered act names are rejected.");
+
 function checkLines(lines, label) {
   if (!Array.isArray(lines) || lines.length === 0) {
     errors.push(label + ": sequence must be a non-empty array");
@@ -69,6 +80,9 @@ function checkLines(lines, label) {
     }
     if (typeof line[1] !== "string" || !line[1].trim()) {
       errors.push(label + "[" + index + "]: dialogue text is empty");
+    }
+    if (typeof line[1] === "string" && hasAuthoringLabelLeak(line[1])) {
+      errors.push(label + "[" + index + "]: player-facing dialogue contains an internal chapter ID or act label");
     }
     if (line.length > 2 && typeof line[2] !== "string") {
       errors.push(label + "[" + index + "]: mood must be a string");
