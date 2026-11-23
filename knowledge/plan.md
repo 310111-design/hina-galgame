@@ -314,6 +314,7 @@
 - [x] D08R common 先移除重複個人自主主題的抽象旁白；後續聲線抽查再以車站目送離場畫面取代重述界線的收尾，同步 Markdown/runtime。現為 3,478 字元、A／B／C 路徑 2,516／2,601／2,787，全篇去重正文 80,253 字元；詳見 `knowledge/reviews/full-story-hina-voice-review.md` 與 `knowledge/reviews/full-length-refresh.md`。
 - [x] D08P 共通段刪去緊接陽奈說明搭檔分工後、再次抽象總結相同關係原則的旁白，保留後續的工作交接與活動改善安排；同步 Markdown/runtime，D08P 為 3,238 字元、A／B／C 路徑 2,609／2,614／2,585，重算全篇為 80,340 唯一字元。詳見 `knowledge/reviews/adult-ending-route-sync-review.md` 與 `knowledge/reviews/full-length-refresh.md`。
 - [x] D08P common 移除活動交接與各自生活已由前文呈現後、再次抽象總結合作節點的末句；同步稿件/runtime，正文 3,167 字元、A／B／C 2,538／2,543／2,514。全篇最新篇幅與共通篇路徑重算見 `knowledge/reviews/full-length-refresh.md`，聲線審校見 `knowledge/reviews/full-story-hina-voice-review.md`。
+- [x] 新增全篇聚合篇幅驗證器：由 runtime 重算 tuple／唯一正文／條件對話、三條單次路徑及結局章稿統計，對照 `plan.md`、`chapter-plan.md` 與最新篇幅快照；接入 Pages CI，防止全篇／單一路徑統計不一致。
 - [x] D08F 結尾刪去緊接友誼界線與分享對話後、再次概括相同主題的旁白，保留陽奈的道別與系統結局標記；同步 Markdown/runtime，D08F 為 3,290 字元、A／B／C 路徑 2,583／2,627／2,592，重算全篇為 80,292 唯一字元。詳見 `knowledge/reviews/adult-ending-route-sync-review.md` 與 `knowledge/reviews/full-length-refresh.md`。
 - [x] 校正 route validator 的狀態摘要：依 BOT／BMT／BCT／TAT 與 B08 審校追記，將 B02～B08、C02～C03 從過期的「修訂待處理」改為已同步，並明確區分語義 QA 尚未完成；`validate-route-drafts.js`、`validate-game-data.js`、`validate-game-shells.js`、`validate-prologue-revisions.js` 及 `git diff --check` 通過。此摘要只描述稿件／runtime 與局部修訂狀態，不代表全篇 QA。
 - [x] 全篇時間錨點盤點：對照 33 節 metadata、明示日序／時刻與既有跨章審校；未發現硬性時間矛盾，D04／D05 的「週末／幾天後」維持未鎖定日期的彈性寫法。此為錨點盤點，不代表逐句語義 QA 或實機通關；詳見 `knowledge/reviews/full-story-timeline-audit.md`。
@@ -573,5 +574,6 @@ A04／A05／A06 的既有分段檢查現也比對三個選項 label。B01、C01�
 | `site/assets/backgrounds/` | 場景原始圖與 WebP runtime 背景 |
 | `site/assets/characters/` | 角色素材、暫存圖與參考圖 |
 | `scripts/validate-game-data.js` | 遊戲資料與路線驗證 |
+| `scripts/validate-full-length-summary.js` | 將 runtime 聚合篇幅與路線圖、章節計畫及最新篇幅快照比對 |
 
 - [x] GitHub Pages 部署工作流程在上傳前清理同一 run 先前重跑留下的同名 artifact，避免 deploy-pages 因多個 `github-pages` 成品而失敗。
