@@ -74,7 +74,7 @@ function requireText(line, text, label) {
 const plan = readLines("knowledge/plan.md");
 const chapterPlan = readLines("knowledge/chapter-plan.md");
 const lengthReview = fs.readFileSync(path.join(root, "knowledge", "reviews", "full-length-refresh.md"), "utf8");
-const latestReviewMarker = "## 最新結果：D08P 共通段末句精簡與篇幅範圍校正";
+const latestReviewMarker = "## 最新結果：C04 中段重複動作修訂與全篇篇幅更新";
 const latestReviewStart = lengthReview.lastIndexOf(latestReviewMarker);
 if (latestReviewStart < 0) fail("full-length-refresh.md: latest snapshot marker is missing");
 const latestReview = lengthReview.slice(latestReviewStart);
