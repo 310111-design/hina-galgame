@@ -20,12 +20,10 @@ module.exports = [
   { id: "C01", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
   { id: "C02", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
   { id: "C03", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "C04", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  { id: "C05", dialogueOnly: true, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
-  // C06 opt-in is blocked by TFT-02: common line 72 differs in Markdown/runtime.
-  // See knowledge/reviews/third-act-ending-transitions.md. Fix both sources first;
-  // do not normalize the difference or roll back the Markdown repair to pass CI.
-  { id: "D01", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "continuity review; fixes pending" },
+  { id: "C04", dialogueOnly: true, syncSections: true, syncChoices: true, status: "transition revisions synchronized" },
+  { id: "C05", dialogueOnly: true, syncSections: true, syncChoices: true, status: "transition revisions synchronized" },
+  { id: "C06", dialogueOnly: true, syncSections: true, syncChoices: true, status: "CAT revisions synchronized" },
+  { id: "D01", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "reviewed; CAT transition checked" },
   { id: "D02", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D03", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D04", minimum: 2500, pathMinimum: 2500, status: "revised draft" },

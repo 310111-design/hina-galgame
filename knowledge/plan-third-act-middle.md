@@ -1,6 +1,6 @@
 # 階段紀錄：C03→C04→C05
 
-> 本檔補充唯一總路線圖 `knowledge/plan.md`。2026-11-24 完成 TMT-01～07 的章稿／runtime 同步修訂與固定驗證；主計畫已合併階段狀態，下一批為 C05→C06→D01。
+> 本檔補充唯一總路線圖 `knowledge/plan.md`。2026-11-24 完成 TMT-01～07 的章稿／runtime 同步修訂與固定驗證；後續 C05→C06→D01 的 CAT-01～06 也已完成並記錄於 `knowledge/plan-third-act-ending.md`。
 
 ## 完成項
 
@@ -14,11 +14,11 @@
 
 ## 尚未完成但不阻塞本階段
 
-- [ ] TAT-06 屋頂門／取外套動線依主計畫追蹤；本階段不重複結案。
+- [x] TAT-06 屋頂門／取外套動線已在 C02→C03 修訂及主計畫中完成；本文件此處為歷史階段紀錄。
 - [ ] iPhone Safari safe-area、動態視窗、實機觸控與完整多尺寸 QA 尚未完成。
 - [ ] C03→C04→C05 局部矩陣不是十八次實機通關；全篇分支 QA 仍未完成。
-- [ ] C04／C05 的 Pages 發布狀態待本階段 commit/push 後確認；UI 2.0 commit `fd19721` 已另行部署成功。
+- [x] C04／C05 的 Pages 發布已由 Actions run `45218114321` 確認成功；UI 2.0 commit `fd19721` 亦已部署成功。
 
 ## 下一階段
 
-依 `knowledge/plan.md` 接續 C05→C06→D01。使用 `knowledge/reviews/third-act-ending-transitions.md` 與 `knowledge/plan-third-act-ending.md` 已有 CAT-01～06 分析，重點放在既有發現的修稿、同步與驗證，不重做已完成的人工審校；明確區分局部矩陣、靜態檢查、瀏覽器通關與裝置 QA。
+CAT-01～06 已在 `knowledge/plan-third-act-ending.md` 完成。後續依唯一主路線圖 `knowledge/plan.md` 盤點未覆蓋的共通回收、分支前提、旗標回收與路線入口出口 QA；TMT 階段不重複執行。

@@ -1,6 +1,6 @@
 # 空崎陽奈二創 Galgame｜總願景、現況與執行路線圖
 
-> 最後整理：2026-11-24；本輪補記：Galgame UI 2.0 已部署至 Pages；完成 C03→C04→C05 的 TMT-01～07 修訂與同步；保留 iPhone Safari 實機驗收及全篇劇情 QA。
+> 最後整理：2026-11-24；本輪補記：Galgame UI 2.0 已部署至 Pages；完成 C03→C04→C05 的 TMT-01～07、C05→C06→D01 的 CAT-01～06 修訂與同步；保留 iPhone Safari 實機驗收及全篇劇情 QA。
 > 本文件是目前唯一的專案總路線圖。狀態以 repo 實際檔案、程式、CI 與已確認的使用者決策為準；若舊文件或舊對話與本文衝突，以本文為目前執行依據。
 > **勾選規則：** [x] 已完成且有檔案／程式／驗證依據；[ ] 尚未完成；「待驗收」代表程式已存在，但尚未完成指定裝置或人工驗收。不能因程式碼存在就把實機驗收勾成完成。
 
@@ -255,6 +255,8 @@
 - [x] 將翌日承諾履行、例外結案及多層場景動線方法回流至 `knowledge/experience.md`，附未完成的實機驗收範圍。
 - [x] 第三幕中段銜接人工審校與修訂（C03→C04→C05，TMT-01～07）：核對十八種局部分支組合；修明日序、歸檔負責人及回查期限，讓三詞便條留在 C 分支，保留 B 的初步分類成果，補 B 退出／返室與 C 出發，修正否定句解釋，拆清回查占用與實際休息時間，並交代私人手機與公務輪值。C04／C05 章稿與 runtime 同步為 143／145 tuples；routes、game-data、shells、JavaScript 語法及 `git diff --check` 通過。靜態檢查及人工局部矩陣不等於實機通關或全篇 QA；詳見 `knowledge/reviews/third-act-middle-transitions.md`。
 - [x] 將分支道具來源、狀態完成層級、末句否定語意、最後任務範圍、退出動作與休息時間守恆等經驗追加至 `knowledge/experience.md`，標明限制與未來適用範圍；保留 `knowledge/experience-third-act-middle.md` 作詳情。
+- [x] 修訂 C05→C06→D01 跨章銜接（CAT-01～06）：核對十八種局部分支組合；明示 C05 翌日回查責任與 C06 結案結果，將仍待資料的舊表格交接給後任依條件與期限續追，確認最後共同協助的範圍，保留成年後偶遇而非預約重逢，並補上未來重新協商稱呼的提示。C05／C06 章稿與 runtime 同步為 145／151 tuples；新增 C06 五段／選項 routes 對照，固定 routes、game-data、shells、JavaScript 語法及 `git diff --check` 通過。人工十八格及靜態檢查不等於實機通關、D01 全史旗標窮舉或全篇 QA；詳見 `knowledge/reviews/third-act-ending-transitions.md`。
+- [x] 將告別前任務責任、分支地點、成年偶遇因果、稱呼與權責分離等方法追加至 `knowledge/experience.md`，附限制及未來適用範圍；保留 `knowledge/experience-third-act-ending.md` 作詳情。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
 
 ### Pages 發布入口精簡
@@ -410,7 +412,7 @@
 ## 5. 下一步執行順序
 
 1. **UI 2.0 實機驗收**：Pages 部署已成功；接續在實體 iPhone Safari 補安全區、動態視窗和觸控驗收，並保留完整桌面瀏覽器 QA。沒有實機時不把這些項目勾選為完成。
-2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01、C01→C02、C02→C03 及 C03→C04→C05 均已同步修訂並驗證。下一批接續 C05→C06→D01，之後處理其餘共通回收、分支前提、旗標回收與路線入口出口 QA。不重做已完成批次，也不把固定同步檢查宣稱為實機通關。遠端分歧時先安全同步，不 force push。
+2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01、C01→C02、C02→C03 及 C03→C04→C05 均已同步修訂並驗證。C05→C06→D01 已完成，接續處理尚未覆蓋的共通回收、分支前提、旗標回收與路線入口出口 QA。不重做已完成批次，也不把固定同步檢查宣稱為實機通關。遠端分歧時先安全同步，不 force push。
 3. **背景與美術實機驗收**：驗證真實裝置的背景裁切、可讀性及角色素材顯示品質；事件 CG 暫定 27 張，依素材清單待使用者交付後接入，不自行生成、繪製或修圖。
 4. **存檔、分支及音訊相容性驗收**：完成後再執行跨裝置完整 QA 與發布檢查。
 
@@ -466,6 +468,9 @@ B07→B08→C01 與 C04／C05 章稿及 runtime 已同步；本輪 routes、game
 | `knowledge/plan-third-act-middle.md` | C03→C04→C05 TMT-01～07 修訂狀態、檢查結果與後續順序 |
 | `knowledge/reviews/third-act-middle-transitions.md` | C03→C04→C05 十八種局部組合、TMT 修訂結果及驗證界線 |
 | `knowledge/experience-third-act-middle.md` | 分支道具、任務層級、退出動作與休息時間守恆經驗詳情 |
+| `knowledge/plan-third-act-ending.md` | C05→C06→D01 CAT-01～06 修訂狀態、檢查結果與後續順序 |
+| `knowledge/reviews/third-act-ending-transitions.md` | C05→C06→D01 十八種局部組合、CAT 修訂結果及驗證界線 |
+| `knowledge/experience-third-act-ending.md` | 告別前責任交接、分支地點與成年後重逢經驗詳情 |
 | `knowledge/decision.md` | 重大設計決策、原因及狀態 |
 | `knowledge/asset-register.md` | 背景、角色及其他美術素材清冊 |
 | `knowledge/story-bible.md` | 角色、世界觀與設定依據 |
