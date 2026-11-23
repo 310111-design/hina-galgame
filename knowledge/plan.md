@@ -405,7 +405,7 @@
 - [x] 推送後確認 GitHub Actions run `45215839672`（commit `fd19721`）成功；正式 Pages `https://310111-design.github.io/hina-galgame/game.html` 回應 HTTP 200，已在正式頁檢查新介面、功能選單及 Escape 收合。此為發布確認，不代表 iPhone Safari 或完整裝置 QA。
 - [ ] 將最後截圖、已知限制及完成狀態回寫本文件；只有完成指定裝置驗收才勾選對應 QA。
 
-**目前判定（2026-11-24）：** UI 2.0 主要版面、選單與互動樣式已部署；手機直向、手機橫向與桌面為 Chromium 模擬 viewport 初驗，正式版與內部 testplay 頁一致。實體 iPhone Safari、安全區／工具列變化、完整輸入與長文溢位矩陣仍待 QA，故 UI 2.0 尚未完成最終驗收。
+**目前判定（2026-11-24）：** UI 2.0 主要版面、選單與互動樣式已部署；正式 Pages 以 Chromium 模擬 390×844 手機直向、844×390 手機橫向及 1440×900 桌面檢查。三種尺寸的功能按鈕均在 viewport 內，文件尺寸等於 viewport；逐張視覺結果與限制見 `knowledge/reviews/ui-responsive-viewport-review.md`。實體 iPhone Safari、安全區／工具列變化、長句／選項／文字大小矩陣仍待 QA，故 UI 2.0 尚未完成最終驗收；截圖尚未保存成 repo 附件。
 
 ### 角色表情與事件 CG 素材需求
 
