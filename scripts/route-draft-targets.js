@@ -25,7 +25,7 @@ module.exports = [
   { id: "C06", dialogueOnly: true, syncSections: true, syncChoices: true, status: "CAT revisions synchronized" },
   { id: "D01", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "reviewed; CAT transition checked" },
   { id: "D02", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
-  { id: "D03", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
+  { id: "D03", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "DOAT revisions synchronized" },
   { id: "D04", minimum: 2500, pathMinimum: 2500, status: "revised draft" },
   { id: "D05", minimum: 2500, pathMinimum: 2500, syncDialogue: false, status: "revised draft" },
   { id: "D06", minimum: 2500, pathMinimum: 2500, status: "route bridge draft" },

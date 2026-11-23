@@ -1,6 +1,6 @@
 # 空崎陽奈二創 Galgame｜總願景、現況與執行路線圖
 
-> 最後整理：2026-11-24；本輪補記：Galgame UI 2.0 已部署至 Pages；完成 C03→C04→C05 的 TMT-01～07、C05→C06→D01 的 CAT-01～06 修訂與同步；保留 iPhone Safari 實機驗收及全篇劇情 QA。
+> 最後整理：2026-11-24；本輪補記：Galgame UI 2.0 已部署至 Pages；完成 TMT-01～07、CAT-01～06 及成年篇 D01→D02→D03（DOAT-01～03）修訂與同步；保留 iPhone Safari 實機驗收及全篇劇情 QA。
 > 本文件是目前唯一的專案總路線圖。狀態以 repo 實際檔案、程式、CI 與已確認的使用者決策為準；若舊文件或舊對話與本文衝突，以本文為目前執行依據。
 > **勾選規則：** [x] 已完成且有檔案／程式／驗證依據；[ ] 尚未完成；「待驗收」代表程式已存在，但尚未完成指定裝置或人工驗收。不能因程式碼存在就把實機驗收勾成完成。
 
@@ -257,6 +257,8 @@
 - [x] 將分支道具來源、狀態完成層級、末句否定語意、最後任務範圍、退出動作與休息時間守恆等經驗追加至 `knowledge/experience.md`，標明限制與未來適用範圍；保留 `knowledge/experience-third-act-middle.md` 作詳情。
 - [x] 修訂 C05→C06→D01 跨章銜接（CAT-01～06）：核對十八種局部分支組合；明示 C05 翌日回查責任與 C06 結案結果，將仍待資料的舊表格交接給後任依條件與期限續追，確認最後共同協助的範圍，保留成年後偶遇而非預約重逢，並補上未來重新協商稱呼的提示。C05／C06 章稿與 runtime 同步為 145／151 tuples；新增 C06 五段／選項 routes 對照，固定 routes、game-data、shells、JavaScript 語法及 `git diff --check` 通過。人工十八格及靜態檢查不等於實機通關、D01 全史旗標窮舉或全篇 QA；詳見 `knowledge/reviews/third-act-ending-transitions.md`。
 - [x] 將告別前任務責任、分支地點、成年偶遇因果、稱呼與權責分離等方法追加至 `knowledge/experience.md`，附限制及未來適用範圍；保留 `knowledge/experience-third-act-ending.md` 作詳情。
+- [x] 修訂成年篇開場 D01→D02→D03（DOAT-01～03）：核對兩組十八種局部分支組合；將 D03「昨天」改為不限定日數的「上次見面」，讓工作委派、預留休息與先用餐後決定各自保留在所選分支，移除 common 對同事完成資料及共同排出三十分鐘空白的假設。D03 章稿／runtime 同步為 2,833 字元，A／B／C 為 2,639／2,603／2,639；routes 新增逐句、五段與選項對照，固定 routes、game-data、shells、語法及 `git diff --check` 通過。人工矩陣不是實機通關；詳見 `knowledge/reviews/adult-opening-transitions.md`。
+- [x] 將跨章相對時間、選項承諾及 common 分支結果守恆方法追加至 `knowledge/experience.md`，附限制與未來適用範圍；保留 `knowledge/experience-adult-opening.md` 作詳情。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
 
 ### Pages 發布入口精簡
@@ -412,13 +414,13 @@
 ## 5. 下一步執行順序
 
 1. **UI 2.0 實機驗收**：Pages 部署已成功；接續在實體 iPhone Safari 補安全區、動態視窗和觸控驗收，並保留完整桌面瀏覽器 QA。沒有實機時不把這些項目勾選為完成。
-2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01、C01→C02、C02→C03 及 C03→C04→C05 均已同步修訂並驗證。C05→C06→D01 已完成，接續處理尚未覆蓋的共通回收、分支前提、旗標回收與路線入口出口 QA。不重做已完成批次，也不把固定同步檢查宣稱為實機通關。遠端分歧時先安全同步，不 force push。
+2. **全篇分支連貫性 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01、C01→C02、C02→C03、C03→C04→C05、C05→C06→D01 及 D01→D02→D03 均已同步修訂並驗證。接續處理尚未覆蓋的共通回收、分支前提、旗標回收與路線入口出口 QA，先審校 D03→D04→D05；不重做已完成批次，也不把固定同步檢查宣稱為實機通關。遠端分歧時先安全同步，不 force push。
 3. **背景與美術實機驗收**：驗證真實裝置的背景裁切、可讀性及角色素材顯示品質；事件 CG 暫定 27 張，依素材清單待使用者交付後接入，不自行生成、繪製或修圖。
 4. **存檔、分支及音訊相容性驗收**：完成後再執行跨裝置完整 QA 與發布檢查。
 
 ### 本輪路徑同步與部署追蹤
 
-B07→B08→C01 與 C04／C05 章稿及 runtime 已同步；本輪 routes、game-data、shells、JavaScript 語法及 `git diff --check` 通過。UI commit `fd19721` 的 Actions run `45215839672` 成功，正式 Pages 回應 HTTP 200 並已由瀏覽器檢視。靜態檢查及 Pages 發布均不代表所有分支通關、iPhone Safari 或跨裝置完整 QA。
+B07→B08→C01 與 C04／C05 章稿及 runtime 已同步；commit `7b3fba0` 的 Actions run `45220063267` 成功，正式 Pages 回應 HTTP 200，線上 `game-data.js` 已包含 C06 CAT 修訂。UI commit `fd19721` 的 run `45215839672` 亦成功。靜態檢查及 Pages 發布均不代表所有分支通關、iPhone Safari 或跨裝置完整 QA。
 
 ---
 
@@ -427,7 +429,7 @@ B07→B08→C01 與 C04／C05 章稿及 runtime 已同步；本輪 routes、game
 - 開始前讀取本文件、`knowledge/experience.md`、`knowledge/decision.md`，並檢查 GitHub main 最新 commit、工作目錄及 Actions 狀態。根目錄 `decision.md` 不存在時，以實際的 `knowledge/decision.md` 為準。
 - 只從本文件尚未完成且不受阻塞的最前面項目開始；不要重做已完成工作。
 - 完成一個階段後更新本文件勾選狀態，並將可重用經驗及適用範圍回流到 `knowledge/experience.md`。
-- 經驗補記 `knowledge/experience-second-act-opening.md`、`knowledge/experience-second-act-middle.md`、`knowledge/experience-second-act-closing.md`、`knowledge/experience-second-act-to-third-act.md` 與 `knowledge/experience-third-act-opening.md` 的本階段可複用方法、限制及適用範圍已追加至 `knowledge/experience.md`；原補記保留為詳情來源。尚待回流的補記為 `knowledge/experience-early-act-transitions.md`、`knowledge/experience-prologue-transitions.md`、`knowledge/experience-first-act-opening.md`、`knowledge/experience-first-act-middle.md` 與 `knowledge/experience-first-act-ending.md`。不可將截斷前綴覆寫主檔；工具阻塞、推薦及驗證界線詳見對應審校紀錄。
+- 經驗補記 `knowledge/experience-early-act-transitions.md`、`experience-prologue-transitions.md`、`experience-first-act-opening.md`、`experience-first-act-middle.md`、`experience-first-act-ending.md`、第二幕各批補記及第三幕／成年篇補記的可複用方法、限制與適用範圍均已合併至 `knowledge/experience.md`；原補記保留為詳情來源。追加前先對照主檔，避免把同一經驗重複匯入；歷史工具阻塞文字以目前主路線圖及 repo 可驗證狀態為準。
 - 重大設計決策或暫停／恢復狀態變更時，同步更新 `knowledge/decision.md`。
 - 程式已接入不等於驗收完成；只有實際測試完成才勾選實機 QA。
 - 修改遊戲資料時執行 `scripts/validate-game-data.js`；有對應檢查時一併執行素材與路線驗證。
@@ -445,7 +447,7 @@ B07→B08→C01 與 C04／C05 章稿及 runtime 已同步；本輪 routes、game
 |---|---|
 | `knowledge/plan.md` | 本總願景、目前狀態、完成清單與執行路線圖 |
 | `knowledge/experience.md` | 可複用的製作經驗與工作流程 |
-| `knowledge/experience-early-act-transitions.md` | 前段跨幕經驗補記，待安全追加回主檔 |
+| `knowledge/experience-early-act-transitions.md` | 前段跨幕經驗補記詳情來源；可複用方法已合併回主檔 |
 | `knowledge/reviews/early-act-transitions.md` | 前段跨幕交界審校結果、待修項與驗證證據 |
 | `knowledge/experience-prologue-transitions.md` | 序章內部銜接經驗補記來源；可複用方法已合併至主經驗檔 |
 | `knowledge/reviews/prologue-transitions.md` | 序章交界／旗標歷史核對、PRT 待修項與驗證界線 |
@@ -471,6 +473,8 @@ B07→B08→C01 與 C04／C05 章稿及 runtime 已同步；本輪 routes、game
 | `knowledge/plan-third-act-ending.md` | C05→C06→D01 CAT-01～06 修訂狀態、檢查結果與後續順序 |
 | `knowledge/reviews/third-act-ending-transitions.md` | C05→C06→D01 十八種局部組合、CAT 修訂結果及驗證界線 |
 | `knowledge/experience-third-act-ending.md` | 告別前責任交接、分支地點與成年後重逢經驗詳情 |
+| `knowledge/reviews/adult-opening-transitions.md` | 成年篇 D01→D02→D03 時間與選項結果審校、DOAT 修訂及驗證界線 |
+| `knowledge/experience-adult-opening.md` | 成年篇開場跨章相對時間與 common 分支結果守恆經驗詳情 |
 | `knowledge/decision.md` | 重大設計決策、原因及狀態 |
 | `knowledge/asset-register.md` | 背景、角色及其他美術素材清冊 |
 | `knowledge/story-bible.md` | 角色、世界觀與設定依據 |
