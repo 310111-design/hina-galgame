@@ -275,6 +275,7 @@
 - [x] 將 `knowledge/experience-second-act-opening.md` 的交付版本、互斥結果、時間來源及同步驗證經驗安全合併至 `knowledge/experience.md`，補上本輪修訂結果與適用範圍；保留補記原檔作為詳情來源。
 - [x] 第二幕中段銜接人工文本審校（B03→B04→B05）：完整閱讀三節，核對十八種局部分支組合，記錄 BMT-01～07 規則版本、互斥成果、試走層級、日期／用途、估時範圍、主動求助與今晚核對閉環問題。見 `knowledge/reviews/second-act-middle-transitions.md`；確認既有逐句／分段／選項同步，新增分段比較 2 正向／8 負向測試，三個固定 validators 並行成功。僅審校及驗證器強化，未修正文。
 - [x] 修訂／釐清 BMT-01～07，同步章稿與 runtime：B04 保留路徑專屬成果並分清樣本試讀／完整獨立試走；B05 明定隔日、截止時間與步驟範圍，三路徑均明確求助並保留判斷責任，common 分列已核對／等待回查。唯一章節物件替換後，routes（111／53 tuples）、game-data、shells 與 `git diff --check` 通過；B06 收回仍待回查的原始紀錄。詳見 `knowledge/reviews/second-act-middle-transitions.md`。
+- [x] B05 當晚核對與翌日交接閉環複核：逐路對照 A／B／C 的 19:00 支援方式、19:50 回報、單一缺件回查及 B06 明早責任分配；未發現未兌現承諾或需改寫的路徑狀態。這是現有稿件的跨章複核，不代表玩家實際遊玩或全篇 QA。
 - [x] 將 BMT 可複用的規則版本、共通段狀態、估時、求助及回查方法追加至 `knowledge/experience.md`，標明驗證界線與後續適用範圍；保留 `knowledge/experience-second-act-middle.md` 作詳情索引來源。
 - [x] 第二幕收尾銜接人工文本審校（B05→B06→B07）：完整閱讀三節，核對十八種局部分支組合，記錄 BCT-01～07 日期與核對責任、例外數量、重複離場、選項承諾、回顧與重做、十分鐘及完杯／關門收束問題。見 `knowledge/reviews/second-act-closing-transitions.md`；新增 B06／B07 逐句／五段／選項同步，三個固定 validators 成功。審校時尚未修正文，後續修訂另列如下。
 - [x] 修訂／釐清 BCT-01～07，同步章稿與 runtime：B06 明定同日晚間回報、只留一項待回查並移除重複離場；B07 對齊飲用承諾、沿用既定回查時間、區分十分鐘休息與收工熱飲，僅保留一次飲盡及正式離場。B06／B07 原為 46／64 tuples；routes、game-data、shells、`git diff --check` 通過。唯讀篇幅 A/B/C 分別為 B06 1,394／1,409／1,401、B07 1,616／1,611／1,599，低於 2,500 字參考值；本階段以去除矛盾與重複動作為目標，篇幅補足留待全篇 QA。詳見 `knowledge/reviews/second-act-closing-transitions.md`。

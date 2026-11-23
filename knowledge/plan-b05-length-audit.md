@@ -13,7 +13,7 @@
 
 - [x] 將盤點結果與經驗合併至主路線圖和主經驗檔；主檔更新後此子文件只保留歷史快照。
 - [x] BMT-07 工作狀態已依問題標題釐清：B05 晚間狀態與次日回查橋接已修，B06 收回未結資料；以當前 BMT 審校與主路線圖為準。
-- [ ] B05 剩餘劇情品質 QA：檢查目前正文是否仍有未兌現的回查／交接承諾；若沒有實質缺口，不因早期 2,500 字元參考或舊推薦灌入篇幅。
+- [x] B05 剩餘劇情品質 QA：逐路檢查當晚回報、單一待回查資料與 B06 次日責任；未發現未兌現承諾，未因早期 2,500 字元參考而灌入篇幅。現況與限制記於 `knowledge/plan.md`、`knowledge/reviews/second-act-middle-transitions.md`。
 - [x] B05→B06→B07 銜接人工文本審校已完成；見 `knowledge/reviews/second-act-closing-transitions.md` 與 `knowledge/plan.md`。
 - [x] 最近推送 `2ab2d9b` 的 Pages workflow 成功、`game.html` 與 `game-data.js` 回應 HTTP 200；這不等同實機試玩驗收。
 
