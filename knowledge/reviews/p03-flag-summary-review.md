@@ -11,14 +11,18 @@ P03 頁首列 `rest`、`teamwork`、`ordinary_day`，它們是條件回憶讀取
 - 頁首改為「旗標入口」，維持 runtime `flaggedIntro` 使用的三個條件旗標。
 - 節末記錄補上 `daily_checkin`，列出入口旗標與當章任一選項可能輸出的旗標聯集。
 - `knowledge/chapter-plan.md` 分開描述 P03 入口條件和 A／B／C 輸出：A `ordinary_day`、B `teamwork`、C `daily_checkin`。A06 仍會在每條路徑累加 `daily_checkin`，供 B01 後續回應。
-- `validate-prologue-revisions.js` 現在比對 P03 入口旗標與 runtime 條件群組，並核對節末是否涵蓋入口／選項旗標聯集。
+- `validate-chapter-flag-summaries.js` 依 runtime choices 核對 P03 節末是否涵蓋入口／選項旗標聯集，並納入後續具備相同欄位格式的章節。
 
 ## 驗證與限制
 
-- `validate-prologue-revisions.js`、`validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 通過；未更動遊戲 runtime、選項標籤、旗標遞增或遊玩估時。
+- `validate-prologue-revisions.js`、`validate-chapter-flag-summaries.js`、`validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 通過；未更動遊戲 runtime、選項標籤、旗標遞增或遊玩估時。
 - `validate-choice-runtime.js` 已覆蓋每個選項寫入其 `choice.flag`，並驗證 A06 每個選項都額外增加 `daily_checkin`；此檢查不驗證所有章節的 Markdown metadata，也不等於完整瀏覽器路線通關。
 - commit `aca4d11` 的 Pages Actions run `45384018910` build／deploy 成功；本批只修正章稿／章節計畫旗標說明與固定 validator，沒有改動公開 runtime 台詞。
 - 新增的入口旗標斷言使用有序值序列化比較；VM 執行的 runtime 物件與測試環境陣列跨 realm，單用原型敏感的深層斷言會在值相同時誤報。
+
+## 全章防漂移範圍
+
+後續將 P03 的旗標聯集檢查擴成 `validate-chapter-flag-summaries.js`，目前能覆蓋同時有入口旗標欄和節末旗標記錄的 13／33 章；其餘 20 章欠其中至少一個欄位，未宣稱已驗證。檢查包含 A06 runtime 的額外 `daily_checkin` 增量。完整範圍與限制見 `knowledge/reviews/full-story-flag-summary-validation.md`。
 
 ## 可複用範圍
 

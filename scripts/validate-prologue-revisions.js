@@ -70,19 +70,6 @@ const p02Markdown = fs.readFileSync(path.join(root, "story", "chapters", "P02.md
 const manuscriptChoices = [...p02Markdown.matchAll(/^([ABC])\. (.+)$/gm)].map(([, letter, label]) => ({ letter, label }));
 assert.equal(JSON.stringify(manuscriptChoices), JSON.stringify(p02.choices.map(({ letter, label }) => ({ letter, label }))), "PRT-03/07: P02 manuscript choice labels differ from runtime");
 
-const p03 = getChapter("P03");
-const p03Markdown = fs.readFileSync(path.join(root, "story", "chapters", "P03.md"), "utf8");
-const p03Entry = p03Markdown.match(/^\*\*旗標入口：\*\* (.+)$/m);
-assert.ok(p03Entry, "P03: incoming condition flags must be labeled as entry flags");
-const p03EntryFlags = [...p03Entry[1].matchAll(/`([^`]+)`/g)].map(([, flag]) => flag);
-assert.equal(JSON.stringify(p03EntryFlags), JSON.stringify(p03.flaggedIntro.map(({ flag }) => flag)), "P03: manuscript entry flags differ from runtime conditional dialogue");
-const p03EndRecord = p03Markdown.split("【節末記錄】").at(-1);
-const p03FlagRecord = p03EndRecord.match(/^- 旗標：(.+)$/m);
-assert.ok(p03FlagRecord, "P03: end record flag summary is missing");
-const p03RecordedFlags = [...p03FlagRecord[1].matchAll(/`([^`]+)`/g)].map(([, flag]) => flag).sort();
-const p03ExpectedFlags = [...new Set([...p03EntryFlags, ...p03.choices.map(({ flag }) => flag)])].sort();
-assert.deepEqual(p03RecordedFlags, p03ExpectedFlags, "P03: end record must include incoming and choice-output flags");
-
 const stale = [
   ["P01", "尚未處理完的公務，仍要等明天再繼續。"],
   ["P01", "你看著陽奈安靜下來。未完成的公務仍要等明天；剛才那段時間不需要被重新算進工作。她沒有再催促自己把所有事情立刻完成。"],
@@ -108,4 +95,4 @@ for (const [id, oldText] of stale) {
   assert.equal(exactCount(runtimeText, oldText), 0, `${id}: stale runtime wording remains`);
 }
 
-console.log(`Prologue revision sync OK: ${revisions.length} exact manuscript/runtime pairs, P02 choices, P01 navigation, P03 flag summaries, and stale-phrase guards.`);
+console.log(`Prologue revision sync OK: ${revisions.length} exact manuscript/runtime pairs, P02 choices, P01 navigation, and stale-phrase guards.`);

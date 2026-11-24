@@ -2262,7 +2262,7 @@
 
 ### 2026-11-24：章節入口條件與選項輸出旗標分開記錄
 
-- **學到什麼：** P03 入口的 `rest`／`teamwork`／`ordinary_day` 用於讀取前章回應；本章 A／B／C 又會輸出 `ordinary_day`／`teamwork`／`daily_checkin`。若章末只重列入口三個旗標，會漏掉新建立、供後續章節讀取的條件。
-- **如何應用於本作：** 把 P03 頁首明確標為「旗標入口」，節末清單列出入口條件和三種選項輸出旗標的聯集；章節計畫分開說明條件台詞讀取與 C 選項新增 `daily_checkin`。
-- **限制與驗證：** `validate-prologue-revisions.js` 以 runtime 的 `flaggedIntro` 比對入口清單，再將入口與 choices 的 flag 聯集比對節末記錄；`validate-choice-runtime.js` 另覆蓋 P03 choice flags 及 A06 每條路徑都累加 `daily_checkin`。VM 載入的 runtime 陣列屬另一個 JavaScript realm，斷言順序值時用序列化比較，避免相同資料只因原型不同而誤判。commit `aca4d11` 的 Actions run `45384018910` build／deploy 成功。這只新增 P03 的 metadata 防漂移檢查，不代表所有章節的人工旗標歷史都已覆核。
-- **未來可用範圍：** 本作章節摘要、旗標表與回想台詞維護；也適用於任何以先前狀態觸發內容、並在當章再寫入狀態的互動系統，將輸入條件和分支輸出分欄盤點。
+- **學到什麼：** P03 的條件回憶讀取 `rest`／`teamwork`／`ordinary_day`，本章 A／B／C 又輸出 `ordinary_day`／`teamwork`／`daily_checkin`。若章末只重列入口三個旗標，會漏掉新建立、供後續章節讀取的狀態。其他章的入口清單也可能代表累積狀態，不一定只列該章 `flaggedIntro` 會讀取的旗標。
+- **如何應用於本作：** 把 P03 頁首明確標為「旗標入口」，節末清單列出入口狀態和三種選項輸出旗標聯集；章節計畫分開說明前章條件回憶與 C 選項新增 `daily_checkin`。新增 `validate-chapter-flag-summaries.js`，對具有入口欄與節末旗標紀錄的章節檢查兩者及 runtime choices 的聯集。
+- **限制與驗證：** 目前 13／33 章具備可比對的兩個 metadata 欄位；另外 20 章有一欄或兩欄缺失，未納入自動判定。`validate-choice-runtime.js` 覆蓋 P03 choice flags 及 A06 每條路徑都累加 `daily_checkin`。VM 載入的 runtime 陣列屬另一個 JavaScript realm，測試比較順序值使用序列化結果，避免只因原型不同而誤判。這不代表所有章節的人工旗標歷史都已覆核。
+- **未來可用範圍：** 本作章節摘要、旗標表與回想台詞維護；也適用於以先前狀態觸發內容、並在當章再寫入狀態的互動系統，將入口值、分支輸出和節末狀態分欄盤點；欄位不完整時明確標示未驗證範圍。
