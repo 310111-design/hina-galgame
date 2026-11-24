@@ -20,3 +20,9 @@
 ## 可複用範圍
 
 互動作品若手動與自動存檔共用同一進度物件，載入一種格式後應在寫入另一種格式前正規化版本。遷移時同時檢查資料來源鍵、明確版本與章節索引；未知版本保留既有資料並安全回退，不套用預設位移。適用於本作序章新增後的索引調整，也適用於未來章節順序變更及其他依陣列位置保存進度的遊戲。
+
+## 推送與部署確認
+
+- commit `4528ebe`（`fix: protect unsupported autosaves from overwrite`）推送至 `main`；GitHub Actions Pages run `45306596684` 成功。
+- Pages 首頁、`game.html`、`game.js` 均回應 HTTP 200；線上 `game.js` 已含非有效存檔偵測及 `hasStoredSave` 寫入保護。
+- 這證明 CI 與公開資產部署成功，不代表真實瀏覽器存檔點擊流程已通過；實機 QA 仍待 Phase 4 驗收。
