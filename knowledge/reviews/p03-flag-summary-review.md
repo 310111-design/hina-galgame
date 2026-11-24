@@ -1,0 +1,24 @@
+# P03 入口條件與選項輸出旗標摘要
+
+日期：2026-11-24
+
+## 發現
+
+P03 頁首列 `rest`、`teamwork`、`ordinary_day`，它們是條件回憶讀取的入口旗標；節末也只重列這三個名稱。但 P03-C 實際另累加 `daily_checkin`，供後續 B01 條件對話讀取。原標籤「旗標摘要」沒有分清輸入與輸出，節末摘要則漏列當章新輸出的旗標。
+
+## 修訂
+
+- 頁首改為「旗標入口」，維持 runtime `flaggedIntro` 使用的三個條件旗標。
+- 節末記錄補上 `daily_checkin`，列出入口旗標與當章任一選項可能輸出的旗標聯集。
+- `knowledge/chapter-plan.md` 分開描述 P03 入口條件和 A／B／C 輸出：A `ordinary_day`、B `teamwork`、C `daily_checkin`。A06 仍會在每條路徑累加 `daily_checkin`，供 B01 後續回應。
+- `validate-prologue-revisions.js` 現在比對 P03 入口旗標與 runtime 條件群組，並核對節末是否涵蓋入口／選項旗標聯集。
+
+## 驗證與限制
+
+- `validate-prologue-revisions.js`、`validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 通過；未更動遊戲 runtime、選項標籤、旗標遞增或遊玩估時。
+- `validate-choice-runtime.js` 已覆蓋每個選項寫入其 `choice.flag`，並驗證 A06 每個選項都額外增加 `daily_checkin`；此檢查不驗證所有章節的 Markdown metadata，也不等於完整瀏覽器路線通關。
+- 新增的入口旗標斷言使用有序值序列化比較；VM 執行的 runtime 物件與測試環境陣列跨 realm，單用原型敏感的深層斷言會在值相同時誤報。
+
+## 可複用範圍
+
+適用於本作 P03 與後續章節入口／結尾旗標摘要、條件回憶和選項狀態維護；也適用於互動敘事、任務流程與表單狀態，明確分開進入時讀取的條件、每條選擇寫入的結果，以及章末可能存在的狀態聯集。
