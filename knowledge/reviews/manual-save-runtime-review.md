@@ -17,6 +17,8 @@
 
 `node scripts/validate-manual-save-runtime.js` 以現行 runtime 函式及 mock DOM／memory storage 執行以上情境。CI 工作流程同時保留 migration／損壞保護與自動存檔測試。
 
+commit `1210f1a` 的 Actions run `45358027721` build 與 deploy 均成功；Pages 首頁、`game.html`、`game.js` 回應 HTTP 200。此為 CI／部署與 runtime 狀態驗證，不代表手動存檔 UI 實機操作完成。
+
 本檢查不覆蓋真實 `<dialog>`、六欄視覺摘要、按鈕 disabled 狀態、焦點、Escape、瀏覽器 reload、localStorage 配額或裝置縮放；不能將它描述成手動存檔 UI 完整驗收。
 
 ## 可複用範圍

@@ -2180,5 +2180,5 @@
 
 - **學到什麼：** 只測存檔格式遷移、損壞保護與自動／手動 key 分離，還不能確認一般使用路徑上的新增、拒絕覆寫、確認覆寫、空格讀取和章節重玩狀態重設是否彼此正確。
 - **如何應用於本作：** 由 `site/game.js` 抽取正式 `loadManualSlots()`、`saveManualSlot()`、`loadManualSlot()` 與格式驗證函式，配記憶體 localStorage、覆寫確認回應及必要 DOM stub；逐一操作六格，斷言取消覆寫不改資料、確認只替換指定格、讀取重設主線／歷史、空格不改目前進度、未知格式保留原始容器。固定掛入 Pages workflow。
-- **限制與驗證：** runtime harness 覆蓋存讀邏輯及 UI 動作呼叫後的狀態，不驗證六張按鈕的實際標籤／disabled 外觀、原生 dialog、焦點、瀏覽器 reload 或 localStorage 配額；這些仍需瀏覽器 QA。
+- **限制與驗證：** runtime harness 覆蓋存讀邏輯及 UI 動作呼叫後的狀態；commit `1210f1a` 的 Actions run `45358027721` build／deploy 成功，正式 Pages 入口與 `game.js` HTTP 200。它不驗證六張按鈕的實際標籤／disabled 外觀、原生 dialog、焦點、瀏覽器 reload 或 localStorage 配額；這些仍需瀏覽器 QA。
 - **未來可用範圍：** 本作存檔、讀檔、重玩回主線等狀態交接；也適用於 Web app 中以確認對話框保護既有資料的多槽儲存功能，優先讓測試呼叫實際 runtime 函式，再明確標註 mock DOM 無法證明的範圍。

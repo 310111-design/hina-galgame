@@ -507,7 +507,7 @@
 - [x] 修復並加入回歸檢查：序章前未帶版本欄位的單格或已匯入六格存檔章節索引加 3；序章後 v2 不位移；v3 維持不變；未知未來版本不轉換且顯示不支援。跨版本實際瀏覽器存讀仍待驗收。
 - [x] 修復自動存檔版本判定與損壞資料保護：舊鍵未版本化紀錄加 3；目前鍵 v2／手動讀取後 v3 保留章節索引；自動寫入固定為 v2；未知版本、損壞 JSON、非物件資料、無效 phase／line／flags／choices／route 與 localStorage 不可用時安全回到預設狀態並暫停自動寫入，保留原始存檔；玩家明確重開或讀取有效手動存檔後解除保護。`validate-autosave-migration.js` 以記憶體 localStorage 呼叫 runtime 載入、保存、重開及手動讀檔函式；真實瀏覽器流程仍待驗收。經驗與限制見 `knowledge/reviews/autosave-migration-review.md`、`knowledge/experience.md`。
 - [x] 保護損壞、不可讀、未知格式或超過六格的手動存檔容器與單格資料：顯示寫入暫停提示並停用存檔按鈕，保留原始 localStorage；仍可讀取前六格中有效欄位。`validate-manual-save-migration.js` 以 runtime 實際載入／保存／讀取函式覆蓋損壞 JSON、未知容器、損壞／未知單格、超額欄位、未知舊版存檔及 storage 讀取失敗，並確認超額容器中的有效欄位仍能讀取且不解除寫入保護；存檔對話框的真實瀏覽器互動仍待 QA。詳見 `knowledge/reviews/manual-save-storage-protection.md`、`knowledge/experience.md`。
-- [x] 加入六格手動存檔 runtime 回歸：呼叫正式 `saveManualSlot()`／`loadManualSlot()`，覆蓋六格新增、指定欄覆寫確認／取消、其他欄保留、有效讀取與狀態重設、空格讀取、損壞／不支援欄位保留；納入 Pages CI。此為 runtime harness 驗證，不代表存檔對話框實際點選或重新載入瀏覽器驗收，詳見 `knowledge/reviews/manual-save-runtime-review.md`。
+- [x] 加入六格手動存檔 runtime 回歸：呼叫正式 `saveManualSlot()`／`loadManualSlot()`，覆蓋六格新增、指定欄覆寫確認／取消、其他欄保留、有效讀取與狀態重設、空格讀取、損壞／不支援欄位保留；commit `1210f1a` 的 Actions run `45358027721` build／deploy 成功，Pages 首頁、`game.html`、`game.js` 均 HTTP 200。此為 runtime harness 與部署驗證，不代表存檔對話框實際點選或重新載入瀏覽器驗收，詳見 `knowledge/reviews/manual-save-runtime-review.md`。
 - [ ] 瀏覽器驗收六格存檔 UI：欄位摘要、覆寫確認對話框、空格／損壞狀態、關閉與重新載入後讀取。
 - [ ] 測試自動存檔與手動存檔互不意外覆蓋。CI 已呼叫 runtime 實際載入／保存函式，確認各自只更新自己的 storage key，手動覆寫不影響其他欄位；瀏覽器重載與配額行為仍待實機 QA，見 `knowledge/reviews/save-separation-review.md`。
 - [ ] 測試舊版單格存檔遷移及跨版本資料相容性。
