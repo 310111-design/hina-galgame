@@ -77,6 +77,56 @@ assert.equal(renderCalls, checkedChoices);
 assert.equal(confirmSoundCalls, checkedChoices);
 console.log(`Runtime choice checks passed (${checkedChoices} choices, flags, selected branches and route assignments).`);
 
+let checkedChapterLifecycles = 0;
+for (let chapterIndex = 0; chapterIndex < chapters.length; chapterIndex += 1) {
+  const chapter = chapters[chapterIndex];
+  for (const choice of chapter.choices) {
+    harness.setState({
+      version: 3,
+      chapter: chapterIndex,
+      phase: "choice",
+      line: 0,
+      choices: {},
+      flags: { ...baselineFlags },
+      route: null
+    });
+    harness.choose(choice);
+
+    const selectedState = harness.getState();
+    const branchSequence = harness.getSequence();
+    assert.ok(branchSequence.length > 0, `${chapter.id} ${choice.letter} should have playable branch dialogue`);
+    selectedState.line = branchSequence.length - 1;
+    harness.setState(selectedState);
+    harness.advanceLine();
+    assert.equal(harness.getState().chapter, chapterIndex, `${chapter.id} ${choice.letter} should stay in its chapter after branch dialogue`);
+    assert.equal(harness.getState().phase, "common", `${chapter.id} ${choice.letter} should advance from branch to common`);
+    assert.equal(harness.getState().line, 0, `${chapter.id} ${choice.letter} should begin common at line zero`);
+
+    const beforeCommonExit = harness.getState();
+    const commonSequence = harness.getSequence();
+    assert.ok(commonSequence.length > 0, `${chapter.id} should have playable common dialogue`);
+    beforeCommonExit.line = commonSequence.length - 1;
+    harness.setState(beforeCommonExit);
+    harness.advanceLine();
+
+    const afterCommonExit = harness.getState();
+    if (chapter.endOfRoute) {
+      assert.equal(afterCommonExit.chapter, chapterIndex, `${chapter.id} should remain selected at its ending`);
+      assert.equal(afterCommonExit.phase, "complete", `${chapter.id} should complete after common dialogue`);
+    } else {
+      const expectedNextId = chapter.nextByRoute
+        ? (chapter.nextByRoute[afterCommonExit.route] || "D06")
+        : chapters[chapterIndex + 1]?.id;
+      assert.equal(chapters[afterCommonExit.chapter]?.id, expectedNextId, `${chapter.id} ${choice.letter} should enter its intended next chapter`);
+      assert.equal(afterCommonExit.phase, "intro", `${expectedNextId} should start at intro`);
+      assert.equal(afterCommonExit.line, 0, `${expectedNextId} should start at line zero`);
+    }
+    checkedChapterLifecycles += 1;
+  }
+}
+assert.equal(checkedChapterLifecycles, 99, "chapter lifecycle coverage should exercise every selectable choice");
+console.log(`Chapter lifecycle checks passed (${checkedChapterLifecycles} choice paths advance through branch and common to the expected destination).`);
+
 const d06Index = chapters.findIndex(chapter => chapter.id === "D06");
 const d07Index = chapters.findIndex(chapter => chapter.id === "D07");
 const d06 = chapters[d06Index];

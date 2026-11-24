@@ -15,6 +15,10 @@
 
 共 **99 個選項**，固定檢查通過，並已加入 Pages workflow。
 
+## 所有章節分支到共通段的 lifecycle
+
+同一 validator 對 33 節的三個選項逐一執行正式 `choose()`，再用正式 `advanceLine()` 從分支末句推進到 common，從 common 末句推進到下一章 intro 或 route ending complete。**99 種選擇路徑**全部檢查 branch/common phase、line 歸零、目的章 ID 與結局完成狀態。
+
 ## D06→D07→D08 連續路線整合
 
 `scripts/validate-choice-runtime.js` 另以 runtime 真正的 `choose()` 與 `advanceLine()` 連續執行三個 D06 路線選擇，推進至 D07，對每條路線各選 A／B／C 三種活動，再推進至結局 intro。**九種組合**全部保留 D06 route，並分別進入 `friend → D08F`、`partner → D08P`、`romance → D08R`，且結局節點的 `routeEnding` 與進入狀態一致。此 validator 已由 Pages workflow 執行。
