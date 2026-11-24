@@ -27,13 +27,33 @@ const runtimeFunctions = [
 let renderCalls = 0;
 let historyCalls = 0;
 let confirmSoundCalls = 0;
+const gameStage = {
+  focusCount: 0,
+  focus(options) {
+    assert.equal(options?.preventScroll, true, "branch focus restoration should not scroll the page");
+    this.focusCount += 1;
+  }
+};
+const document = {
+  getElementById(id) {
+    if (id === "gameStage") return gameStage;
+    throw new Error(`Unexpected element requested by choice runtime: ${id}`);
+  }
+};
 const harness = new Function(
   "chapters",
+  "document",
   "renderHistory", "render", "playConfirmSound",
   "clearAutoAdvance", "revealCurrentLine", "startAmbient",
   "playChapterTransitionSound", "playRouteEndingSound",
-`let state = {};\nlet dialogueHistory = [];\nlet lastHistoryKey = "";\n${runtimeFunctions}\nreturn {\n  choose, getSequence, advanceLine,\n  setState(value) { state = value; dialogueHistory = []; },\n  getState() { return state; }, getHistory() { return dialogueHistory; }\n};`
-)(chapters, () => { historyCalls += 1; }, () => { renderCalls += 1; }, () => { confirmSoundCalls += 1; }, () => {}, () => false, () => {}, () => {}, () => {});
+`let state = {};\nlet dialogueHistory = [];\nlet lastHistoryKey = "";\n${runtimeFunctions}\nreturn {\n  choose, getSequence, advanceLine,\n  setState(value) { state = value; dialogueHistory = []; },\n  getState() { return state; }, getHistory() { return dialogueHistory; },\n  getStageFocusCount() { return document.getElementById("gameStage").focusCount; }\n};`
+)(chapters, document, () => { historyCalls += 1; }, () => { renderCalls += 1; }, () => { confirmSoundCalls += 1; }, () => {}, () => false, () => {}, () => {}, () => {});
+
+function chooseAndExpectFocus(choice) {
+  gameStage.focusCount = 0;
+  harness.choose(choice);
+  assert.equal(harness.getStageFocusCount(), 1, "choosing a branch should return focus to the game stage");
+}
 
 const baselineFlags = { rest: 3, teamwork: 2, ordinary_day: 1, daily_checkin: 4, self_rest: 1 };
 const zeroFlags = Object.fromEntries(Object.keys(baselineFlags).map(flag => [flag, 0]));
@@ -98,7 +118,7 @@ for (let chapterIndex = 0; chapterIndex < chapters.length; chapterIndex += 1) {
     if (chapter.id === "A06") expectedFlags.daily_checkin += 1;
 
     harness.setState(state);
-    harness.choose(choice);
+    chooseAndExpectFocus(choice);
 
     const chosenState = harness.getState();
     assert.equal(chosenState.phase, "branch", `${chapter.id} ${choice.letter} should enter its branch`);
@@ -133,7 +153,7 @@ for (let chapterIndex = 0; chapterIndex < chapters.length; chapterIndex += 1) {
       flags: { ...baselineFlags },
       route: null
     });
-    harness.choose(choice);
+    chooseAndExpectFocus(choice);
 
     const selectedState = harness.getState();
     const branchSequence = harness.getSequence();
@@ -189,7 +209,7 @@ for (const d06Choice of d06.choices) {
       flags: { ...baselineFlags },
       route: null
     });
-    harness.choose(d06Choice);
+    chooseAndExpectFocus(d06Choice);
     assert.equal(harness.getState().route, d06Choice.route, `D06 ${d06Choice.letter} should select its relationship route`);
 
     const beforeD07 = harness.getState();
@@ -204,7 +224,7 @@ for (const d06Choice of d06.choices) {
     atD07.phase = "choice";
     atD07.line = 0;
     harness.setState(atD07);
-    harness.choose(d07Choice);
+    chooseAndExpectFocus(d07Choice);
     assert.equal(harness.getState().route, d06Choice.route, `D07 ${d07Choice.letter} should preserve the D06 route`);
     assert.deepEqual(harness.getState().choices.D07, d07Choice, `D07 ${d07Choice.letter} should persist its activity choice`);
 

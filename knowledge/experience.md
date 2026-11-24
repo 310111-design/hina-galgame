@@ -2147,3 +2147,10 @@
 - **如何應用於本作：** 在 `choose()` 重繪分支台詞後，將焦點移到帶有「遊戲畫面」標籤的主舞台，讓 Enter／空白鍵可以繼續；殼層 validator 檢查焦點回復程式存在，章節重玩 runtime harness 實際呼叫分支選擇並斷言焦點落點。
 - **限制與驗證：** 靜態 validator 與 JavaScript 語法通過，但沒有實際用鍵盤或螢幕閱讀器驗證瀏覽器焦點顯示與朗讀順序；完整操作 QA 仍待完成。
 - **未來可用範圍：** 本作其他會替換、移除按鈕的互動狀態；也適用於 Web 表單、步驟導覽與互動故事，動態更新控制項前應指定合理的後續焦點目標。
+
+### 2026-11-24：runtime 測試假 DOM 也要跟進焦點行為
+
+- **學到什麼：** 產品 runtime 新增 DOM 焦點回復後，只修主要測試 harness 不足以保證 CI 通過；選項邏輯會由多個獨立 harness 抽取執行，因此每個包含 `choose()` 的 mock document 都要提供同一焦點 API。兩次 Actions 失敗分別指出章節重玩與選項 runtime harness 缺少 `gameStage.focus()`。
+- **如何應用於本作：** 在 `validate-choice-runtime.js` 注入只接受預期 `gameStage` 的 mock document；每次執行所有 99 個選項以及九組 D06／D07 路線組合時，重置計數、呼叫 `choose()` 並斷言舞台收到一次使用 `preventScroll: true` 的焦點呼叫。章節重玩 harness 也保留獨立焦點斷言，避免單一測試覆蓋掩蓋其他執行入口。
+- **限制與驗證：** 相關本機檢查通過；此 runtime assertion 驗證程式把焦點指定到正確元素及選項，不驗證瀏覽器焦點框可見性、螢幕閱讀器朗讀或實機互動。遠端 CI 與 Pages 部署須待修補提交後確認。
+- **未來可用範圍：** 本作其他共用 runtime 函式被多個測試 harness 抽取執行時；也適用於以 mock DOM 測試動態 Web 介面，新增 focus、inert 或事件 API 後，應搜尋所有 harness 呼叫點並逐一補足語義相符的 mock 與行為斷言。
