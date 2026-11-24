@@ -24,6 +24,10 @@ C05 開場已明示今天是陽奈陪同團隊走完新流程的最後一輪共�
 - C05 章稿/runtime 同步，正文 142 tuples／2,708 字元，A／B／C 路徑 2,419／2,433／2,442。例行公務延續、既有輪值、未完成回查責任均有其他明確交代，選項與旗標不變。
 - `validate-route-drafts.js`、`validate-game-data.js`、`validate-choice-runtime.js`、`validate-chapter-flag-summaries.js`、`validate-full-length-summary.js` 與 `git diff --check` 通過。Pages workflow 全套 19 項本機檢查亦通過；靜態檢查不等於玩家盲讀或實機通關。
 
+## 部署確認
+
+修訂 commit `c9d379a` 的 Pages workflow run [`45396823870`](https://github.com/310111-design/hina-galgame/actions/runs/45396823870) 成功。Pages 首頁、`game.html`、cache-busted `game-data.js` 均 HTTP 200；線上 runtime 已移除該共通收束摘要，保留「明天還是會有事情」對話。這確認目前部署內容，不代表瀏覽器逐路通關或實機 QA。
+
 ### 可複用範圍
 
 多分支章節開場若已建立所有路徑共用的任務範圍，收束段只需回收分支新造成的狀態，毋須逐字再次宣告共通前提。此判準適用於本作跨章責任交接、團隊階段收尾與逐路合流，也適用於教學關卡／任務流程；若共通事實可能被分支改變，仍須在合流段核對或重述必要狀態。
