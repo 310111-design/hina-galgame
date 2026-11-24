@@ -263,9 +263,9 @@
 
 ## D-28：採用使用者提供的透明 UI 面板素材
 
-- **狀態：** 已採用第二份 ZIP 的兩張透明 PNG 作為新 UI 視覺素材並接入 runtime；第一份附件由使用者確認為誤傳，已排除。
+- **狀態：** 已採用第二份 ZIP 的兩張透明 PNG 作為新 UI 視覺素材並接入 runtime；commit `85fa915` 已推送，GitHub Actions／Pages run `45426620863` 成功；第一份附件由使用者確認為誤傳，已排除。
 - **情況：** 選項面板 PNG 提供提示框、選項框及普通／選取視覺狀態；對話框 PNG 提供深紫金屬框與底部工具列風格。標註 JPG 只作區域對位，不放入 runtime。來源 PNG 保留在 `site/assets/ui/`，CSS 使用的裁切版本也存放於同處。
 - **決定：** 以透明 PNG 的實際圖像作為對話面板、選項提示、普通選項及選取狀態底圖；實際對話文字、選項及紀錄／自動／跳過／存讀檔／設定控制用語意 HTML 疊加。工具列按鈕轉送至原有功能，維持鍵盤操作與狀態同步；版面按直向、橫向及桌面 viewport 調整。
 - **理由：** 這批透明素材可直接表達使用者要採用的新 UI 風格。以語意元件疊加可保留圖像質感，也讓文字可重排、控制可點擊且有輔助科技可讀名稱；JPG 標註不當作產品規格或使用者指令。
-- **影響與待辦：** 已新增 `site/assets/ui/` 圖片、`game.html`／`testplay.html` 工具列和 `game.css` 視覺規則；17 個 Pages validator、兩個 JavaScript 語法檢查及 `git diff --check` 通過，更新 44 px 觸控目標後已檢視 1280×720 本機瀏覽器畫面。此版仍待推送與確認 Actions／Pages；44 px 調整前的手機直向／橫向截圖不算更新版驗收，iPhone Safari 安全區與完整實機驗收仍待完成。整合和驗證證據見 `knowledge/reviews/ui-asset-packet-review.md`。
+- **影響與待辦：** 已新增 `site/assets/ui/` 圖片、`game.html`／`testplay.html` 工具列和 `game.css` 視覺規則；17 個 Pages validator、兩個 JavaScript 語法檢查及 `git diff --check` 通過，更新 44 px 觸控目標後已檢視 1280×720 本機畫面。Actions／Pages run `45426620863` build 與 deploy 均成功；正式頁和新 UI 圖片均 HTTP 200，並在公開頁確認對話面板及六項可存取工具列控制。44 px 調整前的手機直向／橫向截圖不算更新版驗收，iPhone Safari 安全區與完整實機驗收仍待完成。整合和驗證證據見 `knowledge/reviews/ui-asset-packet-review.md`。
 - **未來可用範圍：** 本作日後面板、章節選單及 HUD 改版；也適用於其他美術 UI 素材，保留原檔、按元件裁切，並以可互動語意控制覆蓋視覺素材。

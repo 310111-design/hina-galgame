@@ -37,7 +37,7 @@
 |---|---|---|
 | 故事內容 | 序章 P01～P03、A01～A06、B01～B08、C01～C06、成年篇共通 D01～D07，以及 D08F／D08P／D08R 三個結局節點已進入遊戲資料；三線均完成第一輪擴寫與路線審校，仍需全篇時間線、角色設定及最終 QA | 已接入，故事未完稿 |
 | 遊戲核心 | 全視窗舞台、逐字閱讀、選項、章節選單、自動存檔、六格手動存檔、章節重玩隔離、對話紀錄及設定已實作 | 已實作，待完整 QA |
-| UI 視覺 | Galgame UI 2.0 已整合第二份 ZIP 的選項／對話框透明 PNG，文字與底部工具列保持可操作；17 個 Pages validator 與兩個 JavaScript 語法檢查通過，更新 44 px 觸控目標後已檢視 1280×720 本機畫面；待本輪 Pages 部署及手機／完整裝置 QA | 素材接入，待部署及實機驗收 |
+| UI 視覺 | Galgame UI 2.0 已整合第二份 ZIP 的選項／對話框透明 PNG，文字與底部工具列保持可操作；commit `85fa915` 的 Actions／Pages run `45426620863` 成功，正式對話框及素材已上線；手機／完整裝置 QA 仍待驗收 | 已接入並部署，待實機驗收 |
 | 背景美術 | 13 張使用者背景有語意化與 WebP 版本，其中 12 張映射至 runtime 章節、一張校園中庭備用；另有生成背景供首頁使用 | 已接入，待實機驗收 |
 | 角色美術 | 使用者提供的 13 張 896×1200 RGBA 表情 PNG 與逐像素相同的 lossless WebP 保持原樣；runtime 依各圖 alpha 可見高度／底線校準 CSS 顯示比例，PNG／SVG fallback 保留 | 一般表情切換尺寸已穩定化；跨裝置顯示 QA 仍待完成 |
 | 音訊 | 六類場景程序化 BGM、淡入淡出、BGM／SFX 分開音量及提示音已接入；正式音檔尚未替換 | 已實作第一版，待聽感驗收 |
@@ -521,6 +521,7 @@
 
 ### Phase 3｜UI 與閱讀體驗補完
 
+- [x] 2026-11-24 UI 2.0 採用第二份 ZIP 的選項／對話框透明 PNG，切成提示框、選項列及選取狀態底圖；工具列改為可存取 HTML 並沿用既有紀錄、自動播放、跳過、存讀檔及設定行為。17 個 Pages validators 與兩個 JS 語法檢查通過，commit `85fa915` 的 run `45426620863` build／deploy 成功，公開遊戲畫面已確認新版底圖和六項工具列。手機 viewport 更新驗收及 iPhone Safari QA 仍未完成，詳見 `knowledge/reviews/ui-asset-packet-review.md`。
 - [x] 加入共用章節開始畫面與章節切換視覺停頓：新玩家初次開啟及新章切換顯示章卡，有效存檔直接續讀，章卡期間阻止舞台點擊、鍵盤及自動播放推進；正式版與 testplay 共用元件，Pages 的 `chapter-intro.js`／CSS 均 HTTP 200。重要事件／CG 專屬轉場仍待素材映射與規則規劃（見 UI-2 待辦及 `knowledge/experience-chapter-intro-screen.md`）；iPhone Safari／螢幕閱讀器互動驗收仍未完成。
 - [ ] 驗收逐字顯示、點擊補完、連續推進、自動播放與三段速度。
 - [ ] 驗收對話紀錄開關、捲動、說話者標示及大量紀錄效能。
@@ -574,7 +575,7 @@
 - [ ] 測試所有場景圖片載入、缺圖回退、背景切換與效能。現行 runtime 對應的 39 個視覺素材 URL（12 張背景、13 張 WebP、13 張 PNG 回退、1 張 SVG）及 5 個 Pages 入口共 44 個 URL 已全部 HTTP 200；此結果只證明資源可取用，不驗證瀏覽器解碼、畫面裁切、fallback 操作、背景切換或效能。詳見 `knowledge/reviews/deployed-visual-assets-http-check.md` 與 `knowledge/reviews/character-sprite-webp-review.md`。
 - [ ] 測試音訊、存檔、章節重玩、已讀跳過與各項設定。
 - [ ] 修正 QA 發現的錯誤，重新執行所有 CI 檢查。
-- [ ] 確認最新 GitHub Actions 成功、Pages 部署成功，並檢查正式網址。
+- [x] 2026-11-24 UI 2.0 commit `85fa915` 對應 GitHub Actions run `45426620863` build／deploy 均成功；公開 `game.html`、`testplay.html`、`game.css` 及三張代表 UI 圖片回應 HTTP 200，並在公開遊戲頁確認新面板與六項可存取 toolbar 控制。這只確認本次部署，不代表全篇瀏覽器／裝置 QA；完整證據見 `knowledge/reviews/ui-asset-packet-review.md`。
 - [x] 更新首頁、README、`CHANGELOG.md` 及素材清冊，清楚標示非官方同人性質、目前可遊玩範圍、已部署功能、未完成驗收及背景素材映射數量；不宣稱已正式發布。首頁／README／清冊與 runtime 對照紀錄見 `knowledge/reviews/project-status-doc-sync.md`。
 - [ ] 完成正式版最後通關，確認無阻斷遊玩的錯誤後才標記發布完成。
 
@@ -766,6 +767,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 
 ## 本輪 CI 與 Pages 查核（2026-11-24）
 
+- UI 2.0 commit `85fa915` 對應 Actions run `45426620863` completed／success，build 與 deploy 均成功；Pages `game.html`、`testplay.html`、`game.css`、`dialogue-frame.png`、`choice-row-default.png`、`choice-row-selected.png` 回應 HTTP 200。公開瀏覽器確認新對話框與六項可存取工具列控制已上線；手機直向／橫向本次 44 px 控制區調整後尚未重新檢視，實機 QA 仍待完成，詳見 `knowledge/reviews/ui-asset-packet-review.md`。
 - C01 teamwork 條件回憶前旁白精簡 commit `bc6f988` 對應 Actions run `45393529894`，build 與 deploy 均 completed／success；Pages 首頁、`game.html`、cache-buster `game-data.js` 均 HTTP 200，線上已移除重複結論旁白。這只確認部署與公開文字，不代表全篇條件回憶 QA 或實機通關；詳見 `knowledge/reviews/c01-teamwork-conditional-cadence-review.md`。
 - 條件回憶累積門檻 validator 與經驗／路線圖 commit `af71a1e` 對應 Actions run `45391293867`，build 與 deploy 均 completed／success；Pages 首頁、`game.html`、cache-buster `game-data.js` 均 HTTP 200。此為 CI 與發布確認，不代表全篇條件歷史窮舉、逐路通關或實機 QA；詳見 `knowledge/reviews/conditional-flag-count-reachability.md`。
 - 全篇 33 章入口／節末旗標 metadata 修正 commit `b196f21` 對應 Actions run `45388052370` completed／success；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200。這只確認 metadata／validator 同步和部署，不等於全篇條件歷史組合實際遊玩。

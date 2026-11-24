@@ -22,7 +22,7 @@
 
 `node --check site/game.js`、`node --check site/chapter-intro.js`、Pages workflow 對應的 17 個 validator 與 `git diff --check` 均通過；shell validator 確認正式頁和 testplay 都有六個可存取工具列控制、素材尺寸／透明度及焦點外框對比。更新 44 px 工具列觸控目標後，在本機 testplay 的 1280×720 瀏覽器畫面檢視對話框與完整底部工具列，畫面沒有裁切；Accessibility tree 可辨識紀錄、自動播放、跳過、存檔、讀檔與設定控制，並已確認點擊舞台可繼續對話。
 
-先前保存的手機直向、手機橫向及桌面 viewport 截圖屬於 44 px 調整前的基線；本輪 CUA 預覽沒有提供 viewport override，因此沒有把舊截圖當成更新後手機版通過。Pages 部署完成後仍需檢查公開頁；靜態或模擬畫面也不能替代 iPhone Safari 安全區、動態工具列、實際觸控、長句溢位及讀屏器驗收。
+先前保存的手機直向、手機橫向及桌面 viewport 截圖屬於 44 px 調整前的基線；本輪 CUA 預覽沒有提供 viewport override，因此沒有把舊截圖當成更新後手機版通過。commit `85fa915` 的 GitHub Actions／Pages run `45426620863` build、deploy 均成功；公開 `game.html`、`testplay.html`、`game.css` 及 `dialogue-frame.png`、`choice-row-default.png`、`choice-row-selected.png` 均 HTTP 200。公開遊戲畫面可見新對話框底圖，Accessibility tree 列出六項 toolbar 控制。這確認此次版本發布，不等於手機、實際觸控或所有選項 viewport 驗收；iPhone Safari 安全區、動態工具列、長句溢位及讀屏器仍待裝置驗收。
 
 ## 可複用範圍
 
