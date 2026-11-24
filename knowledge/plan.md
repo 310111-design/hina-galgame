@@ -465,7 +465,7 @@
 - [x] 瀏覽器模擬 viewport 桌面尺寸：檢視角色比例、對話框寬度、文字行長與留白。
 - [ ] 驗收 iOS safe-area、動態視窗高度、瀏海／底部手勢區及瀏覽器工具列收合時的版面變化。
 - [ ] 驗收多種文字大小、長句、不同說話者、三個選項及大量紀錄的完整溢位矩陣。
-- [x] 依 CSS 基底顏色檢查主要文字色對比；確認文字色高於 7.8:1，並將主遊戲實際生效的未選取選項邊框在最暗面板端點估算對比由 1.51:1 提高至 4.12:1；game-shell validator 從最後一條宣告邊框的 `.choice` 規則計算並維持至少 3:1。此為靜態計算與 CSS 修訂，不代表全頁 WCAG、實際瀏覽器像素或裝置驗收；詳見 `knowledge/reviews/ui-responsive-viewport-review.md`。
+- [x] 依 CSS 基底顏色檢查主要文字色對比；確認文字色高於 7.8:1，並將主遊戲實際生效的未選取選項邊框在最暗面板端點估算對比由 1.51:1 提高至 4.12:1；game-shell validator 從最後一條宣告邊框的 `.choice` 規則計算並維持至少 3:1。commit `cd920d5` 對應 Actions run `45356882060` build／deploy 成功，首頁、遊戲、testplay 與 CSS 均 HTTP 200，線上樣式已核對含修正值。此為靜態計算、CI 與部署確認，不代表全頁 WCAG、逐像素瀏覽器審查或裝置驗收；詳見 `knowledge/reviews/ui-responsive-viewport-review.md`。
 - [ ] 驗收完整鍵盤操作、實機觸控、focus 狀態、減少動態效果及所有狀態的實際對比；模擬 viewport 初驗與程式焦點檢查不能取代完整互動／裝置 QA。
 - [ ] 以實際 iPhone Safari 與桌面瀏覽器截圖回歸；完成前不得把 UI 2.0 標記為已完成。
 
