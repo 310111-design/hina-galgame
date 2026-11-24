@@ -386,6 +386,7 @@
 - [x] D08P common 收束複核：將大字體準備與後續檢查移至道別前，刪除由陽奈台詞已明示的「不安排下一次活動」總結，保留各自整理回顧；稿件/runtime 同步，80 tuples／3,153 字元，A／B／C 2,524／2,529／2,500。詳見 knowledge/reviews/d08p-ending-followup-cadence-review.md；字數僅供盤點，沒有為門檻補寫抽象內容。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
 - [x] D08P 共通段第二輪節奏複核：將參加者的大字體回饋、圖書館既有格式、成本／準備時間與小量試印合併為一項追蹤方案，刪除重複的「不立刻承諾」及第二次列出同一後續；稿件/runtime 同步，3,078 字元、A／B／C 2,449／2,454／2,425，路徑防截斷下限調為 2,300。全篇篇幅及閱讀時間同步重算；詳見 `knowledge/reviews/d08p-ending-followup-cadence-review.md`。
+- [x] D08P A／B／C 分支與共通回收連貫性複核：確認分工／彈性／小規模試辦各由實際場景回收，且共通活動未依賴單一路徑專屬前提；同步更新章稿末尾過期 QA 狀態。未改玩家可見內容或 runtime；詳見 `knowledge/reviews/d08p-branch-differentiation-review.md`。
 - [x] D08R 開場節奏複核：在陽奈已明說不希望因舊日回憶而覺得必須答應後，刪去再解釋「不是試探、不是索求保證」的旁白，改用捧杯、蒸氣掠過指尖及沿杯緣轉動的停頓動作；保留成年後雙向選擇與容許思考的對白，未動分支／旗標。章稿/runtime 同步為 3,463 字元，A／B／C 2,501／2,586／2,772；全篇篇幅與估時已刷新，詳見 `knowledge/reviews/d08r-opening-cadence-review.md`。固定驗證不代表盲讀或瀏覽器通關。
 - [x] D08R 共通段第二輪節奏複核：保留路口晚風與停步，刪除由後續具體安排承接的抽象步調總結；合併車站方向、交通確認與安全道別，刪去角色已說明支持界線後的重述句。章稿/runtime 同步為 3,329 字元，A／B／C 2,367／2,452／2,638，路徑防截斷下限調為 2,300；全篇篇幅與估時已更新，詳見 `knowledge/reviews/d08r-ending-cadence-review.md`。
 
@@ -684,6 +685,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 | `knowledge/reviews/d08f-voice-cadence-review.md` | D08F 近況聊天過渡旁白複核、稿件/runtime 同步與驗證界線 |
 | `knowledge/reviews/d08f-common-cadence-review.md` | D08F 朋友線共通收束第二輪選項／行動重述複核與驗證 |
 | `knowledge/reviews/d08p-ending-followup-cadence-review.md` | D08P 結尾待辦順序與重複未來排程總結複核 |
+| `knowledge/reviews/d08p-branch-differentiation-review.md` | D08P A／B／C 行動差異、共通活動前提與選擇回收複核 |
 | `knowledge/reviews/d08r-ending-cadence-review.md` | D08R 共通收束抽象步調總結與重複道別複核 |
 | `knowledge/reviews/full-story-duplicate-dialogue-review.md` | 跨章重複完整台詞候選的人工分類及 C04 中段語氣修訂 |
 | `knowledge/reviews/p01-rest-promise-cadence-review.md` | P01 共通收束重述精簡、分支共通有效範圍及稿件/runtime 驗證 |
@@ -737,3 +739,4 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 
 - D08F 共通段節奏修訂 commit `0882dce` 的 GitHub Actions run `45322995298` 成功；Pages 首頁與 `game-data.js` 均 HTTP 200，加 cache-buster 核對已移除舊旁白並保留小廣場動線，首頁仍顯示單線約 2.4～3.3 小時。這是 CI 與公開內容確認，不代表瀏覽器逐路或實機 QA。
 - D08F 道別前第二次邀請修訂 commit `fdbabe8` 的 GitHub Actions run `45344914962` build／deploy 成功；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200，首頁顯示單線 2.4～3.2 小時、全分支 3.2～4.2 小時與三線重讀 7.1～9.5 小時；線上資料含「也可以直接問我」並已移除「沒有特別目的也沒關係」。桌面瀏覽器工具無法確認目前網址是否允許，未完成互動 QA；詳見 `knowledge/reviews/d08f-common-cadence-review.md`。
+- D08F 部署紀錄 commit `84d8816` 的 Actions run `45345650876` build／deploy 均成功；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200，首頁估時及線上新邀請句維持正確。此為文件更新後的 CI／部署確認，不代表瀏覽器互動 QA。
