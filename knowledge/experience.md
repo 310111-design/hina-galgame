@@ -2196,3 +2196,10 @@
 - **如何應用於本作：** `scripts/validate-audio-transitions.js` 抽取正式 `ensureAudio()`、`createAmbient()`、`startAmbient()`、`transitionAmbient()` 與 `stopAmbient()`；用 mock `AudioContext` 記錄 gain automation、oscillator stop、resume、timeout 和 disconnect。分別保存 office／corridor／rooftop 節點參考，執行快速連續轉場並逐組確認舊場景清理、不影響最新場景；另確認停用後不重新啟動。加入 Pages workflow。
 - **限制與驗證：** `node scripts/validate-audio-transitions.js` 及 Pages workflow 全套檢查通過；commit `8921050` 的 Actions run `45359545666` build／deploy 成功，Pages 首頁、遊戲頁及 `game.js` 均 HTTP 200。此 harness 檢查的是 runtime 呼叫和 mock 節點生命週期，不會實際等待計時、生成或聆聽音訊，也不驗證 AudioParam 瀏覽器排程差異、Safari／iOS 使用者手勢、作業系統中斷事件或真實淡入淡出聽感；需要另做瀏覽器與裝置 QA。
 - **未來可用範圍：** 本作辦公室、走廊、屋頂等環境音切換及音訊靜音／恢復；也適用於 Web Audio 場景音樂、濾鏡或其他有排程清理的資源切換，測試應追蹤每批舊資源身份以捕捉快速連續轉場的錯誤清除。
+
+### 2026-11-24：保護減少動態效果下仍需顯示的提示
+
+- **學到什麼：** 在 `prefers-reduced-motion` 中設定全域 `animation-duration: .01ms !important` 後，元件後續即使指定了新的 animation shorthand，也無法覆蓋重要性更高的 duration；純透明度提示因而幾乎立即消失。單看是否存在 reduced-motion keyframes 不能證明提示有足夠可讀時間。
+- **如何應用於本作：** 章節提示只淡化透明度、不改變位置；在其 reduced-motion 規則以同等 `!important` 明確保留 2.4 秒，並由 `validate-game-shells.js` 核對最後生效的提示規則含該時長、專用 keyframes 有透明度但沒有 `transform` 位移。
+- **限制與驗證：** CSS 靜態檢查可抓回 cascade 優先級回歸，不能證明瀏覽器實際渲染時長、偏好切換後的畫面、文字對比或使用者覺得淡入合適；需瀏覽器輔助科技與裝置 QA。此項不勾選完整 UI 動態效果驗收。
+- **未來可用範圍：** 本作其他在減少動態模式下仍需保留可見提示的動畫；也適用於全域重要性規則與元件層級覆寫共存的 CSS，應同時檢查動畫時長和 reduced-motion 專用關鍵影格的位移屬性。

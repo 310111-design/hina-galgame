@@ -467,6 +467,7 @@
 - [ ] 驗收多種文字大小、長句、不同說話者、三個選項及大量紀錄的完整溢位矩陣。
 - [x] 依 CSS 基底顏色檢查主要文字色對比；確認文字色高於 7.8:1，並將主遊戲實際生效的未選取選項邊框在最暗面板端點估算對比由 1.51:1 提高至 4.12:1；game-shell validator 從最後一條宣告邊框的 `.choice` 規則計算並維持至少 3:1。commit `cd920d5` 對應 Actions run `45356882060` build／deploy 成功，首頁、遊戲、testplay 與 CSS 均 HTTP 200，線上樣式已核對含修正值。此為靜態計算、CI 與部署確認，不代表全頁 WCAG、逐像素瀏覽器審查或裝置驗收；詳見 `knowledge/reviews/ui-responsive-viewport-review.md`。
 - [ ] 驗收完整鍵盤操作、實機觸控、focus 狀態、減少動態效果及所有狀態的實際對比；模擬 viewport 初驗與程式焦點檢查不能取代完整互動／裝置 QA。
+- [x] 修正減少動態效果下章節提示幾乎不可見的 cascade 衝突：保留不帶空間位移的淡入淡出並明確覆寫全域 `.01ms` animation-duration；`validate-game-shells.js` 檢查提示動畫的保留時長及 keyframes 不含 transform。此為 CSS 靜態回歸，不代表瀏覽器動畫感受或完整 UI 實機驗收；詳見 `knowledge/reviews/ui-reduced-motion-toast-review.md`。
 - [ ] 以實際 iPhone Safari 與桌面瀏覽器截圖回歸；完成前不得把 UI 2.0 標記為已完成。
 
 **UI-4｜收尾與發布**
@@ -667,6 +668,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 | `knowledge/reviews/manual-save-runtime-review.md` | 正式手動存讀 runtime 的六欄新增／覆寫／讀取與無效資料回歸範圍 |
 | `knowledge/reviews/audio-settings-runtime-review.md` | 音訊設定載入、音量輸入、總開關及設定記憶的 runtime 驗證界線 |
 | `knowledge/reviews/audio-transitions-runtime-review.md` | Web Audio 場景淡入淡出、快速切換、resume 與節點清理的 runtime 驗證界線 |
+| `knowledge/reviews/ui-reduced-motion-toast-review.md` | 減少動態效果模式下章節提示可見時間、純透明度動畫與靜態回歸檢查 |
 | `knowledge/reviews/d01-reunion-narration-review.md` | D01 重逢稱呼旁白審校、修訂依據與驗證界線 |
 | `knowledge/reviews/b04-cadence-review.md` | B04 共通收束責任分工段的重複導語修訂與驗證範圍 |
 | `knowledge/reviews/d02-cadence-review.md` | D02 共通收束重複宣告複核、修訂與篇幅同步依據 |
@@ -706,6 +708,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 | `knowledge/reviews/cross-route-invitation-voice-review.md` | D08F／D08R 開場邀約近似句候選、路線語氣修訂與篇幅同步 |
 | `knowledge/reviews/full-story-authoring-label-review.md` | runtime 玩家可見章號／幕次掃描、自然化修訂及防回歸檢查 |
 | `knowledge/reviews/ui-responsive-viewport-review.md` | 正式 Pages 三種模擬尺寸下的主要操作控制與文件溢位初驗 |
+| `knowledge/reviews/ui-reduced-motion-toast-review.md` | 減少動態效果模式下章節提示可見時間、純透明度動畫與靜態回歸檢查 |
 | `knowledge/reviews/ui-screenreader-announcement-review.md` | 打字機逐字更新與螢幕閱讀器整句公告行為及固定殼層回歸檢查 |
 | `knowledge/reviews/ui-keyboard-hint-review.md` | 讓對話提示與實際支援的 Enter／空白鍵操作保持一致 |
 | `knowledge/reviews/ui-log-panel-focus-review.md` | 對話紀錄面板關閉後將鍵盤焦點移回可見的功能入口 |

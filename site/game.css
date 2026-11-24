@@ -1296,7 +1296,10 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   .chapter-toast { top: 76px; padding: 7px 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .chapter-toast.is-visible { animation: chapterToastReduced 2.4s linear both; }
+  .chapter-toast.is-visible {
+    animation: chapterToastReduced 2.4s linear both;
+    animation-duration: 2.4s !important;
+  }
   @keyframes chapterToastReduced {
     0%, 10% { opacity: 0; }
     15%, 80% { opacity: 1; }

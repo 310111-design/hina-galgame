@@ -10,6 +10,19 @@ const stylesheet = fs.readFileSync(path.join(root, "site", "game.css"), "utf8");
 const requiredIds = [...new Set([...source.matchAll(/getElementById\("([^"]+)"\)/g)].map(match => match[1]))];
 const pages = ["game.html", "testplay.html"];
 const errors = [];
+const reducedMotionToastRule = [...stylesheet.matchAll(/\.chapter-toast\.is-visible\s*\{([^}]*)\}/g)].at(-1)?.[1] || "";
+if (!/animation:\s*chapterToastReduced 2\.4s linear both/.test(reducedMotionToastRule) ||
+    !/animation-duration:\s*2\.4s\s*!important/.test(reducedMotionToastRule)) {
+  errors.push("Reduced-motion chapter toast must keep its opacity-only cue visible for its intended 2.4 seconds.");
+}
+const reducedToastStart = stylesheet.indexOf("@keyframes chapterToastReduced");
+const reducedToastEnd = stylesheet.indexOf("\n}", reducedToastStart);
+const reducedToastKeyframes = reducedToastStart >= 0 && reducedToastEnd > reducedToastStart
+  ? stylesheet.slice(reducedToastStart, reducedToastEnd)
+  : "";
+if (!/opacity\s*:/.test(reducedToastKeyframes) || /\btransform\s*:/.test(reducedToastKeyframes)) {
+  errors.push("Reduced-motion chapter toast should fade by opacity only, without spatial movement.");
+}
 const choiceBorderRule = [...stylesheet.matchAll(/\.choice\s*\{([^}]*)\}/g)]
   .map(match => match[1])
   .filter(rule => /\bborder\s*:\s*1px solid\s+#([\da-f]{8})/i.test(rule))
