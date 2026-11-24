@@ -29,3 +29,9 @@ D08R Markdown/runtime 同步刪除一個 common tuple，不變更選項、旗標
 ## 可複用範圍
 
 適用於本作跨幕、校園篇至成年篇的長距離台詞候選檢索；也適用於長篇互動敘事的全庫重複檢查。適當做法是先以文本相似度縮小回讀範圍，再保留有新場景、角色狀態或行動進展的回扣，只刪除已被後續台詞完整承接的重述。
+
+## CI 與 Pages 確認
+
+本地 `validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 與 `git diff --check` 通過。修訂 commit `4b8975b` 對應 Pages workflow run [45374244817](https://github.com/310111-design/hina-galgame/actions/runs/45374244817)，狀態 `completed / success`。
+
+部署後首頁、`game.html` 與帶 cache-buster 的 `game-data.js` 均 HTTP 200。線上 runtime 可找到「不是一份只要照表執行就會完成的工作」，且找不到已刪除的「她說，自己仍然喜歡把事情安排清楚」旁白。這只確認同步及部署內容，不代表全篇語義 QA、玩家盲讀或實機通關。
