@@ -254,7 +254,7 @@
 
 ## D-27：角色表情圖使用無損 WebP runtime 副本
 
-- **狀態：** 已實作並加入 Pages CI；等待推送、部署及公開 URL 檢查。手機／桌面實際解碼與畫面 QA 仍待完成。
+- **狀態：** 已部署；commit `d877fc7` 的 Pages workflow run `45316426130` 成功，首頁、遊戲頁、runtime 腳本、13 張 WebP／來源 PNG 及 SVG fallback 共 30 個 URL 均回應 HTTP 200。手機／桌面實際解碼與畫面 QA 仍待完成。
 - **決定：** 保留 13 張使用者來源 PNG 不變；runtime 優先載入逐像素相同的 lossless WebP，若 WebP 載入失敗則嘗試同名 PNG，再失敗才使用既有 SVG 角色圖。不能把 HTTP 成功或固定 validator 通過視為實機顯示驗收。
 - **理由：** 13 張 PNG 共 9,633,130 bytes，WebP 共 5,855,298 bytes，傳輸檔案合計減少 39.2%；Pillow 解碼比對確認尺寸與 RGBA 像素逐張完全相同，因此可降低常態載入量並保留可逆來源及回退路徑。
 - **影響：** 新增 13 個 WebP runtime 素材及轉檔／驗證腳本；Pages workflow 固定檢查 WebP 格式、尺寸、alpha、PNG 對應、檔案大小及 WebP→PNG→SVG 錯誤回退。Safari 等實際瀏覽器的 WebP 解碼、視覺品質與效能尚未驗收。

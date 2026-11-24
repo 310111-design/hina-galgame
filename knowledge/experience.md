@@ -1980,7 +1980,7 @@
 
 - **學到什麼：** 把 PNG 轉成 WebP 後目視相似，仍不足以證明透明邊緣、半透明像素或色彩沒有改變；只保留新格式也會失去可驗證來源和可靠回退。
 - **如何應用於本作：** `scripts/convert-character-sprites.py` 保留所有來源 PNG，逐張檢查 RGBA 尺寸後輸出 lossless WebP，並重新解碼比較整張 RGBA byte array。13 張共由 9,633,130 bytes 降至 5,855,298 bytes（39.2%）；runtime 優先 WebP、失敗回 PNG、再失敗回既有 SVG。`scripts/validate-character-sprite-webp.js` 將格式標頭、尺寸、alpha、來源對應、檔案縮小及實際 runtime 錯誤回退納入 Pages CI。
-- **限制與驗證：** 逐像素比對證明使用這組轉檔輸出的解碼像素相同；CI validator 能檢查目前入庫 WebP 的 lossless 標記與 runtime fallback，但不會在實際 Safari／手機瀏覽器解碼，也不測量網路快取、載入時間、記憶體或版面顯示。實機 QA 維持未完成；原始 PNG 未被覆蓋。
+- **限制與驗證：** 逐像素比對證明使用這組轉檔輸出的解碼像素相同；CI validator 能檢查目前入庫 WebP 的 lossless 標記與 runtime fallback，但不會在實際 Safari／手機瀏覽器解碼，也不測量網路快取、載入時間、記憶體或版面顯示。commit `d877fc7` 的 Pages run `45316426130` 成功，首頁、遊戲頁、runtime JS、13 張 WebP／來源 PNG 與 SVG fallback 共 30 個 URL 均 HTTP 200；實機 QA 維持未完成，原始 PNG 未被覆蓋。
 - **未來可用範圍：** 本作表情立繪更新、透明 PNG 網頁傳輸優化及其他圖片格式遷移；也適用於需要透明度、來源可回復且不能接受像素偏差的靜態網站素材，先檢查實際解碼像素與回退，再評估壓縮收益。
 
 ### 2026-11-24：選項回歸應執行 runtime 並核對實際分支序列

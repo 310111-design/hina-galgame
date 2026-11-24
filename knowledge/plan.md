@@ -690,6 +690,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 
 ## 本輪 CI 與 Pages 查核（2026-11-24）
 
+- 角色表情無損 WebP runtime commit `d877fc7` 的 GitHub Actions run `45316426130` 成功；Pages 首頁、game.html、game.js、13 張 WebP、13 張來源 PNG 與 SVG fallback 共 30 個 URL 均 HTTP 200，線上 game.js 已引用 WebP。這是 CI 與可取用檢查，不代替實際裝置解碼／畫面 QA；詳見 `knowledge/reviews/character-sprite-webp-review.md`。
 - 自動存檔損壞資料保護 commit `4528ebe` 已推送；GitHub Actions run `45306596684` 成功。Pages 首頁、`game.html`、`game.js` 均 HTTP 200，線上腳本含 `hasStoredSave` 保護。僅證明 CI／資產可達，不代表真實瀏覽器存檔互動 QA 完成。
 - P01 共通收束修訂 commit 6562b8d 的 GitHub Actions run 45296986806 成功；正式 game.html、game-data.js 均回應 HTTP 200，線上含保留的責任界線並已移除重複收尾句。
 - D06 相鄰章動作精簡 commit 911ed73 的 GitHub Actions run 45297725253 成功；正式 game.html、game-data.js 與首頁均回應 HTTP 200，runtime 含新擺杯動作並已移除舊解說，首頁三種遊玩估算與目前 runtime 取整結果一致。此為 CI／部署證據，不等於完整 route browser playthrough 或實機 QA。
