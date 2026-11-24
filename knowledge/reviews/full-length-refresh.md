@@ -233,9 +233,17 @@
 - 單一路線約 **2.4～3.3 小時**；全分支覆蓋約 **3.3～4.4 小時**；三線完整重讀約 **7.4～9.9 小時**。估算採 300～400 字元／分鐘，尚未經玩家計時；三線重讀模型不含條件對話。
 - `validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js`、`validate-prologue-revisions.js`、`validate-game-shells.js`、`inspect-visual-assets.js`、JavaScript 語法與 `git diff --check` 通過。CI／Pages 證據待本次推送後確認；文字統計不代表玩家盲讀或逐路實機通關。詳見 `knowledge/reviews/c04-cadence-review.md`。
 
-## 最新結果：B04 共通收束第二輪複核後
+## 歷史快照：B04 共通收束第二輪複核後
 
 - B04 second-pass 移除 common 中 6 條已由開場主旨、角色對白或具體測試安排表達的重述旁白；保留分支成果、責任分工、原始紀錄待回查、同伴樣本試讀及明日獨立完整試走。B04 為 **104** 條 tuple／**2,345** 字元，共通段 **53** 條／**1,164** 字元；A／B／C 路徑 **1,882／1,882／1,909** 字元。
 - 33 個節點共 **3,380** 條對話 tuple（含 21 組條件對話，704 字元），原始台詞文字 **78,176** 字元；精確去重後 **77,541 字元／3,291 條唯一文字**。30 個共通節點路徑 **55,940～56,947** 字元；朋友線 **58,512～59,563**、搭檔線 **58,454～59,490**、戀愛線 **58,456～59,734** 字元。
 - 單一路線約 **2.4～3.3 小時**；全分支覆蓋約 **3.3～4.3 小時**；三線完整重讀約 **7.4～9.9 小時**。估算採 300～400 字元／分鐘，未經玩家計時；三線重讀模型不含條件對話。
 - `validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js`、`validate-prologue-revisions.js`、`validate-game-shells.js`、`inspect-visual-assets.js`、JavaScript 語法與 `git diff --check` 通過。固定檢查不代表盲讀或逐路實機通關；B04 路徑低於 2,500 字元參考值，不以重複內容補篇幅。詳見 `knowledge/reviews/b04-cadence-review.md`。
+
+
+## 最新結果：D05 共通段語氣與節奏精簡後
+
+- D05 common 把陽奈承認關係不能只由單方願望決定後的五層緊張／平等旁白收成一句，也把想見面所以邀約後的三句解說合為一句；保留她仍然緊張、接受不同答案、希望見面不必等到危機、邀約不構成關係承諾。選項、旗標、私人住處改約公共場所的選擇及 D06 下週邀約承接均不變。D05 共 150 條 tuple／2,880 字元，common 115 條；A／B／C 路徑 2,797／2,781／2,746。
+- 全篇共 **3,374** 條對話 tuple（含 21 組條件對話，704 字元），原始文字 **78,089** 字元；精確去重為 77,454 字元／3,285 條唯一文字。30 個共通節點路徑 55,853～56,860 字元；朋友線 58,425～59,476、搭檔線 58,367～59,403、戀愛線 58,369～59,647 字元。
+- 單一路線約 2.4～3.3 小時；全分支覆蓋約 3.3～4.3 小時；三線完整重讀約 7.4～9.8 小時。估算仍按 300～400 字元／分鐘，未經玩家計時；三線重讀不含條件對話。
+- validate-route-drafts.js、validate-game-data.js、validate-full-length-summary.js 與 git diff --check 用於稿件同步、結構與統計驗證；尚未完成盲讀、D05 瀏覽器逐路通關及跨裝置 QA。詳見 knowledge/reviews/d05-voice-cadence-review.md。
