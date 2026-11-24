@@ -32,7 +32,7 @@ function assertSynced(id, section, value, label) {
 }
 
 const revisions = [
-  ["P01", "common", "夕陽完全沉下去後，杯壁中未散的熱氣也慢慢消失。放學的人聲逐漸遠去，周圍跟著安靜下來。", "PRT-01 location-neutral close"],
+  ["P01", "common", "夕陽完全沉下去後，杯口最後一縷白霧也慢慢散去。放學的人聲逐漸遠去，周圍跟著安靜下來。", "PRT-01 location-neutral close"],
   ["P01", "common", "「明天放學後，我會整理完今天剩下的項目。」", "P01 tomorrow work commitment"],
   ["P01", "common", "明天會有新的文件從委員會各處送來，也可能有人為了今天的決定再跑來確認。陽奈的責任感不會因為一次休息、一場協助或暫時離開工作就消失。", "PRT-01 responsibility"],
   ["P01", "common", "但責任感與強迫自己不間斷承受責任，並不是同一件事。", "P01 responsibility distinction preserved"],

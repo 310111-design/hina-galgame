@@ -2245,3 +2245,10 @@
 - **如何應用於本作：** 共用 `site/chapter-intro.js` 觀察 `sceneArt` 的 `data-chapter` 變化，僅在章節 ID 真正改變時顯示章名；有效存檔直接續讀，章卡期間阻止點擊、快捷鍵及自動播放。對話框同時綁定名稱與說明；關閉後回到仍連接且可見的原焦點，若原焦點是 `body`、停用或已隱藏則回到遊戲舞台。正式版與 testplay 共用元件。
 - **限制與驗證：** `validate-chapter-intro-runtime.js` 用 DOM stub 檢查新遊戲、跨章卡片、同章 mutation 不重播、Escape／Tab、autoplay 鎖定、存檔續讀，以及原焦點不可用時回到舞台；shell validator 檢查正式版／testplay 的 dialog name／description。commit `cedeb57` 的修改已納入最終 commit `2dad607`，Actions run `45381650399` build／deploy 成功，Pages 兩個 HTML 與版本化 runtime 腳本 HTTP 200。這不驗證真實瀏覽器 mutation 時序、視覺焦點框、iOS safe-area 或實際螢幕閱讀器；重要事件／CG 專屬停頓仍未實作。
 - **未來可用範圍：** 本作章節標題卡與後續事件過場；也適用於資料驅動互動內容的章節切換提示、場景載入狀態及 modal 遮罩，應觀察穩定內容 ID，並將 UI 觀看狀態和劇情存檔分開。
+
+### 2026-11-24：分支合流場景用可見物理線索維持一致
+
+- **學到什麼：** P01 的三條選擇會在共同段落回到同一杯熱飲，但原句把可見熱氣寫成「杯壁中」的狀態，不如描述杯口白霧清楚。共通描寫應兼容各分支不同的房間位置與拿杯動作，並優先使用玩家能想像或觀察的線索。
+- **如何應用於本作：** 將 P01 改為「杯口最後一縷白霧也慢慢散去」，A／B 留在辦公室、C 帶杯上屋頂皆成立；修訂前後字元數相同，不影響單線或重讀估時。
+- **限制與驗證：** 章稿/runtime 同步；`validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 與 `validate-prologue-revisions.js` 通過。專用 validator 原本明確鎖定舊 location-neutral 句，修訂後按新句更新回歸斷言，保留對共通場景位置不變的檢查。靜態文本檢查確認三條分支共用此句且統計未漂移，不等於實際畫面或玩家盲讀驗收。
+- **未來可用範圍：** 本作多分支合流時的光線、飲料、道具、衣物與人物位置描寫；也適用於互動小說、遊戲任務等共用段落，先確認道具在各入口均可取得，再以具體可見細節交代時間或情緒變化。
