@@ -743,3 +743,4 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 - D08F 道別前第二次邀請修訂 commit `fdbabe8` 的 GitHub Actions run `45344914962` build／deploy 成功；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200，首頁顯示單線 2.4～3.2 小時、全分支 3.2～4.2 小時與三線重讀 7.1～9.5 小時；線上資料含「也可以直接問我」並已移除「沒有特別目的也沒關係」。桌面瀏覽器工具無法確認目前網址是否允許，未完成互動 QA；詳見 `knowledge/reviews/d08f-common-cadence-review.md`。
 - D08F 部署紀錄 commit `84d8816` 的 Actions run `45345650876` build／deploy 均成功；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200，首頁估時及線上新邀請句維持正確。此為文件更新後的 CI／部署確認，不代表瀏覽器互動 QA。
 - D08P 分支差異複核 commit `a78ec0b` 的 Actions run `45346242443` build／deploy 均成功；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200，線上 D08F 最新邀請句維持正確。此為文件與章稿狀態更新後的部署確認，不代表盲讀或逐路 QA。
+- 螢幕閱讀器整句公告 commit `c0289ba` 的 Actions run `45347508333` build／deploy 均成功；Pages 首頁、`game.html`、`testplay.html`、`game.js` 均 HTTP 200，正式頁與 testplay 均含獨立原子 polite 公告區，runtime 在完整台詞完成後公告。未以螢幕閱讀器實際聆聽，裝置與逐路 QA 仍待完成；詳見 `knowledge/reviews/ui-screenreader-announcement-review.md`。
