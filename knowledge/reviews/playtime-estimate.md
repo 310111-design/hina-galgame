@@ -24,3 +24,5 @@
 ## 玩家入口資訊
 
 Pages 首頁、README 與 CHANGELOG 並列相同的單一路線、全分支覆蓋及三線重讀時間。公開說明沿用本文件 300～400 字元／分鐘假設；Pages／README 標示三線重讀排除條件對話及操作／演出停留不計，更新紀錄標示尚未經玩家計時。`validate-full-length-summary.js` 核對三個入口的數字與 runtime 統計一致。
+
+README／CHANGELOG 估時同步 commit `d48a2c4` 的 Actions run `45389360534` build／deploy 成功；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200，GitHub raw README 與 CHANGELOG 亦 HTTP 200 並含最新 2.3～3.2 小時單線估時。這是公開內容同步，不是玩家計時。

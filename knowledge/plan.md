@@ -750,6 +750,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 
 - 全篇 33 章入口／節末旗標 metadata 修正 commit `b196f21` 對應 Actions run `45388052370` completed／success；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200。這只確認 metadata／validator 同步和部署，不等於全篇條件歷史組合實際遊玩。
 - 隨後部署證據文件 commit `9f7c3a6` 的 Actions run `45388329142` completed／success。
+- 將純文字估時同步至 README／CHANGELOG 並擴充 validator 的 commit `d48a2c4` 對應 Actions run `45389360534` build／deploy 均成功；Pages 三個入口及 GitHub raw README／CHANGELOG 均 HTTP 200，最新單線／全分支／三線重讀為 2.3～3.2／3.2～4.2／7.1～9.5 小時。此為公開數值與部署確認，非玩家實測。
 
 - D08R 共通收束第二輪節奏修訂 commit `3f57d87` 的 Actions run `45343401280` build／deploy 均成功；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200，線上共通段已合併車站道別並移除重複的步調總結。這是 CI 與公開內容確認，不代表盲讀、瀏覽器逐路或實機 QA；詳見 `knowledge/reviews/d08r-ending-cadence-review.md`。
 - D08R 責任界線旁白追加精簡 commit `4885af8` 的 Actions run `45344046873` build／deploy 均成功；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200，線上保留分享喜憂的旁白，已移除由角色台詞重述的支持／承諾界線。這是公開內容與部署檢查，不代表盲讀或瀏覽器逐路 QA；詳見 `knowledge/reviews/d08r-ending-cadence-review.md`。
