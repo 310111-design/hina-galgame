@@ -52,6 +52,8 @@ const defaultState = () => ({
   route: null
 });
 
+let autoSaveWriteBlocked = false;
+let autoSaveWriteBlockedMessage = "";
 let state = loadState();
 let audioContext = null;
 let ambientNodes = [];
@@ -243,10 +245,13 @@ function getAutoSaveChapterOffset(saved, isCurrentKey) {
 }
 
 function loadState() {
+  let currentRaw = null;
+  let hasStoredSave = false;
   try {
-    const currentRaw = localStorage.getItem(STORAGE_KEY);
+    currentRaw = localStorage.getItem(STORAGE_KEY);
     const hasCurrentKey = currentRaw !== null;
     const legacyRaw = hasCurrentKey ? null : localStorage.getItem(LEGACY_STORAGE_KEY);
+    hasStoredSave = hasCurrentKey || legacyRaw !== null;
     const saved = JSON.parse((hasCurrentKey ? currentRaw : legacyRaw) || "null");
     const chapterOffset = getAutoSaveChapterOffset(saved, hasCurrentKey);
     const chapterIndex = Number.isInteger(saved?.chapter) && Number.isInteger(chapterOffset)
@@ -263,7 +268,11 @@ function loadState() {
         route: ["friend", "partner", "romance"].includes(saved.route) ? saved.route : null
       };
       const validPhases = ["intro", "choice", "branch", "common", "complete"];
-      if (!validPhases.includes(restored.phase)) return defaultState();
+      if (!validPhases.includes(restored.phase)) {
+        autoSaveWriteBlocked = true;
+        autoSaveWriteBlockedMessage = "自動存檔內容無效；重新開始或讀入手動存檔可建立新進度。";
+        return defaultState();
+      }
       if (!Number.isInteger(restored.line) || restored.line < 0) restored.line = 0;
 
       // Reconcile saved flag totals when a chapter's choice-to-outcome mapping changes.
@@ -295,7 +304,14 @@ function loadState() {
       }
       return restored;
     }
-  } catch (_) {}
+    if (hasStoredSave) {
+      autoSaveWriteBlocked = true;
+      autoSaveWriteBlockedMessage = "自動存檔格式無效或不支援；重新開始或讀入手動存檔可建立新進度。";
+    }
+  } catch (_) {
+    autoSaveWriteBlocked = true;
+    autoSaveWriteBlockedMessage = "瀏覽器存檔無法讀取；自動存檔已暫停。";
+  }
   return defaultState();
 }
 
@@ -306,6 +322,10 @@ function cloneState(source) {
 function saveState() {
   if (replayMode) {
     document.getElementById("saveState").textContent = "章節重玩｜主線存檔不變";
+    return;
+  }
+  if (autoSaveWriteBlocked) {
+    document.getElementById("saveState").textContent = autoSaveWriteBlockedMessage;
     return;
   }
   try {
@@ -752,6 +772,8 @@ function restart() {
     state.flags = preservedFlags;
     state.route = preservedRoute;
   } else {
+    autoSaveWriteBlocked = false;
+    autoSaveWriteBlockedMessage = "";
     state = defaultState();
   }
   dialogueHistory = [];
@@ -1010,6 +1032,8 @@ function loadManualSlot(index) {
     flags,
     route: ["friend", "partner", "romance"].includes(saved.route) ? saved.route : null
   };
+  autoSaveWriteBlocked = false;
+  autoSaveWriteBlockedMessage = "";
   if (state.phase === "complete" && chapters[state.chapter]?.id === "D07" && !state.route) {
     state.chapter = chapters.findIndex(item => item.id === "D06");
     state.phase = "intro";
