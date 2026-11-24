@@ -16,8 +16,10 @@ const additionalChoiceFlags = new Map([["A06", ["daily_checkin"]]]);
 // These are mutually exclusive endings; their outputs must not flow into a sibling ending.
 const terminalEndings = new Set(["D08F", "D08P", "D08R"]);
 const reachableFlags = new Set();
+const maximumReachableCounts = new Map();
 let checkedEntries = 0;
 let checkedEndRecords = 0;
+let checkedConditionalThresholds = 0;
 
 function extractFlags(text) {
   return [...text.matchAll(/`([^`]+)`/g)].map(([, flag]) => flag);
@@ -57,8 +59,25 @@ for (const chapter of chapters) {
   );
   checkedEndRecords += 1;
 
+  for (const condition of chapter.flaggedIntro || []) {
+    const threshold = Number(condition.min || 1);
+    const maximum = maximumReachableCounts.get(condition.flag) || 0;
+    assert.ok(
+      maximum >= threshold,
+      `${chapter.id}: ${condition.flag} threshold ${threshold} is unreachable; maximum before this chapter is ${maximum}`
+    );
+    checkedConditionalThresholds += 1;
+  }
+
   if (!terminalEndings.has(chapter.id)) {
     for (const flag of expectedEnd) reachableFlags.add(flag);
+
+    for (const flag of new Set(outputFlags)) {
+      maximumReachableCounts.set(flag, (maximumReachableCounts.get(flag) || 0) + 1);
+    }
+    for (const flag of additionalChoiceFlags.get(chapter.id) || []) {
+      maximumReachableCounts.set(flag, (maximumReachableCounts.get(flag) || 0) + 1);
+    }
   }
 }
 
@@ -66,4 +85,5 @@ assert.ok(checkedEntries > 0, "expected at least one chapter with auditable entr
 assert.ok(checkedEndRecords > 0, "expected at least one chapter with auditable end-record metadata");
 assert.equal(checkedEntries, chapters.length, "every chapter must define auditable entry flags");
 assert.equal(checkedEndRecords, chapters.length, "every chapter must define auditable end-record flags");
-console.log(`Chapter flag summaries OK: all ${checkedEntries} entry summaries and end records match reachable runtime flags.`);
+assert.equal(checkedConditionalThresholds, 21, "every conditional memory threshold must be checked for playthrough reachability");
+console.log(`Chapter flag summaries OK: ${checkedEntries} entry summaries, ${checkedEndRecords} end records, and ${checkedConditionalThresholds} reachable memory thresholds.`);

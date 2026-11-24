@@ -245,7 +245,7 @@
 - [x] 局部核對 D06→D07→D08R 的路線語意與稿件同步：D06 選擇的是戀愛探索方向、D08R 才確認是否交往；D06／D07 Markdown 與 runtime 逐句一致，D08R 保留暫緩確認分支且共通段不預設已交往。
 - [x] 核對 D01→D02 重逢後第二個週末的訊息邀約，以及 D07→D08F／D08P／D08R 的路線映射與各結局開場時間跨度。
 - [x] 將 `knowledge/flag-dialogue.md` 與 runtime `flaggedIntro` 逐組比對加入 CI；目前 21 組條件對話的章節、旗標、門檻、台詞與順序一致。
-- [x] 加入條件旗標可達性驗證：每組 `flaggedIntro` 門檻必須能由目標章節之前、非互斥結局節點中至少相同數量的不同章節提供；同一章重複提供同一 flag 仍只算一次機會，兄弟結局不互相提供來源。21 組條件回憶目前皆可達；固定 game-data validator 另有 fixture 確認結局排除與單章去重。詳見 `knowledge/reviews/flag-reachability-review.md`。
+- [x] 加入條件旗標可達性驗證：每組 `flaggedIntro` 門檻必須能由目標章節前的選項累積到；同一章重複提供同一 flag 仍只算一次選擇機會，互斥結局不得互相提供來源。原檢查確認來源章節數；後續再以 `maximumReachableCounts` 對照 21 組條件的數值門檻，並計入 A06 固定 `daily_checkin` 增量。固定 game-data validator 亦有 fixture 確認結局排除與單章去重。詳見 `knowledge/reviews/flag-reachability-review.md` 與 `knowledge/reviews/conditional-flag-count-reachability.md`。
 - [x] 第一輪核對 D01～D08 時間線、人物動機、共通事件及路線銜接：D01 重逢後第二個週末進入 D02，D03／D04／D05／D06 的工作日、週末與下週安排前後一致；D07 收束後，D08F／D08P／D08R 分別以後續朋友、搭檔及戀愛事件承接。D01～D07 的分支均有可見對話或後續旗標回應，三個 D08 結局分支則直接形成各自結果；仍需全篇最終 QA。
 - [x] 初步核對陽奈官方基礎設定：風紀委員會身分、官方動畫角色頁的三年級／17 歲／休息興趣／性格反差；畢業五年後成年生活明確標示為本作二創推演。
 - [x] 第一批逐章設定核對（P01、A01、A02）：三節未新增具名配角或主線事件，也未發現與官方基礎角色設定直接衝突的敘述；公文／十分鐘互動視為本作原創情節，不標示為官方事件。核對依據與範圍見 `knowledge/experience.md`。
@@ -378,6 +378,7 @@
 - [x] P02-A 把無法由杯中水氣發出的「震動音效」移到公文推至桌角的可見動作旁，改為輕擦桌面的音效提示；只修正劇本／製作提示，未加入 runtime 音檔。commit `504f2f3` 的 Actions run `45383283736` build／deploy 成功；完整播放、音量控制與實機聽感仍待驗收，詳見 `knowledge/reviews/p02-sound-cue-review.md`。
 - [x] 對照 P03 runtime choice flags 修正章稿旗標摘要：將入口狀態標為「旗標入口」，節末記錄補列 C 選項累加的 `daily_checkin`；同步更新章節計畫。詳見 `knowledge/reviews/p03-flag-summary-review.md`。
 - [x] 以先前 runtime choices 推導章節入口可達旗標，避免入口與節末一起漏列時仍通過；修正 A01～A05 遺漏的 P03-C `daily_checkin`，為 33 章補齊入口與節末旗標摘要，並將 A06 每條路徑的引擎固定增量及 D08 三個互斥結局納入推導。CI validator 逐章比較完整 33 章。詳見 `knowledge/reviews/full-story-flag-summary-validation.md`。
+- [x] 擴充條件回憶可達性檢查：依 33 章 runtime 順序計算各旗標的最大累積次數，逐一確認 21 組 `flaggedIntro` 的 `min` 可在目標章前達到；保留互斥結局隔離並計入 A06 固定增量。章節摘要、99 個選項及 9 組 D06／D07 路線組合驗證通過；此為數值門檻檢查，不等於跨旗標歷史窮舉或實機通關。詳見 `knowledge/reviews/conditional-flag-count-reachability.md`。
 - [x] 以相鄰章節近似句掃描複核 B07→B08、D05→D06：保留明確建立的便條原句回扣與下週見面時間承接；D05 與 D06 的共用杯子動作避免逐字重演，D06 保留兩人都能拿取的動作，移除多餘解說。D06 章稿/runtime 同步為 2,735 字元，A／B／C 2,515／2,508／2,508，均達現有參考路徑值；全篇統計重算見 `knowledge/reviews/full-story-adjacent-callback-audit.md`。
 - [x] P02 共通收束複核：刪除緊接「不再把選擇限定成工作或休息」後，再次說休息、分工和日常不是互斥答案的旁白；保留三條分支回收、可靠／承擔的不同含義，以及陽奈提出下次不只談公文的承接。章稿/runtime 同步，P02 為 46 tuples／1,089 字元，路徑 A／B／C 為 541／577／561；全篇篇幅與時間估算已更新，詳見 `knowledge/reviews/p02-common-cadence-review.md`。
 - [x] P03 中段陪伴意願複核：移除緊接陽奈親自說明「十分鐘」如何陪伴後、重述她願意主動留時間及說明需要的旁白；保留未確定下次地點、條件回憶與玩家選擇。章稿/runtime 同步為 23 條主線 tuple／583 字元，條件台詞另計；篇幅與遊玩時間已重算，詳見 `knowledge/reviews/p03-voice-cadence-review.md`。
