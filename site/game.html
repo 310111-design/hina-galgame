@@ -42,12 +42,12 @@
         <div class="scene-light"></div>
         <img id="hinaSprite" class="hina-sprite" src="assets/hina-sprite.svg" alt="空崎陽奈立繪" decoding="async" fetchpriority="high">
       </div>
-      <section id="chapterIntro" class="chapter-intro-backdrop" role="dialog" aria-modal="true" aria-labelledby="chapterIntroTitle" hidden>
+      <section id="chapterIntro" class="chapter-intro-backdrop" role="dialog" aria-modal="true" aria-labelledby="chapterIntroTitle" aria-describedby="chapterIntroCopy" hidden>
         <div class="chapter-intro-card">
           <span class="chapter-intro-kicker">HINA GALGAME</span>
           <span id="chapterIntroCode" class="chapter-intro-code"></span>
           <h2 id="chapterIntroTitle" class="chapter-intro-title">放學後的十分鐘</h2>
-          <p class="chapter-intro-copy">在故事開始前，先留一點時間給這個場景。</p>
+          <p id="chapterIntroCopy" class="chapter-intro-copy">在故事開始前，先留一點時間給這個場景。</p>
           <button id="chapterIntroStart" class="chapter-intro-start" type="button">開始閱讀</button>
         </div>
       </section>
@@ -99,6 +99,6 @@
   </dialog>
   <script src="game-data.js?v=ui2-20261124"></script>
   <script src="game.js?v=ui2-20261124"></script>
-  <script src="chapter-intro.js?v=ui2-20261124"></script>
+  <script src="chapter-intro.js?v=chapter-a11y-20261124"></script>
 </body>
 </html>

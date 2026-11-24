@@ -26,6 +26,8 @@ jobs:
         uses: actions/checkout@v6
       - name: Check game JavaScript syntax
         run: node --check site/game.js && node --check site/chapter-intro.js
+      - name: Validate chapter intro runtime and accessibility
+        run: node scripts/validate-chapter-intro-runtime.js
       - name: Validate game data
         run: node scripts/validate-game-data.js
       - name: Validate legacy manual save migration

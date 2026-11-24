@@ -48,8 +48,13 @@
       if (isOpen) return;
       overlay.hidden = true;
       overlay.classList.remove("is-leaving");
-      if (returnFocus?.isConnected) returnFocus.focus({ preventScroll: true });
-      else stage.focus({ preventScroll: true });
+      const canRestoreFocus = returnFocus?.isConnected &&
+        returnFocus !== document.body && returnFocus !== document.documentElement &&
+        !returnFocus.disabled && !returnFocus.closest?.("[hidden], [inert]") &&
+        (!returnFocus.getClientRects || returnFocus.getClientRects().length > 0);
+      const restoreTarget = canRestoreFocus
+        ? returnFocus : stage;
+      restoreTarget.focus({ preventScroll: true });
     }, 300);
   };
 

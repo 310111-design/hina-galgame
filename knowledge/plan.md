@@ -458,6 +458,7 @@
 - [x] 避免螢幕閱讀器逐字播報打字機動畫：可見對話區不設 live region，改由原子 polite 區域在整句完成／補完後公告；已讀跳轉略過中間公告，選擇提示與結局摘要仍會提供訊息。正式頁與 testplay 共用回歸檢查；未宣稱實際螢幕閱讀器驗收完成。
 - [x] 選項確認後將鍵盤焦點移回 `gameStage` 主舞台，避免選項按鈕移除後焦點遺失；shell、章節重玩與選項 runtime validator 均涵蓋焦點回復，後者覆蓋 99 個選項路徑及九組 D06／D07 組合。commit `b9a3a5c` 對應 Actions run `45353850964` build／deploy 成功，Pages 首頁、`game.html`、`testplay.html`、`game.js` 均 HTTP 200；此為程式與部署確認，不代表完整鍵盤或實機驗收。
 - [x] 保留既有章節開始畫面的閱讀停頓。
+- [x] 章節卡 dialog 綁定標題與說明，首次關閉時回到 `gameStage`；新增正式版／testplay DOM runtime harness，涵蓋新遊戲、跨章、同章不重播、鍵盤關閉、autoplay 鎖定與存檔續讀。local validator 通過；真實讀屏器、iOS 安全區與焦點外觀仍待實機驗收，詳見 `knowledge/reviews/chapter-intro-accessibility-review.md`。
 - [ ] 重要事件／CG 專屬轉場規則，待有 CG 素材與事件映射時規劃。
 - [x] 確認工具列收納後，核心功能仍可由清楚入口使用；功能選單與對話紀錄面板支援 Escape 關閉、焦點回復與可讀標籤。
 - [x] 對話提示明示已支援的 Enter／空白鍵操作：可推進台詞，打字中可補完整句；正式頁與 testplay 的文案一致，殼層 validator 會核對提示和鍵盤事件。未據此宣稱完整鍵盤／實機 QA 完成。
