@@ -113,6 +113,7 @@ const chapterPlan = readLines("knowledge/chapter-plan.md");
 const lengthReview = fs.readFileSync(path.join(root, "knowledge", "reviews", "full-length-refresh.md"), "utf8");
 const playtimeReview = fs.readFileSync(path.join(root, "knowledge", "reviews", "playtime-estimate.md"), "utf8");
 const landingPage = fs.readFileSync(path.join(root, "site", "index.html"), "utf8");
+const readme = fs.readFileSync(path.join(root, "README.md"), "utf8");
 const latestReviewMarker = "## 最新結果：";
 const latestReviewStart = lengthReview.lastIndexOf(latestReviewMarker);
 if (latestReviewStart < 0) fail("full-length-refresh.md: latest snapshot marker is missing");
@@ -154,6 +155,17 @@ requireText(landingPage, "重玩／讀檔看完所有分支與條件對話，約
 requireText(landingPage, "三線完整重讀共通段約 " + formatHourRange(threeRouteReplayCharacters) + " 小時", "landing page three-route replay estimate");
 requireText(landingPage, "此模型不含條件對話", "landing page replay scope");
 requireText(landingPage, "300～400 字元／分鐘換算，非玩家實測", "landing page estimate method and limitation");
+
+const readmePlaytime = requireLine(
+  readme.split(/\r?\n/),
+  line => line.startsWith("以 300～400 字元／分鐘計算，單一路線約 "),
+  "README.md playtime estimate"
+);
+requireText(readmePlaytime, "單一路線約 " + formatHourRange(singleRouteCharacters) + " 小時", "README.md single-route estimate");
+requireText(readmePlaytime, "看完全部分支（跳過重複共通段）約 " + formatHourRange({ min: totalCharacters, max: totalCharacters }) + " 小時", "README.md all-branch estimate");
+requireText(readmePlaytime, "三線完整重讀約 " + formatHourRange(threeRouteReplayCharacters) + " 小時", "README.md three-route replay estimate");
+requireText(readmePlaytime, "未經玩家計時", "README.md estimate limitation");
+requireText(readmePlaytime, "不含操作、演出停留與個人停頓", "README.md excluded play time");
 
 const planStats = requireLine(plan, line => line.startsWith("- 目前 33 個章節節點"), "plan.md global length");
 const chapterStats = requireLine(chapterPlan, line => line.includes("**全分支內容統計"), "chapter-plan.md global length");

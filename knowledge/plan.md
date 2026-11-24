@@ -371,7 +371,7 @@
 - [x] 校正 EAT／AMT／AFT 提交交接文件：將 2026-11-21／22 的 Git、待修與部署狀態標為歷史紀錄，補入後續章稿/runtime 修訂、經驗回流及目前 main 的 CI／Pages 查核點；保留原始失敗證據，不把局部修復誤標成全篇 QA。
 - [x] 校正 PRT 序章交接紀錄中的「仍未修復」與後續已修結果矛盾：保留原始失敗時間點，補入 PRT-01～07 修訂、經驗回流與 Pages 查核證據，並維持全篇／裝置 QA 未完成狀態。
 - [x] 依最新 `site/game-data.js` 重算純文字遊玩時間，分開單一路線、全分支覆蓋（跳過重複共通段）與三線完整重讀；明列 300～400 字元／分鐘為未經玩家計時的假設，並由篇幅 validator 核對三種模型的數字及三線重讀不含條件對話的範圍，詳見 `knowledge/reviews/playtime-estimate.md`。
-- [x] 將單線、全分支與三線重讀純文字時間估算顯示於 Pages 首頁，明示速率假設、條件對話排除範圍及非實測限制；由 `validate-full-length-summary.js` 對照 runtime 數字，確保玩家入口不漂移。
+- [x] 將單線、全分支與三線重讀純文字時間估算同步於 Pages 首頁及 README，明示速率假設、條件對話排除範圍及非實測限制；由 `validate-full-length-summary.js` 對照 runtime 數字，確保公開入口不漂移。
 - [x] 以跨章近似片語掃描複核 D08F／D08R 開場邀約：保留朋友線不談工作的閱讀邀請，將戀愛線重複前提改成談彼此心意及後續打算；保留 D06／D08R 成長回聲，以及其他清單、資料與交接的有效跨章承接。稿件／runtime 同步、字元數不變，詳見 `knowledge/reviews/cross-route-invitation-voice-review.md`。
 - [x] P01 共通收束語義複核：第一輪移除七句重述休息轉變並合併兩句熱飲動作；後續再刪除緊接陽奈已承諾明天整理後、重說公務要等明天的旁白。保留新文件仍會到來、責任界線、下次十分鐘及主角不代替她承擔。稿件/runtime 同步，P01 為 77 tuples／1,829 字元，A／B／C 路徑 1,280／1,312／1,265。全篇篇幅與遊玩時間已重算；詳見 `knowledge/reviews/p01-rest-promise-cadence-review.md`。
 - [x] P01 三條分支合流後的杯飲環境描寫複核：將「杯壁中未散的熱氣」改成可見的「杯口最後一縷白霧」，對應 A／B 留在桌邊與 C 帶飲料上屋頂的共同物件，不限房間或拿杯方式；稿件/runtime 同步，句長不變，選項、旗標、路徑篇幅及估時不變。`validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 與 prologue validator 通過；commit `68ee90e` 的 Pages run `45382700112`、整合後 run `45383283736` build／deploy 成功，線上 `game-data.js` HTTP 200 且新舊句核對正確；詳見 `knowledge/reviews/p01-physical-detail-review.md`。
