@@ -33,3 +33,5 @@ commit 6562b8d 的 GitHub Actions run 45296986806 成功。正式 game.html 與 
 ### CI／Pages 追蹤
 
 後續記錄修訂 commit `57e7242` 的 GitHub Actions run `45298831196` 成功。正式首頁、`game.html` 與 `game-data.js` 均回應 HTTP 200；線上保留明日十分鐘邀約，且已移除重述明日待辦的旁白。這只確認 build／部署及公開文字，不代表序章完整瀏覽器通關、實機 QA 或玩家節奏驗收。
+
+此項 Pages 證據補記 commit `649645f` 的 Actions run `45299328350` 成功；三個公開入口再次回應 HTTP 200，預期的「十分鐘」文字仍在，舊旁白仍不在。
