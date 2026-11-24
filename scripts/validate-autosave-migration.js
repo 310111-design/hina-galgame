@@ -80,6 +80,22 @@ assert.equal(unavailable.blocked, true, "unavailable localStorage should block a
 
 const invalidPhase = load({ current: JSON.stringify({ ...oldAutoSave, version: 2, phase: "future-phase" }) });
 assert.equal(invalidPhase.blocked, true, "invalid saved phases should block automatic writes");
+for (const [field, value] of [
+  ["line", "not-a-line"],
+  ["line", -1],
+  ["phase", undefined],
+  ["choices", null],
+  ["choices", []],
+  ["choices", { A01: "A" }],
+  ["flags", null],
+  ["flags", "rest"],
+  ["flags", { rest: "one" }],
+  ["route", "unknown-route"]
+]) {
+  const malformedState = load({ current: JSON.stringify({ ...oldAutoSave, version: 2, chapter: 3, [field]: value }) });
+  assert.equal(malformedState.blocked, true, `malformed autosave field ${field} should block automatic writes`);
+  assert.equal(chapters[malformedState.state.chapter].id, "P01", `malformed autosave field ${field} should use the safe fallback state`);
+}
 for (const raw of ["null", "false", "", "[]"]) {
   const invalidValue = load({ current: raw });
   assert.equal(invalidValue.blocked, true, `stored non-object value ${JSON.stringify(raw)} should block automatic writes`);
@@ -113,7 +129,11 @@ assert.equal(JSON.parse(storage.value("current")).chapter, 3,
 for (const [label, initial] of [
   ["unknown version", { current: JSON.stringify({ ...oldAutoSave, version: 4, chapter: 3 }) }],
   ["malformed JSON", { current: "{" }],
-  ["null JSON", { current: "null" }]
+  ["null JSON", { current: "null" }],
+  ["null choices", { current: JSON.stringify({ ...oldAutoSave, version: 2, chapter: 3, choices: null }) }],
+  ["malformed line", { current: JSON.stringify({ ...oldAutoSave, version: 2, chapter: 3, line: "invalid" }) }],
+  ["malformed flags", { current: JSON.stringify({ ...oldAutoSave, version: 2, chapter: 3, flags: "rest" }) }],
+  ["unknown route", { current: JSON.stringify({ ...oldAutoSave, version: 2, chapter: 3, route: "future-route" }) }]
 ]) {
   const original = initial.current;
   const protectedStorage = runSave(initial, true, "自動存檔已暫停");

@@ -259,15 +259,36 @@ function loadState() {
       : -1;
 
     if (saved && chapterOffset !== null && chapterIndex >= 0 && chapterIndex < chapters.length) {
+      const validRoutes = ["friend", "partner", "romance"];
+      const validPhases = ["intro", "choice", "branch", "common", "complete"];
+      const defaults = defaultState();
+      const invalidPhase = !Object.prototype.hasOwnProperty.call(saved, "phase") || !validPhases.includes(saved.phase);
+      const invalidLine = Object.prototype.hasOwnProperty.call(saved, "line") &&
+        (!Number.isInteger(saved.line) || saved.line < 0);
+      const invalidFlags = Object.prototype.hasOwnProperty.call(saved, "flags") &&
+        (!saved.flags || typeof saved.flags !== "object" || Array.isArray(saved.flags) ||
+          Object.entries(defaults.flags).some(([key]) => Object.prototype.hasOwnProperty.call(saved.flags, key) &&
+            (!Number.isInteger(saved.flags[key]) || saved.flags[key] < 0)));
+      const invalidChoices = Object.prototype.hasOwnProperty.call(saved, "choices") &&
+        (!saved.choices || typeof saved.choices !== "object" || Array.isArray(saved.choices) ||
+          Object.values(saved.choices).some(choice => !choice || typeof choice !== "object" || Array.isArray(choice) ||
+            !["A", "B", "C"].includes(choice.letter)));
+      const invalidRoute = Object.prototype.hasOwnProperty.call(saved, "route") &&
+        saved.route !== null && !validRoutes.includes(saved.route);
+      if (invalidPhase || invalidLine || invalidFlags || invalidChoices || invalidRoute) {
+        autoSaveWriteBlocked = true;
+        autoSaveWriteBlockedMessage = "自動存檔欄位格式無效；重新開始或讀入手動存檔可建立新進度。";
+        return defaultState();
+      }
+
       const restored = {
         ...defaultState(),
         ...saved,
         version: 2,
         chapter: chapterIndex,
-        flags: { ...defaultState().flags, ...(saved.flags || {}) },
-        route: ["friend", "partner", "romance"].includes(saved.route) ? saved.route : null
+        flags: { ...defaults.flags, ...(saved.flags || {}) },
+        route: validRoutes.includes(saved.route) ? saved.route : null
       };
-      const validPhases = ["intro", "choice", "branch", "common", "complete"];
       if (!validPhases.includes(restored.phase)) {
         autoSaveWriteBlocked = true;
         autoSaveWriteBlockedMessage = "自動存檔內容無效；重新開始或讀入手動存檔可建立新進度。";
