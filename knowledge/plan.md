@@ -321,7 +321,7 @@
 - [x] 新增全篇聚合篇幅驗證器：由 runtime 重算 tuple／唯一正文／條件對話、三條單次路徑及結局章稿統計，對照 `plan.md`、`chapter-plan.md` 與最新篇幅快照；接入 Pages CI，防止全篇／單一路徑統計不一致。
 - [x] D08F 結尾刪去緊接友誼界線與分享對話後、再次概括相同主題的旁白，保留陽奈的道別與系統結局標記；同步 Markdown/runtime，D08F 為 3,290 字元、A／B／C 路徑 2,583／2,627／2,592，重算全篇為 80,292 唯一字元。詳見 `knowledge/reviews/adult-ending-route-sync-review.md` 與 `knowledge/reviews/full-length-refresh.md`。
 - [x] 以跨章精確重複句盤點補做中段聲線 QA：B02→B03 的「先決定順序，再決定速度」由同一張便條承接，保留作刻意回扣；B08 與 C04 重複收椅動作則功能不同，將 C04 改為扶著椅背、沒有立刻走開。另刪去 C04 收尾七句對未來留白的重複解說，保留陽奈直接說出的學習與「明天再繼續」作為場景收束。稿件/runtime 同步，routes、game-data 及篇幅摘要驗證通過；詳見 `knowledge/reviews/full-story-duplicate-dialogue-review.md`。此為定向 QA，不代表全篇逐句聲線驗收。
-- [x] 依最近台詞修訂重新掃描現行 33 節 runtime 的跨章精確重複句：含條件對話、不分說話者，沒有發現長度 20 個 Unicode 字元以上、跨不同章節重複的文字。詳見 `knowledge/reviews/full-story-duplicate-dialogue-review.md`；同義重述、同章重複與情境適切性仍需人工 QA。
+- [x] 依最近台詞修訂重掃現行 33 節 runtime 的同章／跨章精確重複句：涵蓋 intro、A／B／C、common 與條件對話，不分說話者；沒有發現長度 20 個 Unicode 字元以上、在同章或跨章重複的文字。詳見 `knowledge/reviews/full-story-duplicate-dialogue-review.md`；同義重述、短句重複與情境適切性仍需人工 QA。
 - [x] 掃描全部 runtime 台詞中的章節代號與「第X幕」編輯語，將 A06、B01、B05～B08、C01、C05、D06 的玩家可見標記改為自然時間／事件敘述，並移除 A06 的幕次總結句。章稿/runtime 同步；game-data validator 新增章號與幕次回歸檢查，routes、game-data、全篇篇幅驗證通過。詳見 `knowledge/reviews/full-story-authoring-label-review.md`；本項不代表全篇語義 QA 完成。
 - [x] 校正 route validator 的狀態摘要：依 BOT／BMT／BCT／TAT 與 B08 審校追記，將 B02～B08、C02～C03 從過期的「修訂待處理」改為已同步，並明確區分語義 QA 尚未完成；`validate-route-drafts.js`、`validate-game-data.js`、`validate-game-shells.js`、`validate-prologue-revisions.js` 及 `git diff --check` 通過。此摘要只描述稿件／runtime 與局部修訂狀態，不代表全篇 QA。
 - [x] 全篇時間錨點盤點：對照 33 節 metadata、明示日序／時刻與既有跨章審校；未發現硬性時間矛盾，D04／D05 的「週末／幾天後」維持未鎖定日期的彈性寫法。此為錨點盤點，不代表逐句語義 QA 或實機通關；詳見 `knowledge/reviews/full-story-timeline-audit.md`。
