@@ -27,6 +27,10 @@ A04 common 已依序寫出陽奈不把協助當額外公務、明天先看清楚
 - A04 章稿/runtime 同步為 66 tuples／1,697 字元，A／B／C 路徑 1,219／1,232／1,226 字元；選項、旗標、清單內容及分支結果不變。
 - `validate-route-drafts.js`、`validate-game-data.js`、`validate-choice-runtime.js`、`validate-chapter-flag-summaries.js`、`validate-full-length-summary.js` 和 `git diff --check` 均通過；Pages workflow 對應的 19 項本機檢查也全數通過。這項修訂不代表盲讀、全篇 QA 或實機通關。
 
+## 部署確認
+
+修訂 commit `341d039` 的 Pages workflow run [`45398108922`](https://github.com/310111-design/hina-galgame/actions/runs/45398108922) 成功。Pages 首頁、`game.html` 與 cache-busted `game-data.js` 均 HTTP 200；線上 runtime 不再含刪除的效率心得問答，仍含「明天也許還會遇到同類的事」承諾。這是部署確認，不代表 A04 盲讀、第一幕通關或實機 QA。
+
 ### 可複用範圍
 
 角色已用可執行清單或場景動作留下方法後，再檢查緊接的總結問答是否只是換句話重覆同一心得。保留能改變下一次行動的承諾，刪除只再替前段下結論的台詞／旁白組合；適用於本作其他角色學習段落，也適用於互動敘事中連續以人物對話與 narrator 解說同一抽象主題的段落。若後句增加角色的新認知或改變後續行動，應保留。
