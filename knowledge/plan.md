@@ -517,6 +517,7 @@
 - [ ] iOS Safari：瀏海／安全區、底部手勢區、動態視窗高度、全螢幕回退及音訊啟動。
 - [ ] 桌面 Chrome／Safari／Firefox：鍵盤、滑鼠、全螢幕、視窗縮放及不同解析度。
 - [ ] 逐章測試 30 節共通篇及 3 個結局的所有選項、分支、旗標與路線跳轉。CI 已呼叫 runtime 的 `choose()`／`getSequence()` 執行全部 99 個選項，核對分支序列、旗標與路線；實際玩家流程與完整路線通關仍待 QA，見 `knowledge/reviews/runtime-choice-coverage.md`。
+- [x] 擴充 route runtime CI：連續執行 D06 關係路線選擇、實際推進至 D07、逐一選擇三種 D07 活動，再實際推進至 D08；驗證九種組合都保留 D06 route 並進入對應結局。這是引擎函式整合檢查，不代替完整瀏覽器路線通關；詳見 `knowledge/reviews/runtime-choice-coverage.md`。
 - [ ] 測試所有場景圖片載入、缺圖回退、背景切換與效能。現行 runtime 對應的 39 個視覺素材 URL（12 張背景、13 張 WebP、13 張 PNG 回退、1 張 SVG）及 5 個 Pages 入口共 44 個 URL 已全部 HTTP 200；此結果只證明資源可取用，不驗證瀏覽器解碼、畫面裁切、fallback 操作、背景切換或效能。詳見 `knowledge/reviews/deployed-visual-assets-http-check.md` 與 `knowledge/reviews/character-sprite-webp-review.md`。
 - [ ] 測試音訊、存檔、章節重玩、已讀跳過與各項設定。
 - [ ] 修正 QA 發現的錯誤，重新執行所有 CI 檢查。
