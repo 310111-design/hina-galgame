@@ -244,7 +244,7 @@ function startTypewriterTimer() {
       typingTimer = null;
       typingLine = null;
       markCurrentLineRead();
-      document.getElementById("dialogueHint").textContent = "點擊畫面任意空白處繼續　›";
+      document.getElementById("dialogueHint").textContent = "點擊／Enter／空白鍵 繼續　›";
       scheduleAutoAdvance();
     }
   }, readingSettings.speed);
@@ -407,7 +407,7 @@ function revealCurrentLine() {
   announceDialogue(typingLine.announcementText);
   typingLine = null;
   markCurrentLineRead();
-  document.getElementById("dialogueHint").textContent = "點擊畫面任意空白處繼續　›";
+  document.getElementById("dialogueHint").textContent = "點擊／Enter／空白鍵 繼續　›";
   scheduleAutoAdvance();
   return true;
 }
@@ -664,13 +664,13 @@ function renderDialogue([kind, text, mood]) {
   const characters = Array.from(text);
   if (!characters.length) {
     markCurrentLineRead();
-    document.getElementById("dialogueHint").textContent = "點擊畫面任意空白處繼續　›";
+    document.getElementById("dialogueHint").textContent = "點擊／Enter／空白鍵 繼續　›";
     updateSkipReadControl();
     return;
   }
   const speaker = kind === "hina" ? "空崎陽奈" : kind === "system" ? "系統" : "旁白";
   typingLine = { characters, fullText: text, node: textNode, index: 0, announcementText: `${speaker}：${text}` };
-  document.getElementById("dialogueHint").textContent = "點擊可立即顯示完整句";
+  document.getElementById("dialogueHint").textContent = "點擊／Enter／空白鍵 顯示完整句";
   updateSkipReadControl();
   startTypewriterTimer();
 }

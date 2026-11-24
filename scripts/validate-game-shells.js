@@ -68,6 +68,12 @@ for (const page of pages) {
   if (!/<div\b(?=[^>]*\bid="storyAnnouncement")(?=[^>]*\baria-live="polite")(?=[^>]*\baria-atomic="true")[^>]*>/i.test(html)) {
     errors.push(page + ": missing atomic polite live region for completed dialogue lines");
   }
+  if (!html.includes("點擊／Enter／空白鍵 繼續")) {
+    errors.push(page + ": dialogue hint must disclose supported keyboard advance keys");
+  }
+}
+if (!source.includes('event.key === "Enter"') || !source.includes('event.key === " "')) {
+  errors.push("Dialogue hint keyboard keys must match the runtime advance handler.");
 }
 
 if (errors.length) {

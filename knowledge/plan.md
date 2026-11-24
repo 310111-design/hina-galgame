@@ -455,6 +455,7 @@
 - [x] 保留既有章節開始畫面的閱讀停頓。
 - [ ] 重要事件／CG 專屬轉場規則，待有 CG 素材與事件映射時規劃。
 - [x] 確認工具列收納後，核心功能仍可由清楚入口使用；選單支援 Escape 關閉、焦點回復與可讀標籤。
+- [x] 對話提示明示已支援的 Enter／空白鍵操作：可推進台詞，打字中可補完整句；正式頁與 testplay 的文案一致，殼層 validator 會核對提示和鍵盤事件。未據此宣稱完整鍵盤／實機 QA 完成。
 
 **UI-3｜響應式與可讀性驗收（P0/P1）**
 
@@ -698,6 +699,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 | `knowledge/reviews/full-story-authoring-label-review.md` | runtime 玩家可見章號／幕次掃描、自然化修訂及防回歸檢查 |
 | `knowledge/reviews/ui-responsive-viewport-review.md` | 正式 Pages 三種模擬尺寸下的主要操作控制與文件溢位初驗 |
 | `knowledge/reviews/ui-screenreader-announcement-review.md` | 打字機逐字更新與螢幕閱讀器整句公告行為及固定殼層回歸檢查 |
+| `knowledge/reviews/ui-keyboard-hint-review.md` | 讓對話提示與實際支援的 Enter／空白鍵操作保持一致 |
 | `knowledge/reviews/b08-character-choice-review.md` | B08 聲線、三選項承諾、時間錨點、分支返場及收束修訂與驗證範圍 |
 | `knowledge/reviews/adult-manuscript-runtime-sync-review.md` | D02／D05 逐句、五段與選項同步檢查重新啟用的依據及限制 |
 | `knowledge/reviews/prologue-full-sync-review.md` | P01～P03 全文與條件台詞同步門檻恢復依據、格式及驗證界線 |
