@@ -15,6 +15,7 @@
 - `validate-route-drafts.js` 核對 33 節章稿／runtime 對話與選項標籤同步；P01 的 77 條正文 tuple 通過。
 - `validate-prologue-revisions.js` 原先以精確字串鎖定位置中性的舊句；依修訂更新 PRT-01 回歸斷言後通過，仍檢查新句完整存在於共通段的稿件與 runtime。
 - `validate-game-data.js` 與 `validate-full-length-summary.js` 通過；全篇仍為 3,296 tuples、75,069 去重字元，路徑篇幅與估時摘要未漂移。
+- Pages Actions run `45383283736`（commit `504f2f3`）build／deploy 成功；公開首頁、`game.html`、`testplay.html` 與版本化 `game-data.js` 均 HTTP 200，線上資料含新白霧句且不含舊杯壁句。
 - 這是三路徑共通文字的場景連續性和可視化用語複核，不代表實際背景／CG 呈現、盲讀或完整路線通關。
 
 ## 可複用範圍

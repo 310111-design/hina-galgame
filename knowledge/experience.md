@@ -2250,19 +2250,19 @@
 
 - **學到什麼：** P01 的三條選擇會在共同段落回到同一杯熱飲，但原句把可見熱氣寫成「杯壁中」的狀態，不如描述杯口白霧清楚。共通描寫應兼容各分支不同的房間位置與拿杯動作，並優先使用玩家能想像或觀察的線索。
 - **如何應用於本作：** 將 P01 改為「杯口最後一縷白霧也慢慢散去」，A／B 留在辦公室、C 帶杯上屋頂皆成立；修訂前後字元數相同，不影響單線或重讀估時。
-- **限制與驗證：** 章稿/runtime 同步；`validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 與 `validate-prologue-revisions.js` 通過。專用 validator 原本明確鎖定舊 location-neutral 句，修訂後按新句更新回歸斷言，保留對共通場景位置不變的檢查。靜態文本檢查確認三條分支共用此句且統計未漂移，不等於實際畫面或玩家盲讀驗收。
+- **限制與驗證：** 章稿/runtime 同步；`validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 與 `validate-prologue-revisions.js` 通過。專用 validator 原本明確鎖定舊 location-neutral 句，修訂後按新句更新回歸斷言，保留對共通場景位置不變的檢查。commit `68ee90e` 的 Actions run `45382700112` 與整合後 run `45383283736` build／deploy 成功；公開 `game-data.js` HTTP 200，已核對新句存在、舊句移除。靜態文本檢查不等於實際畫面或玩家盲讀驗收。
 - **未來可用範圍：** 本作多分支合流時的光線、飲料、道具、衣物與人物位置描寫；也適用於互動小說、遊戲任務等共用段落，先確認道具在各入口均可取得，再以具體可見細節交代時間或情緒變化。
 
 ### 2026-11-24：音效標記要對應可聽見的動作
 
 - **學到什麼：** P02-A 原音效標記寫「杯中熱氣微微震動」，把不可聽見的視覺狀態當成聲源；同段其實已有推動公文這個明確動作。
 - **如何應用於本作：** 移除原熱氣音效，並在陽奈把公文推到桌角後標記「公文輕擦桌面的聲音」，使 cue 與動作時點一致。這只更新章稿中的製作提示，沒有假稱已接入或播放音檔。
-- **限制與驗證：** `validate-route-drafts.js` 核對 P02 正文與選項同步，成功；validator 不檢查方括號內的音效製作提示，也不評估實際素材、混音、音量或播放時機，這些仍需音訊實作與聽感驗收。
+- **限制與驗證：** `validate-route-drafts.js` 核對 P02 正文與選項同步，成功；commit `504f2f3` 的 Actions run `45383283736` build／deploy 成功。validator 不檢查方括號內的音效製作提示，也不評估實際素材、混音、音量或播放時機，這些仍需音訊實作與聽感驗收。
 - **未來可用範圍：** 本作後續環境音與 SFX 劇本標記；也適用於影視分鏡、遊戲腳本及有聲敘事，為每個聲音 cue 指明可辨識聲源並貼近該動作發生的位置。
 
 ### 2026-11-24：章節入口條件與選項輸出旗標分開記錄
 
 - **學到什麼：** P03 入口的 `rest`／`teamwork`／`ordinary_day` 用於讀取前章回應；本章 A／B／C 又會輸出 `ordinary_day`／`teamwork`／`daily_checkin`。若章末只重列入口三個旗標，會漏掉新建立、供後續章節讀取的條件。
 - **如何應用於本作：** 把 P03 頁首明確標為「旗標入口」，節末清單列出入口條件和三種選項輸出旗標的聯集；章節計畫分開說明條件台詞讀取與 C 選項新增 `daily_checkin`。
-- **限制與驗證：** `validate-prologue-revisions.js` 以 runtime 的 `flaggedIntro` 比對入口清單，再將入口與 choices 的 flag 聯集比對節末記錄；`validate-choice-runtime.js` 另覆蓋 P03 choice flags 及 A06 每條路徑都累加 `daily_checkin`。VM 載入的 runtime 陣列屬另一個 JavaScript realm，斷言順序值時用序列化比較，避免相同資料只因原型不同而誤判。這只新增 P03 的 metadata 防漂移檢查，不代表所有章節的人工旗標歷史都已覆核。
+- **限制與驗證：** `validate-prologue-revisions.js` 以 runtime 的 `flaggedIntro` 比對入口清單，再將入口與 choices 的 flag 聯集比對節末記錄；`validate-choice-runtime.js` 另覆蓋 P03 choice flags 及 A06 每條路徑都累加 `daily_checkin`。VM 載入的 runtime 陣列屬另一個 JavaScript realm，斷言順序值時用序列化比較，避免相同資料只因原型不同而誤判。commit `aca4d11` 的 Actions run `45384018910` build／deploy 成功。這只新增 P03 的 metadata 防漂移檢查，不代表所有章節的人工旗標歷史都已覆核。
 - **未來可用範圍：** 本作章節摘要、旗標表與回想台詞維護；也適用於任何以先前狀態觸發內容、並在當章再寫入狀態的互動系統，將輸入條件和分支輸出分欄盤點。

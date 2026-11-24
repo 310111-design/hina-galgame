@@ -13,6 +13,7 @@ P02-A 開場的劇本提示原為「杯中熱氣微微震動」，但蒸氣的�
 ## 驗證與限制
 
 - `validate-route-drafts.js` 通過，P02 的 46 條正文 tuple 與 runtime、選項標籤同步。
+- commit `504f2f3` 的 Pages Actions run `45383283736` build／deploy 成功。此音效 cue 是 Markdown 製作註記，不會顯示在網站或產生音訊；部署成功不等於素材／播放 QA。
 - 該 validator 不解析方括號中的製作 cue；本次依動作順序人工核對。實際聲音素材、混音、音量、裝置播放與聽感仍未驗收。
 
 ## 可複用範圍
