@@ -361,6 +361,7 @@
 - [x] C01 開場刪除重複說明每週任務與新一輪檢查資料的旁白，保留與昨日缺件結案相區別的時間／任務資訊；章稿/runtime 同步，C01 由 149 減至 148 tuples。詳見 `knowledge/reviews/c01-opening-cadence-review.md`；此為局部節奏修訂，不代表第三幕或全篇 QA。
 - [x] A06 共通收束刪除「不用讓今天變成完美的一天」的抽象重述，保留可重新確認與明天不保證完全放下工作的具體界線；章稿/runtime 同步，A06 由 56 減至 55 tuples。詳見 `knowledge/reviews/a06-cadence-review.md`；此為單句節奏修訂，不代表第一幕或全篇 QA。
 - [x] A04 共通結尾第二輪刪除已由「明天先確認求助者需要」及清單落實的效率心得總結問答；保留次日不混淆「應該處理／可以由我處理」的承諾。章稿/runtime 同步，A04 為 66 tuples／1,697 字元，路徑 A／B／C 為 1,219／1,232／1,226；全篇篇幅與估時更新。commit `341d039` 的 run `45398108922` 成功，Pages 三入口 HTTP 200，線上新舊句已核對。詳見 `knowledge/reviews/a04-cadence-review.md`；本輪沒有盲讀或全路通關。
+- [x] 同章近似措辭候選增量複核：依同一路徑與狀態變化人工檢查；A03／A04／C05 確認無新增資訊後精簡，B02／B05／B06／B08／C06 保留為排程落地、例外處理或原則推進；互斥 A／C 選項不當作連讀。詳見 `knowledge/reviews/full-story-same-chapter-near-phrase-review.md`。本批不是全篇語義 QA。
 - [x] A03 共通結尾刪去重複解說清單用途與重讀欄位的旁白，保留清單比記憶可靠、休息提示與未知資料仍可能改變的限制；並將收納便箋移至補完標題後。正文／runtime 同步，A03 為 96 tuples／2,152 字元，路徑 A／B／C 為 1,607／1,583／1,568。詳見 `knowledge/reviews/a03-cadence-review.md`；未進行第一幕完整通關或盲讀。
 - [x] A02 共通收束刪除已由未關上的公文夾、待核對欄位與明日重新提交清楚呈現的「今晚未解決、只選下一欄」總結；保留待辦狀態、具體約定及收起公文夾的動作。A02 為 106 tuples／2,520 字元，路徑 A／B／C 為 1,672／1,699／1,685。詳見 `knowledge/reviews/a02-cadence-review.md`；固定稿件同步不代表完整通關。
 - [x] A01 共通段移除直接向玩家預告「未來的分支」及列舉休息／分工主題的旁白；保留陽奈記下日期與明日便條的故事內承接，未改選項或旗標。A01 為 91 tuples／1,926 字元，路徑 A／B／C 為 1,545／1,529／1,526。詳見 `knowledge/reviews/a01-branch-meta-review.md`；未作盲讀或完整路線 QA。
@@ -720,6 +721,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 | `knowledge/reviews/p01-rest-promise-cadence-review.md` | P01 共通收束重述精簡、分支共通有效範圍及稿件/runtime 驗證 |
 | `knowledge/reviews/full-story-adjacent-callback-audit.md` | 相鄰章節近似動作／台詞候選的保留理由與 D06 動作精簡 |
 | `knowledge/reviews/full-story-near-phrase-screen.md` | 同說話者相鄰章近似台詞候選排序、人工判讀及保留理由 |
+| `knowledge/reviews/full-story-same-chapter-near-phrase-review.md` | 同章近似措辭候選的代表性人工判讀、修訂與保留理由 |
 | `knowledge/reviews/p02-common-cadence-review.md` | P02 三條選擇回收後的共通總結精簡與篇幅驗證 |
 | `knowledge/reviews/p03-voice-cadence-review.md` | P03 陪伴意願重述複核、修訂依據與篇幅驗證 |
 | `knowledge/reviews/a01-voice-cadence-review.md` | A01 疲累／休息主題重述、便條及送客動作複核 |
