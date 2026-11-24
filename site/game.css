@@ -1754,3 +1754,129 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   .choice { transition: none !important; }
   .choice.choice-enter { animation: none !important; }
 }
+
+/* User-provided UI 2.0 panel artwork, split into responsive decorative layers. */
+.dialogue-panel {
+  border: 0;
+  border-radius: 0;
+  background-color: #0b0912e8;
+  background-image: url("assets/ui/dialogue-frame.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  box-shadow: none;
+}
+.game-stage[data-phase="choice"] .dialogue-panel { max-height: min(68dvh, 620px); }
+.game-stage[data-phase="choice"] .story > .narration {
+  display: flex;
+  min-height: clamp(56px, 10dvh, 94px);
+  align-items: center;
+  margin: 0 auto 6px;
+  padding: 12px clamp(18px, 5vw, 72px);
+  background: url("assets/ui/choice-prompt.png") center / 100% 100% no-repeat;
+  color: #fffaff;
+  font-size: clamp(.88rem, 1.2vw, 1rem);
+  line-height: 1.45;
+}
+.game-stage[data-phase="choice"] .choices {
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(5px, 1dvh, 10px);
+  max-width: 1040px;
+  margin-top: clamp(6px, 1.1dvh, 12px);
+}
+.game-stage[data-phase="choice"] .choice {
+  grid-template-columns: 19% minmax(0, 1fr);
+  min-height: clamp(58px, 10dvh, 94px);
+  padding: 8px clamp(10px, 1.8vw, 24px);
+  border: 0;
+  border-radius: 12px;
+  background: url("assets/ui/choice-row-default.png") center / 100% 100% no-repeat;
+  box-shadow: none;
+  text-align: left;
+}
+.game-stage[data-phase="choice"] .choice-marker {
+  width: 34px;
+  height: 34px;
+  justify-self: center;
+  border: 1px solid #d8cbff7d;
+  background: #120d1b8c;
+}
+.game-stage[data-phase="choice"] .choice-label { align-self: end; font-size: clamp(.86rem, 1.05vw, 1rem); }
+.game-stage[data-phase="choice"] .choice-hint { align-self: start; }
+.game-stage[data-phase="choice"] .choice:hover,
+.game-stage[data-phase="choice"] .choice:focus-visible,
+.game-stage[data-phase="choice"] .choice.is-selected {
+  transform: none;
+  background-image: url("assets/ui/choice-row-selected.png");
+  box-shadow: none;
+}
+.game-stage[data-phase="choice"] .choice:focus-visible { outline: 2px solid #ffe0ab; outline-offset: -3px; }
+.asset-toolbar {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(3px, .8vw, 12px);
+  margin: 5px 0 0;
+  padding: 6px clamp(10px, 1.6vw, 24px) max(3px, env(safe-area-inset-bottom));
+  border-top: 1px solid #eadcff4a;
+}
+.asset-toolbar button {
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #f5e6d9;
+  cursor: pointer;
+  font-size: .8rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+.asset-toolbar button:hover,
+.asset-toolbar button:focus-visible,
+.asset-toolbar button[aria-pressed="true"] { background: #f2c2d529; color: #fffaff; }
+.asset-toolbar button:disabled { opacity: .45; cursor: not-allowed; }
+.asset-toolbar button > span[aria-hidden="true"] { color: #ffdfb8; font-size: 1rem; }
+@media (max-width: 720px) {
+  .dialogue-panel { background-position: center; }
+  .game-stage[data-phase="choice"] .story > .narration {
+    min-height: 54px;
+    padding: 9px 18px;
+  }
+  .game-stage[data-phase="choice"] .choices { gap: 5px; margin-top: 5px; }
+  .game-stage[data-phase="choice"] .choice {
+    grid-template-columns: 19% minmax(0, 1fr);
+    min-height: 56px;
+    padding: 5px 8px;
+  }
+  .game-stage[data-phase="choice"] .choice-marker { width: 28px; height: 28px; }
+  .game-stage[data-phase="choice"] .choice-label { font-size: .84rem; }
+  .game-stage[data-phase="choice"] .choice-hint { font-size: .62rem; }
+  .asset-toolbar { justify-content: space-around; gap: 1px; padding: 4px 2px max(3px, env(safe-area-inset-bottom)); }
+  .asset-toolbar button { min-width: 44px; padding: 4px; }
+  .asset-toolbar-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+}
+@media (max-width: 390px) {
+  .game-stage[data-phase="choice"] .choice { min-height: 52px; }
+  .game-stage[data-phase="choice"] .choice-label { font-size: .79rem; }
+}
+@media (max-height: 560px) and (orientation: landscape) {
+  .game-stage[data-phase="choice"] .dialogue-panel {
+    max-height: min(80dvh, 330px);
+    padding-top: 8px;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+  .game-stage[data-phase="choice"] .story > .narration { min-height: 40px; margin-bottom: 2px; padding-top: 5px; padding-bottom: 5px; }
+  .game-stage[data-phase="choice"] .choices { gap: 4px; margin-top: 4px; }
+  .game-stage[data-phase="choice"] .choice { min-height: 44px; padding-top: 4px; padding-bottom: 4px; }
+  .game-stage[data-phase="choice"] .choice-hint { display: none; }
+  .dialogue-footer { min-height: 34px; }
+  .asset-toolbar { min-height: 36px; margin-top: 2px; padding-top: 2px; padding-bottom: 2px; }
+  .asset-toolbar button { min-height: 44px; }
+}

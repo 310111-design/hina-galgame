@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#090912">
   <title>放學後的十分鐘｜30 節共通篇＋三路線結局體驗版</title>
-  <link rel="stylesheet" href="game.css?v=ui2-20261124">
+  <link rel="stylesheet" href="game.css?v=ui2-assets-20261124">
   <link rel="stylesheet" href="chapter-intro.css?v=ui2-20261124">
 </head>
 <body>
@@ -57,6 +57,14 @@
         <div id="storyAnnouncement" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
         <div id="choices" class="choices" role="group" aria-label="劇情選項" aria-live="polite"></div>
         <div class="dialogue-footer"><div class="dialogue-hint" id="dialogueHint">點擊／Enter／空白鍵 繼續　›</div><button id="skipRead" class="skip-read" type="button" disabled>跳過已讀</button></div>
+        <nav class="asset-toolbar" role="toolbar" aria-label="快速遊戲控制">
+          <button type="button" data-ui-action="log" aria-label="開啟對話紀錄"><span aria-hidden="true">▤</span><span class="asset-toolbar-label">紀錄</span></button>
+          <button type="button" data-ui-action="auto" aria-label="切換自動播放" aria-pressed="false"><span aria-hidden="true">▶</span><span class="asset-toolbar-label">自動</span></button>
+          <button type="button" data-ui-action="skip" aria-label="跳過已讀內容" disabled><span aria-hidden="true">»</span><span class="asset-toolbar-label">跳過</span></button>
+          <button type="button" data-ui-action="save" aria-label="開啟存檔"><span aria-hidden="true">▣</span><span class="asset-toolbar-label">存檔</span></button>
+          <button type="button" data-ui-action="load" aria-label="開啟讀檔"><span aria-hidden="true">⇩</span><span class="asset-toolbar-label">讀檔</span></button>
+          <button type="button" data-ui-action="config" aria-label="開啟閱讀設定"><span aria-hidden="true">⚙</span><span class="asset-toolbar-label">設定</span></button>
+        </nav>
       </section>
     </section>
   </main>
@@ -98,7 +106,7 @@
     <div id="saveSlots" class="save-slots"></div>
   </dialog>
   <script src="game-data.js?v=ui2-20261124"></script>
-  <script src="game.js?v=ui2-20261124"></script>
+  <script src="game.js?v=ui2-assets-20261124"></script>
   <script src="chapter-intro.js?v=chapter-a11y-20261124"></script>
 </body>
 </html>

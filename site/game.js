@@ -132,6 +132,8 @@ function updateSkipReadControl() {
   const canSkip = state.phase !== "choice" && state.phase !== "complete" && readLineKeys.has(currentReadLineKey());
   button.disabled = !canSkip;
   button.setAttribute("aria-label", canSkip ? "跳過已讀內容直到下一段未讀內容" : "目前內容尚未讀完，無法跳過");
+  const toolbarSkip = document.querySelector('.asset-toolbar [data-ui-action="skip"]');
+  if (toolbarSkip) toolbarSkip.disabled = !canSkip;
 }
 
 function announceDialogue(text) {
@@ -277,6 +279,7 @@ function updateReadingControls() {
   const fontSize = document.getElementById("dialogueFontSize");
   if (speed) speed.value = String(readingSettings.speed);
   if (auto) auto.checked = readingSettings.autoPlay;
+  document.querySelector('.asset-toolbar [data-ui-action="auto"]')?.setAttribute("aria-pressed", String(readingSettings.autoPlay));
   if (fontSize) fontSize.value = String(readingSettings.fontSize);
   document.documentElement.style.setProperty("--dialogue-font-size", `${readingSettings.fontSize}px`);
 }
@@ -1362,6 +1365,7 @@ document.getElementById("typingSpeed").addEventListener("change", event => {
 });
 document.getElementById("autoPlayToggle").addEventListener("change", event => {
   readingSettings.autoPlay = event.currentTarget.checked;
+  document.querySelector('.asset-toolbar [data-ui-action="auto"]')?.setAttribute("aria-pressed", String(readingSettings.autoPlay));
   saveReadingSettings();
   if (readingSettings.autoPlay && !typingLine) scheduleAutoAdvance();
   else clearAutoAdvance();
@@ -1373,6 +1377,23 @@ document.getElementById("closeChapterMenu").addEventListener("click", () => {
 document.getElementById("restart").addEventListener("click", restart);
 document.getElementById("saveManual").addEventListener("click", saveManual);
 document.getElementById("loadManual").addEventListener("click", loadManual);
+document.querySelector(".asset-toolbar").addEventListener("click", event => {
+  const button = event.target.closest("button[data-ui-action]");
+  if (!button || button.disabled) return;
+  const action = button.dataset.uiAction;
+  if (action === "config") {
+    toggleHistory(true);
+    return;
+  }
+  const targetIds = {
+    log: "logToggle",
+    auto: "autoPlayToggle",
+    skip: "skipRead",
+    save: "saveManual",
+    load: "loadManual"
+  };
+  document.getElementById(targetIds[action])?.click();
+});
 document.getElementById("audioToggle").addEventListener("click", () => {
   musicEnabled = !musicEnabled;
   audioSettings.enabled = musicEnabled;

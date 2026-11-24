@@ -23,19 +23,16 @@ const reducedToastKeyframes = reducedToastStart >= 0 && reducedToastEnd > reduce
 if (!/opacity\s*:/.test(reducedToastKeyframes) || /\btransform\s*:/.test(reducedToastKeyframes)) {
   errors.push("Reduced-motion chapter toast should fade by opacity only, without spatial movement.");
 }
-const choiceBorderRule = [...stylesheet.matchAll(/\.choice\s*\{([^}]*)\}/g)]
+const choiceFocusRule = [...stylesheet.matchAll(/\.game-stage\[data-phase="choice"\]\s+\.choice:focus-visible\s*\{([^}]*)\}/g)]
   .map(match => match[1])
-  .filter(rule => /\bborder\s*:\s*1px solid\s+#([\da-f]{8})/i.test(rule))
-  .at(-1);
-const choiceBorder = choiceBorderRule?.match(/\bborder\s*:\s*1px solid\s+#([\da-f]{8})/i)?.[1];
-let choiceBorderContrast = 0;
-if (!choiceBorder) {
-  errors.push("Missing an 8-digit solid border color in the last .choice rule that declares a border.");
+  .at(-1) || "";
+const choiceFocusColor = choiceFocusRule.match(/\boutline\s*:\s*2px solid\s+#([\da-f]{6})/i)?.[1];
+let choiceFocusContrast = 0;
+if (!choiceFocusColor) {
+  errors.push("Choice buttons must keep a visible 2px keyboard-focus outline over the image-backed frame.");
 } else {
-  const foreground = [0, 2, 4].map(index => Number.parseInt(choiceBorder.slice(index, index + 2), 16));
-  const alpha = Number.parseInt(choiceBorder.slice(6, 8), 16) / 255;
-  const darkestDialogueSurface = [11, 9, 19]; // #0b0913, the dark endpoint of the dialogue-panel gradient.
-  const composite = foreground.map((channel, index) => Math.round(channel * alpha + darkestDialogueSurface[index] * (1 - alpha)));
+  const foreground = [0, 2, 4].map(index => Number.parseInt(choiceFocusColor.slice(index, index + 2), 16));
+  const darkestDialogueSurface = [11, 9, 19]; // #0b0913, the dark endpoint behind the image-backed frame.
   const luminance = color => {
     const [red, green, blue] = color.map(channel => channel / 255).map(value =>
       value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4
@@ -43,12 +40,57 @@ if (!choiceBorder) {
     return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
   };
   const surfaceLuminance = luminance(darkestDialogueSurface);
-  const borderLuminance = luminance(composite);
-  choiceBorderContrast = (Math.max(surfaceLuminance, borderLuminance) + 0.05) /
-    (Math.min(surfaceLuminance, borderLuminance) + 0.05);
-  if (choiceBorderContrast < 3) {
-    errors.push("Unselected choice border contrast is " + choiceBorderContrast.toFixed(2) + ":1 against #0b0913; expected at least 3:1.");
+  const outlineLuminance = luminance(foreground);
+  choiceFocusContrast = (Math.max(surfaceLuminance, outlineLuminance) + 0.05) /
+    (Math.min(surfaceLuminance, outlineLuminance) + 0.05);
+  if (choiceFocusContrast < 3) {
+    errors.push("Choice keyboard-focus outline contrast is " + choiceFocusContrast.toFixed(2) + ":1 against #0b0913; expected at least 3:1.");
   }
+}
+const expectedToolbarActions = ["log", "auto", "skip", "save", "load", "config"];
+const toolbarDispatch = source.match(/const targetIds = \{([^}]+)\}/)?.[1] || "";
+for (const [action, target] of Object.entries({ log: "logToggle", auto: "autoPlayToggle", skip: "skipRead", save: "saveManual", load: "loadManual" })) {
+  if (!new RegExp(`\\b${action}:\\s*"${target}"`).test(toolbarDispatch)) {
+    errors.push("Toolbar action " + action + " must call the existing " + target + " control.");
+  }
+}
+if (!source.includes('if (action === "config")') || !source.includes("toggleHistory(true)")) {
+  errors.push("Toolbar settings action must open the existing reading-settings panel.");
+}
+if (!source.includes("String(readingSettings.autoPlay)")) {
+  errors.push("Toolbar auto-play state must reflect the saved runtime setting.");
+}
+if (!source.includes("if (toolbarSkip) toolbarSkip.disabled = !canSkip")) {
+  errors.push("Toolbar skip disabled state must match the existing read-skip control.");
+}
+const uiAssetSpecs = new Map([
+  ["choice-layout-source.png", [1375, 768]],
+  ["dialogue-layout-source.png", [1376, 768]],
+  ["choice-prompt.png", [930, 150]],
+  ["choice-row-default.png", [930, 125]],
+  ["choice-row-selected.png", [930, 125]],
+  ["dialogue-frame.png", [1118, 285]]
+]);
+for (const [name, [expectedWidth, expectedHeight]] of uiAssetSpecs) {
+  const file = path.join(root, "site", "assets", "ui", name);
+  if (!fs.existsSync(file)) {
+    errors.push("Missing UI artwork asset: " + name);
+    continue;
+  }
+  const bytes = fs.readFileSync(file);
+  if (bytes.length < 26 || bytes.subarray(0, 8).toString("hex") !== "89504e470d0a1a0a") {
+    errors.push("UI artwork must be a valid PNG: " + name);
+    continue;
+  }
+  const width = bytes.readUInt32BE(16);
+  const height = bytes.readUInt32BE(20);
+  if (width !== expectedWidth || height !== expectedHeight) {
+    errors.push(name + ": expected " + expectedWidth + "x" + expectedHeight + ", found " + width + "x" + height);
+  }
+  if (bytes[25] !== 6) errors.push(name + ": UI artwork must retain its RGBA alpha channel.");
+}
+for (const name of ["dialogue-frame.png", "choice-prompt.png", "choice-row-default.png", "choice-row-selected.png"]) {
+  if (!stylesheet.includes(`assets/ui/${name}`)) errors.push("UI stylesheet does not use " + name);
 }
 if (!/function announceDialogue\(text\)\s*\{[^}]*storyAnnouncement[^}]*\}/s.test(source)) {
   errors.push("Missing completed-line screen-reader announcement helper.");
@@ -88,6 +130,14 @@ let pageSpriteSource = "";
 
 for (const page of pages) {
   const html = fs.readFileSync(path.join(root, "site", page), "utf8");
+  const toolbarMarkup = html.match(/<nav\b(?=[^>]*\bclass="asset-toolbar")[^>]*>([\s\S]*?)<\/nav>/i)?.[1] || "";
+  const toolbarActions = [...toolbarMarkup.matchAll(/data-ui-action="([^"]+)"/g)].map(match => match[1]);
+  if (JSON.stringify(toolbarActions) !== JSON.stringify(expectedToolbarActions)) {
+    errors.push(page + ": quick-control toolbar must expose actions in order: " + expectedToolbarActions.join(", "));
+  }
+  if (!toolbarMarkup || [...toolbarMarkup.matchAll(/<button\b[^>]*>/gi)].some(match => !/\baria-label="[^"]+"/i.test(match[0]))) {
+    errors.push(page + ": every toolbar button must have an accessible name.");
+  }
   const spriteIdIndex = html.indexOf('id="hinaSprite"');
   const spriteTagStart = spriteIdIndex >= 0 ? html.lastIndexOf("<img", spriteIdIndex) : -1;
   const spriteTagEnd = spriteTagStart >= 0 ? html.indexOf(">", spriteTagStart) : -1;
@@ -130,5 +180,5 @@ if (errors.length) {
   errors.forEach(error => console.error("- " + error));
   process.exitCode = 1;
 } else {
-  console.log("Game shells and runtime backgrounds OK: " + requiredIds.length + " JavaScript-required IDs exist exactly once in both pages; choice border contrast is " + choiceBorderContrast.toFixed(2) + ":1 against #0b0913; sprite source is shared and present: " + pageSpriteSource + ".");
+  console.log("Game shells, UI artwork and runtime backgrounds OK: " + requiredIds.length + " JavaScript-required IDs and six accessible toolbar actions exist in both pages; focus outline contrast is " + choiceFocusContrast.toFixed(2) + ":1; transparent panel assets and sprite source are present.");
 }
