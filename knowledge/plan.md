@@ -473,7 +473,7 @@
 - [x] 執行既有遊戲資料、DOM ID、路線及相關 CI validators；本輪四個固定 validator 本機重跑通過，commit `e98fbc4` 的 Actions run `45256381340` build／deploy 均成功，正式 `game.html`、`game-data.js`、`testplay.html` 回應 HTTP 200；此項不代表 iPhone Safari／完整裝置驗收。
 - [x] 確認正式版與內部 testplay 頁共用樣式／引擎時沒有明顯 UI 不一致；兩頁均以瀏覽器查看。
 - [x] 推送後確認 GitHub Actions run `45215839672`（commit `fd19721`）成功；正式 Pages `https://310111-design.github.io/hina-galgame/game.html` 回應 HTTP 200，已在正式頁檢查新介面、功能選單及 Escape 收合。此為發布確認，不代表 iPhone Safari 或完整裝置 QA。
-- [ ] 將最後截圖、已知限制及完成狀態回寫本文件；只有完成指定裝置驗收才勾選對應 QA。
+- [x] 將改版前後直向／橫向／桌面截圖、viewport 初驗觀察及已知限制回寫至 `knowledge/reviews/ui2-visual-baseline.md`、`knowledge/reviews/ui-responsive-viewport-review.md` 與本節；此勾選只完成證據整理，iPhone Safari、安全區／動態工具列、完整狀態矩陣、鍵盤／輔助科技及實機 QA 仍保持未完成。
 
 **目前判定（2026-11-24）：** UI 2.0 主要版面、選單與互動樣式已部署；改版前後三種 viewport 截圖已保存，並確認 Pages CSS 與目前 Git blob 逐位元一致。截圖僅呈現 P01 一般對話，不涵蓋實體 iPhone Safari、安全區／工具列變化、長句／選項／文字大小矩陣；UI 2.0 尚未完成最終驗收。詳見 `knowledge/reviews/ui-responsive-viewport-review.md` 與 `knowledge/reviews/ui2-visual-baseline.md`。
 

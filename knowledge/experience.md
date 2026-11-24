@@ -2154,3 +2154,10 @@
 - **如何應用於本作：** 在 `validate-choice-runtime.js` 注入只接受預期 `gameStage` 的 mock document；每次執行所有 99 個選項以及九組 D06／D07 路線組合時，重置計數、呼叫 `choose()` 並斷言舞台收到一次使用 `preventScroll: true` 的焦點呼叫。章節重玩 harness 也保留獨立焦點斷言，避免單一測試覆蓋掩蓋其他執行入口。
 - **限制與驗證：** 章節重玩隔離、選項 runtime（99 個選項、九組 D06／D07 組合）、game shell、JavaScript 語法與差異檢查本機通過；commit `b9a3a5c` 的 Actions run `45353850964` build／deploy 成功，Pages 首頁、遊戲頁、testplay 與 `game.js` 均 HTTP 200。此 runtime assertion 驗證程式把焦點指定到正確元素及選項，不驗證瀏覽器焦點框可見性、螢幕閱讀器朗讀或實機互動。
 - **未來可用範圍：** 本作其他共用 runtime 函式被多個測試 harness 抽取執行時；也適用於以 mock DOM 測試動態 Web 介面，新增 focus、inert 或事件 API 後，應搜尋所有 harness 呼叫點並逐一補足語義相符的 mock 與行為斷言。
+
+### 2026-11-24：把響應式截圖基線與實機驗收分開記錄
+
+- **學到什麼：** 改版前後的 Chromium 模擬 viewport 截圖能追溯 UI 版面變更，但一般對話畫面不能證明選項、長句、面板或真實 iOS Safari 狀態正確。若只在路線圖寫「視覺驗收完成」，容易讓後續把模擬結果誤讀成裝置 QA。
+- **如何應用於本作：** 保存直向、橫向、桌面三種 viewport 的前後 PNG，記下瀏覽器、尺寸、檢視狀態、Pages／Git blob 比對和未涵蓋情境；將「基線／模擬檢查已整理」單獨勾選，iPhone Safari、安全區、動態工具列、文字矩陣與實機鍵盤仍各自維持待驗收。
+- **限制與驗證：** 圖像只呈現 P01 初始一般對話；尺寸模擬不驗證 iOS safe-area、觸控、螢幕閱讀器、不同內容長度或效能。UI 2.0 的最終裝置 QA 仍需實機。
+- **未來可用範圍：** 本作日後 CSS／版面改版及其他 viewport 回歸；也適用於響應式網站與 Web app，用固定可重現的狀態對照視覺變更，並在計畫中明確區分模擬器證據和實體裝置驗收。
