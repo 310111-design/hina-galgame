@@ -16,6 +16,7 @@
 
 - `node scripts/validate-chapter-intro-runtime.js` 通過：新遊戲、章卡鍵盤操作、焦點回復、同章不重播、自動推進鎖定及兩種存檔鍵續讀。
 - `node --check site/chapter-intro.js`、`node scripts/validate-game-shells.js` 與 `git diff --check` 通過。
+- 修正由 commit `cedeb57` 推送，整理腳本尾端空行的 commit `2dad607` 完成最終部署；GitHub Actions run `45381650399` 的 build 與 deploy 均成功。Pages 正式版 `game.html`、`testplay.html` 與 `chapter-intro.js?v=chapter-a11y-20261124` 均 HTTP 200；兩個 HTML 均含 `aria-describedby="chapterIntroCopy"`。
 - stub 測試不能呈現真實瀏覽器焦點外觀、iOS Safari 安全區、讀屏器實際公告或 autoplay timer race；這些 UI 實機驗收仍依路線圖待辦辦理。
 
 ## 可複用範圍

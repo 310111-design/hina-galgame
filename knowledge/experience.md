@@ -2243,5 +2243,5 @@
 
 - **學到什麼：** 資料驅動遊戲的逐行 render 可能重複更新 DOM；若用對話行號或每次 mutation 顯示標題卡，會在同一章反覆打斷閱讀。新遊戲、跨章切換與有效存檔續讀也需要不同處理。
 - **如何應用於本作：** 共用 `site/chapter-intro.js` 觀察 `sceneArt` 的 `data-chapter` 變化，僅在章節 ID 真正改變時顯示章名；有效存檔直接續讀，章卡期間阻止點擊、快捷鍵及自動播放。對話框同時綁定名稱與說明；關閉後回到仍連接且可見的原焦點，若原焦點是 `body`、停用或已隱藏則回到遊戲舞台。正式版與 testplay 共用元件。
-- **限制與驗證：** `validate-chapter-intro-runtime.js` 用 DOM stub 檢查新遊戲、跨章卡片、同章 mutation 不重播、Escape／Tab、autoplay 鎖定、存檔續讀，以及原焦點不可用時回到舞台；shell validator 檢查正式版／testplay 的 dialog name／description。這不驗證真實瀏覽器 mutation 時序、視覺焦點框、iOS safe-area 或實際螢幕閱讀器；重要事件／CG 專屬停頓仍未實作。
+- **限制與驗證：** `validate-chapter-intro-runtime.js` 用 DOM stub 檢查新遊戲、跨章卡片、同章 mutation 不重播、Escape／Tab、autoplay 鎖定、存檔續讀，以及原焦點不可用時回到舞台；shell validator 檢查正式版／testplay 的 dialog name／description。commit `cedeb57` 的修改已納入最終 commit `2dad607`，Actions run `45381650399` build／deploy 成功，Pages 兩個 HTML 與版本化 runtime 腳本 HTTP 200。這不驗證真實瀏覽器 mutation 時序、視覺焦點框、iOS safe-area 或實際螢幕閱讀器；重要事件／CG 專屬停頓仍未實作。
 - **未來可用範圍：** 本作章節標題卡與後續事件過場；也適用於資料驅動互動內容的章節切換提示、場景載入狀態及 modal 遮罩，應觀察穩定內容 ID，並將 UI 觀看狀態和劇情存檔分開。
