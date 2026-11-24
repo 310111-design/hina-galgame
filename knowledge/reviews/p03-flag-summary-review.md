@@ -22,7 +22,7 @@ P03 頁首列 `rest`、`teamwork`、`ordinary_day`，它們是條件回憶讀取
 
 ## 全章防漂移範圍
 
-後續將 P03 的旗標聯集檢查擴成 `validate-chapter-flag-summaries.js`，目前能覆蓋同時有入口旗標欄和節末旗標記錄的 13／33 章；其餘 20 章欠其中至少一個欄位，未宣稱已驗證。檢查包含 A06 runtime 的額外 `daily_checkin` 增量。完整範圍與限制見 `knowledge/reviews/full-story-flag-summary-validation.md`。
+後續追查發現 P03-C 的 `daily_checkin` 會帶入 A01～A05，但五節入口和節末摘要均漏列；舊檢查以入口摘要當基準，無法發現入口、結尾一起漏列。已依前序 runtime 選項和 A06 固定增量推導入口旗標，修正 A01～A05。更新後 27／33 章有入口摘要、14／33 章有節末旗標行可比對；完整範圍與限制見 `knowledge/reviews/full-story-flag-summary-validation.md`。
 
 ## 可複用範圍
 
