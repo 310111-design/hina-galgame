@@ -114,6 +114,7 @@ const lengthReview = fs.readFileSync(path.join(root, "knowledge", "reviews", "fu
 const playtimeReview = fs.readFileSync(path.join(root, "knowledge", "reviews", "playtime-estimate.md"), "utf8");
 const landingPage = fs.readFileSync(path.join(root, "site", "index.html"), "utf8");
 const readme = fs.readFileSync(path.join(root, "README.md"), "utf8");
+const changelog = readLines("CHANGELOG.md");
 const latestReviewMarker = "## 最新結果：";
 const latestReviewStart = lengthReview.lastIndexOf(latestReviewMarker);
 if (latestReviewStart < 0) fail("full-length-refresh.md: latest snapshot marker is missing");
@@ -166,6 +167,17 @@ requireText(readmePlaytime, "看完全部分支（跳過重複共通段）約 " 
 requireText(readmePlaytime, "三線完整重讀約 " + formatHourRange(threeRouteReplayCharacters) + " 小時", "README.md three-route replay estimate");
 requireText(readmePlaytime, "未經玩家計時", "README.md estimate limitation");
 requireText(readmePlaytime, "不含操作、演出停留與個人停頓", "README.md excluded play time");
+
+const changelogPlaytime = requireLine(
+  changelog,
+  line => line.startsWith("- 純文字閱讀估算：單一路線約 "),
+  "CHANGELOG.md playtime estimate"
+);
+requireText(changelogPlaytime, "單一路線約 " + formatHourRange(singleRouteCharacters) + " 小時", "CHANGELOG.md single-route estimate");
+requireText(changelogPlaytime, "跳過重複共通段後看完全部分支約 " + formatHourRange({ min: totalCharacters, max: totalCharacters }) + " 小時", "CHANGELOG.md all-branch estimate");
+requireText(changelogPlaytime, "三線完整重讀約 " + formatHourRange(threeRouteReplayCharacters) + " 小時", "CHANGELOG.md three-route replay estimate");
+requireText(changelogPlaytime, "按 300～400 字元／分鐘估算", "CHANGELOG.md estimate method");
+requireText(changelogPlaytime, "尚未經玩家計時", "CHANGELOG.md estimate limitation");
 
 const planStats = requireLine(plan, line => line.startsWith("- 目前 33 個章節節點"), "plan.md global length");
 const chapterStats = requireLine(chapterPlan, line => line.includes("**全分支內容統計"), "chapter-plan.md global length");

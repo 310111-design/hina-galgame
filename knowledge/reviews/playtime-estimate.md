@@ -23,4 +23,4 @@
 
 ## 玩家入口資訊
 
-Pages 首頁與 README 並列相同的單一路線、重玩／讀檔覆蓋所有分支、三線完整重讀時間。公開說明沿用本文件 300～400 字元／分鐘假設，標示三線重讀模型不含條件對話、估算非玩家實測及操作／演出停留不計；`validate-full-length-summary.js` 核對首頁和 README 數字與 runtime 統計一致。
+Pages 首頁、README 與 CHANGELOG 並列相同的單一路線、全分支覆蓋及三線重讀時間。公開說明沿用本文件 300～400 字元／分鐘假設；Pages／README 標示三線重讀排除條件對話及操作／演出停留不計，更新紀錄標示尚未經玩家計時。`validate-full-length-summary.js` 核對三個入口的數字與 runtime 統計一致。
