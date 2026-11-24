@@ -12,6 +12,7 @@
 > 本輪續記：C04 收束再複核，保留陽奈承認自我價值不只工作、仍不清楚未來的直接台詞與舊表格留在團隊的動作，刪除其後重複解說及二次總結，共減 11 條旁白；全篇篇幅與遊玩時間已重算。修復讀入手動存檔後 v3 被寫進自動存檔、重載又錯移三章的索引問題，並讓自動存檔只寫 v2、未知格式安全回退；加入自動存檔回歸檢查。另修正第三幕中段審校文件內 TAT-06 的過期待修狀態；部署待推送確認。
 > 本輪續記：自動存檔無效或未知格式時保留原存檔、暫停覆寫；新增 null／非物件資料及明確恢復路徑回歸檢查，commit `4528ebe` 與文件 commit `93a80ef` 的 Pages workflow 均成功。另複核 B04 共通收束，刪除 6 句已由開場主旨、實際試讀及隔日測試安排表達的重述，保留各分支成果、責任分工、待回查事項與「第二次核對」狀態；全篇重新統計，單一路線仍約 2.4～3.3 小時，全分支約 3.3～4.3 小時，三線重讀約 7.4～9.9 小時。B04 稿件/runtime 與遊玩時間摘要同步驗證後，推送並確認 Pages。
 > 本輪續記：修正一般對話時表情差分造成的立繪忽大忽小：13 張圖同為 896×1200，但 alpha 可見高度為 1,039～1,155 px、腳底位置為 y=1,161～1,192；依輪廓校準顯示倍率與底線，不改原圖。WebP／PNG／SVG 載入路徑及 13 張差分瀏覽器預覽已檢查；只有明確演出標記才採用戲劇性縮放，標記格式列為後續工作。實機 iPhone Safari 驗收仍待可用裝置。詳見 `knowledge/reviews/sprite-size-normalization.md`。
+> 本輪續記：檢視新收到的 UI 參考附件：兩張透明 PNG 為選項／對話面板構圖，一張含中文標籤的 JPG 是標註示意；標籤只作圖片內容解讀。推薦先保留現有已部署 UI 2.0，若採用視覺風格則以語意 HTML/CSS 重建可互動區，不直接把含工具標籤的整張圖片當 UI。決策 D-28 與檢視範圍見 `knowledge/reviews/ui-asset-packet-review.md`。
 > 本文件是目前唯一的專案總路線圖。狀態以 repo 實際檔案、程式、CI 與已確認的使用者決策為準；若舊文件或舊對話與本文衝突，以本文為目前執行依據。
 > **勾選規則：** [x] 已完成且有檔案／程式／驗證依據；[ ] 尚未完成；「待驗收」代表程式已存在，但尚未完成指定裝置或人工驗收。不能因程式碼存在就把實機驗收勾成完成。
 
@@ -490,6 +491,7 @@
 - [x] 依 CSS 基底顏色檢查主要文字色對比；確認文字色高於 7.8:1，並將主遊戲實際生效的未選取選項邊框在最暗面板端點估算對比由 1.51:1 提高至 4.12:1；game-shell validator 從最後一條宣告邊框的 `.choice` 規則計算並維持至少 3:1。commit `cd920d5` 對應 Actions run `45356882060` build／deploy 成功，首頁、遊戲、testplay 與 CSS 均 HTTP 200，線上樣式已核對含修正值。此為靜態計算、CI 與部署確認，不代表全頁 WCAG、逐像素瀏覽器審查或裝置驗收；詳見 `knowledge/reviews/ui-responsive-viewport-review.md`。
 - [x] Pages 瀏覽器 smoke：在 Codex 內建瀏覽器確認開局舞台、立繪、對話框及已讀跳過入口；展開功能選單並以 Escape 收合，焦點回到選單按鈕；未推進劇情或改變存檔。這不等同 iPhone Safari、完整鍵盤或實機觸控驗收，詳見 `knowledge/reviews/ui-live-browser-smoke.md`。
 - [ ] 驗收完整鍵盤操作、實機觸控、focus 狀態、減少動態效果及所有狀態的實際對比；模擬 viewport 初驗與程式焦點檢查不能取代完整互動／裝置 QA。
+- [ ] 盤點新提供的 UI 面板素材是否值得用於後續改版；依 D-28 的建議先製作語意 HTML/CSS 可互動原型，再決定是否採納視覺外觀，不把扁平化標註圖或烘焙工具列直接送進產品。詳見 `knowledge/reviews/ui-asset-packet-review.md`。
 - [x] 修正減少動態效果下章節提示幾乎不可見的 cascade 衝突：保留不帶空間位移的淡入淡出並明確覆寫全域 `.01ms` animation-duration；`validate-game-shells.js` 檢查提示動畫的保留時長及 keyframes 不含 transform。commit `521f633` 的 Actions run `45360237584` build／deploy 成功，Pages 首頁、`game.html` 與 `game.css` 均 HTTP 200，線上 CSS 確認含 2.4 秒重要時長覆寫。此為靜態回歸、部署與內容確認，不代表瀏覽器動畫感受或完整 UI 實機驗收；詳見 `knowledge/reviews/ui-reduced-motion-toast-review.md`。
 - [ ] 以實際 iPhone Safari 與桌面瀏覽器截圖回歸；完成前不得把 UI 2.0 標記為已完成。
 
@@ -500,7 +502,7 @@
 - [x] 推送後確認 GitHub Actions run `45215839672`（commit `fd19721`）成功；正式 Pages `https://310111-design.github.io/hina-galgame/game.html` 回應 HTTP 200，已在正式頁檢查新介面、功能選單及 Escape 收合。此為發布確認，不代表 iPhone Safari 或完整裝置 QA。
 - [x] 將改版前後直向／橫向／桌面截圖、viewport 初驗觀察及已知限制回寫至 `knowledge/reviews/ui2-visual-baseline.md`、`knowledge/reviews/ui-responsive-viewport-review.md` 與本節；此勾選只完成證據整理，iPhone Safari、安全區／動態工具列、完整狀態矩陣、鍵盤／輔助科技及實機 QA 仍保持未完成。
 
-**目前判定（2026-11-24）：** UI 2.0 主要版面、選單與互動樣式已部署；13 張表情差分的透明邊界校準已通過瀏覽器預覽與資產回歸檢查，原始美術未修改。改版前後三種 viewport 截圖已保存，並確認 Pages CSS 與目前 Git blob 逐位元一致。截圖／模擬預覽不涵蓋實體 iPhone Safari、安全區／工具列變化、長句／選項／文字大小矩陣或實機完整路線；UI 2.0 尚未完成最終驗收。詳見 `knowledge/reviews/ui-responsive-viewport-review.md`、`knowledge/reviews/ui2-visual-baseline.md` 與 `knowledge/reviews/sprite-size-normalization.md`。
+**目前判定（2026-11-24）：** UI 2.0 主要版面、選單與互動樣式已部署；13 張表情差分的透明邊界校準已通過瀏覽器預覽與資產回歸檢查，原始美術未修改。改版前後三種 viewport 截圖已保存，並確認 Pages CSS 與目前 Git blob 逐位元一致。截圖／模擬預覽不涵蓋實體 iPhone Safari、安全區／工具列變化、長句／選項／文字大小矩陣或實機完整路線；新收到的附件 UI 參考圖是否納入後續原型依 D-28 追蹤。UI 2.0 尚未完成最終驗收。詳見 `knowledge/reviews/ui-asset-packet-review.md`、`knowledge/reviews/ui-responsive-viewport-review.md`、`knowledge/reviews/ui2-visual-baseline.md` 與 `knowledge/reviews/sprite-size-normalization.md`。
 
 ### 角色表情與事件 CG 素材需求
 
