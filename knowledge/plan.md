@@ -15,6 +15,7 @@
 > 本輪續記：D08P 搭檔線收束刪除重述未來排程的一句旁白，將大字體與檢查安排移到道別前，保留各自整理回顧的具體後續；稿件/runtime 同步，篇幅與估時已重算。
 > 本輪續記：保存 UI 2.0 改版前後三種 viewport 截圖，並確認 Pages CSS 與目前 main 的 Git blob 完全一致；此為模擬 viewport 基線，iPhone Safari 與其他實機驗收仍未完成。
 > 本輪續記：D04 河堤至車站中後段第二輪複核，刪除多層抽象重述並同步章稿/runtime；D04 為 2,504 字元、A／B／C 2,345／2,339／2,290，更新篇幅防截斷下限、全篇統計與 Pages 遊玩時間。詳見 `knowledge/reviews/d04-midsection-cadence-review.md`。
+> 本輪續記：D05 邀約至道別複核，刪除重複界線解說與第二次離店提示，將命名後的關係總結合併，保留私人邀約可拒絕／改約及玩家返家後接受的狀態；D05 為 2,607 字元、A／B／C 2,524／2,508／2,473。全篇統計與三種純文字估時已重算。詳見 knowledge/reviews/d05-invitation-departure-cadence-review.md。
 
 ---
 
@@ -51,7 +52,7 @@
 2. **實機品質：** 背景裁切、對話文字安全區、iPhone Safari 安全區、觸控、音訊政策與存檔相容性仍需實際測試。
 3. **音訊素材：** 目前以 Web Audio 程序化音樂與提示音為主，尚未替換正式音樂／音效檔。
 4. **角色與事件美術：** 13 張使用者提供的表情圖已依標題接入正作，八張舊表情均已替換；剩餘工作是跨裝置顯示驗收。事件 CG 目標為 24～30 張，待使用者提供後分批接入。
-5. **長篇規模：** 2026-11-24 D04 中後段複核後 runtime 去重正文 76,363 字元，低於 80,000 字元參考下限 3,637 字元；朋友／搭檔／戀愛單次路徑分別為 57,363～58,414／57,337～58,373／57,338～58,616 字元（不含條件台詞）。仍需內容品質與實機閱讀驗收；篇幅為盤點值，不為湊數加回重複句。
+5. **長篇規模：** 2026-11-24 D05 邀約至道別複核後 runtime 去重正文 76,090 字元，低於 80,000 字元參考下限 3,923 字元；朋友／搭檔／戀愛單次路徑分別為 57,090～58,141／57,064～58,100／57,065～58,343 字元（不含條件台詞）。仍需內容品質與實機閱讀驗收；篇幅為盤點值，不為湊數加回重複句。
 
 > 全篇總量已依目前 `site/game-data.js` 重新統計；單次遊玩範圍不含 `flaggedIntro` 條件台詞。B05 現況為 53 條正文 tuple、2,012 字元，A／B／C 單路徑為 1,371／1,383／1,400；唯讀篇幅盤點不設早期稿門檻，不能用歷史 2,555 字紀錄宣稱現版達標。
 
@@ -88,8 +89,8 @@
 - 全篇旁白／對話句數長期目標：約 **3,000～5,000 句**。
 - 單節參考目標：約 **2,500～4,000 字、80～130 句、8～12 分鐘閱讀**。
 - 共通段落只計一次；互斥分支各自計入全篇唯一正文總量；另估算單次完整遊玩的實際閱讀量，兩者不可混為一談。
-- 目前 33 個章節節點、3,324 條對話 tuple（含 21 組條件對話）；所有可能分支及條件台詞共 76,998 字元，去除完全重複台詞後為 76,363 字元／3,235 條唯一台詞文字；21 組條件台詞合計 704 字元。
-- 純文字閱讀時間仍無玩家計時，以 300～400 字元／分鐘作明示估算假設：單一路線 57,337～58,616 字元，約 **2.4～3.3 小時**；把全部分支及條件對話各看一次、跳過重複共通段，76,998 字元約 **3.2～4.3 小時**；三條成年路線都從頭重讀、不跳過重複共通段，約 **173,636～173,980 字元／7.2～9.7 小時**（此重讀模型不含條件對話）。不含選項操作、讀檔、動畫停留或玩家停頓；速率為估算假設，並非實測。計算依據見 `knowledge/reviews/playtime-estimate.md`。
+- 目前 33 個章節節點、3,312 條對話 tuple（含 21 組條件對話）；所有可能分支及條件台詞共 76,725 字元，去除完全重複台詞後為 76,090 字元／3,223 條唯一台詞文字；21 組條件台詞合計 704 字元。
+- 純文字閱讀時間仍無玩家計時，以 300～400 字元／分鐘作明示估算假設：單一路線 57,064～58,343 字元，約 **2.4～3.2 小時**；把全部分支及條件對話各看一次、跳過重複共通段，76,725 字元約 **3.2～4.3 小時**；三條成年路線都從頭重讀、不跳過重複共通段，約 **172,817～173,161 字元／7.2～9.6 小時**（此重讀模型不含條件對話）。不含選項操作、讀檔、動畫停留或玩家停頓；速率為估算假設，並非實測。計算依據見 `knowledge/reviews/playtime-estimate.md`。
 - 篇幅是規劃指標，不得為湊數灌水；角色一致性、節奏與選項品質優先。
 
 ---
@@ -347,6 +348,7 @@
 - [x] D03 共通收束第二輪通讀：在前次只刪兩句局部重述後，從重開行事曆讀至離場，移除反覆清點待辦、明日資料和今晚不加工作，以及第二則普通通知；保留各分支決策、明早回查時點、急件判斷、疲倦回憶與下次回報承諾。D03 現為 2,045 字元，A／B／C 1,851／1,815／1,851；因品質複核後低於 2,500 首稿參考，`validate-route-drafts.js` 對 D03 設總量 2,000／單路徑 1,800 的防截斷下限，不補回重述。篇幅／時間摘要已更新，詳見 `knowledge/reviews/d03-cadence-review.md`。
 - [x] D04 普通日常收束首輪移除兩處重複導語；第二輪由河堤通讀至車站，刪除多層抽象重述，保留選項回聲、時間彈性與告別場景。章稿/runtime 同步為 2,504 字元，A／B／C 2,345／2,339／2,290；`route-draft-targets.js` 設 2,400／2,200 防截斷下限，不回補重述。詳見 `knowledge/reviews/d04-midsection-cadence-review.md`；未進行完整逐路通關。
 - [x] D05 C 分支移除「她把這句話重複一次」的旁白：對照該分支及全文後，前文沒有相同台詞，原句錯誤聲稱重複；保留「不命名，不代表不重要」原話，更新 D05 C 路徑篇幅。詳見 `knowledge/reviews/d05-repeat-reference-review.md`。
+- [x] D05 邀約至道別第二輪複核：移除「回家時間」後重述界線的三句旁白與重複離店提示，收合陽奈再次解釋緊張／關係未定的段落，保留她邀約可拒絕或改到公共場所、玩家仍可暫緩下一步，以及回家後以訊息接受邀約。稿件/runtime 同步為 138 tuples／2,607 字元，A／B／C 2,524／2,508／2,473；D05 路徑防截斷下限設為 2,400。詳見 knowledge/reviews/d05-invitation-departure-cadence-review.md；固定檢查不是瀏覽器通關。
 - [x] D06 共通段先刪除重複保證句，後續再依相鄰章候選複核精簡移杯動作解說；保留臨時變化時共同溝通的具體內容。章稿/runtime 現為 2,735 字元、A／B／C 2,515／2,508／2,508；詳見 `knowledge/reviews/d06-cadence-review.md` 與 `knowledge/reviews/full-story-adjacent-callback-audit.md`。
 - [x] D07 共通段精簡三句抽象重述：刪除對「提醒而不接管」及「自主與平等」已由角色台詞、具體邀請表達的再次總結；保留角色笑容、陪伴界線及後續自行選擇的行動。章稿/runtime 同步，D07 為 2,622 字元、A／B／C 2,504／2,517／2,515。詳見 `knowledge/reviews/d07-cadence-review.md`；此為局部節奏修訂，不代表全篇 QA。
 - [x] C06 校門口收束刪除「今天先這樣就好／這就足夠了」重複定調，保留「我會記得這裡」、不急著離開及「明天見」的連續情緒落點；章稿/runtime 同步，C06 由 151 減至 149 tuples。詳見 `knowledge/reviews/c06-ending-cadence-review.md`；此為局部收束修訂，不代表全篇 QA。
@@ -376,7 +378,7 @@
 - [x] A03 共通收束複核：在保留明日巡邏資料仍可能變動及未知項目暫存規則後，刪除重述清單讓陽奈看見下一步的結論；A03 稿件/runtime 同步為 95 條 tuple／2,126 字元，A／B／C 路徑 1,581／1,557／1,542，選項及旗標不變。篇幅與遊玩時間重算，詳見 `knowledge/reviews/a03-cadence-review.md`。
 - [x] A01／A02／A03 加入稿件／runtime 五段與選項同步；A02 的 `rest`、`teamwork`、`ordinary_day` 三組條件台詞標記與 flag、門檻、文字、說話者一併驗證。原本只有 runtime 與 `knowledge/flag-dialogue.md` 對照，現也防止章稿漂移；未改變任何旗標或玩家可見台詞。
 - [x] A04／A05／A06 選項 label 加入固定同步；將 B01、C01、D01、D08F、D08P、D08R 條件對話逐組標記至章稿並納入 `syncConditional`，連同已涵蓋的 P03／A02，總計 21 組條件記憶均由章稿、`knowledge/flag-dialogue.md` 與 runtime 同步保護。詳見 `knowledge/reviews/conditional-manuscript-sync-review.md`。
-- [x] D05 共通段語氣與情緒節奏複核：把陽奈平靜說出選擇、仍聽得出緊張，以及讓想見面的答案停在當下的兩處重述收成兩句；保留她接受不同答案與不需整理完過去／現在／未來才承認的情緒資訊。選項、旗標、邀約及 D06 承接不變；章稿/runtime 同步 150 tuples／2,880 字元，A／B／C 2,797／2,781／2,746。詳見 knowledge/reviews/d05-voice-cadence-review.md；固定同步不等於盲讀或實機通關。
+- [x] D05 共通段語氣與情緒節奏複核（首輪）：將平靜但緊張、想見面的答案停在當下兩處重述收束，保留接受不同答案及未整理完過去／現在／未來的情緒資訊；稿件/runtime 當時同步 150 tuples／2,880 字元，A／B／C 2,797／2,781／2,746。詳見 knowledge/reviews/d05-voice-cadence-review.md。
 - [x] D08F common 節奏複核：刪除與後續具體近況聊天重疊的一條過渡旁白，保留書籍互動、小廣場事件及分支選擇；章稿/runtime 同步，79 tuples／3,233 字元，A／B／C 路徑 2,526／2,570／2,535。全篇統計與閱讀估算已刷新，詳見 knowledge/reviews/d08f-voice-cadence-review.md；靜態驗證不代替盲讀或瀏覽器通關。
 - [x] D08P common 收束複核：將大字體準備與後續檢查移至道別前，刪除由陽奈台詞已明示的「不安排下一次活動」總結，保留各自整理回顧；稿件/runtime 同步，80 tuples／3,153 字元，A／B／C 2,524／2,529／2,500。詳見 knowledge/reviews/d08p-ending-followup-cadence-review.md；字數僅供盤點，沒有為門檻補寫抽象內容。\n- [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
 - [x] D08R 開場節奏複核：在陽奈已明說不希望因舊日回憶而覺得必須答應後，刪去再解釋「不是試探、不是索求保證」的旁白，改用捧杯、蒸氣掠過指尖及沿杯緣轉動的停頓動作；保留成年後雙向選擇與容許思考的對白，未動分支／旗標。章稿/runtime 同步為 3,463 字元，A／B／C 2,501／2,586／2,772；全篇篇幅與估時已刷新，詳見 `knowledge/reviews/d08r-opening-cadence-review.md`。固定驗證不代表盲讀或瀏覽器通關。
@@ -539,7 +541,7 @@
 
 ## 5. 下一步執行順序
 
-1. **全篇分支連貫性與角色語氣 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01、C01→C02、C02→C03、C03→C04→C05、C05→C06→D01、D01→D02→D03、D03→D04→D05、D05→D06→D07、B08 角色聲線／情緒收束／選項互動及 D08 三結局條件回憶審校均已完成；21 組條件回憶可達性及稿件／索引／runtime 同步、A01～A06／D06／D07／D08F／D08P／D08R 五段與選項同步已加入 CI。D07 過早元敘事收束及 D08R 跨選項預約假設已修正。全篇時間錨點盤點已完成，並已按跨章精確重複句與玩家可見章號／幕次索引修訂 C04、A06、B01、B05～B08、C01、C05、D06；D08 三結局差異與關係狀態已定向複核，D08F 離店至小廣場的動線重複及 D01 重逢稱呼段的重複旁白已修正（見 `knowledge/reviews/adult-ending-contrast-review.md`、`knowledge/reviews/d08f-departure-continuity-review.md` 與 `knowledge/reviews/d01-reunion-narration-review.md`），D07 共通段已刪除三句重複總結並保留角色反應、陪伴界線與同行邀請（見 `knowledge/reviews/d07-cadence-review.md`）；C06 校門口結尾已刪除兩句重複定調並保留「我會記得這裡」與「明天見」的情緒落點（見 `knowledge/reviews/c06-ending-cadence-review.md`）；C01 開場已刪除重複任務說明並保留昨日結案與新任務的區分（見 `knowledge/reviews/c01-opening-cadence-review.md`）；A06 common 已刪除重述不必完美的一句旁白並保留可重試做法與明日工作界線（見 `knowledge/reviews/a06-cadence-review.md`）；D05 共通段已依角色直接表態與相鄰旁白進行精簡；仍續查其他中段聲線與情感節奏。固定同步檢查和 metadata 盤點均不等於實機通關或完整語義驗收。借鏡官方製作經驗時只採用角色語氣與路線互動的檢查方法，不推測本作有聲優演出；遠端分歧時先安全同步，不 force push。
+1. **全篇分支連貫性與角色語氣 QA**：選項局部影響審校已完成；EAT-01～07、PRT-01～07、AAT-01～07、BOT-01～07、BMT-01～07、BCT-01～07、B07→B08→C01、C01→C02、C02→C03、C03→C04→C05、C05→C06→D01、D01→D02→D03、D03→D04→D05、D05→D06→D07、B08 角色聲線／情緒收束／選項互動及 D08 三結局條件回憶審校均已完成；21 組條件回憶可達性及稿件／索引／runtime 同步、A01～A06／D06／D07／D08F／D08P／D08R 五段與選項同步已加入 CI。D07 過早元敘事收束及 D08R 跨選項預約假設已修正。全篇時間錨點盤點已完成，並已按跨章精確重複句與玩家可見章號／幕次索引修訂 C04、A06、B01、B05～B08、C01、C05、D06；D08 三結局差異與關係狀態已定向複核，D08F 離店至小廣場的動線重複及 D01 重逢稱呼段的重複旁白已修正（見 `knowledge/reviews/adult-ending-contrast-review.md`、`knowledge/reviews/d08f-departure-continuity-review.md` 與 `knowledge/reviews/d01-reunion-narration-review.md`），D07 共通段已刪除三句重複總結並保留角色反應、陪伴界線與同行邀請（見 `knowledge/reviews/d07-cadence-review.md`）；C06 校門口結尾已刪除兩句重複定調並保留「我會記得這裡」與「明天見」的情緒落點（見 `knowledge/reviews/c06-ending-cadence-review.md`）；C01 開場已刪除重複任務說明並保留昨日結案與新任務的區分（見 `knowledge/reviews/c01-opening-cadence-review.md`）；A06 common 已刪除重述不必完美的一句旁白並保留可重試做法與明日工作界線（見 `knowledge/reviews/a06-cadence-review.md`）；D05 共通段已依角色直接表態與相鄰旁白進行首輪精簡，並完成邀約至道別第二輪收束（見 knowledge/reviews/d05-voice-cadence-review.md 與 knowledge/reviews/d05-invitation-departure-cadence-review.md）；仍續查其他中段聲線與情感節奏。固定同步檢查和 metadata 盤點均不等於實機通關或完整語義驗收。借鏡官方製作經驗時只採用角色語氣與路線互動的檢查方法，不推測本作有聲優演出；遠端分歧時先安全同步，不 force push。
 2. **UI 2.0 與背景實機驗收**：Pages 部署已成功；待可用實體 iPhone Safari 驗收安全區、動態視窗和觸控，並保留完整桌面瀏覽器 QA。此待驗項不阻塞可自行進行的劇情與資產工作，沒有實機時不把它勾選為完成。
 3. **背景與美術品質驗收**：驗證真實裝置的背景裁切、可讀性及角色素材顯示品質；角色表情已接入，跨裝置仍待驗收。D08P 專用背景目前受生成工具限制，依 D-26 記錄；待內建 ImageGen 可用或使用者確認 CLI／API 路徑後再製作，不阻塞其他工作。
 4. **存檔、分支及音訊相容性驗收**：完成後再執行跨裝置完整 QA 與發布檢查。
@@ -655,6 +657,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 | `knowledge/reviews/d04-cadence-review.md` | D04 普通日常結尾首輪重複導語修訂與路徑篇幅檢查 |
 | `knowledge/reviews/d04-midsection-cadence-review.md` | D04 河堤至車站中後段第二輪重述複核與篇幅依據 |
 | `knowledge/reviews/d05-repeat-reference-review.md` | D05 分支錯誤重複指涉的語境檢查與修正依據 |
+| `knowledge/reviews/d05-invitation-departure-cadence-review.md` | D05 邀約至道別第二輪重述與離店動線複核 |
 | `knowledge/reviews/d06-cadence-review.md` | D06 路線共通段的重複保證旁白修訂與篇幅驗證 |
 | `knowledge/reviews/d07-cadence-review.md` | D07 自主／平等抽象總結精簡與路徑同步驗證 |
 | `knowledge/reviews/c06-ending-cadence-review.md` | C06 校園篇結尾重複定調的修訂與驗證 |
@@ -705,6 +708,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 
 ## 本輪 CI 與 Pages 查核（2026-11-24）
 
+- D04 中後段複核 commit `59c6b71` 的 GitHub Actions run `45335350092` 成功；Pages 首頁、game.html 與 game-data.js 均 HTTP 200，首頁顯示三線完整重讀約 7.2～9.7 小時，線上台詞已移除重複總結。此為 CI／部署及公開文字確認，不代表瀏覽器逐路通關或實機 QA。
 - 角色表情無損 WebP runtime commit `d877fc7` 的 GitHub Actions run `45316426130` 成功；Pages 首頁、game.html、game.js、13 張 WebP、13 張來源 PNG 與 SVG fallback 共 30 個 URL 均 HTTP 200，線上 game.js 已引用 WebP。這是 CI 與可取用檢查，不代替實際裝置解碼／畫面 QA；詳見 `knowledge/reviews/character-sprite-webp-review.md`。
 - 自動存檔損壞資料保護 commit `4528ebe` 已推送；GitHub Actions run `45306596684` 成功。Pages 首頁、`game.html`、`game.js` 均 HTTP 200，線上腳本含 `hasStoredSave` 保護。僅證明 CI／資產可達，不代表真實瀏覽器存檔互動 QA 完成。
 - P01 共通收束修訂 commit 6562b8d 的 GitHub Actions run 45296986806 成功；正式 game.html、game-data.js 均回應 HTTP 200，線上含保留的責任界線並已移除重複收尾句。
