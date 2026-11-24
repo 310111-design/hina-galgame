@@ -736,3 +736,4 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 - A01 收束修訂 commit ec57190 的 GitHub Actions run 45300964502 成功；Pages 首頁、game.html 與 game-data.js 均回應 HTTP 200，首頁已顯示最新 2.5～3.3 小時單線／7.4～9.9 小時三線重讀，runtime 已移除重複送客與收尾句。此為部署與公開內容檢查，不代表完整路線通關或盲讀。
 
 - D08F 共通段節奏修訂 commit `0882dce` 的 GitHub Actions run `45322995298` 成功；Pages 首頁與 `game-data.js` 均 HTTP 200，加 cache-buster 核對已移除舊旁白並保留小廣場動線，首頁仍顯示單線約 2.4～3.3 小時。這是 CI 與公開內容確認，不代表瀏覽器逐路或實機 QA。
+- D08F 道別前第二次邀請修訂 commit `fdbabe8` 的 GitHub Actions run `45344914962` build／deploy 成功；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200，首頁顯示單線 2.4～3.2 小時、全分支 3.2～4.2 小時與三線重讀 7.1～9.5 小時；線上資料含「也可以直接問我」並已移除「沒有特別目的也沒關係」。桌面瀏覽器工具無法確認目前網址是否允許，未完成互動 QA；詳見 `knowledge/reviews/d08f-common-cadence-review.md`。
