@@ -669,3 +669,9 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 | `scripts/validate-full-length-summary.js` | 將 runtime 聚合篇幅與路線圖、章節計畫及最新篇幅快照比對 |
 
 - [x] GitHub Pages 部署工作流程在上傳前清理同一 run 先前重跑留下的同名 artifact，避免 deploy-pages 因多個 `github-pages` 成品而失敗。
+
+
+## 本輪 CI 與 Pages 查核（2026-11-24）
+
+- P01 共通收束修訂 commit 6562b8d 的 GitHub Actions run 45296986806 成功；正式 game.html、game-data.js 均回應 HTTP 200，線上含保留的責任界線並已移除重複收尾句。
+- D06 相鄰章動作精簡 commit 911ed73 的 GitHub Actions run 45297725253 成功；正式 game.html、game-data.js 與首頁均回應 HTTP 200，runtime 含新擺杯動作並已移除舊解說，首頁三種遊玩估算與目前 runtime 取整結果一致。此為 CI／部署證據，不等於完整 route browser playthrough 或實機 QA。
