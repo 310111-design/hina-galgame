@@ -19,7 +19,7 @@
 
 ## 驗證與限制
 
-推送前執行 `validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js`、`validate-game-shells.js`、JavaScript 語法檢查及 `git diff --check`，確認章稿同步、路線／條件資料、估時與頁面入口。這些檢查不等於朋友線瀏覽器逐路通關、盲讀或實機 QA；CI／Pages 結果待推送後回填。
+推送前執行 `validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js`、`validate-game-shells.js`、JavaScript 語法檢查及 `git diff --check`，確認章稿同步、路線／條件資料、估時與頁面入口。commit `55f07bc` 對應 GitHub Actions run `45339907654` build／deploy 成功；Pages 首頁、`game.html` 與 `game-data.js` 均 HTTP 200，線上保留下一次分享邀請並已移除重複解說。這些檢查不等於朋友線瀏覽器逐路通關、盲讀或實機 QA。
 
 ## 可複用範圍
 
