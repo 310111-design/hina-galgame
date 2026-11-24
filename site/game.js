@@ -800,18 +800,34 @@ function loadManualSlots() {
   try {
     const stored = JSON.parse(localStorage.getItem(MANUAL_SLOTS_KEY) || "null");
     if (Array.isArray(stored)) {
-      return Array.from({ length: MANUAL_SLOT_COUNT }, (_, index) => stored[index] || null);
+      const slots = Array.from({ length: MANUAL_SLOT_COUNT }, (_, index) => normalizeManualSave(stored[index] || null));
+      if (JSON.stringify(slots) !== JSON.stringify(Array.from({ length: MANUAL_SLOT_COUNT }, (_, index) => stored[index] || null))) {
+        localStorage.setItem(MANUAL_SLOTS_KEY, JSON.stringify(slots));
+      }
+      return slots;
     }
     const legacy = JSON.parse(localStorage.getItem(MANUAL_SAVE_KEY) || "null");
     const slots = Array(MANUAL_SLOT_COUNT).fill(null);
-    if (legacy && isValidManualSave(legacy)) {
-      slots[0] = legacy;
+    const migrated = normalizeManualSave(legacy);
+    if (migrated && isValidManualSave(migrated)) {
+      slots[0] = migrated;
       localStorage.setItem(MANUAL_SLOTS_KEY, JSON.stringify(slots));
     }
     return slots;
   } catch (_) {
     return Array(MANUAL_SLOT_COUNT).fill(null);
   }
+}
+
+function normalizeManualSave(saved) {
+  if (!saved || typeof saved !== "object" || Array.isArray(saved) || saved.version === 3) return saved;
+  if (!Number.isInteger(saved.chapter)) return saved;
+  const migrated = {
+    ...saved,
+    version: 3,
+    chapter: saved.chapter + (saved.version === 2 ? 0 : 3)
+  };
+  return isValidManualSave(migrated) ? migrated : saved;
 }
 
 function isValidManualSave(saved) {

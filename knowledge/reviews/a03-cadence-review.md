@@ -27,3 +27,7 @@ A03 原先在「明天的巡邏區域仍可能因資料不足而改動」及「�
 - A03 章稿/runtime 更新為 95 條主線 tuple／2,126 字元；A／B／C 路徑 1,581／1,557／1,542 字元。
 - 全篇更新為 3,397 tuples、78,582 原始字元、77,947 精確去重字元／3,308 條唯一文字。完整路徑及遊玩時間見 `full-length-refresh.md` 與 `playtime-estimate.md`。
 - `validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 等固定檢查通過。它們確認稿件、runtime、選項與統計一致，不評估玩家對結尾節奏的實際感受或實機通關。
+
+## 部署確認
+
+A03 runtime 修訂 commit `448933b` 的 Pages workflow run `45301576147` 成功；後續跨章／同章重複台詞索引文件 commit `a949bdd` 的 run `45301852451` 亦成功。2026-11-24 檢查公開 Pages 首頁與 `game-data.js` 均為 HTTP 200。這確認該修訂已隨部署發布，不代表瀏覽器互動 QA 或第一幕完整通關。
