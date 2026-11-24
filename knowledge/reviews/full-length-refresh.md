@@ -284,11 +284,11 @@
 - D04 common 刪除 12 條重述普通日常價值、關係命名及不必證明的抽象旁白，並將人群句縮為場景定位；保留分支回聲、角色對話、沿途行動及告別。D04 為 **2,504** 字元，A／B／C **2,345／2,339／2,290**；依人工複核設定防截斷下限總量 2,400、單路徑 2,200，不為保住首稿參考值補回重述。
 - 33 個節點共 **3,324** 條對話 tuple（含 21 組條件對話，704 字元），原始文字 **76,998** 字元；精確去重後 **76,363 字元／3,235 條唯一文字**。30 個共通節點路徑理論範圍 **54,837～55,844** 字元；朋友線 **57,363～58,414**、搭檔線 **57,337～58,373**、戀愛線 **57,338～58,616** 字元。
 - 純文字單一路線 **57,337～58,616 字元／2.4～3.3 小時**；全分支覆蓋 **76,998 字元／3.2～4.3 小時**；三線從頭重讀 **173,636～173,980 字元／7.2～9.7 小時**。換算採 300～400 字元／分鐘，未經玩家計時；三線重讀不含條件台詞。
-- validate-route-drafts.js、validate-game-data.js、validate-full-length-summary.js、validate-prologue-revisions.js、validate-game-shells.js、inspect-visual-assets.js、JavaScript 語法檢查及 git diff --check 用於固定資料／稿件與統計驗證，不代表盲讀、瀏覽器逐路通關或實機裝置 QA。Pages／CI 狀態待本輪推送後確認。詳見 knowledge/reviews/d04-midsection-cadence-review.md。
+- validate-route-drafts.js、validate-game-data.js、validate-full-length-summary.js、validate-prologue-revisions.js、validate-game-shells.js、inspect-visual-assets.js、JavaScript 語法檢查及 git diff --check 用於固定資料／稿件與統計驗證，不代表盲讀、瀏覽器逐路通關或實機裝置 QA。D04 commit 59c6b71 的 Actions run 45335350092 build／deploy 成功，Pages 首頁、game.html 與 game-data.js 均 HTTP 200；詳見 knowledge/reviews/d04-midsection-cadence-review.md。
 
 ## 最新結果：D05 邀約至道別第二輪複核後
 
 - D05 common 刪除回家時間後的重複界線總結、邀約後重述緊張與關係未定的旁白及第二次到店門口道別；合併名字後的抽象總結，保留可改公共場所／拒絕／延後決定的選項、陽奈直接表態和玩家回家後接受邀約的訊息。D05 為 **138** tuples／**2,607** 字元，A／B／C **2,524／2,508／2,473**；路徑防截斷下限改為 2,400。
 - 全篇 **3,312** 條對話 tuple（含 21 組條件對話，704 字元），原始文字 **76,725** 字元；精確去重後 **76,090 字元／3,223 條唯一文字**。30 個共通節點路徑 **54,564～55,571** 字元；朋友線 **57,090～58,141**、搭檔線 **57,064～58,100**、戀愛線 **57,065～58,343** 字元。
 - 單線純文字 **57,064～58,343 字元／2.4～3.2 小時**；全分支覆蓋 **76,725 字元／3.2～4.3 小時**；三線完整重讀共通段 **172,817～173,161 字元／7.2～9.6 小時**。採 300～400 字元／分鐘估算；三線重讀不含條件台詞，非玩家實測。
-- 固定驗證範圍為章稿/runtime、分支與路徑篇幅、遊玩時間摘要、遊戲資料、序章、存檔、素材及語法；不能取代盲讀、瀏覽器逐路通關或裝置 QA。CI／Pages 待本輪推送後補記。詳見 knowledge/reviews/d05-invitation-departure-cadence-review.md。
+- 固定驗證範圍為章稿/runtime、分支與路徑篇幅、遊戲資料、存檔、素材及語法；不能取代盲讀、瀏覽器逐路通關或裝置 QA。commit 71edaf8 對應 Actions run 45336553389 build／deploy 成功，Pages 首頁、game.html 與 game-data.js 均 HTTP 200，線上內容已核對。詳見 knowledge/reviews/d05-invitation-departure-cadence-review.md。
