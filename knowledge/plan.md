@@ -331,6 +331,7 @@
 - [x] 全篇時間錨點盤點：對照 33 節 metadata、明示日序／時刻與既有跨章審校；未發現硬性時間矛盾，D04／D05 的「週末／幾天後」維持未鎖定日期的彈性寫法。此為錨點盤點，不代表逐句語義 QA 或實機通關；詳見 `knowledge/reviews/full-story-timeline-audit.md`。
 - [x] 陽奈全篇聲線抽查：比對 P01～D08 各節章首／章末台詞與情緒標記，並精讀 D08P、D08R common 結尾；移除重複工作流程口訣及抽象界線總結，以具體車站道別收束。routes、game-data 與 `git diff --check` 通過；此為聲線抽查，不代表全篇逐句 QA；詳見 `knowledge/reviews/full-story-hina-voice-review.md`。
 - [x] 成年篇三結局差異與關係狀態複核：對讀 D08F／D08P／D08R 的選項行動、共通回收及結局標記，並回查 D06 路線承諾；確認朋友分享、合作活動、戀愛探索各有不同體驗，D08R C 的延後交往選擇未被共通段覆蓋，無需改動正文。詳見 `knowledge/reviews/adult-ending-contrast-review.md`；未完成瀏覽器逐路通關或全篇 QA。
+- [x] 條件回憶語義抽查（非結局篇 12 組）：逐組對照 P03／A02／B01／C01／D01 的累積旗標來源、可選分支與主線狀態；確認休息、合作、日常、自主留白及預留時間回憶均有前置依據，沒有新增必要主線資訊或把分支結果強加給未選玩家，故不改台詞。此為內容人工抽查，不代表窮舉全部旗標序列；詳見 `knowledge/reviews/conditional-dialogue-semantic-audit.md`。
 - [x] 修正 D08F 共通段重複描述離開書店：將第二次「離開書店後」改為聊天後繼續走往小廣場；同步章稿/runtime，routes 與全篇摘要重算通過。D08F 現為 3,279 字元，朋友線全篇 61,010～62,067；詳見 `knowledge/reviews/d08f-departure-continuity-review.md`。僅修一處動線，不代表全篇 QA。
 - [x] B06／B07 收尾情緒節奏複核：移除 B06 已被陽奈收手動作與提醒便條表達過的重述句，保留 B07 的擔憂表達、具體交接說法與離場順序。同步稿件/runtime，固定分支與全篇統計重算通過；詳見 `knowledge/reviews/b06-ending-cadence-review.md`。不是第二幕或全篇最終 QA。
 - [x] C02→C03 角色語氣與情緒節奏複核：確認「先不改」與「尚未確定未來」的回聲各自隨資料證據／心理意義推進，僅刪除 C02 緊接台詞與行動的重複旁白摘要。稿件/runtime 同步，全篇去重 80,018 字元；詳見 `knowledge/reviews/c02-c03-voice-cadence-review.md`。此為兩節定向複核，不代表全篇 QA。
