@@ -106,6 +106,26 @@ const inaccessibleHarness = createHarness(memoryStorage({}, true));
 inaccessibleHarness.loadManualSlots();
 assert.equal(inaccessibleHarness.blocked(), true, "unavailable localStorage should block manual writes");
 
+const oversizedContainer = [current, null, null, null, null, null, { version: 4, preserved: true }];
+const oversizedStorage = memoryStorage({ slots: JSON.stringify(oversizedContainer) });
+const loadManualSlotSource = readFunction("loadManualSlot", "saveManual");
+const readableWhileBlockedHarness = new Function(
+  "chapters", "localStorage", "MANUAL_SAVE_KEY", "MANUAL_SLOTS_KEY", "MANUAL_SLOT_COUNT",
+  "document", "defaultState", "renderHistory", "render",
+  `let manualSaveWriteBlocked = false;\nlet manualSaveWriteBlockedMessage = "";\nlet autoSaveWriteBlocked = true;\nlet autoSaveWriteBlockedMessage = "unknown data";\nlet replayMode = false;\nlet mainStateSnapshot = null;\nlet dialogueHistory = [];\nlet lastHistoryKey = "";\nlet state = {};\n${migrationFunctions}\n${loadManualSlotSource}\nreturn { loadManualSlots, loadManualSlot, state: () => state, blocked: () => manualSaveWriteBlocked };`
+)(
+  chapters, oversizedStorage, "legacy", "slots", 6,
+  { getElementById() { return { close() {} }; } },
+  () => ({ flags: {}, choices: {}, route: null }),
+  () => {},
+  () => {}
+);
+readableWhileBlockedHarness.loadManualSlot(0);
+assert.equal(readableWhileBlockedHarness.state().chapter, current.chapter, "a valid slot among the first six should remain loadable while writes are blocked");
+assert.equal(readableWhileBlockedHarness.state().phase, current.phase);
+assert.equal(readableWhileBlockedHarness.blocked(), true, "loading a valid slot should not silently unblock container writes");
+assert.equal(oversizedStorage.value("slots"), JSON.stringify(oversizedContainer), "reading a slot should not alter an oversized container");
+
 const saveManualSlotSource = readFunction("saveManualSlot", "loadManualSlot");
 const protectedWriteStorage = memoryStorage({ slots: "{" });
 const protectedWriteHarness = new Function(
@@ -122,4 +142,4 @@ assert.equal(protectedWriteHarness.blocked(), true);
 protectedWriteHarness.saveManualSlot(0);
 assert.equal(protectedWriteStorage.value("slots"), "{", "saveManualSlot should not replace an unreadable slot container");
 
-console.log("Manual save migration checks passed (legacy/current/future formats, corrupt-container preservation and write protection).");
+console.log("Manual save migration checks passed (legacy/current/future formats, corrupt-container preservation, write protection and safe reads).");
