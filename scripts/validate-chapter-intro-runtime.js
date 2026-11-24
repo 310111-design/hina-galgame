@@ -202,4 +202,3 @@ assert.equal(testplaySave.elements.get("chapterIntro").hidden, true, "testplay s
 assert.ok(testplaySave.storageReads.includes("hina-galgame-testplay-v3"));
 
 console.log("Chapter intro checks passed: accessible description, opening and chapter cards, focus containment/restoration, autoplay lock and full/testplay save resume.");
-
