@@ -2189,3 +2189,10 @@
 - **如何應用於本作：** 從正式 `game.js` 抽取載入／保存／控制更新函式及 slider／toggle event listeners；用 fake localStorage 和小型 DOM stub 核對預設、錯誤資料回退、0～1 clamp、音量相互獨立、toggle 對 start/stop 呼叫、`aria-pressed`／標籤一致與重建 harness 後設定保留，再把檢查接入 Pages CI。
 - **限制與驗證：** runtime harness 只驗證狀態和 API 呼叫，不產生或聽取 Web Audio；commit `57c9a9a` 的 Actions run `45358662648` build／deploy 成功、Pages 遊戲頁 HTTP 200。Safari／iOS 使用者手勢政策、真實音量、淡入淡出、中斷／恢復及偏好控制器畫面仍待瀏覽器／實機驗收。
 - **未來可用範圍：** 本作音訊設定及其他需要可保存音量／靜音偏好的互動控制；也適用於 Web Audio app，以 runtime 測試驗證設定和事件映射，再把真實播放及裝置 policy 留給媒體／裝置 QA。
+
+### 2026-11-24：以 mock Web Audio 驗證場景轉場的節點生命週期
+
+- **學到什麼：** 音量設定驗證只證明控制器呼叫播放 API，並不覆蓋環境音場景切換中的淡出、快速連切時各自的延遲清理、AudioContext 被暫停後再次播放，或靜音後舊節點是否正確停止。只斷言節點數量也可能漏掉清理錯了場景的 race。
+- **如何應用於本作：** `scripts/validate-audio-transitions.js` 抽取正式 `ensureAudio()`、`createAmbient()`、`startAmbient()`、`transitionAmbient()` 與 `stopAmbient()`；用 mock `AudioContext` 記錄 gain automation、oscillator stop、resume、timeout 和 disconnect。分別保存 office／corridor／rooftop 節點參考，執行快速連續轉場並逐組確認舊場景清理、不影響最新場景；另確認停用後不重新啟動。加入 Pages workflow。
+- **限制與驗證：** `node scripts/validate-audio-transitions.js` 通過。此 harness 檢查的是 runtime 呼叫和 mock 節點生命週期，不會實際等待計時、生成或聆聽音訊，也不驗證 AudioParam 瀏覽器排程差異、Safari／iOS 使用者手勢、作業系統中斷事件或真實淡入淡出聽感；需要另做瀏覽器與裝置 QA。
+- **未來可用範圍：** 本作辦公室、走廊、屋頂等環境音切換及音訊靜音／恢復；也適用於 Web Audio 場景音樂、濾鏡或其他有排程清理的資源切換，測試應追蹤每批舊資源身份以捕捉快速連續轉場的錯誤清除。
