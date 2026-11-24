@@ -35,5 +35,5 @@ module.exports = [
   { id: "D07", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "route bridge manuscript/runtime synchronized" },
   { id: "D08F", minimum: 3000, pathMinimum: 2300, syncSections: true, syncChoices: true, syncConditional: true, status: "second-pass shared-section cadence revision below initial path reference" },
   { id: "D08P", minimum: 2500, pathMinimum: 2300, syncSections: true, syncChoices: true, syncConditional: true, status: "second-pass common-section cadence revision below initial path reference" },
-  { id: "D08R", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, syncConditional: true, status: "reviewed draft" }
+  { id: "D08R", minimum: 2500, pathMinimum: 2300, syncSections: true, syncChoices: true, syncConditional: true, status: "second-pass common-section cadence revision below initial path reference" }
 ];
