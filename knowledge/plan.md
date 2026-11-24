@@ -714,6 +714,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 
 ## 本輪 CI 與 Pages 查核（2026-11-24）
 
+- D08P 共通段第二輪節奏修訂 commit `dab3079` 的 Actions run `45342288324` build／deploy 均成功；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200，線上 D08P 已採用合併後的大字體追蹤方案，舊的重複待辦已移除。這是 CI 與公開內容確認，不代表盲讀、瀏覽器逐路或實機 QA；詳見 `knowledge/reviews/d08p-ending-followup-cadence-review.md`。
 - D08F 朋友線第二輪節奏修訂 commit `55f07bc` 對應 Actions run `45339907654` build／deploy 成功；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200，線上資料保留分享邀請並移除重複規則／未來安排解說。部署確認不代表朋友線完整瀏覽器通關、盲讀或實機 QA；詳見 `knowledge/reviews/d08f-common-cadence-review.md`。
 - D06 中段二輪複核 commit `e3d964a` 對應 GitHub Actions run `45338571310` build／deploy 成功；Pages 首頁、`game.html`、`game-data.js` 全部 HTTP 200，公開首頁顯示全分支 3.2～4.2 小時與三線重讀 7.1～9.5 小時，線上 D06 保留購物意見分歧與延後決定，已移除重複的共同安排總結。此為 CI／部署與公開文字確認，不代表盲讀、D06 瀏覽器逐路或裝置 QA；詳見 `knowledge/reviews/d06-midsection-cadence-review.md`。
 - D05 邀約至道別修訂 commit `71edaf8` 的 GitHub Actions run `45336553389` build／deploy 均成功；Pages 首頁、game.html、game-data.js 回應 HTTP 200，首頁顯示單線 2.4～3.2 小時與三線重讀 7.2～9.6 小時，線上保留返家後接受邀約並已移除第二次到店門口道別。此為 CI／部署與公開文字確認，不代表瀏覽器逐路通關或裝置 QA。

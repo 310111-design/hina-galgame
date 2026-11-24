@@ -25,3 +25,7 @@ D08P 為 80 tuples／3,153 字元，A／B／C 路徑 2,524／2,529／2,500，皆
 D08P 稿件/runtime 同步為 3,078 字元，A／B／C 路徑為 2,449／2,454／2,425；路徑防截斷下限由 2,500 調為 2,300。全篇重算為 3,300 tuples、76,017 原始字元、75,382 精確去重字元／3,211 條唯一文字；純文字估算仍為單線 2.4～3.2 小時、全分支 3.2～4.2 小時、三線完整重讀 7.1～9.5 小時。固定驗證確認稿件/runtime、章節路徑和全篇摘要；不代表玩家盲讀、瀏覽器逐路通關或實機 QA。
 
 本次數字只供內容盤點，不把首輪參考字數當品質目標。詳見 `knowledge/reviews/full-length-refresh.md` 與 `knowledge/reviews/playtime-estimate.md`。
+
+## 部署確認
+
+修訂 commit `dab3079` 的 GitHub Actions run `45342288324` build／deploy 成功。Pages 首頁、`game.html`、`game-data.js` 全部 HTTP 200；線上 runtime 可找到整合後的大字體追蹤方案，找不到舊的重複待辦句。此為 CI／部署及公開內容檢查，不代替盲讀或瀏覽器逐路 QA。
