@@ -749,6 +749,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 
 ## 本輪 CI 與 Pages 查核（2026-11-24）
 
+- 條件回憶累積門檻 validator 與經驗／路線圖 commit `af71a1e` 對應 Actions run `45391293867`，build 與 deploy 均 completed／success；Pages 首頁、`game.html`、cache-buster `game-data.js` 均 HTTP 200。此為 CI 與發布確認，不代表全篇條件歷史窮舉、逐路通關或實機 QA；詳見 `knowledge/reviews/conditional-flag-count-reachability.md`。
 - 全篇 33 章入口／節末旗標 metadata 修正 commit `b196f21` 對應 Actions run `45388052370` completed／success；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200。這只確認 metadata／validator 同步和部署，不等於全篇條件歷史組合實際遊玩。
 - 隨後部署證據文件 commit `9f7c3a6` 的 Actions run `45388329142` completed／success。
 - 將純文字估時同步至 README／CHANGELOG 並擴充 validator 的 commit `d48a2c4` 對應 Actions run `45389360534` build／deploy 均成功；Pages 三個入口及 GitHub raw README／CHANGELOG 均 HTTP 200，最新單線／全分支／三線重讀為 2.3～3.2／3.2～4.2／7.1～9.5 小時。此為公開數值與部署確認，非玩家實測。
