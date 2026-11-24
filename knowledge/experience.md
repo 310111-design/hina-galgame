@@ -2264,5 +2264,5 @@
 
 - **學到什麼：** P03 的條件回憶讀取 `rest`／`teamwork`／`ordinary_day`，但 P03-C 還可累加 `daily_checkin`。A01～A05 的入口與節末摘要同時漏列此旗標，證明以文件入口欄作 validator 的唯一基準會讓成對漏項自我通過；入口應由先前可達選項獨立推導，不等同本章 `flaggedIntro`。
 - **如何應用於本作：** `validate-chapter-flag-summaries.js` 依 runtime 順序累積前序選項旗標、A06 固定 `daily_checkin` 增量和 B08 的 `self_rest`，另將 D08F／P／R 視為互斥結局。修正 A01～A05 的入口與節末紀錄；檢查可達旗標種類後，再以當章選項輸出核對節末聯集。
-- **限制與驗證：** 33／33 章現有入口與節末欄位，由 validator 全數比對；它檢查旗標種類可達，不核算次數、任意歷史序列或對話語義。`validate-choice-runtime.js` 另驗證每個選項寫入 `choice.flag`，以及 A06 每條路徑額外增加 `daily_checkin`。VM 陣列跨 JavaScript realm，序列比較先正規化為字串以免原型差異誤報。
+- **限制與驗證：** 33／33 章現有入口與節末欄位，由 validator 全數比對；它檢查旗標種類可達，不核算次數、任意歷史序列或對話語義。`validate-choice-runtime.js` 另驗證每個選項寫入 `choice.flag`，以及 A06 每條路徑額外增加 `daily_checkin`。全篇修正 commit `b196f21` 的 Actions run `45388052370` build／deploy 成功，Pages 三個入口 HTTP 200。VM 陣列跨 JavaScript realm，序列比較先正規化為字串以免原型差異誤報。
 - **未來可用範圍：** 本作累積旗標的入口摘要、條件回憶與節末索引；也適用於互動敘事、表單流程和狀態機文件，在前序動作可持續累積狀態時，從來源獨立推導入口，避免同一文件中的欄位同步漏項掩蓋錯誤；缺 metadata 時須明確報告覆蓋邊界。

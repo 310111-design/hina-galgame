@@ -13,7 +13,7 @@ P03 的節末清單漏列 C 選項實際累加的 `daily_checkin`。進一步追
 - 現在 33／33 章都有入口摘要與節末旗標行；validator 會對任何缺漏直接失敗，並精確比對 runtime 可能帶入與產生的旗標種類。
 - 檢查已接入 `.github/workflows/pages.yml`，並與 `validate-choice-runtime.js` 互補：前者核對章稿 metadata，後者呼叫 runtime 選項函式驗證旗標遞增。
 - 本檢查驗證旗標種類是否可能大於零，不計算任意歷史的累積次數，也不判斷條件對話的語義。結局之間按互斥節點隔離；稿件 metadata 可達性不代表每種旗標組合都能同時出現。
-- 初版 commit `152dc7f` 的 run `45385988705` build／deploy 成功、Pages 三個入口 HTTP 200；之後 `e458912` 文件補記 run `45386335955` 成功。此次全篇修正的本機 route、game data、篇幅、選項及 metadata 驗證均通過，最新部署結果待本批推送後補記。
+- 初版 commit `152dc7f` 的 run `45385988705` build／deploy 成功、Pages 三個入口 HTTP 200；文件補記 commit `e458912` 的 run `45386335955` 也成功。全篇修正 commit `b196f21` 的 run `45388052370` build／deploy 成功，Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200；本機 route、game data、篇幅、選項及 metadata 驗證全數通過。本批只改章稿 metadata 與 validator，沒有更動玩家可見 runtime。
 
 ## 可複用範圍
 
