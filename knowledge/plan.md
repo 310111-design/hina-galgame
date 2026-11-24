@@ -750,6 +750,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 
 ## 本輪 CI 與 Pages 查核（2026-11-24）
 
+- C01 teamwork 條件回憶前旁白精簡 commit `bc6f988` 對應 Actions run `45393529894`，build 與 deploy 均 completed／success；Pages 首頁、`game.html`、cache-buster `game-data.js` 均 HTTP 200，線上已移除重複結論旁白。這只確認部署與公開文字，不代表全篇條件回憶 QA 或實機通關；詳見 `knowledge/reviews/c01-teamwork-conditional-cadence-review.md`。
 - 條件回憶累積門檻 validator 與經驗／路線圖 commit `af71a1e` 對應 Actions run `45391293867`，build 與 deploy 均 completed／success；Pages 首頁、`game.html`、cache-buster `game-data.js` 均 HTTP 200。此為 CI 與發布確認，不代表全篇條件歷史窮舉、逐路通關或實機 QA；詳見 `knowledge/reviews/conditional-flag-count-reachability.md`。
 - 全篇 33 章入口／節末旗標 metadata 修正 commit `b196f21` 對應 Actions run `45388052370` completed／success；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200。這只確認 metadata／validator 同步和部署，不等於全篇條件歷史組合實際遊玩。
 - 隨後部署證據文件 commit `9f7c3a6` 的 Actions run `45388329142` completed／success。
