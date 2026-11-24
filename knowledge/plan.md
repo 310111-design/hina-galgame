@@ -384,7 +384,7 @@
 - [x] D05 共通段語氣與情緒節奏複核（首輪）：將平靜但緊張、想見面的答案停在當下兩處重述收束，保留接受不同答案及未整理完過去／現在／未來的情緒資訊；稿件/runtime 當時同步 150 tuples／2,880 字元，A／B／C 2,797／2,781／2,746。詳見 knowledge/reviews/d05-voice-cadence-review.md。
 - [x] D08F common 節奏複核：刪除與後續具體近況聊天重疊的一條過渡旁白，保留書籍互動、小廣場事件及分支選擇；章稿/runtime 同步，79 tuples／3,233 字元，A／B／C 路徑 2,526／2,570／2,535。全篇統計與閱讀估算已刷新，詳見 knowledge/reviews/d08f-voice-cadence-review.md；靜態驗證不代替盲讀或瀏覽器通關。
 - [x] D08P common 收束複核：將大字體準備與後續檢查移至道別前，刪除由陽奈台詞已明示的「不安排下一次活動」總結，保留各自整理回顧；稿件/runtime 同步，80 tuples／3,153 字元，A／B／C 2,524／2,529／2,500。詳見 knowledge/reviews/d08p-ending-followup-cadence-review.md；字數僅供盤點，沒有為門檻補寫抽象內容。
-- [x] B07 共通段分支道具連續性複核：將「桌面仍保持原來的狀態」收窄為正式文件保持原樣，並標明共通熱飲便條是另外抽出的，避免覆蓋 A／C 分支便條；稿件/runtime 同步、路線與全篇篇幅估算更新。詳見 knowledge/reviews/b07-common-prop-continuity-review.md。
+- [x] B07 共通段分支道具連續性複核：將「桌面仍保持原來的狀態」收窄為正式文件保持原樣，並標明共通熱飲便條是另外抽出的，避免覆蓋 A／C 分支便條；稿件/runtime 同步、路線與全篇篇幅估算更新；commit 30e035f 的 run 45364031578 成功，Pages 三個入口 HTTP 200，線上新舊敘述核對完成。詳見 knowledge/reviews/b07-common-prop-continuity-review.md。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
 - [x] 以相鄰章同說話者字元三元組相似度排序近似台詞，並依時間、分支與角色狀態人工判讀；A02→A03、B03→B04、C01→C02、C03→C04、D01→D02 的候選為有進展的回扣而保留；D07 C→D08F B 原先近乎重演靜音收手機，已改成朋友談話中收到通知後先聽完對方說話，讓成年社交界線成為新行動。稿件／runtime 及篇幅同步；route、game-data、full-length-summary validators 通過。commit `a806d63` 的 Actions run `45362541674` build／deploy 成功，Pages 首頁、遊戲頁及 `game-data.js` HTTP 200，cache-buster 核對線上有新句、無舊靜音句。不代表全篇近義重複或全路徑 QA；詳見 `knowledge/reviews/full-story-near-phrase-screen.md`。
 - [x] D08P 共通段第二輪節奏複核：將參加者的大字體回饋、圖書館既有格式、成本／準備時間與小量試印合併為一項追蹤方案，刪除重複的「不立刻承諾」及第二次列出同一後續；稿件/runtime 同步，3,078 字元、A／B／C 2,449／2,454／2,425，路徑防截斷下限調為 2,300。全篇篇幅及閱讀時間同步重算；詳見 `knowledge/reviews/d08p-ending-followup-cadence-review.md`。
