@@ -517,9 +517,10 @@
 
 ### Phase 5｜音訊完善
 
+- [x] 加入音訊設定 runtime 回歸：覆蓋預設、損壞設定回退、音量範圍限制、BGM／SFX 獨立調整、總開關呼叫啟停、ARIA 狀態標籤及 reload 後設定記憶，已接入 Pages workflow。詳見 `knowledge/reviews/audio-settings-runtime-review.md`。
 - [ ] iPhone Safari、桌面 Safari／Chrome 驗收首次播放是否正確等待使用者手勢。
 - [ ] 驗收場景切換時 BGM 淡入淡出、快速切換及中斷後恢復。
-- [ ] 驗收 BGM／SFX 獨立音量、總開關、設定記憶及靜音狀態。
+- [ ] 瀏覽器／實機驗收 BGM／SFX 獨立音量、總開關、設定記憶與靜音狀態；runtime 測試不代表控制器外觀或真實聽感通過。
 - [ ] 評估並加入正式 BGM／音效檔；未有正式音檔時保留 Web Audio 回退。
 - [ ] 確認音訊素材授權與來源紀錄，避免使用未獲授權的音檔。
 
@@ -663,6 +664,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 | `knowledge/reviews/playtime-estimate.md` | 由現行 runtime 分別估算單線、全分支覆蓋及三線重讀純文字時間 |
 | `knowledge/reviews/manual-save-storage-protection.md` | 六格手動存檔無法辨識或超額時保留原始容器及暫停寫入的修正與驗證界線 |
 | `knowledge/reviews/manual-save-runtime-review.md` | 正式手動存讀 runtime 的六欄新增／覆寫／讀取與無效資料回歸範圍 |
+| `knowledge/reviews/audio-settings-runtime-review.md` | 音訊設定載入、音量輸入、總開關及設定記憶的 runtime 驗證界線 |
 | `knowledge/reviews/d01-reunion-narration-review.md` | D01 重逢稱呼旁白審校、修訂依據與驗證界線 |
 | `knowledge/reviews/b04-cadence-review.md` | B04 共通收束責任分工段的重複導語修訂與驗證範圍 |
 | `knowledge/reviews/d02-cadence-review.md` | D02 共通收束重複宣告複核、修訂與篇幅同步依據 |
