@@ -12,7 +12,7 @@
 
 ## 驗證與限制
 
-JavaScript 語法、game shell、遊戲資料、路線稿件與 `git diff --check` 通過。這些檢查不能代替瀏覽器中的實際鍵盤焦點可見性、VoiceOver／NVDA 朗讀或逐路實機 QA。
+JavaScript 語法、game shell、遊戲資料、路線稿件與 `git diff --check` 通過。首次 Actions 執行發現章節重玩 harness 的 DOM 假物件缺少 `.focus()`；已新增 focus stub，並在 `validate-chapter-replay-isolation.js` 斷言分支選擇後舞台收到焦點。這些檢查不能代替瀏覽器中的實際鍵盤焦點可見性、VoiceOver／NVDA 朗讀或逐路實機 QA。
 
 ## 可複用範圍
 

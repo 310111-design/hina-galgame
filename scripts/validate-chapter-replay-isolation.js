@@ -60,6 +60,13 @@ let autoSaveWriteBlockedMessage = "";
 let dialogueHistory = [];
 let lastHistoryKey = "";
 let saveStatus = "";
+let gameStageFocusCount = 0;
+const gameStage = {
+  focus(options) {
+    assert.equal(options?.preventScroll, true, "branch focus restoration should not scroll the page");
+    gameStageFocusCount += 1;
+  }
+};
 const chapterButtons = [];
 const chapterList = {
   innerHTML: "",
@@ -67,6 +74,7 @@ const chapterList = {
 };
 const document = {
   getElementById(id) {
+    if (id === "gameStage") return gameStage;
     if (id === "chapterList") return chapterList;
     if (id === "chapterDialog") return { showModal() {}, close() {} };
     if (id === "saveState") return { set textContent(value) { saveStatus = value; } };
@@ -105,6 +113,7 @@ assert.deepEqual(harness.getState().flags, originalState.flags, "replay should s
 
 harness.choose(chapters[0].choices[0]);
 assert.notDeepEqual(harness.getState().flags, originalState.flags, "replay choice should update replay-local flags");
+assert.equal(gameStageFocusCount, 1, "choosing a branch should return focus to the game stage");
 const writesBeforeReplaySave = writeCount;
 harness.saveManualSlot(0);
 assert.equal(saveStatus, "章節重玩不會覆蓋主線存檔");
