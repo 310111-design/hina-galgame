@@ -2238,3 +2238,10 @@
 - **如何應用於本作：** 逐句連讀 D07 三個活動分支的合流段及其後對白，刪除兩條重複協商原則的 narrator tuple，保留具體路線成為回憶的後續和關係方向。章稿/runtime 同步，D07 A／B／C 為 2,401／2,414／2,412；將 2,500 首輪參考和 2,300 防截斷線區分，不用重述補篇幅。
 - **限制與驗證：** `validate-route-drafts.js`、`validate-game-data.js`、`validate-choice-runtime.js`、`validate-full-length-summary.js` 檢查稿件/runtime、章節路徑、99 種選項 lifecycle、九種 D06／D07 組合、全篇統計與首頁估時；commit `8a76706` 的 Pages run `45378895151` build／deploy 成功，三個公開入口 HTTP 200，線上舊旁白已移除。這些檢查不推演所有既有旗標、不證明三結局盲讀或瀏覽器逐路 QA。共通段削除必須保留不受 A／B／C 前置行動影響的中性敘述。
 - **未來可用範圍：** 本作 D07 及其他互動分支在共通收束前已有角色直接協商、後文又重述原則的場景；也適用於多路線視覺小說或對話流程，判讀時應連讀鄰接台詞、分支出口與共同事件，避免逐句孤立刪除。
+
+### 2026-11-24：章節卡用穩定章節 ID 觸發並尊重續讀狀態
+
+- **學到什麼：** 資料驅動遊戲的逐行 render 可能重複更新 DOM；若用對話行號或每次 mutation 顯示標題卡，會在同一章反覆打斷閱讀。新遊戲、跨章切換與有效存檔續讀也需要不同處理。
+- **如何應用於本作：** 共用 `site/chapter-intro.js` 觀察 `sceneArt` 的 `data-chapter` 變化，僅在章節 ID 真正改變時顯示章名；有效存檔直接續讀，章卡期間阻止點擊、快捷鍵及自動播放，關閉後恢復焦點。正式版與 testplay 共用章卡，樣式在 `site/chapter-intro.css`。
+- **限制與驗證：** `game-data`、`routes`、`shells` 固定 validators 通過；近期 Pages run `45379364996` build／deploy 成功，公開 `chapter-intro.js` 與 CSS HTTP 200。這些檢查不驗證真實瀏覽器 mutation 時序、自動播放競態、存檔續讀焦點、iOS safe-area 或螢幕閱讀器；重要事件／CG 專屬停頓仍未實作。
+- **未來可用範圍：** 本作章節標題卡與後續事件過場；也適用於資料驅動互動內容的章節切換提示、場景載入狀態及 modal 遮罩，應觀察穩定內容 ID，並將 UI 觀看狀態和劇情存檔分開。

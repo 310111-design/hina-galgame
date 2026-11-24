@@ -30,6 +30,5 @@
 
 - 本階段只完成 Phase 3「完整章節開始畫面及重要事件的視覺停頓」中的章節開始畫面部分；重要事件停頓、跨裝置驗收尚未完成。
 - 三個固定 validators 均通過；未執行瀏覽器、讀屏或真機測試。尤其 mutation 觸發、autoplay 間隔和鍵盤焦點行為仍待人工驗收。
-- `knowledge/plan.md` 讀取回傳在檔尾截斷，且檔案介面只有整檔覆寫，沒有安全 patch／append。為避免用不完整內容覆蓋唯一路線圖，本輪不改寫該大檔；Phase 3 對應主 checklist 仍待在可安全 patch 時勾選，**本補記不是主計畫 checkbox 已更新的宣稱**。
-- 本補記保留為可回流的經驗來源；合併至 `knowledge/experience.md` 亦待可安全追加／局部 patch 的工具。
+- 本補記建立時無法安全更新長篇路線圖或主經驗檔；其後已於 2026-11-24 將章節開始卡拆分回流至 `knowledge/experience.md`，並在 `knowledge/plan.md` 標記章節卡部分完成。重要事件／CG 專屬停頓與裝置驗收仍保持待辦。
 - 沒有 Git status、diff、遠端分歧或 Actions 查詢能力；`git_commit_push` 會 stage 所有非忽略變更，無法排除工作區既存使用者變更，故本批沒有呼叫。未宣稱 commit、push 或 Pages 部署成功。
