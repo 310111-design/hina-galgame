@@ -13,7 +13,7 @@
 
 ## 驗證與限制
 
-`node scripts/validate-audio-transitions.js` 本機通過，並納入 Pages workflow。這只驗證正式 runtime 函式發出的 Web Audio API 呼叫及 mock 節點生命週期；mock 不等待實際計時、不生成或聆聽音訊，也不證明 Safari／iOS 自動播放政策、瀏覽器 AudioParam 實作、作業系統中斷後恢復、實際控制器畫面或淡入淡出聽感。CI 與 Pages 部署完成後會在此補上對應 run 及資產可達證據。
+本機 `node scripts/validate-audio-transitions.js` 與 Pages workflow 全套檢查通過。commit `8921050` 的 GitHub Actions run `45359545666` build／deploy 成功；正式 Pages 首頁、`game.html` 與 `game.js` 均回應 HTTP 200。這只驗證正式 runtime 函式發出的 Web Audio API 呼叫及 mock 節點生命週期；mock 不等待實際計時、不生成或聆聽音訊，也不證明 Safari／iOS 自動播放政策、瀏覽器 AudioParam 實作、作業系統中斷後恢復、實際控制器畫面或淡入淡出聽感。
 
 ## 可複用範圍
 

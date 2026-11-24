@@ -518,7 +518,7 @@
 ### Phase 5｜音訊完善
 
 - [x] 加入音訊設定 runtime 回歸：覆蓋預設、損壞設定回退、音量範圍限制、BGM／SFX 獨立調整、總開關呼叫啟停、ARIA 狀態標籤及 reload 後設定記憶。commit `57c9a9a` 的 Actions run `45358662648` build／deploy 成功，Pages 首頁、遊戲頁與 `game.js` 均 HTTP 200。詳見 `knowledge/reviews/audio-settings-runtime-review.md`；真實播放仍待裝置驗收。
-- [x] 加入環境音轉場 runtime 回歸：以 mock Web Audio 節點驗證首次啟動觸發 resume 呼叫、重複啟動不生重複節點、同場景 no-op、跨場景淡入淡出、快速連續轉場只清理各自舊節點、context 暫停後重新呼叫播放可 resume，以及靜音停止與延遲斷線。`node scripts/validate-audio-transitions.js` 通過並已接入 Pages workflow；真實 AudioParam 聽感、Safari／iOS 自動播放政策與實機中斷恢復仍待驗收。詳見 `knowledge/reviews/audio-transitions-runtime-review.md`。
+- [x] 加入環境音轉場 runtime 回歸：以 mock Web Audio 節點驗證首次啟動觸發 resume 呼叫、重複啟動不生重複節點、同場景 no-op、跨場景淡入淡出、快速連續轉場只清理各自舊節點、context 暫停後重新呼叫播放可 resume，以及靜音停止與延遲斷線。`node scripts/validate-audio-transitions.js` 通過；commit `8921050` 的 Actions run `45359545666` build／deploy 成功，Pages 首頁、遊戲頁與 `game.js` 均 HTTP 200。真實 AudioParam 聽感、Safari／iOS 自動播放政策與實機中斷恢復仍待驗收。詳見 `knowledge/reviews/audio-transitions-runtime-review.md`。
 - [ ] iPhone Safari、桌面 Safari／Chrome 驗收首次播放是否正確等待使用者手勢。
 - [ ] 驗收場景切換時 BGM 淡入淡出、快速切換及中斷後恢復。
 - [ ] 瀏覽器／實機驗收 BGM／SFX 獨立音量、總開關、設定記憶與靜音狀態；runtime 測試不代表控制器外觀或真實聽感通過。

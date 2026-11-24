@@ -2194,5 +2194,5 @@
 
 - **學到什麼：** 音量設定驗證只證明控制器呼叫播放 API，並不覆蓋環境音場景切換中的淡出、快速連切時各自的延遲清理、AudioContext 被暫停後再次播放，或靜音後舊節點是否正確停止。只斷言節點數量也可能漏掉清理錯了場景的 race。
 - **如何應用於本作：** `scripts/validate-audio-transitions.js` 抽取正式 `ensureAudio()`、`createAmbient()`、`startAmbient()`、`transitionAmbient()` 與 `stopAmbient()`；用 mock `AudioContext` 記錄 gain automation、oscillator stop、resume、timeout 和 disconnect。分別保存 office／corridor／rooftop 節點參考，執行快速連續轉場並逐組確認舊場景清理、不影響最新場景；另確認停用後不重新啟動。加入 Pages workflow。
-- **限制與驗證：** `node scripts/validate-audio-transitions.js` 通過。此 harness 檢查的是 runtime 呼叫和 mock 節點生命週期，不會實際等待計時、生成或聆聽音訊，也不驗證 AudioParam 瀏覽器排程差異、Safari／iOS 使用者手勢、作業系統中斷事件或真實淡入淡出聽感；需要另做瀏覽器與裝置 QA。
+- **限制與驗證：** `node scripts/validate-audio-transitions.js` 及 Pages workflow 全套檢查通過；commit `8921050` 的 Actions run `45359545666` build／deploy 成功，Pages 首頁、遊戲頁及 `game.js` 均 HTTP 200。此 harness 檢查的是 runtime 呼叫和 mock 節點生命週期，不會實際等待計時、生成或聆聽音訊，也不驗證 AudioParam 瀏覽器排程差異、Safari／iOS 使用者手勢、作業系統中斷事件或真實淡入淡出聽感；需要另做瀏覽器與裝置 QA。
 - **未來可用範圍：** 本作辦公室、走廊、屋頂等環境音切換及音訊靜音／恢復；也適用於 Web Audio 場景音樂、濾鏡或其他有排程清理的資源切換，測試應追蹤每批舊資源身份以捕捉快速連續轉場的錯誤清除。
