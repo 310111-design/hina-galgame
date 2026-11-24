@@ -18,8 +18,6 @@ const terminalEndings = new Set(["D08F", "D08P", "D08R"]);
 const reachableFlags = new Set();
 let checkedEntries = 0;
 let checkedEndRecords = 0;
-let skippedEntries = 0;
-let skippedEndRecords = 0;
 
 function extractFlags(text) {
   return [...text.matchAll(/`([^`]+)`/g)].map(([, flag]) => flag);
@@ -34,19 +32,16 @@ for (const chapter of chapters) {
     ? null
     : markdown.slice(recordIndex).match(/^- 旗標：(.+)$/m);
 
+  assert.ok(entry, `${chapter.id}: entry flag metadata is missing`);
+  assert.ok(record, `${chapter.id}: end-record flag metadata is missing`);
   const expectedEntry = [...reachableFlags].sort();
-  if (entry) {
-    const entryFlags = extractFlags(entry[1]).sort();
-    assert.equal(
-      JSON.stringify(entryFlags),
-      JSON.stringify(expectedEntry),
-      `${chapter.id}: entry flags must include every flag reachable from prior chapter choices`
-    );
-    checkedEntries += 1;
-  } else {
-    assert.notEqual(chapter.id, "P03", "P03: entry flag metadata must remain auditable");
-    skippedEntries += 1;
-  }
+  const entryFlags = extractFlags(entry[1]).sort();
+  assert.equal(
+    JSON.stringify(entryFlags),
+    JSON.stringify(expectedEntry),
+    `${chapter.id}: entry flags must include every flag reachable from prior chapter choices`
+  );
+  checkedEntries += 1;
 
   const outputFlags = (chapter.choices || []).map(({ flag }) => flag).filter(Boolean);
   const expectedEnd = [...new Set([
@@ -54,18 +49,13 @@ for (const chapter of chapters) {
     ...outputFlags,
     ...(additionalChoiceFlags.get(chapter.id) || [])
   ])].sort();
-  if (record) {
-    const recorded = extractFlags(record[1]).sort();
-    assert.equal(
-      JSON.stringify(recorded),
-      JSON.stringify(expectedEnd),
-      `${chapter.id}: end-record flags must include prior flags, choice outputs and fixed engine increments`
-    );
-    checkedEndRecords += 1;
-  } else {
-    assert.notEqual(chapter.id, "P03", "P03: end-record flag metadata must remain auditable");
-    skippedEndRecords += 1;
-  }
+  const recorded = extractFlags(record[1]).sort();
+  assert.equal(
+    JSON.stringify(recorded),
+    JSON.stringify(expectedEnd),
+    `${chapter.id}: end-record flags must include prior flags, choice outputs and fixed engine increments`
+  );
+  checkedEndRecords += 1;
 
   if (!terminalEndings.has(chapter.id)) {
     for (const flag of expectedEnd) reachableFlags.add(flag);
@@ -74,7 +64,6 @@ for (const chapter of chapters) {
 
 assert.ok(checkedEntries > 0, "expected at least one chapter with auditable entry metadata");
 assert.ok(checkedEndRecords > 0, "expected at least one chapter with auditable end-record metadata");
-console.log(
-  `Chapter flag summaries OK: ${checkedEntries} entry summaries and ${checkedEndRecords} end records checked; ` +
-  `${skippedEntries} entries and ${skippedEndRecords} end records without metadata left outside this check.`
-);
+assert.equal(checkedEntries, chapters.length, "every chapter must define auditable entry flags");
+assert.equal(checkedEndRecords, chapters.length, "every chapter must define auditable end-record flags");
+console.log(`Chapter flag summaries OK: all ${checkedEntries} entry summaries and end records match reachable runtime flags.`);
