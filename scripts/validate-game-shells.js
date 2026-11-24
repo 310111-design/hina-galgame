@@ -25,6 +25,10 @@ const historyToggleBody = source.match(/function toggleHistory\(forceOpen\)\s*\{
 if (!historyToggleBody.includes('document.getElementById("utilityMenuTrigger")?.focus()')) {
   errors.push("Closing the dialogue history panel must return focus to the visible utility menu trigger.");
 }
+const chooseBody = source.match(/function choose\(choice\)\s*\{([\s\S]*?)\n\}/)?.[1] || "";
+if (!chooseBody.includes('document.getElementById("gameStage").focus({ preventScroll: true })')) {
+  errors.push("Choosing a branch must return keyboard focus to the game stage after the choice buttons are removed.");
+}
 const backgroundMap = source.match(/const BACKGROUND_BY_CHAPTER = \{([\s\S]*?)\n\};/);
 if (!backgroundMap) {
   errors.push("Missing BACKGROUND_BY_CHAPTER mapping.");

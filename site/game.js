@@ -814,6 +814,7 @@ function choose(choice) {
   state.phase = "branch";
   state.line = 0;
   render();
+  document.getElementById("gameStage").focus({ preventScroll: true });
   playConfirmSound();
 }
 

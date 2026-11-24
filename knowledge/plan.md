@@ -452,6 +452,7 @@
 - [x] 沿用角色表情素材切換時的淡化處理，並在 UI 改版中保留減少動態效果支援。
 - [x] 將自動播放、已讀快進、對話紀錄等既有閱讀控制收納於一致入口，並維持可操作尺寸。
 - [x] 避免螢幕閱讀器逐字播報打字機動畫：可見對話區不設 live region，改由原子 polite 區域在整句完成／補完後公告；已讀跳轉略過中間公告，選擇提示與結局摘要仍會提供訊息。正式頁與 testplay 共用回歸檢查；未宣稱實際螢幕閱讀器驗收完成。
+- [x] 選項確認後將鍵盤焦點移回 `gameStage` 主舞台，避免選項按鈕移除後焦點遺失；以固定 shell validator 保護。此為程式焦點管理修復，不代表完整鍵盤或實機驗收。
 - [x] 保留既有章節開始畫面的閱讀停頓。
 - [ ] 重要事件／CG 專屬轉場規則，待有 CG 素材與事件映射時規劃。
 - [x] 確認工具列收納後，核心功能仍可由清楚入口使用；功能選單與對話紀錄面板支援 Escape 關閉、焦點回復與可讀標籤。
@@ -701,6 +702,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 | `knowledge/reviews/ui-screenreader-announcement-review.md` | 打字機逐字更新與螢幕閱讀器整句公告行為及固定殼層回歸檢查 |
 | `knowledge/reviews/ui-keyboard-hint-review.md` | 讓對話提示與實際支援的 Enter／空白鍵操作保持一致 |
 | `knowledge/reviews/ui-log-panel-focus-review.md` | 對話紀錄面板關閉後將鍵盤焦點移回可見的功能入口 |
+| `knowledge/reviews/ui-choice-focus-review.md` | 確認分支選項後恢復焦點至遊戲主舞台，避免按鈕移除造成失焦 |
 | `knowledge/reviews/b08-character-choice-review.md` | B08 聲線、三選項承諾、時間錨點、分支返場及收束修訂與驗證範圍 |
 | `knowledge/reviews/adult-manuscript-runtime-sync-review.md` | D02／D05 逐句、五段與選項同步檢查重新啟用的依據及限制 |
 | `knowledge/reviews/prologue-full-sync-review.md` | P01～P03 全文與條件台詞同步門檻恢復依據、格式及驗證界線 |
