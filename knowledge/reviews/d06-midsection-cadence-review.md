@@ -19,7 +19,7 @@
 
 ## 驗證與限制
 
-`validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js`、JavaScript 語法檢查與 `git diff --check` 用於稿件同步、分支資料及統計一致性。這些固定檢查不能取代盲讀、D06 瀏覽器逐路通關、存讀檔或實機 QA。Pages 部署與公開估時須於推送後另行確認。
+`validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js`、`validate-game-shells.js`、JavaScript 語法檢查與 `git diff --check` 均通過。commit `e3d964a` 對應 GitHub Actions run `45338571310` build／deploy 成功；Pages 首頁、`game.html` 與 `game-data.js` 均 HTTP 200，首頁顯示全分支 3.2～4.2 小時與三線重讀 7.1～9.5 小時，線上 runtime 保留購物分歧處理並已移除重複總結。這些固定檢查不能取代盲讀、D06 瀏覽器逐路通關、存讀檔或實機 QA。
 
 ## 可複用範圍
 

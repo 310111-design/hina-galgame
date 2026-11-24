@@ -711,6 +711,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 
 ## 本輪 CI 與 Pages 查核（2026-11-24）
 
+- D06 中段二輪複核 commit `e3d964a` 對應 GitHub Actions run `45338571310` build／deploy 成功；Pages 首頁、`game.html`、`game-data.js` 全部 HTTP 200，公開首頁顯示全分支 3.2～4.2 小時與三線重讀 7.1～9.5 小時，線上 D06 保留購物意見分歧與延後決定，已移除重複的共同安排總結。此為 CI／部署與公開文字確認，不代表盲讀、D06 瀏覽器逐路或裝置 QA；詳見 `knowledge/reviews/d06-midsection-cadence-review.md`。
 - D05 邀約至道別修訂 commit `71edaf8` 的 GitHub Actions run `45336553389` build／deploy 均成功；Pages 首頁、game.html、game-data.js 回應 HTTP 200，首頁顯示單線 2.4～3.2 小時與三線重讀 7.2～9.6 小時，線上保留返家後接受邀約並已移除第二次到店門口道別。此為 CI／部署與公開文字確認，不代表瀏覽器逐路通關或裝置 QA。
 - D04 中後段複核 commit `59c6b71` 的 GitHub Actions run `45335350092` 成功；Pages 首頁、game.html 與 game-data.js 均 HTTP 200，首頁顯示三線完整重讀約 7.2～9.7 小時，線上台詞已移除重複總結。此為 CI／部署及公開文字確認，不代表瀏覽器逐路通關或實機 QA。
 - 角色表情無損 WebP runtime commit `d877fc7` 的 GitHub Actions run `45316426130` 成功；Pages 首頁、game.html、game.js、13 張 WebP、13 張來源 PNG 與 SVG fallback 共 30 個 URL 均 HTTP 200，線上 game.js 已引用 WebP。這是 CI 與可取用檢查，不代替實際裝置解碼／畫面 QA；詳見 `knowledge/reviews/character-sprite-webp-review.md`。
