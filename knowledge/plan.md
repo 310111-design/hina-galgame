@@ -525,6 +525,7 @@
 
 ### Phase 5｜音訊完善
 
+- [x] P02-A 把無法由杯中水氣發出的「震動音效」移到公文推至桌角的可見動作旁，改為輕擦桌面的音效提示；只修正劇本／製作提示，未加入 runtime 音檔。完整播放、音量控制與實機聽感驗收仍待後續階段。
 - [x] 加入音訊設定 runtime 回歸：覆蓋預設、損壞設定回退、音量範圍限制、BGM／SFX 獨立調整、總開關呼叫啟停、ARIA 狀態標籤及 reload 後設定記憶。commit `57c9a9a` 的 Actions run `45358662648` build／deploy 成功，Pages 首頁、遊戲頁與 `game.js` 均 HTTP 200。詳見 `knowledge/reviews/audio-settings-runtime-review.md`；真實播放仍待裝置驗收。
 - [x] 加入環境音轉場 runtime 回歸：以 mock Web Audio 節點驗證首次啟動觸發 resume 呼叫、重複啟動不生重複節點、同場景 no-op、跨場景淡入淡出、快速連續轉場只清理各自舊節點、context 暫停後重新呼叫播放可 resume，以及靜音停止與延遲斷線。`node scripts/validate-audio-transitions.js` 通過；commit `8921050` 的 Actions run `45359545666` build／deploy 成功，Pages 首頁、遊戲頁與 `game.js` 均 HTTP 200。真實 AudioParam 聽感、Safari／iOS 自動播放政策與實機中斷恢復仍待驗收。詳見 `knowledge/reviews/audio-transitions-runtime-review.md`。
 - [ ] iPhone Safari、桌面 Safari／Chrome 驗收首次播放是否正確等待使用者手勢。
