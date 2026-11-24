@@ -514,7 +514,7 @@
 - [ ] iPhone Safari：直向／橫向、觸控、滑動、對話框、選項、章節選單及工具列。
 - [ ] iOS Safari：瀏海／安全區、底部手勢區、動態視窗高度、全螢幕回退及音訊啟動。
 - [ ] 桌面 Chrome／Safari／Firefox：鍵盤、滑鼠、全螢幕、視窗縮放及不同解析度。
-- [ ] 逐章測試 30 節共通篇及 3 個結局的所有選項、分支、旗標與路線跳轉。
+- [ ] 逐章測試 30 節共通篇及 3 個結局的所有選項、分支、旗標與路線跳轉。CI 已呼叫 runtime 的 `choose()`／`getSequence()` 執行全部 99 個選項，核對分支序列、旗標與路線；實際玩家流程與完整路線通關仍待 QA，見 `knowledge/reviews/runtime-choice-coverage.md`。
 - [ ] 測試所有場景圖片載入、缺圖回退、背景切換與效能。已從 runtime 抽取並檢查 Pages 上 12 張映射背景、13 張表情圖及 SVG fallback（26 個唯一 URL，均 HTTP 200）；這只證明檔案可取用，不驗證瀏覽器解碼、畫面裁切、fallback 操作或效能。詳見 `knowledge/reviews/deployed-visual-assets-http-check.md`。
 - [ ] 測試音訊、存檔、章節重玩、已讀跳過與各項設定。
 - [ ] 修正 QA 發現的錯誤，重新執行所有 CI 檢查。

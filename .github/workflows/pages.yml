@@ -36,6 +36,8 @@ jobs:
         run: node scripts/validate-chapter-replay-isolation.js
       - name: Validate manual and autosave separation
         run: node scripts/validate-save-separation.js
+      - name: Validate runtime chapter choices
+        run: node scripts/validate-choice-runtime.js
       - name: Validate story and route draft lengths and Markdown sync
         run: node scripts/validate-route-drafts.js
       - name: Validate aggregate full-story length summaries
