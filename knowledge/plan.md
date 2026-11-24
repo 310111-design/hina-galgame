@@ -451,6 +451,7 @@
 - [x] 為選項出現、選取及確認加入克制的過渡效果；支援 prefers-reduced-motion。
 - [x] 沿用角色表情素材切換時的淡化處理，並在 UI 改版中保留減少動態效果支援。
 - [x] 將自動播放、已讀快進、對話紀錄等既有閱讀控制收納於一致入口，並維持可操作尺寸。
+- [x] 避免螢幕閱讀器逐字播報打字機動畫：可見對話區不設 live region，改由原子 polite 區域在整句完成／補完後公告；已讀跳轉略過中間公告，選擇提示與結局摘要仍會提供訊息。正式頁與 testplay 共用回歸檢查；未宣稱實際螢幕閱讀器驗收完成。
 - [x] 保留既有章節開始畫面的閱讀停頓。
 - [ ] 重要事件／CG 專屬轉場規則，待有 CG 素材與事件映射時規劃。
 - [x] 確認工具列收納後，核心功能仍可由清楚入口使用；選單支援 Escape 關閉、焦點回復與可讀標籤。
@@ -696,6 +697,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 | `knowledge/reviews/cross-route-invitation-voice-review.md` | D08F／D08R 開場邀約近似句候選、路線語氣修訂與篇幅同步 |
 | `knowledge/reviews/full-story-authoring-label-review.md` | runtime 玩家可見章號／幕次掃描、自然化修訂及防回歸檢查 |
 | `knowledge/reviews/ui-responsive-viewport-review.md` | 正式 Pages 三種模擬尺寸下的主要操作控制與文件溢位初驗 |
+| `knowledge/reviews/ui-screenreader-announcement-review.md` | 打字機逐字更新與螢幕閱讀器整句公告行為及固定殼層回歸檢查 |
 | `knowledge/reviews/b08-character-choice-review.md` | B08 聲線、三選項承諾、時間錨點、分支返場及收束修訂與驗證範圍 |
 | `knowledge/reviews/adult-manuscript-runtime-sync-review.md` | D02／D05 逐句、五段與選項同步檢查重新啟用的依據及限制 |
 | `knowledge/reviews/prologue-full-sync-review.md` | P01～P03 全文與條件台詞同步門檻恢復依據、格式及驗證界線 |
@@ -740,3 +742,4 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 - D08F 共通段節奏修訂 commit `0882dce` 的 GitHub Actions run `45322995298` 成功；Pages 首頁與 `game-data.js` 均 HTTP 200，加 cache-buster 核對已移除舊旁白並保留小廣場動線，首頁仍顯示單線約 2.4～3.3 小時。這是 CI 與公開內容確認，不代表瀏覽器逐路或實機 QA。
 - D08F 道別前第二次邀請修訂 commit `fdbabe8` 的 GitHub Actions run `45344914962` build／deploy 成功；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200，首頁顯示單線 2.4～3.2 小時、全分支 3.2～4.2 小時與三線重讀 7.1～9.5 小時；線上資料含「也可以直接問我」並已移除「沒有特別目的也沒關係」。桌面瀏覽器工具無法確認目前網址是否允許，未完成互動 QA；詳見 `knowledge/reviews/d08f-common-cadence-review.md`。
 - D08F 部署紀錄 commit `84d8816` 的 Actions run `45345650876` build／deploy 均成功；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200，首頁估時及線上新邀請句維持正確。此為文件更新後的 CI／部署確認，不代表瀏覽器互動 QA。
+- D08P 分支差異複核 commit `a78ec0b` 的 Actions run `45346242443` build／deploy 均成功；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200，線上 D08F 最新邀請句維持正確。此為文件與章稿狀態更新後的部署確認，不代表盲讀或逐路 QA。

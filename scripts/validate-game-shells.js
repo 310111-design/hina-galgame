@@ -9,6 +9,18 @@ const source = fs.readFileSync(path.join(root, "site", "game.js"), "utf8");
 const requiredIds = [...new Set([...source.matchAll(/getElementById\("([^"]+)"\)/g)].map(match => match[1]))];
 const pages = ["game.html", "testplay.html"];
 const errors = [];
+if (!/function announceDialogue\(text\)\s*\{[^}]*storyAnnouncement[^}]*\}/s.test(source)) {
+  errors.push("Missing completed-line screen-reader announcement helper.");
+}
+if (!/typingLine\.node\.textContent = typingLine\.characters\.slice\(0, typingLine\.index\)\.join\(""\);\s*if \(typingLine\.index >= typingLine\.characters\.length\)\s*\{\s*announceDialogue\(typingLine\.announcementText\);/s.test(source)) {
+  errors.push("Completed dialogue lines must be announced after typewriter output finishes.");
+}
+if (!/function revealCurrentLine\(\)\s*\{[^}]*announceDialogue\(typingLine\.announcementText\)/s.test(source)) {
+  errors.push("Revealing a partially typed line must announce the full dialogue once.");
+}
+if (!/function skipReadContent\(\)\s*\{[\s\S]*?suppressDialogueAnnouncements = true;[\s\S]*?finally\s*\{\s*suppressDialogueAnnouncements = false;/s.test(source)) {
+  errors.push("Read-skip must suppress announcements for skipped dialogue.");
+}
 const backgroundMap = source.match(/const BACKGROUND_BY_CHAPTER = \{([\s\S]*?)\n\};/);
 if (!backgroundMap) {
   errors.push("Missing BACKGROUND_BY_CHAPTER mapping.");
@@ -49,6 +61,13 @@ for (const page of pages) {
   const duplicates = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
   if (missing.length) errors.push(page + ": missing JS-required IDs: " + missing.join(", "));
   if (duplicates.length) errors.push(page + ": duplicate IDs: " + duplicates.join(", "));
+  const storyTag = html.match(/<div\b(?=[^>]*\bid="story")[^>]*>/i)?.[0] || "";
+  if (!storyTag || /\baria-live\s*=/i.test(storyTag)) {
+    errors.push(page + ": typewriter story must stay outside live regions to avoid partial-line announcements");
+  }
+  if (!/<div\b(?=[^>]*\bid="storyAnnouncement")(?=[^>]*\baria-live="polite")(?=[^>]*\baria-atomic="true")[^>]*>/i.test(html)) {
+    errors.push(page + ": missing atomic polite live region for completed dialogue lines");
+  }
 }
 
 if (errors.length) {

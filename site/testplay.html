@@ -53,7 +53,8 @@
       </section>
       <div class="visual-controls"><span id="mood" class="mood visually-hidden">認真</span><button id="audioToggle" class="audio-toggle" type="button" aria-label="切換音樂" aria-pressed="false"><span aria-hidden="true">♫</span><span class="audio-toggle-label">音訊</span></button></div>
       <section class="dialogue-panel">
-        <div id="story" class="story" aria-live="polite"></div>
+        <div id="story" class="story"></div>
+        <div id="storyAnnouncement" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
         <div id="choices" class="choices" role="group" aria-label="劇情選項" aria-live="polite"></div>
         <div class="dialogue-footer"><div class="dialogue-hint" id="dialogueHint">點擊畫面任意空白處繼續　›</div><button id="skipRead" class="skip-read" type="button" disabled>跳過已讀</button></div>
       </section>

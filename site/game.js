@@ -62,6 +62,7 @@ let activeSceneType = "office";
 let currentMusicScene = null;
 let typingTimer = null;
 let typingLine = null;
+let suppressDialogueAnnouncements = false;
 let dialogueHistory = [];
 let lastHistoryKey = "";
 const READING_SETTINGS_KEY = isTestplay ? "hina-reading-settings-testplay-v1" : "hina-reading-settings-v1";
@@ -112,6 +113,12 @@ function updateSkipReadControl() {
   button.setAttribute("aria-label", canSkip ? "跳過已讀內容直到下一段未讀內容" : "目前內容尚未讀完，無法跳過");
 }
 
+function announceDialogue(text) {
+  if (suppressDialogueAnnouncements || !text) return;
+  const announcer = document.getElementById("storyAnnouncement");
+  if (announcer) announcer.textContent = text;
+}
+
 function skipReadContent() {
   clearAutoAdvance();
   if (state.phase === "choice" || state.phase === "complete" || !readLineKeys.has(currentReadLineKey())) return;
@@ -122,17 +129,29 @@ function skipReadContent() {
     typingLine = null;
   }
   let steps = 0;
-  while (
-    state.phase !== "choice" &&
-    state.phase !== "complete" &&
-    readLineKeys.has(currentReadLineKey()) &&
-    steps < 10000
-  ) {
-    const before = `${state.chapter}:${state.phase}:${state.line}`;
-    advanceLine();
-    const after = `${state.chapter}:${state.phase}:${state.line}`;
-    steps += 1;
-    if (before === after) break;
+  suppressDialogueAnnouncements = true;
+  try {
+    while (
+      state.phase !== "choice" &&
+      state.phase !== "complete" &&
+      readLineKeys.has(currentReadLineKey()) &&
+      steps < 10000
+    ) {
+      const before = `${state.chapter}:${state.phase}:${state.line}`;
+      advanceLine();
+      const after = `${state.chapter}:${state.phase}:${state.line}`;
+      steps += 1;
+      if (before === after) break;
+    }
+  } finally {
+    suppressDialogueAnnouncements = false;
+  }
+  if (state.phase === "choice") {
+    announceDialogue(document.getElementById("story").textContent);
+  } else if (state.phase === "complete") {
+    const title = document.querySelector(".ending-card h2")?.textContent;
+    const summary = document.querySelector(".ending-card .ending-summary")?.textContent;
+    announceDialogue([title, summary].filter(Boolean).join("。"));
   }
   updateSkipReadControl();
 }
@@ -220,6 +239,7 @@ function startTypewriterTimer() {
     typingLine.index += 1;
     typingLine.node.textContent = typingLine.characters.slice(0, typingLine.index).join("");
     if (typingLine.index >= typingLine.characters.length) {
+      announceDialogue(typingLine.announcementText);
       window.clearInterval(typingTimer);
       typingTimer = null;
       typingLine = null;
@@ -384,6 +404,7 @@ function revealCurrentLine() {
   window.clearInterval(typingTimer);
   typingTimer = null;
   typingLine.node.textContent = typingLine.fullText;
+  announceDialogue(typingLine.announcementText);
   typingLine = null;
   markCurrentLineRead();
   document.getElementById("dialogueHint").textContent = "點擊畫面任意空白處繼續　›";
@@ -617,6 +638,8 @@ function renderDialogue([kind, text, mood]) {
   typingLine = null;
   clearAutoAdvance();
   const story = document.getElementById("story");
+  const announcer = document.getElementById("storyAnnouncement");
+  if (announcer) announcer.textContent = "";
   story.replaceChildren();
   const p = document.createElement("p");
   const textNode = document.createTextNode("");
@@ -645,7 +668,8 @@ function renderDialogue([kind, text, mood]) {
     updateSkipReadControl();
     return;
   }
-  typingLine = { characters, fullText: text, node: textNode, index: 0 };
+  const speaker = kind === "hina" ? "空崎陽奈" : kind === "system" ? "系統" : "旁白";
+  typingLine = { characters, fullText: text, node: textNode, index: 0, announcementText: `${speaker}：${text}` };
   document.getElementById("dialogueHint").textContent = "點擊可立即顯示完整句";
   updateSkipReadControl();
   startTypewriterTimer();
@@ -695,6 +719,7 @@ function render() {
     prompt.className = "narration";
     prompt.textContent = "陽奈等著你回答。這個選擇會保留在之後的章節中。";
     document.getElementById("story").replaceChildren(prompt);
+    announceDialogue(prompt.textContent);
     chapter.choices.forEach((choice, index) => {
       const button = document.createElement("button");
       button.type = "button";
@@ -749,6 +774,7 @@ function render() {
     const summary = document.createElement("p");
     summary.className = "ending-summary";
     summary.textContent = routeSummaries[state.route] || "本次遊玩內容已完成。";
+    announceDialogue(`${title.textContent}。${summary.textContent}`);
     const description = document.createElement("p");
     description.className = "narration";
     description.textContent = "已完成 30 節共通篇並抵達路線結局。你的選擇與旗標會保存在這個瀏覽器中；也可以從章節選單回看其他段落。";
