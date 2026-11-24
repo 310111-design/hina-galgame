@@ -2294,3 +2294,10 @@
 - **如何應用於本作：** 刪除 C05 common 的重複摘要，保留開場的任務範圍、分支事件及「明天還是會有事情／明天的事情，應該由明天開始」的角色對話。未完成回查與例行輪值仍在其他句子交代，故事稿/runtime 同步；C05 為 142 tuples／2,708 字元，A／B／C 路徑 2,419／2,433／2,442。
 - **限制與驗證：** `validate-route-drafts.js`、`validate-game-data.js`、`validate-choice-runtime.js`、`validate-chapter-flag-summaries.js`、`validate-full-length-summary.js` 及 Pages workflow 全套 19 項本機檢查核對稿件同步、分支結構、旗標與字數。它們不理解文字語義、不證明玩家確實記得開場，也不取代盲讀和實機通關；詳見 `knowledge/reviews/c05-cadence-review.md`。
 - **未來可用範圍：** 本作其他分支合流、跨章任務交接與結局收束；也適用於多分支遊戲、任務流程與教學內容。開場共通前提若未被選項改變，就避免在收尾重報；若分支造成不同狀態或玩家可能無法辨認時間跨度，保留必要回收句。
+
+### 2026-11-24：清單落地後刪除只重述效率心得的問答
+
+- **學到什麼：** A04 已用角色台詞承諾先確認求助者所在與需求，也把目的地、交付者、下一步記入清單；後面再以「今天有一件事確定」引出「看清楚不一定會失去效率」，只是改寫前段顧慮，沒有新事件或行動。
+- **如何應用於本作：** 刪除這組總結問答，保留清單內容及明天避免混淆「應該處理／可以由我處理」的具體承諾。A04 章稿/runtime 同步為 66 tuples／1,697 字元，A／B／C 路徑 1,219／1,232／1,226；全篇統計與估時重算。
+- **限制與驗證：** `validate-route-drafts.js`、`validate-game-data.js`、`validate-choice-runtime.js`、`validate-chapter-flag-summaries.js`、`validate-full-length-summary.js` 和 `git diff --check` 確認稿件/runtime 與計數一致；Pages workflow 對應的 19 項本機檢查亦全數通過。此靜態驗證不評估對白表演、盲讀或玩家實際理解；詳見 `knowledge/reviews/a04-cadence-review.md`。
+- **未來可用範圍：** 本作其他角色已將成長轉成清單、便條或明日做法的段落；也適用於互動故事的心得問答、教學完成語與任務回顧。保留會改變之後行動的承諾，檢查是否還有另一組台詞只用近義詞重講相同心得。
