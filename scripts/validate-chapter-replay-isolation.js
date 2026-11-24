@@ -122,8 +122,22 @@ assert.equal(harness.getState().chapter, 1, "a second replay selection should op
 assert.deepEqual(harness.getState().flags, originalState.flags, "switching replay chapters should restart from the original main snapshot");
 assert.deepEqual(harness.getState().choices, originalState.choices, "replay choices should not leak between chapters");
 
+for (let index = 0; index < chapters.length; index += 1) {
+  chapterButtons.length = 0;
+  harness.openChapterMenu();
+  assert.equal(chapterButtons.length, chapters.length, `chapter menu should list every chapter before selecting ${chapters[index].id}`);
+  chapterButtons[index].click();
+  const replayedState = harness.getState();
+  assert.equal(replayedState.chapter, index, `${chapters[index].id} should open from its chapter-menu item`);
+  assert.equal(replayedState.phase, "intro", `${chapters[index].id} should start from its introduction`);
+  assert.equal(replayedState.line, 0, `${chapters[index].id} should start at its first line`);
+  assert.deepEqual(replayedState.flags, originalState.flags, `${chapters[index].id} should start with the original main flags`);
+  assert.deepEqual(replayedState.choices, originalState.choices, `${chapters[index].id} should not inherit replay choices`);
+  assert.equal(replayedState.route, chapters[index].routeEnding || originalState.route, `${chapters[index].id} should use its route-ending override when present`);
+}
+
 harness.restart();
-assert.equal(harness.getState().chapter, 1, "restarting replay should remain in its selected chapter");
+assert.equal(harness.getState().chapter, chapters.length - 1, "restarting replay should remain in its selected chapter");
 assert.equal(harness.getState().flags.teamwork, originalState.flags.teamwork, "replay restart should preserve the replay copy's starting flags");
 const writesBeforeRestartSave = writeCount;
 harness.saveState();
@@ -136,4 +150,4 @@ assert.equal(storageValues.get("autosave"), JSON.stringify(originalState), "repl
 assert.equal(storageValues.get("manual-slots"), manualSlotsRaw, "replay should leave persisted manual slots unchanged");
 assert.equal(writeCount, 0, "chapter replay should not write any storage before returning to main");
 
-console.log("Chapter replay isolation checks passed (chapter menu, local choices, autosave protection, restart, and main-state restoration).");
+console.log(`Chapter replay isolation checks passed (${chapters.length} chapter entries, route-ending overrides, local choices, autosave/manual-save protection, restart, and main-state restoration).`);

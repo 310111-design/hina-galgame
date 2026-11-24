@@ -7,7 +7,7 @@
 
 `scripts/validate-chapter-replay-isolation.js` 從 runtime 抽取實際 `openChapterMenu()`、`choose()`、`restart()`、`saveState()`、`returnToMain()` 及狀態複製函式，以假的 DOM 和記憶體 localStorage 執行完整重玩生命週期：
 
-1. 主線狀態進入任一章節後，重玩狀態由隔離副本開始。
+1. 逐一點選全部 33 個章節選單入口；每節均由 intro 第一行開始，原旗標與 choices 保留，三個結局節點正確套用各自的 route override。
 2. 選項修改重玩副本的旗標與選擇，不變更原主線快照。
 3. 重玩時開啟其他章節，從原主線快照建立新副本，不承接先前章節重玩的選擇。
 4. 重玩中的自動保存不寫入；手動欄位原始值保持不變。
@@ -16,4 +16,4 @@
 
 ## 結果與限制
 
-固定驗證通過，並已加入 `.github/workflows/pages.yml`。這能防止這些 runtime 狀態轉換回歸，但假的 DOM 不會驗收按鈕是否可點、對話框視覺、瀏覽器重載或真實 storage 行為；相關裝置清單仍維持未完成。
+固定驗證通過，並已加入 `.github/workflows/pages.yml`。這能防止這些 runtime 狀態轉換回歸，但假的 DOM 不會驗收實際按鈕點擊、對話框視覺、瀏覽器重載或真實 storage 行為；相關裝置清單仍維持未完成。

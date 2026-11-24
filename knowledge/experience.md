@@ -1951,7 +1951,7 @@
 ### 2026-11-24：章節重玩必須以主線快照隔離旗標與持久化
 
 - **學到什麼：** 章節選單的回歸不能只測「返回主線」按鈕；重玩中的選項會改旗標與 choices，從重玩直接切換章節及重新開始也可能誤用中途狀態。只有檢查完整生命週期才能確認主線進度未被污染。
-- **如何應用於本作：** `scripts/validate-chapter-replay-isolation.js` 從 `site/game.js` 擷取實際 `openChapterMenu()`、`choose()`、`restart()`、`saveState()` 和 `returnToMain()`，以獨立主線狀態與記憶體 storage 驗證章節可選、分支選擇留在重玩副本、切換章節重設為原快照、重玩中自動存檔不寫入、重啟仍維持重玩模式，以及返回後完整還原原主線。驗證器已加入 Pages workflow。
+- **如何應用於本作：** `scripts/validate-chapter-replay-isolation.js` 從 `site/game.js` 擷取實際 `openChapterMenu()`、`choose()`、`restart()`、`saveManualSlot()`、`saveState()` 和 `returnToMain()`，以獨立主線狀態與記憶體 storage 逐一點選全部 33 個章節入口，驗證 intro 起點、三個結局 route override、原旗標／choices 隔離、切換章節重設為原快照、重玩中自動與手動存檔不寫入、重啟仍維持重玩模式，以及返回後完整還原原主線。驗證器已加入 Pages workflow。
 - **限制與驗證：** 固定 validator 通過，但模擬 DOM 與記憶體 storage 不能替代瀏覽器點擊、重載或真實 localStorage 驗收；Phase 4 章節重玩 UI QA 仍未完成。
 - **未來可用範圍：** 本作調整章節選單、存檔、重玩重啟或主線返回邏輯時；也適用於有試播、預覽、沙盒或編輯模式的前端應用，確認隔離操作不能污染正式使用者狀態。
 

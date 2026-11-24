@@ -489,7 +489,7 @@
 - [ ] 測試舊版單格存檔遷移及跨版本資料相容性。
 - [ ] 測試清除瀏覽器資料、無效資料與 localStorage 不可用時的回退。
 - [ ] 測試章節重玩不覆蓋主線自動存檔／手動存檔，重新載入後能回到主線。CI 已呼叫實際 runtime 函式驗證章節選單、分支旗標隔離、重玩中禁止自動寫入、重啟及返回主線快照；瀏覽器操作與重新載入的實機流程仍待 QA，詳見 `knowledge/reviews/chapter-replay-isolation.md`。
-- [ ] 測試所有章節可自由選擇，並確認從章節中途重玩不污染既有旗標。
+- [ ] 測試所有章節可自由選擇，並確認從章節中途重玩不污染既有旗標。CI 已逐一呼叫 33 個章節按鈕的 runtime listener，檢查 intro 起點、原旗標／choices 隔離及三個結局節點的 route override；真實對話框與裝置點選仍待 QA，見 `knowledge/reviews/chapter-replay-isolation.md`。
 
 ### Phase 5｜音訊完善
 
