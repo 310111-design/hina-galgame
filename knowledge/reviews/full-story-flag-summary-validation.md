@@ -13,6 +13,7 @@ P03 的節末清單漏列 C 選項實際累加的 `daily_checkin`。跨章檢查
 - 初始掃描中 13／33 章同時具備兩個可比較欄位；另 20 章至少缺其中一欄，由檢查明確計為範圍外，沒有把部分覆蓋宣稱為全章驗收。
 - 檢查已接入 `.github/workflows/pages.yml`，並與 `validate-choice-runtime.js` 互補：前者核對章稿 metadata，後者呼叫 runtime 選項函式驗證旗標遞增。
 - 本檢查不推導任意歷史選項組合、不判斷對話語義，也不驗證缺欄位章節的記錄；需要更廣覆蓋時，應先為那些章節補上清楚一致的入口和節末格式。
+- 本機 `validate-chapter-flag-summaries.js`、`validate-prologue-revisions.js`、`validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js`、`validate-choice-runtime.js` 與 `git diff --check` 均通過。commit `152dc7f` 對應 Actions run `45385988705` build／deploy 均成功；Pages 首頁、`game.html`、`game-data.js` 回應 HTTP 200。此提交只新增固定驗證及知識文件，未修改遊戲 runtime 內容。
 
 ## 可複用範圍
 

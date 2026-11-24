@@ -17,7 +17,7 @@ P03 頁首列 `rest`、`teamwork`、`ordinary_day`，它們是條件回憶讀取
 
 - `validate-prologue-revisions.js`、`validate-chapter-flag-summaries.js`、`validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 通過；未更動遊戲 runtime、選項標籤、旗標遞增或遊玩估時。
 - `validate-choice-runtime.js` 已覆蓋每個選項寫入其 `choice.flag`，並驗證 A06 每個選項都額外增加 `daily_checkin`；此檢查不驗證所有章節的 Markdown metadata，也不等於完整瀏覽器路線通關。
-- commit `aca4d11` 的 Pages Actions run `45384018910` build／deploy 成功；本批只修正章稿／章節計畫旗標說明與固定 validator，沒有改動公開 runtime 台詞。
+- commit `aca4d11` 的 Pages Actions run `45384018910` build／deploy 成功；後續全章 validator commit `152dc7f` 的 run `45385988705` build／deploy 也成功，首頁、遊戲頁與 `game-data.js` 均 HTTP 200。本批只修正章稿／章節計畫旗標說明與固定 validator，沒有改動公開 runtime 台詞。
 - 新增的入口旗標斷言使用有序值序列化比較；VM 執行的 runtime 物件與測試環境陣列跨 realm，單用原型敏感的深層斷言會在值相同時誤報。
 
 ## 全章防漂移範圍
