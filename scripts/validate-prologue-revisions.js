@@ -33,7 +33,7 @@ function assertSynced(id, section, value, label) {
 
 const revisions = [
   ["P01", "common", "夕陽完全沉下去後，杯壁中未散的熱氣也慢慢消失。放學的人聲逐漸遠去，周圍跟著安靜下來。", "PRT-01 location-neutral close"],
-  ["P01", "common", "尚未處理完的公務，仍要等明天再繼續。", "PRT-01 unresolved work"],
+  ["P01", "common", "「明天放學後，我會整理完今天剩下的項目。」", "P01 tomorrow work commitment"],
   ["P01", "common", "明天會有新的文件從委員會各處送來，也可能有人為了今天的決定再跑來確認。陽奈的責任感不會因為一次休息、一場協助或暫時離開工作就消失。", "PRT-01 responsibility"],
   ["P01", "common", "但責任感與強迫自己不間斷承受責任，並不是同一件事。", "P01 responsibility distinction preserved"],
   ["P01", "common", "陽奈把手邊的熱飲稍稍挪近，說得像是在談下一次紀律檢查，眼神卻在確認你的回應。", "P01 next-time cue preserved"],
@@ -71,6 +71,7 @@ const manuscriptChoices = [...p02Markdown.matchAll(/^([ABC])\. (.+)$/gm)].map(([
 assert.equal(JSON.stringify(manuscriptChoices), JSON.stringify(p02.choices.map(({ letter, label }) => ({ letter, label }))), "PRT-03/07: P02 manuscript choice labels differ from runtime");
 
 const stale = [
+  ["P01", "尚未處理完的公務，仍要等明天再繼續。"],
   ["P01", "你看著陽奈安靜下來。未完成的公務仍要等明天；剛才那段時間不需要被重新算進工作。她沒有再催促自己把所有事情立刻完成。"],
   ["P01", "這不是突然的轉變。"],
   ["P01", "只是今天，在熟悉的公務之外，多了一杯不屬於任何報告的熱飲，也多了一段陽奈願意抬頭看的時間。"],

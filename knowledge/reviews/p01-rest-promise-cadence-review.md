@@ -11,7 +11,7 @@
 
 ## 同步與驗證
 
-- P01 章稿與 runtime 同步：78 tuples／1,847 字元；A／B／C 路徑 1,298／1,330／1,283 字元；common 為 13 tuples。
+- P01 章稿與 runtime 同步：77 tuples／1,829 字元；A／B／C 路徑 1,280／1,312／1,265 字元；common 為 12 tuples。
 - 全篇 runtime 重算為 3,406 tuples、78,888 原始字元、78,253 去重字元／3,317 條唯一文字；單線 59,150～60,446 字元，全分支 78,888 字元，三線重讀 179,124～179,468 字元。遊玩時間的取整範圍沒有變。
 - node scripts/validate-route-drafts.js、node scripts/validate-game-data.js、node scripts/validate-full-length-summary.js 與 git diff --check 通過。固定稿件同步只覆蓋配置範圍，不等於序章全選項遊玩、讀者盲測或完整語義 QA。
 
@@ -22,3 +22,10 @@
 ## Pages 確認
 
 commit 6562b8d 的 GitHub Actions run 45296986806 成功。正式 game.html 與 game-data.js 回應 HTTP 200；線上資料保留責任界線並已移除重複總結句。這不代表序章完整瀏覽器通關。
+
+
+## 後續複核：明日待辦不重複敘述
+
+陽奈先已明確說「明天放學後，我會整理完今天剩下的項目」，緊接旁白又寫「尚未處理完的公務，仍要等明天再繼續」，只重述同一時間與待辦狀態。刪除後保留下一段「明天會有新的文件……」及責任不會消失的內容，仍能交代新工作持續到來與陽奈的責任界線。這次刪一條旁白 tuple，不改角色承諾、分支或旗標。
+
+更新後 P01 為 77 tuples／1,829 字元，A／B／C 路徑 1,280／1,312／1,265；route、prologue、game-data 與 full-length summary validators 通過。
