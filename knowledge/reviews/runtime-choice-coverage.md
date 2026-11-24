@@ -15,6 +15,10 @@
 
 共 **99 個選項**，固定檢查通過，並已加入 Pages workflow。
 
+## 條件回憶 runtime 門檻
+
+同一 validator 以 runtime `getSequence()` 對 21 組條件 intro 各建立兩個隔離狀態：目標旗標低於門檻，以及剛達門檻。逐一比較完整 intro sequence，確認低於門檻不追加該記憶，達門檻時才加入相符台詞；其他旗標歸零以免互相污染。此測試只驗證門檻前後顯示，不窮舉所有可累積歷史。
+
 ## 所有章節分支到共通段的 lifecycle
 
 同一 validator 對 33 節的三個選項逐一執行正式 `choose()`，再用正式 `advanceLine()` 從分支末句推進到 common，從 common 末句推進到下一章 intro 或 route ending complete。**99 種選擇路徑**全部檢查 branch/common phase、line 歸零、目的章 ID 與結局完成狀態。

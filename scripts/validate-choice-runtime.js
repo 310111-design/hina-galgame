@@ -36,6 +36,49 @@ const harness = new Function(
 )(chapters, () => { historyCalls += 1; }, () => { renderCalls += 1; }, () => { confirmSoundCalls += 1; }, () => {}, () => false, () => {}, () => {}, () => {});
 
 const baselineFlags = { rest: 3, teamwork: 2, ordinary_day: 1, daily_checkin: 4, self_rest: 1 };
+const zeroFlags = Object.fromEntries(Object.keys(baselineFlags).map(flag => [flag, 0]));
+let checkedConditionalGroups = 0;
+for (let chapterIndex = 0; chapterIndex < chapters.length; chapterIndex += 1) {
+  const chapter = chapters[chapterIndex];
+  for (const condition of chapter.flaggedIntro || []) {
+    const groupLinesFor = value => (chapter.flaggedIntro || [])
+      .filter(group => group.flag === condition.flag && group.min <= value)
+      .flatMap(group => group.lines || [])
+      .filter(line => Array.isArray(line) && String(line[1] || "").trim());
+    const baseIntro = (chapter.intro || []).filter(line => Array.isArray(line) && String(line[1] || "").trim());
+    const belowThreshold = condition.min - 1;
+    const belowState = {
+      version: 3,
+      chapter: chapterIndex,
+      phase: "intro",
+      line: 0,
+      choices: {},
+      flags: { ...zeroFlags, [condition.flag]: belowThreshold },
+      route: chapter.routeEnding || null
+    };
+    harness.setState(belowState);
+    assert.deepEqual(
+      harness.getSequence(),
+      [...baseIntro, ...groupLinesFor(belowThreshold)],
+      `${chapter.id} ${condition.flag} below ${condition.min} should not show this memory`
+    );
+
+    const reachedState = {
+      ...belowState,
+      flags: { ...zeroFlags, [condition.flag]: condition.min }
+    };
+    harness.setState(reachedState);
+    assert.deepEqual(
+      harness.getSequence(),
+      [...baseIntro, ...groupLinesFor(condition.min)],
+      `${chapter.id} ${condition.flag} at ${condition.min} should show its eligible memories`
+    );
+    checkedConditionalGroups += 1;
+  }
+}
+assert.equal(checkedConditionalGroups, 21, "conditional intro coverage should include every memory group");
+console.log(`Conditional intro checks passed (${checkedConditionalGroups} groups hide below and appear at their runtime thresholds).`);
+
 let checkedChoices = 0;
 for (let chapterIndex = 0; chapterIndex < chapters.length; chapterIndex += 1) {
   const chapter = chapters[chapterIndex];
