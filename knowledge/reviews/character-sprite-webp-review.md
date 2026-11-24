@@ -10,7 +10,7 @@
 - PNG 合計 9,633,130 bytes；WebP 合計 5,855,298 bytes，減少 3,777,832 bytes（39.2%）。
 - `site/game.js` 先載入 WebP；WebP 載入錯誤時嘗試同名 PNG，再失敗時載入既有 SVG 角色圖。
 - `scripts/validate-character-sprite-webp.js` 檢查 runtime 引用的 13 個 WebP、lossless 標記、896×1200 尺寸、alpha、來源 PNG 對應、體積下降，以及 runtime 的 WebP→PNG→SVG 錯誤回退；已加入 Pages workflow。
-- commit `d877fc7` 的 Pages workflow run `45316426130` 成功；部署後首頁、遊戲頁、`game.js`、13 張 WebP、13 張 PNG fallback 與 SVG fallback 共 30 個 URL 均 HTTP 200，線上 `game.js` 確認引用 WebP。
+- commit `d877fc7` 的 Pages workflow run `45316426130` 成功；部署後首頁、遊戲頁、`game.js`、13 張 WebP、13 張 PNG fallback 與 SVG fallback 共 30 個 URL 均 HTTP 200，線上 `game.js` 確認引用 WebP。另於 commit `2b5b44f` 對應部署後，重新從 runtime mapping 檢查 12 張背景、13 張 WebP、13 張 PNG 回退、SVG fallback 與 5 個 Pages 入口，共 44 個 URL 全數 HTTP 200。
 
 ## 驗證界線
 
