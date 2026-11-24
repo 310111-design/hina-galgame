@@ -483,6 +483,7 @@
 
 - [x] 修復並加入回歸檢查：序章前未帶版本欄位的單格或已匯入六格存檔章節索引加 3；序章後 v2 不位移；v3 維持不變；未知未來版本不轉換且顯示不支援。跨版本實際瀏覽器存讀仍待驗收。
 - [x] 修復自動存檔版本判定與損壞資料保護：舊鍵未版本化紀錄加 3；目前鍵 v2／手動讀取後 v3 保留章節索引；自動寫入固定為 v2；未知版本、損壞 JSON、非物件資料、無效 phase／line／flags／choices／route 與 localStorage 不可用時安全回到預設狀態並暫停自動寫入，保留原始存檔；玩家明確重開或讀取有效手動存檔後解除保護。`validate-autosave-migration.js` 以記憶體 localStorage 呼叫 runtime 載入、保存、重開及手動讀檔函式；真實瀏覽器流程仍待驗收。經驗與限制見 `knowledge/reviews/autosave-migration-review.md`、`knowledge/experience.md`。
+- [x] 保護損壞、不可讀、未知格式或超過六格的手動存檔容器與單格資料：顯示寫入暫停提示並停用存檔按鈕，保留原始 localStorage；仍可讀取前六格中有效欄位。`validate-manual-save-migration.js` 以實際載入／保存函式覆蓋損壞 JSON、未知容器、損壞／未知單格、超額欄位、未知舊版存檔及 storage 讀取失敗；存檔對話框的真實瀏覽器互動仍待 QA。詳見 `knowledge/reviews/manual-save-storage-protection.md`、`knowledge/experience.md`。
 - [ ] 測試六格手動存檔：新增、覆蓋確認、讀取、空格及損壞資料。
 - [ ] 測試自動存檔與手動存檔互不意外覆蓋。
 - [ ] 測試舊版單格存檔遷移及跨版本資料相容性。
@@ -633,6 +634,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 | `knowledge/reviews/adult-relationship-state-review.md` | D05 新稱呼至三個成年結局的稱呼與關係狀態連續性 |
 | `knowledge/reviews/full-length-refresh.md` | 最新 runtime 全篇唯一正文、條件台詞與三線單次路徑重算方法及數字 |
 | `knowledge/reviews/playtime-estimate.md` | 由現行 runtime 分別估算單線、全分支覆蓋及三線重讀純文字時間 |
+| `knowledge/reviews/manual-save-storage-protection.md` | 六格手動存檔無法辨識或超額時保留原始容器及暫停寫入的修正與驗證界線 |
 | `knowledge/reviews/d01-reunion-narration-review.md` | D01 重逢稱呼旁白審校、修訂依據與驗證界線 |
 | `knowledge/reviews/b04-cadence-review.md` | B04 共通收束責任分工段的重複導語修訂與驗證範圍 |
 | `knowledge/reviews/d02-cadence-review.md` | D02 共通收束重複宣告複核、修訂與篇幅同步依據 |

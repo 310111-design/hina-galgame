@@ -74,6 +74,8 @@ let autoAdvanceTimer = null;
 let replayMode = false;
 let mainStateSnapshot = null;
 let saveDialogMode = "save";
+let manualSaveWriteBlocked = false;
+let manualSaveWriteBlockedMessage = "";
 let readLineKeys = loadReadLineKeys();
 
 function loadReadLineKeys() {
@@ -849,24 +851,46 @@ function openChapterMenu() {
 }
 
 function loadManualSlots() {
+  manualSaveWriteBlocked = false;
+  manualSaveWriteBlockedMessage = "";
   try {
-    const stored = JSON.parse(localStorage.getItem(MANUAL_SLOTS_KEY) || "null");
-    if (Array.isArray(stored)) {
+    const storedRaw = localStorage.getItem(MANUAL_SLOTS_KEY);
+    if (storedRaw !== null) {
+      const stored = JSON.parse(storedRaw);
+      if (!Array.isArray(stored) || stored.length > MANUAL_SLOT_COUNT) {
+        manualSaveWriteBlocked = true;
+        manualSaveWriteBlockedMessage = "手動存檔格式無法辨識，已暫停寫入以保留原始資料。";
+        return Array.from({ length: MANUAL_SLOT_COUNT }, (_, index) =>
+          Array.isArray(stored) ? normalizeManualSave(stored[index] || null) : null
+        );
+      }
       const slots = Array.from({ length: MANUAL_SLOT_COUNT }, (_, index) => normalizeManualSave(stored[index] || null));
+      if (stored.some((saved, index) => saved !== null && !isValidManualSave(slots[index]))) {
+        manualSaveWriteBlocked = true;
+        manualSaveWriteBlockedMessage = "手動存檔欄位含有損壞或不支援的資料，已暫停寫入以保留原始內容。";
+        return slots;
+      }
       if (JSON.stringify(slots) !== JSON.stringify(Array.from({ length: MANUAL_SLOT_COUNT }, (_, index) => stored[index] || null))) {
         localStorage.setItem(MANUAL_SLOTS_KEY, JSON.stringify(slots));
       }
       return slots;
     }
-    const legacy = JSON.parse(localStorage.getItem(MANUAL_SAVE_KEY) || "null");
+    const legacyRaw = localStorage.getItem(MANUAL_SAVE_KEY);
+    const legacy = JSON.parse(legacyRaw || "null");
     const slots = Array(MANUAL_SLOT_COUNT).fill(null);
     const migrated = normalizeManualSave(legacy);
     if (migrated && isValidManualSave(migrated)) {
       slots[0] = migrated;
       localStorage.setItem(MANUAL_SLOTS_KEY, JSON.stringify(slots));
+    } else if (legacyRaw !== null) {
+      manualSaveWriteBlocked = true;
+      manualSaveWriteBlockedMessage = "舊版手動存檔無法辨識，已保留原始資料並暫停寫入。";
+      slots[0] = migrated;
     }
     return slots;
   } catch (_) {
+    manualSaveWriteBlocked = true;
+    manualSaveWriteBlockedMessage = "手動存檔無法讀取，已暫停寫入以保留原始資料。";
     return Array(MANUAL_SLOT_COUNT).fill(null);
   }
 }
@@ -918,10 +942,13 @@ function isValidManualSave(saved) {
 
 function openSaveMenu(mode) {
   saveDialogMode = mode;
+  loadManualSlots();
   document.getElementById("saveDialogTitle").textContent = mode === "save" ? "選擇存檔欄位" : "讀取存檔";
-  document.getElementById("saveDialogNote").textContent = mode === "save"
-    ? (replayMode ? "章節重玩期間不能覆蓋主線存檔。" : "選擇一個欄位保存目前進度；已有資料的欄位會先詢問是否覆蓋。")
-    : "選擇要載入的進度。讀取主線存檔會結束目前的章節重玩。";
+  document.getElementById("saveDialogNote").textContent = manualSaveWriteBlocked
+    ? manualSaveWriteBlockedMessage
+    : mode === "save"
+      ? (replayMode ? "章節重玩期間不能覆蓋主線存檔。" : "選擇一個欄位保存目前進度；已有資料的欄位會先詢問是否覆蓋。")
+      : "選擇要載入的進度。讀取主線存檔會結束目前的章節重玩。";
   renderSaveSlots();
   document.getElementById("saveDialog").showModal();
 }
@@ -1000,7 +1027,7 @@ function renderSaveSlots() {
     action.className = "save-slot-action";
     if (saveDialogMode === "save") {
       action.textContent = "儲存到此欄";
-      action.disabled = replayMode;
+      action.disabled = replayMode || manualSaveWriteBlocked;
       action.addEventListener("click", () => saveManualSlot(index));
     } else {
       action.textContent = "讀取此欄";
@@ -1018,6 +1045,10 @@ function saveManualSlot(index) {
     return;
   }
   const slots = loadManualSlots();
+  if (manualSaveWriteBlocked) {
+    document.getElementById("saveState").textContent = manualSaveWriteBlockedMessage;
+    return;
+  }
   if (slots[index] && !window.confirm(`確定覆蓋存檔欄位 ${index + 1} 嗎？`)) return;
   try {
     slots[index] = {
