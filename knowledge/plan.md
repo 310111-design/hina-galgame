@@ -385,6 +385,7 @@
 - [x] D08F common 節奏複核：刪除與後續具體近況聊天重疊的一條過渡旁白，保留書籍互動、小廣場事件及分支選擇；章稿/runtime 同步，79 tuples／3,233 字元，A／B／C 路徑 2,526／2,570／2,535。全篇統計與閱讀估算已刷新，詳見 knowledge/reviews/d08f-voice-cadence-review.md；靜態驗證不代替盲讀或瀏覽器通關。
 - [x] D08P common 收束複核：將大字體準備與後續檢查移至道別前，刪除由陽奈台詞已明示的「不安排下一次活動」總結，保留各自整理回顧；稿件/runtime 同步，80 tuples／3,153 字元，A／B／C 2,524／2,529／2,500。詳見 knowledge/reviews/d08p-ending-followup-cadence-review.md；字數僅供盤點，沒有為門檻補寫抽象內容。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
+- [x] 以相鄰章同說話者字元三元組相似度排序近似台詞，人工覆核 A02→A03、C01→C02、B03→B04、D01→D02 候選；每組都有前文回扣、隔日試走／新資料的實際進展或成年後反向對照，故保留，未為消除字面相似而刪除。這是候選檢索與局部判讀，不代表全篇近義重複或全路徑 QA；詳見 `knowledge/reviews/full-story-near-phrase-screen.md`。
 - [x] D08P 共通段第二輪節奏複核：將參加者的大字體回饋、圖書館既有格式、成本／準備時間與小量試印合併為一項追蹤方案，刪除重複的「不立刻承諾」及第二次列出同一後續；稿件/runtime 同步，3,078 字元、A／B／C 2,449／2,454／2,425，路徑防截斷下限調為 2,300。全篇篇幅及閱讀時間同步重算；詳見 `knowledge/reviews/d08p-ending-followup-cadence-review.md`。
 - [x] D08P A／B／C 分支與共通回收連貫性複核：確認分工／彈性／小規模試辦各由實際場景回收，且共通活動未依賴單一路徑專屬前提；同步更新章稿末尾過期 QA 狀態。未改玩家可見內容或 runtime；詳見 `knowledge/reviews/d08p-branch-differentiation-review.md`。
 - [x] D08R 開場節奏複核：在陽奈已明說不希望因舊日回憶而覺得必須答應後，刪去再解釋「不是試探、不是索求保證」的旁白，改用捧杯、蒸氣掠過指尖及沿杯緣轉動的停頓動作；保留成年後雙向選擇與容許思考的對白，未動分支／旗標。章稿/runtime 同步為 3,463 字元，A／B／C 2,501／2,586／2,772；全篇篇幅與估時已刷新，詳見 `knowledge/reviews/d08r-opening-cadence-review.md`。固定驗證不代表盲讀或瀏覽器通關。
@@ -702,6 +703,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 | `knowledge/reviews/full-story-duplicate-dialogue-review.md` | 跨章重複完整台詞候選的人工分類及 C04 中段語氣修訂 |
 | `knowledge/reviews/p01-rest-promise-cadence-review.md` | P01 共通收束重述精簡、分支共通有效範圍及稿件/runtime 驗證 |
 | `knowledge/reviews/full-story-adjacent-callback-audit.md` | 相鄰章節近似動作／台詞候選的保留理由與 D06 動作精簡 |
+| `knowledge/reviews/full-story-near-phrase-screen.md` | 同說話者相鄰章近似台詞候選排序、人工判讀及保留理由 |
 | `knowledge/reviews/p02-common-cadence-review.md` | P02 三條選擇回收後的共通總結精簡與篇幅驗證 |
 | `knowledge/reviews/p03-voice-cadence-review.md` | P03 陪伴意願重述複核、修訂依據與篇幅驗證 |
 | `knowledge/reviews/a01-voice-cadence-review.md` | A01 疲累／休息主題重述、便條及送客動作複核 |
