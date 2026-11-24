@@ -679,3 +679,4 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 - D06 相鄰章動作精簡 commit 911ed73 的 GitHub Actions run 45297725253 成功；正式 game.html、game-data.js 與首頁均回應 HTTP 200，runtime 含新擺杯動作並已移除舊解說，首頁三種遊玩估算與目前 runtime 取整結果一致。此為 CI／部署證據，不等於完整 route browser playthrough 或實機 QA。
 - 紀錄文件更新 commit f6e7e87 的 GitHub Actions run 45297985654 成功；Pages 的 game.html、game-data.js 與首頁均回應 HTTP 200。
 - P02 收束修訂 commit 83b7f38 的 GitHub Actions run 45298406039 成功；Pages 的 game.html、game-data.js 與首頁均回應 HTTP 200，線上已移除重複的「休息、分工和日常不是互斥答案」句。
+- P01 後續重述精簡 commit 57e7242 的 GitHub Actions run 45298831196 成功；Pages 首頁、game.html 與 game-data.js 均回應 HTTP 200，線上保留明日十分鐘承諾且已移除「尚未處理完的公務，仍要等明天再繼續。」此為部署證據，不等於序章完整瀏覽器通關或實機 QA。

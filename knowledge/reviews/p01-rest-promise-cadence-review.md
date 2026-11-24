@@ -29,3 +29,7 @@ commit 6562b8d 的 GitHub Actions run 45296986806 成功。正式 game.html 與 
 陽奈先已明確說「明天放學後，我會整理完今天剩下的項目」，緊接旁白又寫「尚未處理完的公務，仍要等明天再繼續」，只重述同一時間與待辦狀態。刪除後保留下一段「明天會有新的文件……」及責任不會消失的內容，仍能交代新工作持續到來與陽奈的責任界線。這次刪一條旁白 tuple，不改角色承諾、分支或旗標。
 
 更新後 P01 為 77 tuples／1,829 字元，A／B／C 路徑 1,280／1,312／1,265；route、prologue、game-data 與 full-length summary validators 通過。
+
+### CI／Pages 追蹤
+
+後續記錄修訂 commit `57e7242` 的 GitHub Actions run `45298831196` 成功。正式首頁、`game.html` 與 `game-data.js` 均回應 HTTP 200；線上保留明日十分鐘邀約，且已移除重述明日待辦的旁白。這只確認 build／部署及公開文字，不代表序章完整瀏覽器通關、實機 QA 或玩家節奏驗收。
