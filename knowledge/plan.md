@@ -354,7 +354,7 @@
 - [x] 校正 PRT 序章交接紀錄中的「仍未修復」與後續已修結果矛盾：保留原始失敗時間點，補入 PRT-01～07 修訂、經驗回流與 Pages 查核證據，並維持全篇／裝置 QA 未完成狀態。
 - [x] 依最新 `site/game-data.js` 重算純文字遊玩時間，分開單一路線、全分支覆蓋（跳過重複共通段）與三線完整重讀；明列 300～400 字元／分鐘為未經玩家計時的假設，並由篇幅 validator 核對三種模型的數字及三線重讀不含條件對話的範圍，詳見 `knowledge/reviews/playtime-estimate.md`。
 - [x] 將單線、全分支與三線重讀純文字時間估算顯示於 Pages 首頁，明示速率假設、條件對話排除範圍及非實測限制；由 `validate-full-length-summary.js` 對照 runtime 數字，確保玩家入口不漂移。
-- [x] 以跨章近似片語掃描複核 D08F／D08R 開場邀約：保留朋友線不談工作的閱讀邀請，將戀愛線重複前提改成談彼此心意及後續打算；稿件／runtime 同步、字元數不變，詳見 `knowledge/reviews/cross-route-invitation-voice-review.md`。
+- [x] 以跨章近似片語掃描複核 D08F／D08R 開場邀約：保留朋友線不談工作的閱讀邀請，將戀愛線重複前提改成談彼此心意及後續打算；另保留 D06／D08R 對「擅長安排」的角色回聲，因用途從工作訊息判斷推進到關係互相理解。稿件／runtime 同步、字元數不變，詳見 `knowledge/reviews/cross-route-invitation-voice-review.md`。
 - [x] A01／A02／A03 加入稿件／runtime 五段與選項同步；A02 的 `rest`、`teamwork`、`ordinary_day` 三組條件台詞標記與 flag、門檻、文字、說話者一併驗證。原本只有 runtime 與 `knowledge/flag-dialogue.md` 對照，現也防止章稿漂移；未改變任何旗標或玩家可見台詞。
 - [x] A04／A05／A06 選項 label 加入固定同步；將 B01、C01、D01、D08F、D08P、D08R 條件對話逐組標記至章稿並納入 `syncConditional`，連同已涵蓋的 P03／A02，總計 21 組條件記憶均由章稿、`knowledge/flag-dialogue.md` 與 runtime 同步保護。詳見 `knowledge/reviews/conditional-manuscript-sync-review.md`。
 - [ ] 完成全篇分支連貫性、角色語氣、篇幅與結局品質審校。
