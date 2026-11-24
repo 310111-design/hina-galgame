@@ -2187,5 +2187,5 @@
 
 - **學到什麼：** BGM／SFX 音量和總開關既保存玩家偏好，也會呼叫即時播放控制；檢查設定資料不會證明淡入淡出、瀏覽器手勢解鎖或中斷後聲音真的正常。
 - **如何應用於本作：** 從正式 `game.js` 抽取載入／保存／控制更新函式及 slider／toggle event listeners；用 fake localStorage 和小型 DOM stub 核對預設、錯誤資料回退、0～1 clamp、音量相互獨立、toggle 對 start/stop 呼叫、`aria-pressed`／標籤一致與重建 harness 後設定保留，再把檢查接入 Pages CI。
-- **限制與驗證：** runtime harness 只驗證狀態和 API 呼叫，不產生或聽取 Web Audio；Safari／iOS 使用者手勢政策、真實音量、淡入淡出、中斷／恢復及偏好控制器畫面仍待瀏覽器／實機驗收。
+- **限制與驗證：** runtime harness 只驗證狀態和 API 呼叫，不產生或聽取 Web Audio；commit `57c9a9a` 的 Actions run `45358662648` build／deploy 成功、Pages 遊戲頁 HTTP 200。Safari／iOS 使用者手勢政策、真實音量、淡入淡出、中斷／恢復及偏好控制器畫面仍待瀏覽器／實機驗收。
 - **未來可用範圍：** 本作音訊設定及其他需要可保存音量／靜音偏好的互動控制；也適用於 Web Audio app，以 runtime 測試驗證設定和事件映射，再把真實播放及裝置 policy 留給媒體／裝置 QA。

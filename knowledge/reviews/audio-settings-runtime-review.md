@@ -14,7 +14,7 @@
 
 ## 驗證與限制
 
-`node scripts/validate-audio-settings.js` 通過，並納入 Pages workflow。此檢查只驗證設定值與即時播放 API 呼叫；不建立 AudioContext、不播放或聆聽聲音，也不驗收 iOS 使用者手勢政策、場景淡入淡出、中斷後恢復、控制器畫面或真實聽感。
+`node scripts/validate-audio-settings.js` 通過，並納入 Pages workflow。commit `57c9a9a` 的 Actions run `45358662648` build／deploy 均成功；Pages 首頁、`game.html`、`game.js` 均 HTTP 200。此檢查只驗證設定值與即時播放 API 呼叫；不建立 AudioContext、不播放或聆聽聲音，也不驗收 iOS 使用者手勢政策、場景淡入淡出、中斷後恢復、控制器畫面或真實聽感。
 
 ## 可複用範圍
 
