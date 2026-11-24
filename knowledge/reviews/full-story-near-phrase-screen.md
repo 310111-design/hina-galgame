@@ -16,7 +16,7 @@
 
 ## 驗證與限制
 
-`validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 及 Pages workflow 全套檢查通過後，記錄同步後的 commit、Actions run 和 Pages HTTP 狀態。原候選盤點的文件提交 `6770597`／run `45361169906` build／deploy 成功；本次 D08F 稿件／runtime 修訂部署證據待推送後補入。這些檢查不等於三條結局路線實機通關或玩家盲讀。
+`validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 通過。D08F 修訂 commit `a806d63` 的 Actions run `45362541674` build／deploy 成功；Pages 首頁、`game.html` 與 cache-buster `game-data.js` 均 HTTP 200，線上含「手機在布袋裡震了一下。她沒有立刻查看，先把你的話聽完」，舊靜音收手機句已移除。先前純文件候選記錄 commit `6770597`／run `45361169906` 亦成功。這些檢查不等於三條結局路線實機通關或玩家盲讀。
 
 這是相鄰章、同說話者的候選排序與人工上下文閱讀，不涵蓋同章或非相鄰章近義重述、不窮舉所有條件旗標／分支組合，也不代表全篇玩家盲讀、語氣朗讀或瀏覽器通關。字元三元組不能理解語義；角色、情境、時間間隔及後續行動才是保留或修改的判準。
 
