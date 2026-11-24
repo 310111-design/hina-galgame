@@ -35,8 +35,8 @@ const revisions = [
   ["P01", "common", "夕陽完全沉下去後，杯壁中未散的熱氣也慢慢消失。放學的人聲逐漸遠去，周圍跟著安靜下來。", "PRT-01 location-neutral close"],
   ["P01", "common", "尚未處理完的公務，仍要等明天再繼續。", "PRT-01 unresolved work"],
   ["P01", "common", "明天會有新的文件從委員會各處送來，也可能有人為了今天的決定再跑來確認。陽奈的責任感不會因為一次休息、一場協助或暫時離開工作就消失。", "PRT-01 responsibility"],
-  ["P01", "common", "你看著陽奈安靜下來。未完成的公務仍要等明天；剛才那段時間不需要被重新算進工作。她沒有再催促自己把所有事情立刻完成。", "PRT-01 common state"],
-  ["P01", "common", "但陽奈想到明天還有工作時，已不再像是在接受一項考核。", "PRT-01 closing action"],
+  ["P01", "common", "但責任感與強迫自己不間斷承受責任，並不是同一件事。", "P01 responsibility distinction preserved"],
+  ["P01", "common", "陽奈把手邊的熱飲稍稍挪近，說得像是在談下一次紀律檢查，眼神卻在確認你的回應。", "P01 next-time cue preserved"],
   ["P02", "branches", "「今天我想試著不一直確認時間，先把這十分鐘留給自己。」", "PRT-02 present intention"],
   ["P02", "branches", "這裡也可以留出一段休息的時間。", "PRT-02 remove required past event"],
   ["P02", "branches", "「今天沒有需要由我親自決定的急件。我們可以先把需要我確認和能一起處理的項目分清楚。」", "PRT-03 present collaboration"],
@@ -71,6 +71,15 @@ const manuscriptChoices = [...p02Markdown.matchAll(/^([ABC])\. (.+)$/gm)].map(([
 assert.equal(JSON.stringify(manuscriptChoices), JSON.stringify(p02.choices.map(({ letter, label }) => ({ letter, label }))), "PRT-03/07: P02 manuscript choice labels differ from runtime");
 
 const stale = [
+  ["P01", "你看著陽奈安靜下來。未完成的公務仍要等明天；剛才那段時間不需要被重新算進工作。她沒有再催促自己把所有事情立刻完成。"],
+  ["P01", "這不是突然的轉變。"],
+  ["P01", "只是今天，在熟悉的公務之外，多了一杯不屬於任何報告的熱飲，也多了一段陽奈願意抬頭看的時間。"],
+  ["P01", "陽奈說完，把手邊的熱飲稍稍挪近，彷彿這樣就能確認明天真的還有一個時間點。"],
+  ["P01", "她說得像是在談下一次紀律檢查，但眼神卻在確認你的回應。"],
+  ["P01", "只陪她把這段時間留在今天，讓明天仍有重新開始的可能。"],
+  ["P01", "這一段時間很短。"],
+  ["P01", "但陽奈想到明天還有工作時，已不再像是在接受一項考核。"],
+  ["P01", "它像是在替明天保留一個位置。"],
   ["P02", "昨天的時候，我一直在確認時間是不是到了。今天想試著不確認。"],
   ["P02", "今天沒有需要由我親自決定的急件。可以試試昨天的方式。"],
   ["P02", "任何標記都不是最後決定。如果不確定，就寫在中間那一欄。"],
