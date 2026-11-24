@@ -2273,3 +2273,10 @@
 - **如何應用於本作：** 在 `validate-chapter-flag-summaries.js` 按 runtime 順序累計前序各章可選旗標最大次數，加入 A06 每種選擇皆會觸發的 `daily_checkin` 固定增量；在每章入口比對全部 `flaggedIntro.min`。D08F／D08P／D08R 作為互斥終點，不把終點選項結果傳給兄弟路線。保留原有入口／節末旗標種類比對，並以 `validate-choice-runtime.js` 核對選項增量和路線轉換。
 - **限制與驗證：** 33 章入口與節末摘要、21 組條件門檻、99 個選項生命週期及 9 組成年路線組合均通過本機 validator。最大次數是選擇可用且互不鎖定時的上限；未窮舉跨旗標完整歷史，亦不代表瀏覽器逐路／實機 QA。完整方法見 `knowledge/reviews/conditional-flag-count-reachability.md`。
 - **未來可用範圍：** 本作條件回憶、跨章累積旗標與互斥結局；也適用於任務樹、對話狀態機或表單流程的數值門檻。將「狀態來源存在」與「足以達標」分開驗證，並在流程增加選項鎖定、跳轉或引擎固定增量時同步更新模型。
+
+### 2026-11-24：條件回憶前先移除無新增資訊的旁白
+
+- **學到什麼：** C01 的基礎台詞已說明陽奈留下的必要條件可被他人使用，緊接旁白重述「規則不必由她親自執行」，再接 teamwork 條件回憶重申交付規則能獨立運作；條件分支本身有歷史回扣價值，但中間解釋句沒有新增內容。
+- **如何應用於本作：** 刪除重述結論的旁白，保留陽奈的低聲演出提示與累積 teamwork 才出現的回憶台詞；分支、旗標及 `flag-dialogue.md` 的條件內容不變。C01 Markdown/runtime 同步及全篇篇幅、路徑估時重新計算。
+- **限制與驗證：** `validate-route-drafts.js`、`validate-game-data.js`、`validate-chapter-flag-summaries.js`、`validate-choice-runtime.js` 與 `validate-full-length-summary.js` 覆核同步、旗標門檻及統計。這是單一條件回憶相鄰處的節奏修訂，不代表其他 20 組條件回憶的語義 QA、瀏覽器通關或實機驗收；詳見 `knowledge/reviews/c01-teamwork-conditional-cadence-review.md`。
+- **未來可用範圍：** 本作其他旗標回憶、選項回聲與角色成長提示；也適用於依使用者歷史插入的動態台詞或個人化提示，保留真正回扣選擇的句子，刪除只翻譯前一句含義的旁白。
