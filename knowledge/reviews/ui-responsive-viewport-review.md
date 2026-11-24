@@ -20,5 +20,5 @@
 
 - 本次只有 P01 一般對話；未檢查選項、長句、放大字體、大量紀錄、選單開啟、存檔畫面或逐字播放狀態。
 - Chromium 模擬尺寸不能代表 iPhone Safari 的安全區、動態工具列、觸控手勢、音訊啟動或真實裝置縮放行為。
-- 截圖只用於本次視覺判讀，沒有保存成 repo 圖片附件；因此路線圖「保存截圖基線」仍未完成。
+- 改版前後三種 viewport 的 PNG 已保存至 `knowledge/reviews/ui2-visual-baseline/`，來源、擷取方式及對照結論見 `knowledge/reviews/ui2-visual-baseline.md`。這補齊視覺基線保存，未補齊實體裝置 QA。
 - 沒有發現本次範圍內需改 CSS 的明確缺陷；不據此勾選 UI 2.0 實機或完整 QA。

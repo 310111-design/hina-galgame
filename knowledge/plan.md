@@ -13,6 +13,7 @@
 
 > 本輪續記：D08F 朋友線共通段刪除一條與後續具體近況聊天重疊的過渡旁白，保留活動邀請仍可選、書籍交流及小廣場場景；章稿/runtime 同步，全篇篇幅與估時已重算。
 > 本輪續記：D08P 搭檔線收束刪除重述未來排程的一句旁白，將大字體與檢查安排移到道別前，保留各自整理回顧的具體後續；稿件/runtime 同步，篇幅與估時已重算。
+> 本輪續記：保存 UI 2.0 改版前後三種 viewport 截圖，並確認 Pages CSS 與目前 main 的 Git blob 完全一致；此為模擬 viewport 基線，iPhone Safari 與其他實機驗收仍未完成。
 
 ---
 
@@ -420,7 +421,7 @@
 
 - [x] 檢查 `site/game.html`、`site/game.css`、`site/game.js` 中頂部控制列、角色舞台、對話框、選項及設定面板的實際結構。
 - [x] 記錄現有 CSS 斷點、角色定位方式、對話框高度、工具列事件及自動播放／已讀跳過互動，避免改版破壞既有功能。
-- [ ] 建立改版前截圖基線：手機直向、手機橫向及桌面；本輪保留 `9bc642f` 基線 worktree 並以三種 viewport 畫面對照，但尚未將截圖保存為專案紀錄。2026-11-24 Computer Use 因無法高信心確認 Brave 當前網址而停止，未執行桌面開局檢查；CI 與 HTTP 內容回應僅證明部署，不等同瀏覽器互動驗收。
+- [x] 建立改版前截圖基線：手機直向、手機橫向及桌面。以 `9bc642f` 基線 worktree 和目前 main 擷取三組精確 CSS viewport 截圖，保存於 `knowledge/reviews/ui2-visual-baseline/`；頁面與立繪載入完成後才擷取。Computer Use 互動檢查與實體裝置 QA 仍待完成，見 `knowledge/reviews/ui2-visual-baseline.md`。
 
 **UI-1｜主要版面與角色演出（P0）**
 
@@ -459,7 +460,7 @@
 - [x] 推送後確認 GitHub Actions run `45215839672`（commit `fd19721`）成功；正式 Pages `https://310111-design.github.io/hina-galgame/game.html` 回應 HTTP 200，已在正式頁檢查新介面、功能選單及 Escape 收合。此為發布確認，不代表 iPhone Safari 或完整裝置 QA。
 - [ ] 將最後截圖、已知限制及完成狀態回寫本文件；只有完成指定裝置驗收才勾選對應 QA。
 
-**目前判定（2026-11-24）：** UI 2.0 主要版面、選單與互動樣式已部署；正式 Pages 以 Chromium 模擬 390×844 手機直向、844×390 手機橫向及 1440×900 桌面檢查。三種尺寸的功能按鈕均在 viewport 內，文件尺寸等於 viewport；逐張視覺結果與限制見 `knowledge/reviews/ui-responsive-viewport-review.md`。實體 iPhone Safari、安全區／工具列變化、長句／選項／文字大小矩陣仍待 QA，故 UI 2.0 尚未完成最終驗收；截圖尚未保存成 repo 附件。
+**目前判定（2026-11-24）：** UI 2.0 主要版面、選單與互動樣式已部署；改版前後三種 viewport 截圖已保存，並確認 Pages CSS 與目前 Git blob 逐位元一致。截圖僅呈現 P01 一般對話，不涵蓋實體 iPhone Safari、安全區／工具列變化、長句／選項／文字大小矩陣；UI 2.0 尚未完成最終驗收。詳見 `knowledge/reviews/ui-responsive-viewport-review.md` 與 `knowledge/reviews/ui2-visual-baseline.md`。
 
 ### 角色表情與事件 CG 素材需求
 
