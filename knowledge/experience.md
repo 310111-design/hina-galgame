@@ -2152,5 +2152,5 @@
 
 - **學到什麼：** 產品 runtime 新增 DOM 焦點回復後，只修主要測試 harness 不足以保證 CI 通過；選項邏輯會由多個獨立 harness 抽取執行，因此每個包含 `choose()` 的 mock document 都要提供同一焦點 API。兩次 Actions 失敗分別指出章節重玩與選項 runtime harness 缺少 `gameStage.focus()`。
 - **如何應用於本作：** 在 `validate-choice-runtime.js` 注入只接受預期 `gameStage` 的 mock document；每次執行所有 99 個選項以及九組 D06／D07 路線組合時，重置計數、呼叫 `choose()` 並斷言舞台收到一次使用 `preventScroll: true` 的焦點呼叫。章節重玩 harness 也保留獨立焦點斷言，避免單一測試覆蓋掩蓋其他執行入口。
-- **限制與驗證：** 相關本機檢查通過；此 runtime assertion 驗證程式把焦點指定到正確元素及選項，不驗證瀏覽器焦點框可見性、螢幕閱讀器朗讀或實機互動。遠端 CI 與 Pages 部署須待修補提交後確認。
+- **限制與驗證：** 章節重玩隔離、選項 runtime（99 個選項、九組 D06／D07 組合）、game shell、JavaScript 語法與差異檢查本機通過；commit `b9a3a5c` 的 Actions run `45353850964` build／deploy 成功，Pages 首頁、遊戲頁、testplay 與 `game.js` 均 HTTP 200。此 runtime assertion 驗證程式把焦點指定到正確元素及選項，不驗證瀏覽器焦點框可見性、螢幕閱讀器朗讀或實機互動。
 - **未來可用範圍：** 本作其他共用 runtime 函式被多個測試 harness 抽取執行時；也適用於以 mock DOM 測試動態 Web 介面，新增 focus、inert 或事件 API 後，應搜尋所有 harness 呼叫點並逐一補足語義相符的 mock 與行為斷言。

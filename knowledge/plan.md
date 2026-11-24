@@ -452,7 +452,7 @@
 - [x] 沿用角色表情素材切換時的淡化處理，並在 UI 改版中保留減少動態效果支援。
 - [x] 將自動播放、已讀快進、對話紀錄等既有閱讀控制收納於一致入口，並維持可操作尺寸。
 - [x] 避免螢幕閱讀器逐字播報打字機動畫：可見對話區不設 live region，改由原子 polite 區域在整句完成／補完後公告；已讀跳轉略過中間公告，選擇提示與結局摘要仍會提供訊息。正式頁與 testplay 共用回歸檢查；未宣稱實際螢幕閱讀器驗收完成。
-- [x] 選項確認後將鍵盤焦點移回 `gameStage` 主舞台，避免選項按鈕移除後焦點遺失；固定 shell 與章節重玩 runtime validator 均涵蓋焦點回復。此為程式焦點管理修復，不代表完整鍵盤或實機驗收。
+- [x] 選項確認後將鍵盤焦點移回 `gameStage` 主舞台，避免選項按鈕移除後焦點遺失；shell、章節重玩與選項 runtime validator 均涵蓋焦點回復，後者覆蓋 99 個選項路徑及九組 D06／D07 組合。commit `b9a3a5c` 對應 Actions run `45353850964` build／deploy 成功，Pages 首頁、`game.html`、`testplay.html`、`game.js` 均 HTTP 200；此為程式與部署確認，不代表完整鍵盤或實機驗收。
 - [x] 保留既有章節開始畫面的閱讀停頓。
 - [ ] 重要事件／CG 專屬轉場規則，待有 CG 素材與事件映射時規劃。
 - [x] 確認工具列收納後，核心功能仍可由清楚入口使用；功能選單與對話紀錄面板支援 Escape 關閉、焦點回復與可讀標籤。
@@ -750,3 +750,4 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 - D08P 分支差異複核 commit `a78ec0b` 的 Actions run `45346242443` build／deploy 均成功；Pages 首頁、`game.html`、`game-data.js` 均 HTTP 200，線上 D08F 最新邀請句維持正確。此為文件與章稿狀態更新後的部署確認，不代表盲讀或逐路 QA。
 - 螢幕閱讀器整句公告 commit `c0289ba` 的 Actions run `45347508333` build／deploy 均成功；Pages 首頁、`game.html`、`testplay.html`、`game.js` 均 HTTP 200，正式頁與 testplay 均含獨立原子 polite 公告區，runtime 在完整台詞完成後公告。未以螢幕閱讀器實際聆聽，裝置與逐路 QA 仍待完成；詳見 `knowledge/reviews/ui-screenreader-announcement-review.md`。
 - 修補選項焦點回復的 runtime 測試夾具：`validate-choice-runtime.js` 模擬 `gameStage.focus({preventScroll:true})` 並覆蓋全部 99 個選項路徑及九組 D06／D07 組合；`validate-chapter-replay-isolation.js` 亦斷言焦點回到舞台。章節重玩隔離、選項 runtime、game shell、`node --check site/game.js` 與 `git diff --check` 本機均通過。兩次 Actions 失敗都在各自測試 harness 未模擬新增的 DOM 焦點 API；需以本次修補後 CI 結果確認。實際瀏覽器鍵盤、輔助科技與裝置 QA 仍未完成；詳見 `knowledge/reviews/ui-choice-focus-review.md`。
+- 修補焦點 runtime harness 的 commit `b9a3a5c` 對應 Actions run `45353850964` build 與 deploy 均成功；Pages 首頁、`game.html`、`testplay.html`、`game.js` 均 HTTP 200，線上 `game.js` 含舞台焦點回復。此為 CI／部署查核，不代表實際鍵盤、螢幕閱讀器或裝置 QA；詳見 `knowledge/reviews/ui-choice-focus-review.md`。
