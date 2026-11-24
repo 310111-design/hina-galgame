@@ -1766,6 +1766,27 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   background-size: 100% 100%;
   box-shadow: none;
 }
+.story p {
+  padding-inline: clamp(18px, 3vw, 36px);
+  overflow-wrap: anywhere;
+}
+.story .hina {
+  position: relative;
+  padding-top: clamp(36px, 5dvh, 48px);
+}
+.story .hina strong {
+  position: absolute;
+  z-index: 2;
+  top: -2px;
+  left: clamp(18px, 3vw, 36px);
+  margin: 0;
+  min-height: 28px;
+  border-radius: 999px 999px 5px 999px;
+  background: linear-gradient(105deg, #f2c2d52e, #d8cbff24);
+  box-shadow: 0 4px 14px #09071166;
+  text-align: left;
+  white-space: nowrap;
+}
 .game-stage[data-phase="choice"] .dialogue-panel { max-height: min(68dvh, 620px); }
 .game-stage[data-phase="choice"] .story > .narration {
   display: flex;
@@ -1845,6 +1866,12 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 .asset-toolbar button > span[aria-hidden="true"] { color: #ffdfb8; font-size: 1rem; }
 @media (max-width: 720px) {
   .dialogue-panel { background-position: center; }
+  .story p { padding-inline: 18px; }
+  .story .hina { padding-top: 34px; }
+  .story .hina strong {
+    left: 18px;
+    min-height: 24px;
+  }
   .game-stage[data-phase="choice"] .story > .narration {
     min-height: 54px;
     padding: 9px 18px;
