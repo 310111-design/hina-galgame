@@ -2280,3 +2280,10 @@
 - **如何應用於本作：** 刪除重述結論的旁白，保留陽奈的低聲演出提示與累積 teamwork 才出現的回憶台詞；分支、旗標及 `flag-dialogue.md` 的條件內容不變。C01 Markdown/runtime 同步及全篇篇幅、路徑估時重新計算。
 - **限制與驗證：** `validate-route-drafts.js`、`validate-game-data.js`、`validate-chapter-flag-summaries.js`、`validate-choice-runtime.js` 與 `validate-full-length-summary.js` 覆核同步、旗標門檻及統計。這是單一條件回憶相鄰處的節奏修訂，不代表其他 20 組條件回憶的語義 QA、瀏覽器通關或實機驗收；詳見 `knowledge/reviews/c01-teamwork-conditional-cadence-review.md`。
 - **未來可用範圍：** 本作其他旗標回憶、選項回聲與角色成長提示；也適用於依使用者歷史插入的動態台詞或個人化提示，保留真正回扣選擇的句子，刪除只翻譯前一句含義的旁白。
+
+### 2026-11-24：旁白保留可見狀態，角色台詞承擔動機
+
+- **學到什麼：** 若旁白列出「等待資訊」欄並解釋何時重新分類，緊接角色再說「不是不處理，只是要等足夠資訊」，玩家會連續讀到同一規則兩次。完全刪除狀態說明又可能讓便條的實際用途不清楚。
+- **如何應用於本作：** A03 共通段保留「本人判斷／可交付確認」兩欄及「等待資訊」區的可見位置；將旁白的補齊後分類解說改短，保留陽奈用「不是不處理」表達她對待辦狀態的理解。章稿/runtime 同步，95 tuples／2,113 字元，A／B／C 路徑 1,568／1,544／1,529。
+- **限制與驗證：** `validate-route-drafts.js`、`validate-game-data.js`、`validate-choice-runtime.js` 與 `git diff --check` 通過；篇幅摘要按 runtime 重算。靜態檢查只能驗證同步與統計，不能證明語氣或玩家理解，也不取代瀏覽器通關／實機 QA。詳見 `knowledge/reviews/a03-cadence-review.md`。
+- **未來可用範圍：** 本作其他清單、便條、狀態交接及條件回憶；也適用於互動敘事、表單流程與任務系統中「介面顯示狀態＋角色解釋原因」的相鄰內容。先保留玩家需要的可見狀態，再精簡重複解釋；若狀態只靠角色台詞可能造成含糊，則保留必要欄位資訊。
