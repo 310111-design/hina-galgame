@@ -10,7 +10,7 @@
 
 ## 回歸檢查與限制
 
-`validate-game-shells.js` 核對最後一條 `.chapter-toast.is-visible` 規則使用 `chapterToastReduced` 並保留 2.4 秒，另檢查專用 keyframes 有 opacity、沒有 transform。這是 CSS 原始碼的靜態檢查，不等於瀏覽器 computed style、實際顯示時間、偏好設定切換、全頁 reduced-motion 視覺檢查或使用者可讀性驗收。
+`validate-game-shells.js` 核對最後一條 `.chapter-toast.is-visible` 規則使用 `chapterToastReduced` 並保留 2.4 秒，另檢查專用 keyframes 有 opacity、沒有 transform。commit `521f633` 的 Actions run `45360237584` build／deploy 成功；Pages 首頁、`game.html` 與 `game.css` 均 HTTP 200，已用 cache-buster 確認線上 CSS 含 2.4 秒重要時長覆寫。這是 CSS 原始碼及部署內容檢查，不等於瀏覽器 computed style、實際顯示時間、偏好設定切換、全頁 reduced-motion 視覺檢查或使用者可讀性驗收。
 
 完整鍵盤、輔助科技、動畫感受及 iPhone Safari UI 2.0 QA 仍待完成；不能因固定殼層 validator 通過而勾選完整 UI 驗收。
 

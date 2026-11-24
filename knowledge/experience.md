@@ -2201,5 +2201,5 @@
 
 - **學到什麼：** 在 `prefers-reduced-motion` 中設定全域 `animation-duration: .01ms !important` 後，元件後續即使指定了新的 animation shorthand，也無法覆蓋重要性更高的 duration；純透明度提示因而幾乎立即消失。單看是否存在 reduced-motion keyframes 不能證明提示有足夠可讀時間。
 - **如何應用於本作：** 章節提示只淡化透明度、不改變位置；在其 reduced-motion 規則以同等 `!important` 明確保留 2.4 秒，並由 `validate-game-shells.js` 核對最後生效的提示規則含該時長、專用 keyframes 有透明度但沒有 `transform` 位移。
-- **限制與驗證：** CSS 靜態檢查可抓回 cascade 優先級回歸，不能證明瀏覽器實際渲染時長、偏好切換後的畫面、文字對比或使用者覺得淡入合適；需瀏覽器輔助科技與裝置 QA。此項不勾選完整 UI 動態效果驗收。
+- **限制與驗證：** `validate-game-shells.js` 通過；commit `521f633` 的 Actions run `45360237584` build／deploy 成功，Pages 首頁、`game.html` 及 `game.css` 均 HTTP 200，線上 CSS 已確認含 2.4 秒覆寫。CSS 靜態檢查可抓回 cascade 優先級回歸，不能證明瀏覽器實際渲染時長、偏好切換後的畫面、文字對比或使用者覺得淡入合適；需瀏覽器輔助科技與裝置 QA。此項不勾選完整 UI 動態效果驗收。
 - **未來可用範圍：** 本作其他在減少動態模式下仍需保留可見提示的動畫；也適用於全域重要性規則與元件層級覆寫共存的 CSS，應同時檢查動畫時長和 reduced-motion 專用關鍵影格的位移屬性。

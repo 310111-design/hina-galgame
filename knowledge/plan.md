@@ -467,7 +467,7 @@
 - [ ] 驗收多種文字大小、長句、不同說話者、三個選項及大量紀錄的完整溢位矩陣。
 - [x] 依 CSS 基底顏色檢查主要文字色對比；確認文字色高於 7.8:1，並將主遊戲實際生效的未選取選項邊框在最暗面板端點估算對比由 1.51:1 提高至 4.12:1；game-shell validator 從最後一條宣告邊框的 `.choice` 規則計算並維持至少 3:1。commit `cd920d5` 對應 Actions run `45356882060` build／deploy 成功，首頁、遊戲、testplay 與 CSS 均 HTTP 200，線上樣式已核對含修正值。此為靜態計算、CI 與部署確認，不代表全頁 WCAG、逐像素瀏覽器審查或裝置驗收；詳見 `knowledge/reviews/ui-responsive-viewport-review.md`。
 - [ ] 驗收完整鍵盤操作、實機觸控、focus 狀態、減少動態效果及所有狀態的實際對比；模擬 viewport 初驗與程式焦點檢查不能取代完整互動／裝置 QA。
-- [x] 修正減少動態效果下章節提示幾乎不可見的 cascade 衝突：保留不帶空間位移的淡入淡出並明確覆寫全域 `.01ms` animation-duration；`validate-game-shells.js` 檢查提示動畫的保留時長及 keyframes 不含 transform。此為 CSS 靜態回歸，不代表瀏覽器動畫感受或完整 UI 實機驗收；詳見 `knowledge/reviews/ui-reduced-motion-toast-review.md`。
+- [x] 修正減少動態效果下章節提示幾乎不可見的 cascade 衝突：保留不帶空間位移的淡入淡出並明確覆寫全域 `.01ms` animation-duration；`validate-game-shells.js` 檢查提示動畫的保留時長及 keyframes 不含 transform。commit `521f633` 的 Actions run `45360237584` build／deploy 成功，Pages 首頁、`game.html` 與 `game.css` 均 HTTP 200，線上 CSS 確認含 2.4 秒重要時長覆寫。此為靜態回歸、部署與內容確認，不代表瀏覽器動畫感受或完整 UI 實機驗收；詳見 `knowledge/reviews/ui-reduced-motion-toast-review.md`。
 - [ ] 以實際 iPhone Safari 與桌面瀏覽器截圖回歸；完成前不得把 UI 2.0 標記為已完成。
 
 **UI-4｜收尾與發布**
