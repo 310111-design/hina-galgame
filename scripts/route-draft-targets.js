@@ -31,7 +31,7 @@ module.exports = [
   { id: "D03", minimum: 2000, pathMinimum: 1800, syncSections: true, syncChoices: true, status: "DOAT/DAIT revisions synchronized; cadence revised below initial reference" },
   { id: "D04", minimum: 2400, pathMinimum: 2200, syncSections: true, syncChoices: true, status: "DAIT and second-pass cadence revisions synchronized below initial length reference" },
   { id: "D05", minimum: 2500, pathMinimum: 2400, syncSections: true, syncChoices: true, status: "second-pass invitation/departure cadence revised below initial path reference" },
-  { id: "D06", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "route bridge manuscript/runtime synchronized" },
+  { id: "D06", minimum: 2200, pathMinimum: 2000, syncSections: true, syncChoices: true, status: "second-pass middle cadence revision below initial reference" },
   { id: "D07", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "route bridge manuscript/runtime synchronized" },
   { id: "D08F", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, syncConditional: true, status: "reviewed draft" },
   { id: "D08P", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, syncConditional: true, status: "reviewed draft" },
