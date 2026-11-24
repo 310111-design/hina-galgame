@@ -630,6 +630,7 @@ function toggleHistory(forceOpen) {
   if (open) clearAutoAdvance();
   else if (!typingLine) scheduleAutoAdvance();
   if (open) renderHistory();
+  else document.getElementById("utilityMenuTrigger")?.focus();
 }
 
 function renderDialogue([kind, text, mood]) {

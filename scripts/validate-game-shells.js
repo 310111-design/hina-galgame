@@ -21,6 +21,10 @@ if (!/function revealCurrentLine\(\)\s*\{[^}]*announceDialogue\(typingLine\.anno
 if (!/function skipReadContent\(\)\s*\{[\s\S]*?suppressDialogueAnnouncements = true;[\s\S]*?finally\s*\{\s*suppressDialogueAnnouncements = false;/s.test(source)) {
   errors.push("Read-skip must suppress announcements for skipped dialogue.");
 }
+const historyToggleBody = source.match(/function toggleHistory\(forceOpen\)\s*\{([\s\S]*?)\n\}/)?.[1] || "";
+if (!historyToggleBody.includes('document.getElementById("utilityMenuTrigger")?.focus()')) {
+  errors.push("Closing the dialogue history panel must return focus to the visible utility menu trigger.");
+}
 const backgroundMap = source.match(/const BACKGROUND_BY_CHAPTER = \{([\s\S]*?)\n\};/);
 if (!backgroundMap) {
   errors.push("Missing BACKGROUND_BY_CHAPTER mapping.");
