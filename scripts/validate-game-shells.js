@@ -6,9 +6,37 @@ const path = require("node:path");
 
 const root = path.join(__dirname, "..");
 const source = fs.readFileSync(path.join(root, "site", "game.js"), "utf8");
+const stylesheet = fs.readFileSync(path.join(root, "site", "game.css"), "utf8");
 const requiredIds = [...new Set([...source.matchAll(/getElementById\("([^"]+)"\)/g)].map(match => match[1]))];
 const pages = ["game.html", "testplay.html"];
 const errors = [];
+const choiceBorderRule = [...stylesheet.matchAll(/\.choice\s*\{([^}]*)\}/g)]
+  .map(match => match[1])
+  .filter(rule => /\bborder\s*:\s*1px solid\s+#([\da-f]{8})/i.test(rule))
+  .at(-1);
+const choiceBorder = choiceBorderRule?.match(/\bborder\s*:\s*1px solid\s+#([\da-f]{8})/i)?.[1];
+let choiceBorderContrast = 0;
+if (!choiceBorder) {
+  errors.push("Missing an 8-digit solid border color in the last .choice rule that declares a border.");
+} else {
+  const foreground = [0, 2, 4].map(index => Number.parseInt(choiceBorder.slice(index, index + 2), 16));
+  const alpha = Number.parseInt(choiceBorder.slice(6, 8), 16) / 255;
+  const darkestDialogueSurface = [11, 9, 19]; // #0b0913, the dark endpoint of the dialogue-panel gradient.
+  const composite = foreground.map((channel, index) => Math.round(channel * alpha + darkestDialogueSurface[index] * (1 - alpha)));
+  const luminance = color => {
+    const [red, green, blue] = color.map(channel => channel / 255).map(value =>
+      value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4
+    );
+    return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+  };
+  const surfaceLuminance = luminance(darkestDialogueSurface);
+  const borderLuminance = luminance(composite);
+  choiceBorderContrast = (Math.max(surfaceLuminance, borderLuminance) + 0.05) /
+    (Math.min(surfaceLuminance, borderLuminance) + 0.05);
+  if (choiceBorderContrast < 3) {
+    errors.push("Unselected choice border contrast is " + choiceBorderContrast.toFixed(2) + ":1 against #0b0913; expected at least 3:1.");
+  }
+}
 if (!/function announceDialogue\(text\)\s*\{[^}]*storyAnnouncement[^}]*\}/s.test(source)) {
   errors.push("Missing completed-line screen-reader announcement helper.");
 }
@@ -89,5 +117,5 @@ if (errors.length) {
   errors.forEach(error => console.error("- " + error));
   process.exitCode = 1;
 } else {
-  console.log("Game shells and runtime backgrounds OK: " + requiredIds.length + " JavaScript-required IDs exist exactly once in both pages; sprite source is shared and present: " + pageSpriteSource + ".");
+  console.log("Game shells and runtime backgrounds OK: " + requiredIds.length + " JavaScript-required IDs exist exactly once in both pages; choice border contrast is " + choiceBorderContrast.toFixed(2) + ":1 against #0b0913; sprite source is shared and present: " + pageSpriteSource + ".");
 }
