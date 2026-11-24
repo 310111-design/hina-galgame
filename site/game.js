@@ -42,6 +42,27 @@ const EMOTION_SPRITES = {
   悲傷: "assets/characters/hina-expression-reluctant.webp"
 };
 
+// The 13 source images share a canvas but have different transparent bounds.
+// Normalize the visible figure height and bottom edge without editing source art.
+const SPRITE_FRAME_HEIGHT = 1200;
+const SPRITE_REFERENCE_HEIGHT = 1122;
+const SPRITE_REFERENCE_BOTTOM = 1176;
+const SPRITE_FRAME_NORMALIZATION = {
+  "hina-expression-angry.webp": { contentHeight: 1112, contentBottom: 1180 },
+  "hina-expression-confused.webp": { contentHeight: 1039, contentBottom: 1171 },
+  "hina-expression-curious.webp": { contentHeight: 1111, contentBottom: 1176 },
+  "hina-expression-happy.webp": { contentHeight: 1122, contentBottom: 1176 },
+  "hina-expression-neutral.webp": { contentHeight: 1127, contentBottom: 1175 },
+  "hina-expression-relaxed.webp": { contentHeight: 1068, contentBottom: 1161 },
+  "hina-expression-reluctant.webp": { contentHeight: 1102, contentBottom: 1172 },
+  "hina-expression-serious.webp": { contentHeight: 1081, contentBottom: 1175 },
+  "hina-expression-shy.webp": { contentHeight: 1139, contentBottom: 1190 },
+  "hina-expression-sleepy.webp": { contentHeight: 1131, contentBottom: 1191 },
+  "hina-expression-smile.webp": { contentHeight: 1155, contentBottom: 1192 },
+  "hina-expression-surprised.webp": { contentHeight: 1130, contentBottom: 1187 },
+  "hina-expression-worried.webp": { contentHeight: 1135, contentBottom: 1179 }
+};
+
 const defaultState = () => ({
   version: 2,
   chapter: 0,
@@ -476,6 +497,14 @@ function setSpriteEmotion(mood) {
   const source = EMOTION_SPRITES[mood];
   if (!source || sprite.dataset.emotion === mood) return;
   sprite.dataset.emotion = mood;
+  const frame = SPRITE_FRAME_NORMALIZATION[source.slice(source.lastIndexOf("/") + 1)];
+  if (frame) {
+    const scale = SPRITE_REFERENCE_HEIGHT / frame.contentHeight;
+    const baselineShift = ((SPRITE_FRAME_HEIGHT - frame.contentBottom) * scale -
+      (SPRITE_FRAME_HEIGHT - SPRITE_REFERENCE_BOTTOM)) / SPRITE_FRAME_HEIGHT * 100;
+    sprite.style.setProperty("--sprite-scale", scale.toFixed(4));
+    sprite.style.setProperty("--sprite-baseline-shift", `${baselineShift.toFixed(4)}%`);
+  }
   sprite.classList.add("user-cutout");
   sprite.classList.add("sprite-changing");
   sprite.onload = () => {
@@ -487,6 +516,8 @@ function setSpriteEmotion(mood) {
   const useSvgFallback = () => {
     sprite.onerror = null;
     sprite.dataset.emotion = "";
+    sprite.style.removeProperty("--sprite-scale");
+    sprite.style.removeProperty("--sprite-baseline-shift");
     sprite.classList.remove("user-cutout");
     sprite.onload = () => {
       sprite.onload = null;
