@@ -22,3 +22,9 @@
 ## 可複用範圍
 
 適用於本作多路線選擇後共用的關係收束，以及角色已在對話中談清楚安排、旁白又重講一次的段落；也適用於其他多分支互動敘事。需先核對分支出口、合流後對白和後續具體事件，再判斷旁白是否仍增加新狀態或情緒資訊。
+
+## CI 與 Pages 確認
+
+`validate-route-drafts.js`、`validate-game-data.js`、`validate-choice-runtime.js`、`validate-full-length-summary.js` 與 `git diff --check` 均通過。修訂 commit `8a76706` 對應 [Pages run 45378895151](https://github.com/310111-design/hina-galgame/actions/runs/45378895151)，build 與 deploy 均 `completed / success`。
+
+部署後首頁、`game.html` 與 cache-buster `game-data.js` 均 HTTP 200；首頁顯示單線約 2.3～3.2 小時，runtime 已移除兩條共通旁白。這是內容同步及部署確認，不代表 D07 三條活動路徑的人工盲讀或 iPhone Safari QA。
