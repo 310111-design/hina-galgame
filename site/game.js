@@ -236,15 +236,24 @@ function updateReadingControls() {
   document.documentElement.style.setProperty("--dialogue-font-size", `${readingSettings.fontSize}px`);
 }
 
+function getAutoSaveChapterOffset(saved, isCurrentKey) {
+  if (!saved || typeof saved !== "object" || Array.isArray(saved)) return null;
+  if (isCurrentKey) return [2, 3].includes(saved.version) ? 0 : null;
+  return saved.version == null ? 3 : null;
+}
+
 function loadState() {
   try {
     const currentRaw = localStorage.getItem(STORAGE_KEY);
-    const legacyRaw = currentRaw ? null : localStorage.getItem(LEGACY_STORAGE_KEY);
-    const saved = JSON.parse(currentRaw || legacyRaw || "null");
-    const legacyOffset = currentRaw && saved?.version === 2 ? 0 : 3;
-    const chapterIndex = Number.isInteger(saved?.chapter) ? saved.chapter + legacyOffset : -1;
+    const hasCurrentKey = currentRaw !== null;
+    const legacyRaw = hasCurrentKey ? null : localStorage.getItem(LEGACY_STORAGE_KEY);
+    const saved = JSON.parse((hasCurrentKey ? currentRaw : legacyRaw) || "null");
+    const chapterOffset = getAutoSaveChapterOffset(saved, hasCurrentKey);
+    const chapterIndex = Number.isInteger(saved?.chapter) && Number.isInteger(chapterOffset)
+      ? saved.chapter + chapterOffset
+      : -1;
 
-    if (saved && chapterIndex >= 0 && chapterIndex < chapters.length) {
+    if (saved && chapterOffset !== null && chapterIndex >= 0 && chapterIndex < chapters.length) {
       const restored = {
         ...defaultState(),
         ...saved,
@@ -300,7 +309,7 @@ function saveState() {
     return;
   }
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...state, version: 2 }));
     document.getElementById("saveState").textContent = "已自動保存";
   } catch (_) {
     document.getElementById("saveState").textContent = "自動存檔失敗：瀏覽器儲存空間不可用";

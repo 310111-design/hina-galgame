@@ -30,6 +30,8 @@ jobs:
         run: node scripts/validate-game-data.js
       - name: Validate legacy manual save migration
         run: node scripts/validate-manual-save-migration.js
+      - name: Validate autosave migration and fallback
+        run: node scripts/validate-autosave-migration.js
       - name: Validate story and route draft lengths and Markdown sync
         run: node scripts/validate-route-drafts.js
       - name: Validate aggregate full-story length summaries
