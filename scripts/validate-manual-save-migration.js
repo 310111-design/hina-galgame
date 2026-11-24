@@ -23,7 +23,7 @@ const migrationFunctions = [
   readFunction("normalizeManualSave", "isValidManualSave"),
   readFunction("isValidManualSave", "openSaveMenu")
 ].join("\n");
-const { normalizeManualSave } = new Function("chapters", `${migrationFunctions}\nreturn { normalizeManualSave };`)(chapters);
+const { normalizeManualSave, isValidManualSave } = new Function("chapters", `${migrationFunctions}\nreturn { normalizeManualSave, isValidManualSave };`)(chapters);
 
 const prePrologueA01 = normalizeManualSave({ chapter: 0, phase: "intro", line: 0 });
 assert.equal(chapters[prePrologueA01.chapter].id, "A01", "pre-prologue saves should shift past P01–P03");
@@ -39,4 +39,8 @@ assert.equal(postPrologueA01.version, 3);
 const current = { version: 3, chapter: 3, phase: "intro", line: 0 };
 assert.deepEqual(normalizeManualSave(current), current, "current saves should remain unchanged");
 
-console.log("Manual save migration regression checks passed (pre- and post-prologue formats).");
+const future = { version: 4, chapter: 3, phase: "intro", line: 0 };
+assert.deepEqual(normalizeManualSave(future), future, "unknown future versions should not be migrated as old saves");
+assert.equal(isValidManualSave(future), false, "unknown future versions should not load as current saves");
+
+console.log("Manual save migration regression checks passed (legacy, current and unsupported future formats).");

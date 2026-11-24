@@ -822,16 +822,18 @@ function loadManualSlots() {
 function normalizeManualSave(saved) {
   if (!saved || typeof saved !== "object" || Array.isArray(saved) || saved.version === 3) return saved;
   if (!Number.isInteger(saved.chapter)) return saved;
+  const chapterOffset = saved.version == null ? 3 : saved.version === 2 ? 0 : null;
+  if (chapterOffset === null) return saved;
   const migrated = {
     ...saved,
     version: 3,
-    chapter: saved.chapter + (saved.version === 2 ? 0 : 3)
+    chapter: saved.chapter + chapterOffset
   };
   return isValidManualSave(migrated) ? migrated : saved;
 }
 
 function isValidManualSave(saved) {
-  if (!saved || typeof saved !== "object" || Array.isArray(saved)) return false;
+  if (!saved || typeof saved !== "object" || Array.isArray(saved) || saved.version !== 3) return false;
   if (!Number.isInteger(saved.chapter) || saved.chapter < 0 || saved.chapter >= chapters.length) return false;
   if (!["intro", "choice", "branch", "common", "complete"].includes(saved.phase)) return false;
   if (!Number.isInteger(saved.line) || saved.line < 0) return false;
@@ -939,7 +941,7 @@ function renderSaveSlots() {
       const routeName = ({ friend: "朋友線", partner: "搭檔線", romance: "戀愛線" })[saved.route] || "";
       detail.textContent = `${chapter.id}｜${chapter.title} · ${phaseNames[saved.phase]}${routeName ? " · " + routeName : ""}\n全篇進度約 ${progress}% · ${dateText}${flags ? "\n" + flags : ""}`;
     } else {
-      detail.textContent = saved ? "存檔資料無效" : "空欄位";
+      detail.textContent = saved ? "存檔格式無效或不支援" : "空欄位";
     }
     const action = document.createElement("button");
     action.type = "button";
