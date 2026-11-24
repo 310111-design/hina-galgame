@@ -1976,6 +1976,13 @@
 - **限制與驗證：** HTTP HEAD 不下載或解碼內容，不驗證 CSS 背景裁切、`img` onload/onerror、色帶、快取、載入時間或實機尺寸；相關裝置 QA 仍未完成。
 - **未來可用範圍：** 本作替換或重新部署角色圖、背景及回退素材時；也適用於靜態網站與前端 CDN，先依 runtime mapping 驗證部署路徑，再把瀏覽器視覺／效能 QA 保留為獨立檢查。
 
+### 2026-11-24：透明角色 PNG 改用逐像素相同的無損 WebP 副本
+
+- **學到什麼：** 把 PNG 轉成 WebP 後目視相似，仍不足以證明透明邊緣、半透明像素或色彩沒有改變；只保留新格式也會失去可驗證來源和可靠回退。
+- **如何應用於本作：** `scripts/convert-character-sprites.py` 保留所有來源 PNG，逐張檢查 RGBA 尺寸後輸出 lossless WebP，並重新解碼比較整張 RGBA byte array。13 張共由 9,633,130 bytes 降至 5,855,298 bytes（39.2%）；runtime 優先 WebP、失敗回 PNG、再失敗回既有 SVG。`scripts/validate-character-sprite-webp.js` 將格式標頭、尺寸、alpha、來源對應、檔案縮小及實際 runtime 錯誤回退納入 Pages CI。
+- **限制與驗證：** 逐像素比對證明使用這組轉檔輸出的解碼像素相同；CI validator 能檢查目前入庫 WebP 的 lossless 標記與 runtime fallback，但不會在實際 Safari／手機瀏覽器解碼，也不測量網路快取、載入時間、記憶體或版面顯示。實機 QA 維持未完成；原始 PNG 未被覆蓋。
+- **未來可用範圍：** 本作表情立繪更新、透明 PNG 網頁傳輸優化及其他圖片格式遷移；也適用於需要透明度、來源可回復且不能接受像素偏差的靜態網站素材，先檢查實際解碼像素與回退，再評估壓縮收益。
+
 ### 2026-11-24：選項回歸應執行 runtime 並核對實際分支序列
 
 - **學到什麼：** JSON schema 驗證能確認每節有 A／B／C，卻不能保證玩家點選後 runtime 會把分支字母、旗標和成年路線正確寫入狀態，或 `getSequence()` 讀到對應台詞。

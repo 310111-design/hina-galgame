@@ -6,40 +6,40 @@ const MANUAL_SLOTS_KEY = isTestplay ? "hina-galgame-testplay-manual-slots-v2" : 
 const MANUAL_SLOT_COUNT = 6;
 const chapters = window.HINA_GAME_DATA || [];
 const SPRITE_FALLBACK = "assets/hina-sprite.svg";
-// User-provided 13-expression set (2026-11-23). Keep all source reference PNGs
-// untouched; SVG remains the load-error fallback.
+// Keep source PNGs unchanged; exact-pixel lossless WebP copies reduce transfer size.
+// Failed WebP loads retry the matching PNG, then the shared SVG fallback.
 const EMOTION_SPRITES = {
-  普通: "assets/characters/hina-expression-neutral.png",
-  認真: "assets/characters/hina-expression-serious.png",
-  嚴肅: "assets/characters/hina-expression-serious.png",
-  嚴謹: "assets/characters/hina-expression-serious.png",
-  克制: "assets/characters/hina-expression-serious.png",
-  安定: "assets/characters/hina-expression-neutral.png",
-  微笑: "assets/characters/hina-expression-smile.png",
-  放鬆: "assets/characters/hina-expression-relaxed.png",
-  安心: "assets/characters/hina-expression-relaxed.png",
-  意外: "assets/characters/hina-expression-surprised.png",
-  驚訝: "assets/characters/hina-expression-surprised.png",
-  好奇: "assets/characters/hina-expression-curious.png",
-  沉思: "assets/characters/hina-expression-confused.png",
-  思考: "assets/characters/hina-expression-confused.png",
-  疑惑: "assets/characters/hina-expression-confused.png",
-  困惑: "assets/characters/hina-expression-confused.png",
-  不安: "assets/characters/hina-expression-worried.png",
-  擔憂: "assets/characters/hina-expression-worried.png",
-  疲倦: "assets/characters/hina-expression-sleepy.png",
-  疲憊: "assets/characters/hina-expression-sleepy.png",
-  困倦: "assets/characters/hina-expression-sleepy.png",
-  生氣: "assets/characters/hina-expression-angry.png",
-  不耐: "assets/characters/hina-expression-angry.png",
-  警戒: "assets/characters/hina-expression-angry.png",
-  警惕: "assets/characters/hina-expression-angry.png",
-  害羞: "assets/characters/hina-expression-shy.png",
-  微羞: "assets/characters/hina-expression-shy.png",
-  開心: "assets/characters/hina-expression-happy.png",
-  不捨: "assets/characters/hina-expression-reluctant.png",
-  難過: "assets/characters/hina-expression-reluctant.png",
-  悲傷: "assets/characters/hina-expression-reluctant.png"
+  普通: "assets/characters/hina-expression-neutral.webp",
+  認真: "assets/characters/hina-expression-serious.webp",
+  嚴肅: "assets/characters/hina-expression-serious.webp",
+  嚴謹: "assets/characters/hina-expression-serious.webp",
+  克制: "assets/characters/hina-expression-serious.webp",
+  安定: "assets/characters/hina-expression-neutral.webp",
+  微笑: "assets/characters/hina-expression-smile.webp",
+  放鬆: "assets/characters/hina-expression-relaxed.webp",
+  安心: "assets/characters/hina-expression-relaxed.webp",
+  意外: "assets/characters/hina-expression-surprised.webp",
+  驚訝: "assets/characters/hina-expression-surprised.webp",
+  好奇: "assets/characters/hina-expression-curious.webp",
+  沉思: "assets/characters/hina-expression-confused.webp",
+  思考: "assets/characters/hina-expression-confused.webp",
+  疑惑: "assets/characters/hina-expression-confused.webp",
+  困惑: "assets/characters/hina-expression-confused.webp",
+  不安: "assets/characters/hina-expression-worried.webp",
+  擔憂: "assets/characters/hina-expression-worried.webp",
+  疲倦: "assets/characters/hina-expression-sleepy.webp",
+  疲憊: "assets/characters/hina-expression-sleepy.webp",
+  困倦: "assets/characters/hina-expression-sleepy.webp",
+  生氣: "assets/characters/hina-expression-angry.webp",
+  不耐: "assets/characters/hina-expression-angry.webp",
+  警戒: "assets/characters/hina-expression-angry.webp",
+  警惕: "assets/characters/hina-expression-angry.webp",
+  害羞: "assets/characters/hina-expression-shy.webp",
+  微羞: "assets/characters/hina-expression-shy.webp",
+  開心: "assets/characters/hina-expression-happy.webp",
+  不捨: "assets/characters/hina-expression-reluctant.webp",
+  難過: "assets/characters/hina-expression-reluctant.webp",
+  悲傷: "assets/characters/hina-expression-reluctant.webp"
 };
 
 const defaultState = () => ({
@@ -463,7 +463,7 @@ function setSpriteEmotion(mood) {
     sprite.classList.add("sprite-ready");
     sprite.classList.remove("sprite-changing");
   };
-  sprite.onerror = () => {
+  const useSvgFallback = () => {
     sprite.onerror = null;
     sprite.dataset.emotion = "";
     sprite.classList.remove("user-cutout");
@@ -474,6 +474,15 @@ function setSpriteEmotion(mood) {
       sprite.classList.remove("sprite-changing");
     };
     sprite.src = SPRITE_FALLBACK;
+  };
+  sprite.onerror = () => {
+    sprite.onerror = null;
+    if (/\.webp$/i.test(source)) {
+      sprite.onerror = useSvgFallback;
+      sprite.src = source.replace(/\.webp$/i, ".png");
+      return;
+    }
+    useSvgFallback();
   };
   sprite.src = source;
 }

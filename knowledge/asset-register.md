@@ -61,7 +61,7 @@
 
 ### 目前 runtime 接入狀態
 
-- `site/game.js` 的 `EMOTION_SPRITES` 使用 2026-11-23 提供的 13 張 896×1200 表情圖，依對話 mood 切換；圖檔載入失敗時退回 `assets/hina-sprite.svg`。正作由該 runtime 顯示表情圖，回歸頁保留 SVG 初始圖層。
+- `site/game.js` 的 `EMOTION_SPRITES` 使用 2026-11-23 表情 PNG 的 13 張無損 WebP runtime 副本，依對話 mood 切換；原 PNG 保留，WebP 失敗時退回對應 PNG，再失敗才使用 `assets/hina-sprite.svg`。像素完全相同，傳輸總量減少 39.2%。
 - 2026-11-22 暫接的八張 `hina-cutout-v2-*.png` 已被 11-23 的完整表情組替代；最初八張不透明 `IMG_*.png` 僅作參考圖，兩組都不再是目前情緒映射。
 - 13 張使用者提供背景均有 WebP 版本，其中 12 張映射至 runtime 章節，校園中庭保留備用；生成的黃昏辦公室背景另供企劃首頁。仍需實機檢查文字安全區、裁切、載入速度與色帶；角色表情的姿勢差異與畫面邊緣也待跨裝置驗收。
 
@@ -177,25 +177,25 @@
 
 ### 2026-11-23 使用者提供的完整新表情組
 
-| 表情標題 | 專案檔案 | 尺寸／alpha | 情緒映射 |
-| --- | --- | --- | --- |
-| 普通 | `hina-expression-neutral.png` | 896×1200 RGBA；透明 676,782、半透明 20,042 | 普通、安定 |
-| 微笑 | `hina-expression-smile.png` | 896×1200 RGBA；透明 650,890、半透明 20,273 | 微笑 |
-| 開心 | `hina-expression-happy.png` | 896×1200 RGBA；透明 669,599、半透明 19,645 | 開心 |
-| 害羞 | `hina-expression-shy.png` | 896×1200 RGBA；透明 672,877、半透明 19,853 | 害羞、微羞 |
-| 生氣 | `hina-expression-angry.png` | 896×1200 RGBA；透明 679,670、半透明 20,166 | 生氣、不耐、警戒、警惕 |
-| 困惑 | `hina-expression-confused.png` | 896×1200 RGBA；透明 729,510、半透明 18,259 | 困惑、疑惑、沉思、思考 |
-| 擔憂 | `hina-expression-worried.png` | 896×1200 RGBA；透明 656,303、半透明 20,170 | 擔憂、不安 |
-| 驚訝 | `hina-expression-surprised.png` | 896×1200 RGBA；透明 667,784、半透明 18,931 | 驚訝、意外 |
-| 認真 | `hina-expression-serious.png` | 896×1200 RGBA；透明 694,153、半透明 18,877 | 認真、嚴肅、嚴謹、克制 |
-| 放鬆 | `hina-expression-relaxed.png` | 896×1200 RGBA；透明 706,176、半透明 18,811 | 放鬆、安心 |
-| 困倦 | `hina-expression-sleepy.png` | 896×1200 RGBA；透明 674,675、半透明 19,702 | 困倦、疲倦、疲憊 |
-| 好奇 | `hina-expression-curious.png` | 896×1200 RGBA；透明 679,645、半透明 41,214 | 好奇 |
-| 不捨 | `hina-expression-reluctant.png` | 896×1200 RGBA；透明 683,579、半透明 9,938 | 不捨、難過、悲傷 |
+| 表情標題 | 保留的原始 PNG | Runtime WebP | 尺寸／alpha | 情緒映射 |
+| --- | --- | --- | --- | --- |
+| 普通 | `hina-expression-neutral.png` | `hina-expression-neutral.webp` | 896×1200 RGBA；透明 676,782、半透明 20,042 | 普通、安定 |
+| 微笑 | `hina-expression-smile.png` | `hina-expression-smile.webp` | 896×1200 RGBA；透明 650,890、半透明 20,273 | 微笑 |
+| 開心 | `hina-expression-happy.png` | `hina-expression-happy.webp` | 896×1200 RGBA；透明 669,599、半透明 19,645 | 開心 |
+| 害羞 | `hina-expression-shy.png` | `hina-expression-shy.webp` | 896×1200 RGBA；透明 672,877、半透明 19,853 | 害羞、微羞 |
+| 生氣 | `hina-expression-angry.png` | `hina-expression-angry.webp` | 896×1200 RGBA；透明 679,670、半透明 20,166 | 生氣、不耐、警戒、警惕 |
+| 困惑 | `hina-expression-confused.png` | `hina-expression-confused.webp` | 896×1200 RGBA；透明 729,510、半透明 18,259 | 困惑、疑惑、沉思、思考 |
+| 擔憂 | `hina-expression-worried.png` | `hina-expression-worried.webp` | 896×1200 RGBA；透明 656,303、半透明 20,170 | 擔憂、不安 |
+| 驚訝 | `hina-expression-surprised.png` | `hina-expression-surprised.webp` | 896×1200 RGBA；透明 667,784、半透明 18,931 | 驚訝、意外 |
+| 認真 | `hina-expression-serious.png` | `hina-expression-serious.webp` | 896×1200 RGBA；透明 694,153、半透明 18,877 | 認真、嚴肅、嚴謹、克制 |
+| 放鬆 | `hina-expression-relaxed.png` | `hina-expression-relaxed.webp` | 896×1200 RGBA；透明 706,176、半透明 18,811 | 放鬆、安心 |
+| 困倦 | `hina-expression-sleepy.png` | `hina-expression-sleepy.webp` | 896×1200 RGBA；透明 674,675、半透明 19,702 | 困倦、疲倦、疲憊 |
+| 好奇 | `hina-expression-curious.png` | `hina-expression-curious.webp` | 896×1200 RGBA；透明 679,645、半透明 41,214 | 好奇 |
+| 不捨 | `hina-expression-reluctant.png` | `hina-expression-reluctant.webp` | 896×1200 RGBA；透明 683,579、半透明 9,938 | 不捨、難過、悲傷 |
 
 - **來源：** 使用者提供 `陽奈表情2.zip`；ZIP 原檔不複製入 repo，13 張 PNG 均依標題另存遊戲檔名，舊檔不刪除。
 - **判定：** 所有新圖均經逐像素 alpha 掃描，有透明與半透明像素；以使用者明確指示接入，不代表手機／桌面實機 QA 或邊緣美術驗收完成。
-- **部署：** `site/game.js` 同時供正作與回歸頁使用；正作首頁仍是唯一公開遊戲入口，Pages 推送部署後可由角色素材預覽頁逐張檢視。
+- **部署：** `site/game.js` 同時供正作與回歸頁使用；runtime 載入 WebP，失敗時回退 PNG 再回退 SVG。角色素材預覽頁仍連結原始 PNG。
 
 
 ### WebP runtime variants

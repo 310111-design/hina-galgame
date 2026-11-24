@@ -48,6 +48,8 @@ jobs:
         run: node scripts/validate-game-shells.js
       - name: Inspect visual asset metadata
         run: node scripts/inspect-visual-assets.js
+      - name: Validate expression sprite WebP variants and fallbacks
+        run: node scripts/validate-character-sprite-webp.js
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
         with:
