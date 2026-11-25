@@ -2479,5 +2479,13 @@
 
 - **學到什麼：** D02 修訂的 Actions build 與所有 validator 均成功，但 Pages deploy API 回傳 502；同一時間 GitHub Status API 標示系統部分中斷、Pages 效能降級。首頁仍回 HTTP 200，只代表舊版可取用，不能當作最新內容已部署的證據。
 - **如何應用於本作：** 在 `knowledge/plan.md` 分開記錄 build、deploy 與公開內容狀態；遇到 deploy 伺服器錯誤時先查 Actions annotation 和 GitHub Status，保留建置成功證據，不把上游故障誤判為內容或測試失敗。部署狀態恢復後再重試並以新 run 確認。
-- **限制與驗證：** 本次 build 完成、deploy 失敗；部署日誌下載因公開 API 權限限制未能使用，但 check-run annotation 提供 502 錯誤及 request ID。公開頁 HTTP 200 未確認版本內容。部署重試仍待 Pages 恢復。
+- **限制與驗證：** commit `4567554` 的 build 完成、deploy 收到 502；後續狀態紀錄 push 的 run `45651839177` 再試一次，build 完成但 deploy 收到 500。兩次 annotation 均指向 Pages server error，當時平台狀態為部分中斷。部署日誌下載因公開 API 權限限制未能使用；公開頁 HTTP 200 未確認版本內容。下一次應等 Pages 恢復後再驗。
 - **未來可用範圍：** 本作 GitHub Pages 與其他以 CI 發布的靜態網站。逐層核對建置、artifact、部署和版本內容；平台回報服務降級時，避免反覆修改正確的專案檔案，恢復後再以 run SHA 與 cache-buster 核對線上版本。
+
+
+### 2026-11-26：不要在角色直接揭露前先用旁白重述主題
+
+- **學到什麼：** D02 common 原先在陽奈親口說「我以前很少談工作以外的近況」前，旁白先以「不再把談話變成規則」「理解在當下說清楚就足夠」概括她的轉變；後續她分享工作外生活及休息安排，已具體呈現該變化。提前的兩句解說使角色自我揭露失去一部分新意。
+- **如何應用於本作：** 刪去兩句抽象旁白，讓放下杯子的停頓直接接陽奈的自述，保留具體生活例子及結尾界線；同步下調 D02 防截斷門檻並更新全文統計，不為湊回 2,500 字路徑參考補寫。詳見 `knowledge/reviews/d02-cadence-review.md`。
+- **限制與驗證：** `validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 通過只能確認稿件／runtime 同步、路徑下限與統計；無法代替讀者感受、盲讀或全路線 QA。降低防截斷門檻只依據這次具體刪修，不代表其他章節可套用同一字數。
+- **未來可用範圍：** 本作其他角色談休息、工作以外興趣及成年後改變的場景；也適用於 RPG 對話、視覺小說和長篇敘事。若角色台詞即將首次說出感受，先刪除緊鄰旁白中的預告式結論，再檢查轉場是否仍自然、後續具體行動是否已足以支撐讀者理解。

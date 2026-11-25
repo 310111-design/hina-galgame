@@ -27,7 +27,7 @@ module.exports = [
   { id: "C05", dialogueOnly: true, syncSections: true, syncChoices: true, status: "transition revisions synchronized" },
   { id: "C06", dialogueOnly: true, syncSections: true, syncChoices: true, status: "CAT revisions synchronized" },
   { id: "D01", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, syncConditional: true, status: "reviewed; CAT transition checked" },
-  { id: "D02", minimum: 2500, pathMinimum: 2500, syncSections: true, syncChoices: true, status: "manuscript/runtime synchronized" },
+  { id: "D02", minimum: 2600, pathMinimum: 2450, syncSections: true, syncChoices: true, status: "third-pass common-cadence revision below initial length reference" },
   { id: "D03", minimum: 2000, pathMinimum: 1800, syncSections: true, syncChoices: true, status: "DOAT/DAIT revisions synchronized; cadence revised below initial reference" },
   { id: "D04", minimum: 2400, pathMinimum: 2200, syncSections: true, syncChoices: true, status: "DAIT and second-pass cadence revisions synchronized below initial length reference" },
   { id: "D05", minimum: 2500, pathMinimum: 2400, syncSections: true, syncChoices: true, status: "second-pass invitation/departure cadence revised below initial path reference" },
