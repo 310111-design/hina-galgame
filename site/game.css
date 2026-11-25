@@ -1774,17 +1774,21 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   position: relative;
   padding-top: clamp(36px, 5dvh, 48px);
 }
+/* Center the speaker label inside the upper-left slot in dialogue-frame.png. */
 .story .hina strong {
   position: absolute;
   z-index: 2;
   top: -8px;
-  left: clamp(28px, 4vw, 48px);
+  left: 7.8%;
+  width: 31.5%;
+  box-sizing: border-box;
   margin: 0;
   min-height: 28px;
+  justify-content: center;
   border-radius: 999px 999px 5px 999px;
   background: linear-gradient(105deg, #f2c2d52e, #d8cbff24);
   box-shadow: 0 4px 14px #09071166;
-  text-align: left;
+  text-align: center;
   white-space: nowrap;
 }
 .game-stage[data-phase="choice"] .dialogue-panel { max-height: min(68dvh, 620px); }
@@ -1869,7 +1873,6 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   .story p { padding-inline: 18px; }
   .story .hina { padding-top: 34px; }
   .story .hina strong {
-    left: 28px;
     min-height: 24px;
   }
   .game-stage[data-phase="choice"] .story > .narration {

@@ -2370,3 +2370,10 @@
 - **如何應用於本作：** 在 `knowledge/plan.md` 前段建立有日期的儀表板，分列願景、領域現況、已完成里程碑與高層剩餘清單；詳細檢查證據留在各 Phase。把最新部署 commit／Actions run 與仍待 viewport、iPhone Safari、全分支通關的工作分開標示，刪除已失效的暫停交接段。
 - **限制與驗證：** 文件狀態依目前 `main`、`origin/main`、最新 Actions run 與 Pages HTTP 回應核對。摘要只能導覽，不能取代各 Phase 的細項、CI 覆蓋範圍或人工／實機驗收；若篇幅摘要被驗證器依固定錨點讀取，重排時要保留該錨點與 runtime 推導數字，或同步調整驗證器。本輪移除 `5. **長篇規模` 行後，CI 的聚合摘要驗證確實失敗，已據此恢復。每次更新仍須核實 commit 與日期，避免把歷史證據寫成最新結果。
 - **未來可用範圍：** 本作每輪更新 `knowledge/plan.md`、部署狀態與發布清單；也適用於長期軟體／內容專案的 roadmap、release notes 和交接文件。用短儀表板回答「現在在哪裡」，用逐項證據回答「如何證明完成」，並明確標出兩者之間的待驗工作。
+
+### 2026-11-25：姓名標籤應按裝飾框格比例定位並置中
+
+- **學到什麼：** `dialogue-frame.png` 左上方有一段姓名槽；用固定像素左邊距只能控制起點，無法讓姓名在該槽中左右留白平衡，而且不同寬度下槽寬會隨底圖一起縮放。
+- **如何應用於本作：** 將 `.story .hina strong` 設為定位標籤，以 `left: 7.8%`、`width: 31.5%` 對齊左上框格，使用 flex 與文字置中。移除手機 breakpoint 的固定 `left: 28px` 覆寫，並在 `validate-game-shells.js` 保護這組比例與置中規則。詳見 `knowledge/reviews/ui-speaker-nameplate-position.md`。
+- **限制與驗證：** `node scripts/validate-game-shells.js` 與 `git diff --check` 通過，但本輪 Computer Use 的網址許可確認失敗，因此沒有新 viewport 截圖；不得把 CSS validator 通過當成實際視覺 QA。直向、橫向、桌面與 iPhone Safari 仍待目視驗收。
+- **未來可用範圍：** 本作姓名牌及後續圖片框格中的文字／按鈕錨點；也適用於響應式 UI 將 HTML 控制對齊非等比例裝飾素材時。先從來源圖量出目標槽占可定位容器的比例，再以百分比定位及文字置中，最後分開完成靜態規則與實際畫面驗收。

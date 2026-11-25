@@ -92,6 +92,14 @@ for (const [name, [expectedWidth, expectedHeight]] of uiAssetSpecs) {
 for (const name of ["dialogue-frame.png", "choice-prompt.png", "choice-row-default.png", "choice-row-selected.png"]) {
   if (!stylesheet.includes(`assets/ui/${name}`)) errors.push("UI stylesheet does not use " + name);
 }
+const speakerNameplateRule = stylesheet.match(/\/\* Center the speaker label inside the upper-left slot in dialogue-frame\.png\. \*\/\s*\.story \.hina strong\s*\{([^}]*)\}/i)?.[1] || "";
+if (!/position:\s*absolute/i.test(speakerNameplateRule) ||
+    !/left:\s*7\.8%/i.test(speakerNameplateRule) ||
+    !/width:\s*31\.5%/i.test(speakerNameplateRule) ||
+    !/justify-content:\s*center/i.test(speakerNameplateRule) ||
+    !/text-align:\s*center/i.test(speakerNameplateRule)) {
+  errors.push("Speaker nameplate must remain centered in the dialogue frame's upper-left label slot.");
+}
 if (!/function announceDialogue\(text\)\s*\{[^}]*storyAnnouncement[^}]*\}/s.test(source)) {
   errors.push("Missing completed-line screen-reader announcement helper.");
 }
