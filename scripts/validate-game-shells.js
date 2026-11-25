@@ -171,6 +171,8 @@ const dialogueVignetteRule = [...stylesheet.matchAll(/\.game-stage:not\(\[data-p
 const dialogueBackgroundRule = [...stylesheet.matchAll(/\.game-stage:not\(\[data-phase="choice"\]\) \.scene-art\.has-background::before\s*\{([^}]*)\}/g)].at(-1)?.[1] || "";
 const dialogueSceneRule = [...stylesheet.matchAll(/\.game-stage:not\(\[data-phase="choice"\]\) \.scene-art::before\s*\{([^}]*)\}/g)].at(-1)?.[1] || "";
 const choiceMarkerRule = dialogueArtworkStyles.match(/\.game-stage\[data-phase="choice"\] \.choice-marker\s*\{([^}]*)\}/)?.[1] || "";
+const choiceRowRule = dialogueArtworkStyles.match(/\.game-stage\[data-phase="choice"\] \.choice\s*\{([^}]*)\}/)?.[1] || "";
+const selectedChoiceRowRule = dialogueArtworkStyles.match(/\.game-stage\[data-phase="choice"\] \.choice:hover,\s*\.game-stage\[data-phase="choice"\] \.choice:focus-visible,\s*\.game-stage\[data-phase="choice"\] \.choice\.is-selected\s*\{([^}]*)\}/)?.[1] || "";
 const landscapeChoiceMarkerRule = dialogueArtworkStyles.match(/@media\s*\(max-height:\s*560px\)\s*and\s*\(orientation:\s*landscape\)\s*\{[\s\S]*?\.game-stage\[data-phase="choice"\] \.choice-marker\s*\{([^}]*)\}/)?.[1] || "";
 if (!/position:\s*absolute/i.test(dialoguePanelRule) ||
     !/inset:\s*auto\s+0\s+0/i.test(dialoguePanelRule) ||
@@ -190,7 +192,9 @@ if (!/border:\s*0/i.test(choiceMarkerRule) ||
     !/border-radius:\s*0/i.test(choiceMarkerRule) ||
     !/background:\s*transparent/i.test(choiceMarkerRule) ||
     !/font-size:\s*clamp\(1rem/i.test(choiceMarkerRule) ||
-    !/font-size:\s*clamp\(\.9rem/i.test(landscapeChoiceMarkerRule)) {
+    !/font-size:\s*clamp\(\.9rem/i.test(landscapeChoiceMarkerRule) ||
+    !/background:\s*url\(["']?assets\/ui\/choice-row-default\.png/i.test(choiceRowRule) ||
+    !/background-image:\s*url\(["']?assets\/ui\/choice-row-selected\.png/i.test(selectedChoiceRowRule)) {
   errors.push("Choice summaries must remain plain two- or three-character labels without a circle, remain prominent on short landscapes, and retain the surrounding dark option artwork.");
 }
 if (/\.story \.hina\s*\{[^}]*position:\s*relative/i.test(dialogueArtworkStyles)) {

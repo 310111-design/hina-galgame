@@ -2550,6 +2550,6 @@
 ### 2026-11-26：響應式樣式的後置規則也要守住摘要層級
 
 - **學到什麼：** 選項摘要的基礎 CSS 看起來大於舊 A／B／C 標記，但 choice 專用與短橫向 media rule 後置覆寫後，實際 844×390 摘要縮到 9.92px，低於選項正文 13.76px；390×844 也只有 13.12px，沒有形成預期的視覺層級。只檢查基礎規則或看桌面截圖會漏掉這種覆寫。
-- **如何應用於本作：** 在 `.game-stage[data-phase="choice"] .choice-marker` 設一般至少 1rem，低高度橫向另保留至少 .9rem；更新 `game.html` 與 `testplay.html` 的 CSS 版本參數，並讓 `validate-game-shells.js` 鎖住兩種 viewport 的字級下限。保持無圓框及選項外深色不變。
+- **如何應用於本作：** 在 `.game-stage[data-phase="choice"] .choice-marker` 設一般至少 1rem，低高度橫向另保留至少 .9rem；更新 `game.html` 與 `testplay.html` 的 CSS 版本參數，並讓 `validate-game-shells.js` 鎖住兩種 viewport 的字級下限，以及普通／選取狀態仍使用相應的深色 row art。保持無圓框及選項外深色不變。
 - **限制與驗證：** `validate-game-shells.js`、`validate-choice-runtime.js` 及選項路徑／路線 checks 通過；commit `dbb6863` 的 Pages run [45667472966](https://github.com/310111-design/hina-galgame/actions/runs/45667472966) 成功。公開版載入 CSS cache-buster `choice-summary-size-v1-20261126` 後，390×844、844×390、1440×900 computed 字級為 16px、14.4px、16.56px，目視確認短摘要及深色底符合預期。模擬 viewport 不能代表真實 iPhone 字體、動態工具列或安全區。
 - **未來可用範圍：** 本作其他視覺狀態與響應式元件，也適用於手機選單、任務標籤、字幕及其他以短摘要建立資訊層級的 UI。對每種寬高組合檢查最終 cascade 的 computed font size、文字框大小及周邊間距；新增後置 media rule 時也要維持原本可見層級，必要時把斷言加入現有 style validator。
