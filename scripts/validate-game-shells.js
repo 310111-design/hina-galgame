@@ -167,6 +167,7 @@ if (!/position:\s*absolute/i.test(speakerNameplateRule) ||
 }
 const dialogueArtworkStyles = stylesheet.split("/* User-provided UI 2.0 panel artwork, split into responsive decorative layers. */").at(-1) || "";
 const dialoguePanelRule = dialogueArtworkStyles.match(/\.dialogue-panel\s*\{([^}]*)\}/)?.[1] || "";
+const dialogueStoryScrollRule = dialogueArtworkStyles.match(/\.story\s*\{([^}]*)\}/)?.[1] || "";
 const dialogueVignetteRule = [...stylesheet.matchAll(/\.game-stage:not\(\[data-phase="choice"\]\) \.scene-vignette\s*\{([^}]*)\}/g)].at(-1)?.[1] || "";
 const dialogueBackgroundRule = [...stylesheet.matchAll(/\.game-stage:not\(\[data-phase="choice"\]\) \.scene-art\.has-background::before\s*\{([^}]*)\}/g)].at(-1)?.[1] || "";
 const dialogueSceneRule = [...stylesheet.matchAll(/\.game-stage:not\(\[data-phase="choice"\]\) \.scene-art::before\s*\{([^}]*)\}/g)].at(-1)?.[1] || "";
@@ -188,12 +189,21 @@ if (!/max-width:\s*35%/i.test(mobileSafeTextRule) ||
   errors.push("Narrow portrait dialogue must reserve a left text column and shift the sprite right to prevent character overlap.");
 }
 if (!/position:\s*absolute/i.test(dialoguePanelRule) ||
+    !/display:\s*flex/i.test(dialoguePanelRule) ||
+    !/flex-direction:\s*column/i.test(dialoguePanelRule) ||
+    !/overflow:\s*hidden/i.test(dialoguePanelRule) ||
     !/inset:\s*auto\s+0\s+0/i.test(dialoguePanelRule) ||
     !/padding-inline:\s*0/i.test(dialoguePanelRule) ||
     !/background-color:\s*transparent/i.test(dialoguePanelRule) ||
     !/background-image:\s*url\(["']?assets\/ui\/dialogue-frame-cutout\.png/i.test(dialoguePanelRule) ||
     !/backdrop-filter:\s*none/i.test(dialoguePanelRule)) {
   errors.push("Dialogue frame must stay anchored at the stage bottom, own the nameplate anchor, and use the transparent cutout artwork without added fill.");
+}
+if (!/flex:\s*1\s+1\s+auto/i.test(dialogueStoryScrollRule) ||
+    !/min-height:\s*0/i.test(dialogueStoryScrollRule) ||
+    !/overflow-y:\s*auto/i.test(dialogueStoryScrollRule) ||
+    !/\.dialogue-panel\s*>\s*\.asset-toolbar\s*\{\s*flex:\s*0\s+0\s+auto/i.test(stylesheet)) {
+  errors.push("Dialogue content must scroll within the panel while the footer and game controls stay visible at larger text sizes.");
 }
 if (!/linear-gradient\(0deg,\s*#08071038\s+0%,\s*transparent\s+42%\)/i.test(dialogueVignetteRule) ||
     !/linear-gradient\(0deg,\s*#08071016\s*,\s*#08071008\s+62%\)/i.test(dialogueBackgroundRule) ||

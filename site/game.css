@@ -1777,6 +1777,8 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 /* User-provided UI 2.0 panel artwork, split into responsive decorative layers. */
 .dialogue-panel {
   position: absolute;
+  display: flex;
+  flex-direction: column;
   z-index: 10;
   inset: auto 0 0;
   width: 100%;
@@ -1790,9 +1792,20 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   background-repeat: no-repeat;
   background-size: 100% 100%;
   box-shadow: none;
+  overflow: hidden;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
+.story {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.dialogue-panel > .choices,
+.dialogue-panel > .dialogue-footer,
+.dialogue-panel > .asset-toolbar { flex: 0 0 auto; }
 .story p {
   max-width: none;
   padding-inline: clamp(24px, 7.8vw, 112px);
