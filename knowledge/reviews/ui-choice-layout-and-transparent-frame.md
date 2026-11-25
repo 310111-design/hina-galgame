@@ -45,3 +45,9 @@
 - 首次只加 `max-width` 時，公開截圖仍看到文字置中並壓到人物；computed style 顯示既有 `.story p` 的 `margin-inline: auto` 仍使窄欄置中。再把非選項台詞段落設為左對齊後，C01 長句左側排版，不再進入人物輪廓區。
 - Pages run [45663782860](https://github.com/310111-design/hina-galgame/actions/runs/45663782860) 的 build／deploy 成功。公開頁在 1280×720 預設視窗檢視長句；另以 390×844 與 844×390 viewport override 檢查文字欄與立繪位置，完成後重設 viewport。P03／C01 選項外觀保持原樣，並返回 P03 主線。
 - viewport override 是瀏覽器模擬，不代表真實裝置的字體、瀏覽器工具列、安全區、觸控或縮放行為已通過；進入章節重玩會在瀏覽器已讀索引記錄實際讀過的 C01 句子。
+
+### 2026-11-26 選項短摘要窄螢幕字級複核
+
+- 沿用公開 Pages 的 P03 選項狀態及單一 Codex 內建瀏覽器分頁，檢查 390×844 與 844×390 viewport。DOM computed style 顯示窄直向 `.choice-marker` 約 13.12px、正文約 13.44px；低高度橫向被 media rule 壓至 9.92px，而選項正文是 13.76px。字串雖短且無圓框，左側摘要並未如規格成為醒目的大字。
+- 已將 choice marker 一般字級下限設為 1rem，短橫向規則設為至少 .9rem；正式頁與試玩頁 cache-buster 同步更新。沒有改動 choice row 圖片、透明度、周圍深色或 A／B／C 內部識別碼。
+- `validate-game-shells.js` 新增一般與短橫向的字級下限斷言；`validate-game-shells.js`、`validate-choice-runtime.js` 及其選項路徑／路線檢查通過。此記錄撰寫時修改尚待推送及 Pages 公開版再次載入核對；本輪 viewport 是模擬尺寸，不代表實體裝置驗收。

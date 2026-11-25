@@ -14,7 +14,7 @@
 |---|---|---|
 | 故事 | 四幕、33 個章節節點（30 節共通篇、3 個成年結局）均已接入；三條路線、條件回憶及第一輪章節審校已完成。全篇分支連貫、角色語氣與最終通關 QA 尚未完成。 | 故事可玩，整體 QA 待完成 |
 | 遊戲功能 | 逐字閱讀、選項、章節選擇、紀錄、已讀跳過、自動播放、設定、自動存檔、六格手動存檔、章節重玩隔離及音訊控制已實作；固定 validator 覆蓋多項資料與 runtime 規則。 | 功能已接入，手動流程待驗 |
-| UI | `9969cda` 在選項左側改用無圓框的 2–3 字大字摘要，保留選項周圍深色；2026-11-26 公開 P03／C01 再確認短標籤及深色選項外圍。`b83028f` 為一般台詞加入左側安全欄，公開 C01 長句在桌面及 390×844／844×390 模擬 viewport 均避開陽奈立繪；CSS cache-buster 同步更新正式與試玩頁。`7bc1597` 為兩個遊戲殼層的功能選單按鈕補上明確 `aria-label`，Actions run [45647365552](https://github.com/310111-design/hina-galgame/actions/runs/45647365552) 成功。公開頁 DOM 含名稱屬性，瀏覽器角色名稱定位器可找到「選擇章節」按鈕，但 Codex AX 樹序列化仍回報空名稱；目前較像擷取層差異，尚未以實際讀屏器驗證。 | 選項樣式與已測模擬 viewport 通過；真實讀屏器、iPhone Safari 及跨尺寸回歸待驗 |
+| UI | `9969cda` 在選項左側改用無圓框的 2–3 字摘要，保留選項周圍深色；本輪發現手機橫向摘要僅約 10px，已把一般視窗字級下限提高至 1rem、短橫向下限提高至 .9rem，相關 validator 通過，Pages 部署與公開畫面複核待本次推送。`b83028f` 為一般台詞加入左側安全欄，公開 C01 長句在桌面及 390×844／844×390 模擬 viewport 均避開陽奈立繪；CSS cache-buster 同步更新正式與試玩頁。`7bc1597` 為兩個遊戲殼層的功能選單按鈕補上明確 `aria-label`，Actions run [45647365552](https://github.com/310111-design/hina-galgame/actions/runs/45647365552) 成功。公開頁 DOM 含名稱屬性，瀏覽器角色名稱定位器可找到「選擇章節」按鈕，但 Codex AX 樹序列化仍回報空名稱；目前較像擷取層差異，尚未以實際讀屏器驗證。 | 選項字級修正待部署驗收；真實讀屏器、iPhone Safari 及完整跨尺寸回歸待驗 |
 | 美術 | 13 張表情立繪、12 張章節背景及首頁背景已接入。18 張事件 CG 尚待製作；成年篇立繪與 D08P 圖書館庭院專用背景仍待補。 | 基礎素材已接入，長期素材製作待開始 |
 | 音訊 | 程序化 BGM、淡入淡出、提示音及 BGM／SFX 分開控制已實作；正式音樂與音效素材尚未納入。 | 第一版完成，聽感與授權素材待驗 |
 | 發布 | 遊戲內容最後修改 commit `b5085aa` 已發布；Actions run [45653050575](https://github.com/310111-design/hina-galgame/actions/runs/45653050575) build／deploy 成功，公開內容核對通過。後續文件紀錄的 Pages runs [45653568793](https://github.com/310111-design/hina-galgame/actions/runs/45653568793) 與 [45654459831](https://github.com/310111-design/hina-galgame/actions/runs/45654459831) 亦成功。部署成功不代表全站狀態恢復或實機 QA 完成。 | 最新文件版已發布；整體視覺／無障礙 QA 未完成 |
@@ -30,6 +30,7 @@
 - [x] 逐句特寫／退遠 runtime 與 validator 契約已推送：`820820e` 初次 run `45630036369` 因角色縮放驗證器仍要求舊 CSS 字串而失敗；`3acf7c7` 將驗證更新為校準縮放與 stage cue 的組合，run `45632863045` build／deploy 成功。詳見 `knowledge/story-stage-cues.md` 與本輪 experience 記錄。
 - [x] 修正並發布 choice 畫面：commit `9a327ea`、Pages run `45635053575` build／deploy 成功；Codex 內建瀏覽器於公開版 P03 狀態確認面板回到底部、標題區未重疊、玩家看不到 A/B/C，並看到「後續回憶：日常／分工／約定」。保留原始框圖並加入中央透明衍生圖；在此 viewport 文字可讀，背景仍透出但閱讀區整體看起來深色半透明。其他 viewport、D06 路線告知及 iPhone Safari 仍待驗收。
 - [x] 依最新選項視覺要求移除左側圓框，改為 2–3 字大字摘要，保留選項周圍深色；公開 Pages P03 顯示「日常／分工／約定」，D06 顯示「朋友／搭檔／戀愛」及完整路線告知。commit `9969cda`、Actions run 730 build／deploy 成功；其他尺寸仍待驗收。
+- [x] 修正選項摘要在窄螢幕過小：公開 Pages 的 P03 實測 844×390 時摘要為 9.92px，小於 13.76px 選項正文；一般 viewport 的摘要也只有 13.12px。將一般樣式設為至少 1rem、短橫向至少 .9rem，維持無框與選項外深色；正式頁／試玩頁 cache-buster 同步，shell validator 新增兩種版型字級下限斷言。`validate-game-shells.js`、`validate-choice-runtime.js` 及其 runtime route checks 通過；發布與相同 viewport 回核待本次推送。
 - [x] 為正式版與內部試玩頁的功能選單控制加上明確 `aria-label`，並更新 `validate-game-shells.js` 檢查所有功能按鈕名稱與兩殼層一致；`7bc1597` 已部署且 run `45647365552` 成功。
 - [x] 交叉查明公開功能選單名稱差異：DOM 中明確 `aria-label` 存在，內建瀏覽器的按鈕名稱定位器可依「選擇章節」找到控制；Codex AX 樹輸出仍遺漏名稱，較可能是擷取／序列化差異。詳見 `knowledge/reviews/ui-utility-menu-accessibility-review.md`；此證據不等於 OS 輔助技術驗收。
 - [ ] 以 NVDA／VoiceOver 等真實讀屏器確認功能選單名稱與焦點順序；未完成前不宣稱讀屏器通過。
