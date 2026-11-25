@@ -1947,3 +1947,17 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   .asset-toolbar { min-height: 36px; margin-top: 2px; padding-top: 2px; padding-bottom: 2px; }
   .asset-toolbar button { min-height: 44px; }
 }
+
+/* Keep normal dialogue text in the open column beside the portrait. */
+.game-stage:not([data-phase="choice"]) .story > p {
+  max-width: 48%;
+}
+@media (max-width: 720px) {
+  .game-stage:not([data-phase="choice"]) .story > p {
+    max-width: 38%;
+  }
+  .game-stage:not([data-phase="choice"]) .hina-sprite {
+    right: -8%;
+    max-width: 72vw;
+  }
+}
