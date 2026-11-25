@@ -239,6 +239,21 @@ for (const page of pages) {
   if (!toolbarMarkup || [...toolbarMarkup.matchAll(/<button\b[^>]*>/gi)].some(match => !/\baria-label="[^"]+"/i.test(match[0]))) {
     errors.push(page + ": every toolbar button must have an accessible name.");
   }
+  const menuAccessibleNames = {
+    chapterMenu: "選擇章節",
+    returnMain: "返回主線",
+    logToggle: "對話紀錄與設定",
+    saveManual: "存檔",
+    loadManual: "讀檔",
+    restart: "從序章重來",
+    fullscreenToggle: "切換全螢幕"
+  };
+  for (const [id, expectedName] of Object.entries(menuAccessibleNames)) {
+    const button = html.match(new RegExp(`<button\\b(?=[^>]*\\bid="${id}")[^>]*>`, "i"))?.[0] || "";
+    if (!button || !button.includes(`aria-label="${expectedName}"`)) {
+      errors.push(page + ": " + id + " must expose the accessible name \"" + expectedName + "\".");
+    }
+  }
   const spriteIdIndex = html.indexOf('id="hinaSprite"');
   const spriteTagStart = spriteIdIndex >= 0 ? html.lastIndexOf("<img", spriteIdIndex) : -1;
   const spriteTagEnd = spriteTagStart >= 0 ? html.indexOf(">", spriteTagStart) : -1;
