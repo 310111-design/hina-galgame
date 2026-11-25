@@ -13,19 +13,21 @@
 ## 修正方案
 
 - 對話面板回到 `position: absolute; inset: auto 0 0`，面板仍是姓名牌百分比定位的包含區塊；低高度橫向 choice 面板上限調整為 `min(72dvh, 320px)`，保留 route／memory 提示，choice 狀態隱藏無用的已讀跳過控制，推進提示改為「請選擇一項」。
-- 保留 JSON 的 A／B／C 選項識別碼，以免破壞既有存檔；顯示層改成「路線／回憶」徽標。D06 用「路線告知：朋友線／搭檔線／戀愛線」明確說明目的地；一般 choice 用「後續回憶：…」說明效果，不宣稱提前鎖定關係路線。
+- 保留 JSON 的 A／B／C 選項識別碼，以免破壞既有存檔；左側摘要使用無圓框、較大的 2–3 字純文字。D06 左側摘要為「朋友／搭檔／戀愛」，一般 choice 依 hint 顯示「日常／分工／約定」等短詞；完整「路線告知：…」或「後續回憶：…」描述仍繫結於按鈕的 `aria-describedby`，不宣稱一般選擇已鎖定關係路線。
+- 保留選項按鈕周圍的深色視覺，不將其改成透明；僅按使用者要求拿掉左側摘要圓框，完整暗部／對比之後仍須在不同台詞、背景和尺寸中檢查。
 - 原始 `dialogue-frame.png` 完全保留。新增同畫布的 `dialogue-frame-cutout.png`，以 4× 繪製抗鋸齒圓角遮罩，把中央閱讀區矩形 `(44,43)–(1074,258)` 的來源 alpha 清零，保留原始外框、姓名槽及邊角。原圖 131,959 bytes；衍生圖 80,559 bytes，透明像素由 6,057 增至 223,337。
 - `validate-game-shells.js` 解碼 RGBA PNG 抽查中心透明、原圖中心不透明及衍生圖邊框仍可見；也檢查面板 bottom anchor、透明素材路徑與無 CSS fill。`validate-choice-runtime.js` 驗證 route/memory 訊息、三種成年路線文字及沒有可見字母指示。
 
 ## 驗證與限制
 
-本機 `node --check site/game.js`、`node scripts/validate-choice-runtime.js`、`node scripts/validate-game-shells.js`、`node scripts/validate-stage-cue-runtime.js` 與 `git diff --check` 通過。commit `9a327ea` 的 Pages run `45635053575` build／deploy 成功。
+初版本機 `node --check site/game.js`、`node scripts/validate-choice-runtime.js`、`node scripts/validate-game-shells.js`、`node scripts/validate-stage-cue-runtime.js` 與 `git diff --check` 通過。後續 `9969cda` 更新摘要樣式與 99 個選項的 2–3 字驗證，Pages Actions run 730（`45641279568`）build／deploy 成功。
 
 ### 發布後目視確認
 
 - Codex 內建瀏覽器重載公開 `game.html`，停在原有 P03 選項狀態，沒有按下選項或改寫遊戲進度。DOM 顯示三個選項的玩家文案分別附有「後續回憶：日常／分工／約定」，底部提示為「請選擇一項」；沒有可見 A／B／C。
 - 截圖中對話面板已錨回舞台底部，頂端章節資訊與標題沒有互相覆蓋；當前畫面的對話和選項文字可讀，未見字形與陽奈立繪輪廓穿插。
 - 中央透明衍生圖讓場景能透過閱讀區；然而對話框整體仍呈深紫黑色半透明外觀。這證明來源 PNG 中央的實心底已挖空，不代表閱讀區視覺上完全無暗色或所有背景都不再干擾文字。
-- 本次只驗收這個瀏覽器視窗中的 P03 選項狀態；D06 路線告知、一般台詞、844×390、390×844、1440×900、文字放大、方向切換與真實 iPhone Safari 仍未驗收。不得以此筆局部目視結果宣稱完整 UI QA 通過。
+- 最新 `9969cda` 發布後，Codex 內建瀏覽器再次檢視同一公開 P03 選項狀態：左側顯示「日常／分工／約定」純文字，沒有圓框，文字可讀；選項周圍的深色仍保留。這是單一桌面狀態，不足以判定其他場景下的暗部或對比都適切。
+- 本次只驗收這個瀏覽器視窗中的 P03 選項狀態；D06 路線摘要、一般台詞、844×390、390×844、1440×900、文字放大、方向切換與真實 iPhone Safari 仍未驗收。不得以此筆局部目視結果宣稱完整 UI QA 通過。
 
 這次檢視不等同真實 iPhone Safari、實體觸控、全鍵盤、輔助科技或多字級矩陣驗收。
