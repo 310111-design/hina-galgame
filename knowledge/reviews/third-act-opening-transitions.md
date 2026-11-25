@@ -2,7 +2,7 @@
 
 ## 範圍與交付
 
-完整閱讀 `story/chapters/C01.md`、`C02.md`、`C03.md`，核對兩組交界各九種局部分支組合。參照 `knowledge/flag-dialogue.md` 與既有 BET 審校：C01 的昨日任務來源、休息中公務、重複回報仍屬 BET-06／07，未修、不重編結案。既有 C01～C06 共通回收與選項影響審校不等於本次逐分支交界檢查。
+完整閱讀 `story/chapters/C01.md`、`C02.md`、`C03.md`，核對兩組交界各九種局部分支組合。C01 昨日任務來源（BET-06）已由 B08 common 共用條件建立；休息與回查交接（BET-07）已於 2026-11-26 修訂並同步 runtime，詳見 `second-act-to-third-act-transition.md`。既有 C01～C06 共通回收與選項影響審校不等於本次逐分支交界檢查。
 
 先前在 `scripts/validate-route-drafts.js` 加入 C02／C03 targets，檢查正文逐句、intro／A／B／C／common 五段及選項字母／順序／label；沿用既有 parser 與 fixtures，不降低成年篇門檻。下列 TAT-01～06 記錄初次審校結果；2026-11-23 的修訂狀態以文末追記為準。十八格是人工文本核對，不是十八次瀏覽器通關。
 
