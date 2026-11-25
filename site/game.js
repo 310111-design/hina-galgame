@@ -672,6 +672,14 @@ function setStageCue(cue) {
   stage.dataset.stageCue = ["close", "wide"].includes(cue) ? cue : "";
 }
 
+function getChoiceNotice(choice) {
+  const routeNames = { friend: "朋友線", partner: "搭檔線", romance: "戀愛線" };
+  if (choice.route) {
+    return { marker: "路線", description: `路線告知：${routeNames[choice.route] || "關係路線"}` };
+  }
+  return { marker: "回憶", description: `後續回憶：${choice.hint}` };
+}
+
 function renderDialogue([kind, text, mood, stageCue]) {
   if (typingTimer) window.clearInterval(typingTimer);
   typingTimer = null;
@@ -759,26 +767,28 @@ function render() {
   if (state.phase === "choice") {
     const prompt = document.createElement("p");
     prompt.className = "narration";
-    prompt.textContent = "陽奈等著你回答。這個選擇會保留在之後的章節中。";
+    prompt.textContent = "陽奈等著你回答。選項會標示路線告知或後續回憶。";
     document.getElementById("story").replaceChildren(prompt);
     announceDialogue(prompt.textContent);
+    document.getElementById("dialogueHint").textContent = "請選擇一項";
     chapter.choices.forEach((choice, index) => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "choice choice-enter";
       button.style.animationDelay = `${index * 55}ms`;
       button.dataset.choice = choice.letter;
+      const notice = getChoiceNotice(choice);
       const marker = document.createElement("span");
       marker.className = "choice-marker";
       marker.setAttribute("aria-hidden", "true");
-      marker.textContent = choice.letter;
+      marker.textContent = notice.marker;
       const label = document.createElement("span");
       label.className = "choice-label";
       label.textContent = choice.label;
       const hint = document.createElement("small");
       hint.className = "choice-hint";
       hint.id = `choice-hint-${choice.letter}`;
-      hint.textContent = `影響：${choice.hint}`;
+      hint.textContent = notice.description;
       button.setAttribute("aria-describedby", hint.id);
       button.append(marker, label, hint);
       button.addEventListener("click", () => {

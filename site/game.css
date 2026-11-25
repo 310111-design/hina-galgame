@@ -1765,12 +1765,16 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 
 /* User-provided UI 2.0 panel artwork, split into responsive decorative layers. */
 .dialogue-panel {
-  position: relative;
+  position: absolute;
+  z-index: 10;
+  inset: auto 0 0;
+  width: 100%;
+  min-height: 0;
   padding-inline: 0;
   border: 0;
   border-radius: 0;
   background-color: transparent;
-  background-image: url("assets/ui/dialogue-frame.png");
+  background-image: url("assets/ui/dialogue-frame-cutout.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -1786,7 +1790,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 .story .hina {
   padding-top: clamp(36px, 5dvh, 48px);
 }
-/* Center the speaker label inside the upper-left slot in dialogue-frame.png. */
+/* Center the speaker label inside the upper-left slot in dialogue-frame-cutout.png. */
 .story .hina strong {
   position: absolute;
   z-index: 2;
@@ -1850,6 +1854,20 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   box-shadow: none;
 }
 .game-stage[data-phase="choice"] .choice:focus-visible { outline: 2px solid #ffe0ab; outline-offset: -3px; }
+.game-stage[data-phase="choice"] .dialogue-footer .skip-read { display: none; }
+.game-stage[data-phase="choice"] .choice-marker {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  min-height: 34px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: .66rem;
+  font-weight: 650;
+  letter-spacing: .05em;
+  white-space: nowrap;
+}
 .asset-toolbar {
   display: flex;
   min-height: 42px;
@@ -1912,14 +1930,15 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 }
 @media (max-height: 560px) and (orientation: landscape) {
   .game-stage[data-phase="choice"] .dialogue-panel {
-    max-height: min(80dvh, 330px);
+    max-height: min(72dvh, 320px);
     padding-top: 8px;
     padding-bottom: max(8px, env(safe-area-inset-bottom));
   }
   .game-stage[data-phase="choice"] .story > .narration { min-height: 40px; margin-bottom: 2px; padding-top: 5px; padding-bottom: 5px; }
   .game-stage[data-phase="choice"] .choices { gap: 4px; margin-top: 4px; }
   .game-stage[data-phase="choice"] .choice { min-height: 44px; padding-top: 4px; padding-bottom: 4px; }
-  .game-stage[data-phase="choice"] .choice-hint { display: none; }
+  .game-stage[data-phase="choice"] .choice-marker { min-height: 27px; padding: 3px 8px; font-size: .6rem; }
+  .game-stage[data-phase="choice"] .choice-hint { display: block; font-size: .58rem; }
   .dialogue-footer { min-height: 34px; }
   .asset-toolbar { min-height: 36px; margin-top: 2px; padding-top: 2px; padding-bottom: 2px; }
   .asset-toolbar button { min-height: 44px; }

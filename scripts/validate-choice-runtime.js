@@ -11,6 +11,22 @@ const dataSource = fs.readFileSync(path.join(root, "site", "game-data.js"), "utf
 const dataPrefix = "window.HINA_GAME_DATA = ";
 if (!dataSource.startsWith(dataPrefix)) throw new Error("game-data.js has an unexpected format");
 const chapters = JSON.parse(dataSource.slice(dataPrefix.length).trim().replace(/;\s*$/, ""));
+const noticeSource = gameSource.match(/function getChoiceNotice\(choice\)\s*\{[\s\S]*?\n\}/)?.[0];
+assert.ok(noticeSource, "choice presentation must disclose a route or later memory");
+const getChoiceNotice = new Function(`${noticeSource}\nreturn getChoiceNotice;`)();
+for (const [route, expected] of Object.entries({ friend: "朋友線", partner: "搭檔線", romance: "戀愛線" })) {
+  assert.deepEqual(getChoiceNotice({ route, hint: expected }), {
+    marker: "路線",
+    description: `路線告知：${expected}`
+  }, `${route} choices should explicitly disclose their destination route`);
+}
+assert.deepEqual(getChoiceNotice({ hint: "休息" }), {
+  marker: "回憶",
+  description: "後續回憶：休息"
+}, "non-route choices should describe a remembered influence without claiming to lock a route");
+assert.match(gameSource, /marker\.textContent\s*=\s*notice\.marker/);
+assert.match(gameSource, /hint\.textContent\s*=\s*notice\.description/);
+assert.doesNotMatch(gameSource, /marker\.textContent\s*=\s*choice\.letter/);
 
 function readFunction(name, nextName) {
   const start = gameSource.indexOf(`function ${name}(`);

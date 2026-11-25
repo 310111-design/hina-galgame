@@ -2382,17 +2382,25 @@
 ### 2026-11-25：透明 UI 圖仍可能有不透明面板底色
 
 - **學到什麼：** PNG/RGBA 有透明通道，不代表整張圖或面板中央是透明的。`dialogue-frame.png` 的 RGBA alpha 統計顯示只有 6,057／318,630 像素完全透明，中央閱讀面 307,562 像素完全不透明；CSS 再疊 `#0b0912e8` 背景與 backdrop blur，會把素材透明邊緣和場景一起壓暗。另將姓名牌定位在加過 padding 和 max-width 的文字段落，百分比參照範圍便與全幅素材不同。
-- **如何應用於本作：** 保留使用者提供的 UI 圖，不覆寫或自動挖除中央深色設計；移除額外的 CSS 底色／模糊，讓框外透明區顯示場景。把 `.dialogue-panel` 設為姓名牌的定位容器、取消面板水平內距，段落採對應框圖寬度的響應式留白；姓名標籤使用與原始姓名槽同一座標系的百分比，直接顯示在素材槽上。`validate-game-shells.js` 鎖定這些 CSS 契約。詳見 `knowledge/reviews/ui-speaker-nameplate-position.md`。
-- **限制與驗證：** 靜態 shell/data/route validators、JavaScript 語法及 diff whitespace 檢查通過；Windows Computer Use 因無法驗證目標網址是否允許而停止，未取得修正後的任何 viewport 畫面。因此不能宣稱姓名位置或對話文字遮擋已視覺驗收，桌面、直向、橫向及 iPhone Safari 仍待檢視；深色面板中央是素材本身的像素，不會因 CSS 背景透明而消失。
-- **未來可用範圍：** 本作後續透明對話框、選項面板和 HUD；也適用於網站與遊戲把 HTML 文字疊在 RGBA 素材上。先讀像素 alpha 分布辨認透明區，再盤點 CSS `background`／`backdrop-filter` 疊層，最後確認定位包含區塊與圖片座標一致；靜態檢查和實際截圖應分開驗收。
+- **如何應用於本作：** 移除額外 CSS 底色／模糊；保留使用者原始素材不變，依其明確回饋另輸出「中央閱讀區透明」衍生圖，讓框內場景可透出。面板本身固定在舞台底部，仍作姓名牌定位容器；衍生圖與來源圖維持相同畫布尺寸，使姓名槽百分比錨點不變。`validate-game-shells.js` 核對畫面中點已透明、邊框像素仍保留。詳見 `knowledge/reviews/ui-speaker-nameplate-position.md`。
+- **限制與驗證：** 原始 PNG 有 RGBA 通道但中央閱讀區不透明，只有 6,057／318,630 像素完全透明；CSS `background-color: transparent` 無法清除已烘焙在圖片內的深色填色。Codex 內建瀏覽器實際看見 choice 狀態下 `.dialogue-panel` 的 `position: relative` 使內容從舞台頂端排版，章節資訊／提示與頂部標題重疊；已改為絕對定位並錨定底部，另產生中央透明衍生素材。定位和 cutout 待下一次 Pages deploy 後再次目視；桌面、直向、橫向及 iPhone Safari 仍待驗。
+- **未來可用範圍：** 本作後續透明對話框、選項面板和 HUD；也適用於網站與遊戲把 HTML 文字疊在 RGBA 素材上。先抽樣來源 alpha 判斷可見底色究竟來自圖像或 CSS；保留原檔，以同座標系製作可回退衍生圖；定位時同時檢查 absolute containing block 和 stage 錨點；靜態 alpha／CSS 檢查與發布畫面驗收分開記錄。
 
 
 ### 2026-11-25：角色鏡頭縮放必須由逐句演出 metadata 明示
 
 - **學到什麼：** 將縮放附著在 mood 或文字關鍵字上，會令驚訝、思考等一般表情也被猜成鏡頭指令，且無法穩定重現編劇預期。沒有註記的舊台詞應保持原有畫面。
 - **如何應用於本作：** 新增 optional 第四 tuple 欄位 `stageCue`，只允許 `close`／`wide`；稿件以 `【陽奈｜情緒｜特寫】`／`【陽奈｜情緒｜退遠】` 明示。close=1.045、wide=0.97；每句重新設定，未標記或離開台詞階段就清除，系統 prefers-reduced-motion 時不縮放。現有 33 節沒有新增 cue。詳見 `knowledge/story-stage-cues.md` 與 `knowledge/reviews/story-stage-cue-runtime.md`。
-- **限制與驗證：** game-data validator 限制 schema 與說話者；route-draft fixtures 比對標記解析；專用 runtime harness 驗證 cue 設定／重置和 CSS 減動規則，並納入 Pages workflow。因故事沒有實際標記，CI 通過證明支援路徑與預設中性，不代表任何劇情鏡頭已經調校；實際裁切、動態節奏及裝置體驗仍需 viewport／iPhone Safari 驗收。
+- **限制與驗證：** game-data validator 限制 schema 與說話者；route-draft fixtures 比對標記解析；專用 runtime harness 驗證 cue 設定／重置和 CSS 減動規則，並納入 Pages workflow。首輪 CI 因角色尺寸 validator 仍要求舊 CSS 字串失敗，修正契約後 commit `3acf7c7` 的 run `45632863045` build／deploy 成功。因故事沒有實際標記，CI 通過證明支援路徑與預設中性，不代表任何劇情鏡頭已經調校；實際裁切、動態節奏及裝置體驗仍需 viewport／iPhone Safari 驗收。
 - **未來可用範圍：** 本作要強調特定角色台詞、驚訝或動作時的明確鏡頭安排；也可用於其他互動小說的 camera cue、說話者姿勢或分鏡 metadata。新增視覺效果採可選欄位、預設無效果、編輯稿／runtime 雙向同步、無效值拒絕與 reduced-motion 回退；不要從情緒詞或自然語言猜測鏡頭。
+
+
+### 2026-11-25：分支選項應解釋 route 與記憶的不同影響
+
+- **學到什麼：** 選項資料中的 A／B／C 是穩定識別碼，並非玩家需要閱讀的劇情資訊。`hint` 文字有兩種語義：一般選擇只累積旗標、在後續章節呈現回憶；D06 才是真正的成年關係 route 選擇。統一顯示「影響」或只顯示字母，不足以清楚說明兩者差異。
+- **如何應用於本作：** 顯示標記改為「回憶」／「路線」，細項分別顯示「後續回憶：休息」或「路線告知：朋友線／搭檔線／戀愛線」。保留按鈕上的內部 `data-choice` letter 和存檔 schema，只替換玩家可見文字；輔助科技透過按鈕 `aria-describedby` 讀出完整細項。
+- **限制與驗證：** `validate-choice-runtime.js` 以 99 個現有選擇拓撲與 D06 三路線資料驗證 route notice，並以一般記憶選項檢查不會假稱 route 已決定。低高度手機、實際方向切換及讀屏器語音仍需發布版／實機驗收。
+- **未來可用範圍：** 本作之後新增成年關係、記憶收集或隱藏旗標選項；也適用於任何讓「立即路線分歧」和「延後回憶／狀態累積」並存的互動敘事。把存檔 ID 與玩家文案分開，將後果分成可驗證類型，避免對玩家誤報選擇效果。
 
 
 ### 2026-11-25：CSS 組合變數後同步更新跨元件契約驗證

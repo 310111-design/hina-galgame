@@ -3,6 +3,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const zlib = require("node:zlib");
 
 const root = path.join(__dirname, "..");
 const source = fs.readFileSync(path.join(root, "site", "game.js"), "utf8");
@@ -69,8 +70,65 @@ const uiAssetSpecs = new Map([
   ["choice-prompt.png", [930, 150]],
   ["choice-row-default.png", [930, 125]],
   ["choice-row-selected.png", [930, 125]],
-  ["dialogue-frame.png", [1118, 285]]
+  ["dialogue-frame.png", [1118, 285]],
+  ["dialogue-frame-cutout.png", [1118, 285]]
 ]);
+function paethPredictor(left, up, upperLeft) {
+  const estimate = left + up - upperLeft;
+  const leftDistance = Math.abs(estimate - left);
+  const upDistance = Math.abs(estimate - up);
+  const upperLeftDistance = Math.abs(estimate - upperLeft);
+  if (leftDistance <= upDistance && leftDistance <= upperLeftDistance) return left;
+  return upDistance <= upperLeftDistance ? up : upperLeft;
+}
+function readRgbaPixel(bytes, x, y) {
+  let width = 0;
+  let height = 0;
+  let colorType = -1;
+  let bitDepth = -1;
+  let interlace = -1;
+  const idat = [];
+  for (let offset = 8; offset < bytes.length;) {
+    const length = bytes.readUInt32BE(offset);
+    const type = bytes.toString("ascii", offset + 4, offset + 8);
+    const data = bytes.subarray(offset + 8, offset + 8 + length);
+    if (type === "IHDR") {
+      width = data.readUInt32BE(0);
+      height = data.readUInt32BE(4);
+      bitDepth = data[8];
+      colorType = data[9];
+      interlace = data[12];
+    } else if (type === "IDAT") {
+      idat.push(data);
+    } else if (type === "IEND") {
+      break;
+    }
+    offset += 12 + length;
+  }
+  if (colorType !== 6 || bitDepth !== 8 || interlace !== 0 || x < 0 || y < 0 || x >= width || y >= height) return null;
+  const decoded = zlib.inflateSync(Buffer.concat(idat));
+  const stride = width * 4;
+  let previous = Buffer.alloc(stride);
+  let cursor = 0;
+  for (let rowIndex = 0; rowIndex <= y; rowIndex += 1) {
+    const filter = decoded[cursor++];
+    const row = Buffer.from(decoded.subarray(cursor, cursor + stride));
+    cursor += stride;
+    for (let index = 0; index < stride; index += 1) {
+      const left = index >= 4 ? row[index - 4] : 0;
+      const up = previous[index];
+      const upperLeft = index >= 4 ? previous[index - 4] : 0;
+      if (filter === 1) row[index] = (row[index] + left) & 0xff;
+      else if (filter === 2) row[index] = (row[index] + up) & 0xff;
+      else if (filter === 3) row[index] = (row[index] + Math.floor((left + up) / 2)) & 0xff;
+      else if (filter === 4) row[index] = (row[index] + paethPredictor(left, up, upperLeft)) & 0xff;
+      else if (filter !== 0) return null;
+    }
+    if (rowIndex === y) return [...row.subarray(x * 4, x * 4 + 4)];
+    previous = row;
+  }
+  return null;
+}
 for (const [name, [expectedWidth, expectedHeight]] of uiAssetSpecs) {
   const file = path.join(root, "site", "assets", "ui", name);
   if (!fs.existsSync(file)) {
@@ -89,10 +147,17 @@ for (const [name, [expectedWidth, expectedHeight]] of uiAssetSpecs) {
   }
   if (bytes[25] !== 6) errors.push(name + ": UI artwork must retain its RGBA alpha channel.");
 }
-for (const name of ["dialogue-frame.png", "choice-prompt.png", "choice-row-default.png", "choice-row-selected.png"]) {
+const dialogueSourceBytes = fs.readFileSync(path.join(root, "site", "assets", "ui", "dialogue-frame.png"));
+const dialogueCutoutBytes = fs.readFileSync(path.join(root, "site", "assets", "ui", "dialogue-frame-cutout.png"));
+if (readRgbaPixel(dialogueSourceBytes, 559, 142)?.[3] !== 255 ||
+    readRgbaPixel(dialogueCutoutBytes, 559, 142)?.[3] !== 0 ||
+    readRgbaPixel(dialogueCutoutBytes, 10, 142)?.[3] === 0) {
+  errors.push("Transparent dialogue derivative must clear the center while preserving the original source and visible frame edge.");
+}
+for (const name of ["dialogue-frame-cutout.png", "choice-prompt.png", "choice-row-default.png", "choice-row-selected.png"]) {
   if (!stylesheet.includes(`assets/ui/${name}`)) errors.push("UI stylesheet does not use " + name);
 }
-const speakerNameplateRule = stylesheet.match(/\/\* Center the speaker label inside the upper-left slot in dialogue-frame\.png\. \*\/\s*\.story \.hina strong\s*\{([^}]*)\}/i)?.[1] || "";
+const speakerNameplateRule = stylesheet.match(/\/\* Center the speaker label inside the upper-left slot in dialogue-frame(?:-cutout)?\.png\. \*\/\s*\.story \.hina strong\s*\{([^}]*)\}/i)?.[1] || "";
 if (!/position:\s*absolute/i.test(speakerNameplateRule) ||
     !/left:\s*7\.8%/i.test(speakerNameplateRule) ||
     !/width:\s*31\.5%/i.test(speakerNameplateRule) ||
@@ -102,12 +167,13 @@ if (!/position:\s*absolute/i.test(speakerNameplateRule) ||
 }
 const dialogueArtworkStyles = stylesheet.split("/* User-provided UI 2.0 panel artwork, split into responsive decorative layers. */").at(-1) || "";
 const dialoguePanelRule = dialogueArtworkStyles.match(/\.dialogue-panel\s*\{([^}]*)\}/)?.[1] || "";
-if (!/position:\s*relative/i.test(dialoguePanelRule) ||
+if (!/position:\s*absolute/i.test(dialoguePanelRule) ||
+    !/inset:\s*auto\s+0\s+0/i.test(dialoguePanelRule) ||
     !/padding-inline:\s*0/i.test(dialoguePanelRule) ||
     !/background-color:\s*transparent/i.test(dialoguePanelRule) ||
-    !/background-image:\s*url\(["']?assets\/ui\/dialogue-frame\.png/i.test(dialoguePanelRule) ||
+    !/background-image:\s*url\(["']?assets\/ui\/dialogue-frame-cutout\.png/i.test(dialoguePanelRule) ||
     !/backdrop-filter:\s*none/i.test(dialoguePanelRule)) {
-  errors.push("Dialogue frame must own the nameplate anchor and show only the supplied artwork over the scene.");
+  errors.push("Dialogue frame must stay anchored at the stage bottom, own the nameplate anchor, and use the transparent cutout artwork without added fill.");
 }
 if (/\.story \.hina\s*\{[^}]*position:\s*relative/i.test(dialogueArtworkStyles)) {
   errors.push("Hina dialogue paragraphs must not override the dialogue frame as the nameplate positioning container.");
