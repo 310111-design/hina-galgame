@@ -78,3 +78,9 @@ C01 common 再次以「休息不是完全不看訊息／工作不是完全不管
 ## 下一步
 
 接續審校 C01→C02，聚焦本批已明確標出的早晨第一輪回報、午後例外結果與團隊責任在下一章如何延續；不重做已完成的 B07→B08 九格與 B08→C01 入口檢查。此批未改 `.env`、美術、角色草稿或存檔。
+
+## 2026-11-26 追加：B08 分支位置與共通道具
+
+再次對照 B08 開場、A／B／C 分支及 common。C 分支原句「回到桌前」沒有前置離桌動作，修為「仍在桌前」；17:20 common 原本飲水，只有 B 分支明確拿到水杯，刪除此分支限定道具；收束原把手機留在抽屜，改為手機放進外套口袋後離場。未改選項、旗標、條件回憶或 C01 入口。
+
+Markdown／runtime 逐句同步驗證通過；B08 為 **116** 條正文 tuple／**2,274** 字元，A／B／C **1,858／1,805／1,851**。全篇仍有 3,261 tuples；原始文字更新為 74,625，去重後 73,990 字元／3,172 條唯一文字，路徑與估時同步於 `knowledge/plan.md`、`knowledge/chapter-plan.md`、`knowledge/reviews/full-length-refresh.md` 和 `knowledge/reviews/playtime-estimate.md`。`validate-route-drafts.js`、`validate-game-data.js` 通過；長度摘要首次檢查抓到 4 字元差異，修正文檔後 `validate-full-length-summary.js` 通過。沒有做 B08 三路徑瀏覽器通關。急件訊息辨識機制仍待釐清；C01 的休息中回查提示／實際交件次數也是後續修訂項。
