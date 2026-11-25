@@ -14,10 +14,10 @@
 |---|---|---|
 | 故事 | 四幕、33 節均已接入。33 節時間錨點、陽奈直接台詞聲線、分幕 common／分支回收、精確與近似重複候選、三個成年結局差異均已有靜態審校紀錄。公開 Pages 章節重玩已逐線抵達 D08F／D08P／D08R 結局；每線測一種 D07 活動分支，戀愛線另選擇暫緩確認交往。獨立 testplay 章節重玩已完成 P01→P03、A01→A06、B01→B08、C01→C06，依序選擇 C01「分工」、C02「日常」、C03「休息」、C04「日常」、C05「分工」、C06「日常」，並確認接到 D01「再次見面」；朋友線全篇路徑進行中。公開主線停在 A01，依 D-31 不啟動主線章節。 | 成年三路局部通關完成；P01 起始試玩路徑進入第四幕 D01 |
 | 遊戲功能 | 逐字閱讀、選項、章節選擇、紀錄、已讀跳過、自動播放、設定、自動存檔、六格手動存檔、章節重玩隔離及音訊控制已實作；固定 validator 覆蓋多項資料與 runtime 規則。2026-11-26 公開瀏覽器手測返回 P03 後啟動章節，主線自動存檔已前進至 A01；六個手動欄原為空。詳見 D-31，目前自動播放暫停，先不再執行會推進主線的互動測試。 | 功能已接入，手動流程待驗；瀏覽器存檔恢復決策待定 |
-| UI | `8329e75` 已部署：選項左側 2–3 字摘要移除 PNG 烘焙的內框、放大字級，沿用整列深色／選取底圖。2026-11-26 以公開 Pages 同一分頁在約 1440×900 目視確認 D06／D07／D08 選項：摘要只有大字、無小圓框，選項列及周圍深色保留。更窄與直向 viewport 的新版樣式、真實讀屏器、iPhone Safari 仍待驗。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md` 與 `knowledge/reviews/browser-route-smoke-review.md`。`7bc1597` 的功能選單 `aria-label` 可由公開 DOM／瀏覽器角色名稱定位器讀到，但 Codex AX 樹序列化仍回報空名稱；未經實際讀屏器驗證。 | 最新選項樣式桌面目視確認；實機、讀屏器與完整跨尺寸回歸待驗 |
+| UI | `7fa32ec` 已推送：保留左側無框、放大的 2–3 字摘要，改依選項實際內容命名；D01 公開試玩頁於 1440×900 確認顯示「稱呼／重逢／近況」，完整選項與回憶提示仍在，選項列深色底保留。此前 D06／D07／D08、P03／C01 等狀態已有局部核對。更窄與直向 viewport、真實讀屏器及 iPhone Safari 仍待驗。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md` 與 `knowledge/reviews/browser-route-smoke-review.md`。`7bc1597` 的功能選單 `aria-label` 可由公開 DOM／瀏覽器角色名稱定位器讀到，但 Codex AX 樹序列化仍回報空名稱；未經實際讀屏器驗證。 | 最新選項樣式桌面目視確認；實機、讀屏器與完整跨尺寸回歸待驗 |
 | 美術 | 13 張表情立繪、12 張章節背景及首頁背景已接入。CG-01～CG-18 已有依正文撰寫的逐張分鏡／生成提示，但目前全數仍為未製作佔位；成年篇立繪與 D08P 圖書館庭院專用背景仍待補。此工作階段沒有可呼叫的內建 `image_gen` 工具；依 D-26 不切換至需金鑰的 CLI／API。 | 基礎素材與生成前製完成；18 張 CG 與成年素材未生成 |
 | 音訊 | 程序化 BGM、淡入淡出、提示音及 BGM／SFX 分開控制已實作；正式音樂與音效素材尚未納入。 | 第一版完成，聽感與授權素材待驗 |
-| 發布 | 遊戲內容最後修改 commit `b5085aa` 已發布；Actions run [45653050575](https://github.com/310111-design/hina-galgame/actions/runs/45653050575) build／deploy 成功，公開內容核對通過。後續文件紀錄的 Pages runs [45653568793](https://github.com/310111-design/hina-galgame/actions/runs/45653568793) 與 [45654459831](https://github.com/310111-design/hina-galgame/actions/runs/45654459831) 亦成功。部署成功不代表全站狀態恢復或實機 QA 完成。 | 最新文件版已發布；整體視覺／無障礙 QA 未完成 |
+| 發布 | 最新 UI runtime commit `7fa32ec` 已推送；GitHub Actions run [798](https://github.com/310111-design/hina-galgame/actions/runs/45716818943) build／deploy 成功，Codex 內建瀏覽器亦已在公開 testplay D01 目視確認新摘要。部署成功不代表全站狀態恢復或實機 QA 完成。 | 最新 UI 變更已發布並局部目視確認；整體視覺／無障礙 QA 未完成 |
 
 ### 已完成的主要里程碑
 
@@ -43,6 +43,7 @@
 - [x] 2026-11-26 在 B07 選擇「陪她到走廊走一圈，不談工作」，抵達 B08 選項；進度仍為章節重玩。B08 尚未選分支，詳見 `knowledge/reviews/browser-route-smoke-review.md`。
 - [x] 2026-11-26 恢復觀察逾時後的同一試玩分頁，確認先前 B08「陪她到走廊走一圈，不談工作」已生效，並已進入 C01「交接之後」；進度仍顯示章節重玩。這確認 B08 已完成，後續 C01～C06 進度另見下方；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
 - [x] 2026-11-26 在已推送的 Pages 試玩頁目視確認 C01 選項樣式：左側「分工／休息／日常」是無圓框的大字摘要，選項列深色底與周圍暗色保持不透明。選擇「分工」後完成 C01 並接到 C02，標籤仍是「章節重玩｜主線存檔不變」；沒有操作公開主線。詳見 `knowledge/reviews/browser-route-smoke-review.md`。
+- [x] 2026-11-26 驗收公開 Pages 最新選項摘要：同一 Codex 內建瀏覽器重新載入 `testplay.html` 後，以獨立章節重玩進入 D01；1440×900 截圖與 DOM 顯示左側是無圓框粗體「稱呼／重逢／近況」，完整選項與「後續回憶」提示仍在，選項列深色底與其外的暗色保留。沒有選擇分支；重新載入回到 testplay P01 自動存檔，D01 章節重玩未覆蓋主線，但閱讀過的句子會加入已讀索引。commit `7fa32ec` 的 Actions run 798 成功；此項僅驗證 D01 桌面狀態，不代表其他尺寸、實機 Safari 或完整 UI QA。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`。
 - [x] 2026-11-26 完成 CG-01～CG-18 逐張分鏡／提示補充：依 P01、B02、B08、C06、D01、D06 與三個 D08 結局正文，記錄鏡頭、人物動作、光線、安全區和關係中性限制；同步清單與素材清冊。此為生成前製，不代表任何 CG 已生成或驗收；詳見 `knowledge/art-prompts.md`。
 - [x] 2026-11-26 以公開 Pages 章節重玩選擇 D06「搭檔線」，確認進度標籤更新，快進後抵達 D07 仍保留搭檔線；返回時 P03 主線選項仍在。這只是搭檔線入口 smoke check，未抵達 D08P。之後另一次啟動 P03 章節提示使自動存檔前進到 A01；此本機狀態與恢復方案按 D-31 處理。
 - [ ] 依 D-31 確認主線存檔處置後再做會啟動主線的瀏覽器測試；目前勿將「返回主線」後的章節提示當作仍在隔離重玩。
@@ -590,7 +591,8 @@
 - [x] 瀏覽器模擬 viewport 手機橫向：獨立重新分配角色與文字空間，避免直向配置直接放大。
 - [x] 瀏覽器模擬 viewport 桌面尺寸：檢視角色比例、對話框寬度、文字行長與留白。
 - [x] 公開 Pages D06 路線選項在手機直向 390×844、手機橫向 844×390 及桌面 1440×900 顯示三條完整路線告知；左側兩字摘要無圓框、選項深色底保留，檢查時沒有點選路線。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`；只完成這個 choice state 的模擬 viewport 核對。
-- [x] 依使用者最新指示，保留左側 2–3 字純文字摘要、移除 PNG 烘焙的小框並放大字級；以兩張衍生 row art 維持選項列及周圍暗色。來源圖未覆寫；殼層與 99 個選項 runtime 驗證通過。本機檢查已完成，公開版 viewport 目視待瀏覽器服務恢復後補驗。
+- [x] 依使用者最新指示，保留左側 2–3 字純文字摘要、移除 PNG 烘焙的小框並放大字級；以兩張衍生 row art 維持選項列及周圍暗色。來源圖未覆寫；殼層與 99 個選項 runtime 驗證通過。本機檢查已完成；公開版後續驗收及新的摘要文案紀錄見本節下方與 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`。
+- [x] 2026-11-26 公開 testplay D01 目視驗收最新選項文案：依三個選項內容分別顯示「稱呼／重逢／近況」，沒有圓框，選項列深色仍保留；完整選項與回憶提示不變。只在 1440×900 桌面 viewport 驗收、未選分支；執行章節重玩會增加已讀句索引，不覆蓋主線存檔。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`。
 - [x] 以鍵盤 Tab／Shift+Tab 局部核對公開 D06 三個路線按鈕的順序與可見焦點：朋友→搭檔→戀愛→對話紀錄，反向可回到戀愛選項；沒有啟動路線。此項不代表全站鍵盤操作、讀屏器或實機 QA 通過，詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`。
 - [x] 公開 D06 路線選項切換「大字」後，在 390×844、844×390、1440×900 模擬 viewport 核對三個摘要與完整路線告知都留在列框內，沒有選擇路線；檢查後恢復「稍大」及預設 viewport。此為單一 choice state 的字級檢查，不代表完整文字大小／長句矩陣。
 - [x] 公開 C01 切換「大字」後局部檢查長篇旁白：390×844 及後續 844×390／1440×900 的代表句均留在左側文字欄，未見與陽奈立繪重疊；自動播放／字級及 viewport 均已還原，章節重玩後返回 P03。自動播放在前兩張截圖間推進過內容，因此不是同一句的三尺寸比對；其他說話者、長句與對話紀錄仍待矩陣驗收。
@@ -611,7 +613,7 @@
 - [x] 推送後確認 GitHub Actions run `45215839672`（commit `fd19721`）成功；正式 Pages `https://310111-design.github.io/hina-galgame/game.html` 回應 HTTP 200，已在正式頁檢查新介面、功能選單及 Escape 收合。此為發布確認，不代表 iPhone Safari 或完整裝置 QA。
 - [x] 將改版前後直向／橫向／桌面截圖、viewport 初驗觀察及已知限制回寫至 `knowledge/reviews/ui2-visual-baseline.md`、`knowledge/reviews/ui-responsive-viewport-review.md` 與本節；此勾選只完成證據整理，iPhone Safari、安全區／動態工具列、完整狀態矩陣、鍵盤／輔助科技及實機 QA 仍保持未完成。
 
-**目前判定（2026-11-26）：** 最新 UI commit `9969cda` 的 Pages run 730 成功；公開版 P03 與 D06 選項的無圓框短摘要及選項周圍深色均已確認。D06 三條完整路線告知另在 390×844、844×390、1440×900 模擬 viewport 核對，未選擇任何路線；此前 D06 一般台詞與 C01 長句也已局部檢查。仍待其他章節／背景狀態、長句與文字大小溢位矩陣、真實 iPhone Safari 安全區／工具列、實體觸控及輔助科技驗收。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`、`knowledge/reviews/ui-asset-packet-review.md`、`knowledge/reviews/ui-responsive-viewport-review.md`、`knowledge/reviews/ui2-visual-baseline.md`、`knowledge/reviews/ui-speaker-nameplate-position.md` 與 `knowledge/reviews/sprite-size-normalization.md`。
+**目前判定（2026-11-26）：** 最新 UI commit `7fa32ec` 的 Pages run 798 成功；公開版 D01 已確認左側是依選項實際內容命名的粗體短摘要「稱呼／重逢／近況」，無圓框且保留選項列深色底。P03、C01 及 D06／D07／D08 也有此前的局部核對。仍待其他章節／背景狀態、長句與文字大小溢位矩陣、真實 iPhone Safari 安全區／工具列、實體觸控及輔助科技驗收。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`、`knowledge/reviews/ui-asset-packet-review.md`、`knowledge/reviews/ui-responsive-viewport-review.md`、`knowledge/reviews/ui2-visual-baseline.md`、`knowledge/reviews/ui-speaker-nameplate-position.md` 與 `knowledge/reviews/sprite-size-normalization.md`。
 
 ### 角色表情與事件 CG 素材需求
 

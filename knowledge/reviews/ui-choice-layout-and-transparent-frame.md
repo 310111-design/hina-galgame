@@ -94,3 +94,9 @@
 - **本機驗證：** `validate-game-shells.js`、`validate-choice-runtime.js`、`node --check site/game.js`、`git diff --check` 通過。生成的兩張衍生 PNG 為 930×125，來源 PNG 未覆寫。
 - **公開頁限制：** Computer Use 服務連續兩次在初始化時逾時，因此本次未在瀏覽器確認公開頁畫面，也沒有操作任何選項或存檔。推送後 Pages run [45694584208](https://github.com/310111-design/hina-galgame/actions/runs/45694584208) 成功；正式 HTML、CSS 與兩張衍生圖均回應 HTTP 200，CSS 內容包含新圖與大字規則。HTTP／內容確認不等於 viewport 目視 QA；須待瀏覽器服務可用後補驗。
 - **未來檢查：** 公開版於 390×844、844×390、1440×900 查看一般與選取狀態，確認框線只包住整列、短摘要在窄欄不裁切，並確認周圍深色區域保持不透明；不點選路線。
+
+### 2026-11-26 最新摘要內容公開驗收
+
+- GitHub Actions run [798](https://github.com/310111-design/hina-galgame/actions/runs/45716818943) 對應 commit `7fa32ecbb2ed2c63735c6f0d0f53ca613c5d0220`，狀態為 completed／success。沿用同一個 Codex 內建瀏覽器 tab 重新載入公開 `testplay.html`；頁面回到獨立試玩存檔 P01，再由章節選單以隔離重玩進入 D01。
+- 1440×900 公開畫面及 DOM 均顯示左側大字摘要為「稱呼／重逢／近況」，依據各自的選項行動／主題命名；摘要沒有圓形外框。完整選項文字及「後續回憶：分工／日常／休息」仍保留，三個選項列的深色底與周圍暗色也都可見。沒有按下任何分支。
+- 這次只驗證 D01 的桌面選項狀態，不涵蓋 99 個摘要的人工語義複核、其他章節／背景、手機比例、選取狀態、讀屏器或 iPhone Safari。章節重玩提示確認主線存檔不變；進入並閱讀 D01 仍會改變試玩頁已讀索引。若重新載入，隔離重玩回到該頁的 P01 自動存檔。
