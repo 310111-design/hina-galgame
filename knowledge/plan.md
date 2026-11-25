@@ -463,6 +463,7 @@
 - [x] 全篇非相鄰章近似台詞候選複核：跨 33 節排序出 12 組，保留 11 組時間／角色／物件回扣，刪去 D06→D08R 已由角色台詞完整承接的規劃習慣旁白；Markdown/runtime 同步，篇幅與估時更新。詳見 knowledge/reviews/full-story-nonadjacent-phrase-screen.md；分數只作候選，整體 QA 仍未完成。
 - [x] D07 分支合流後再複核關係界線旁白：刪除緊接角色明確說明邀約／改期方式後的「不替未來保證」總結，以及已由前句行程協商承接的固定見面頻率說明；A／B／C 路徑為 2,401／2,414／2,412，將此章防截斷線維持在 2,300，不以首稿參考 2,500 補回重述。章稿/runtime、篇幅及首頁估時已同步；全篇 QA 仍未完成，詳見 `knowledge/reviews/d07-common-boundary-recap-review.md`。
 - [x] B08 分支道具／位置連續性複核：C 分支留在原本的桌前，不再寫成無前文的「回到桌前」；17:20 共通段不假定 A／C 也有 B 分支的水杯，離場前把手機收入口袋。章稿／runtime 同步，B08 為 2,274 字元、A／B／C 1,858／1,805／1,851；全篇估時與長度摘要已更新。詳見 `knowledge/reviews/second-act-to-third-act-transition.md`。
+- [x] 關閉 B08 BET-01／02／04：明示前一項設備回查已結案、新例行任務另起一輪；固定 17:10～17:20 為唯一休息時段；C 選項聚焦寫下第一步並停止其他整理，與分支實際動作一致。原始發現和修訂證據見 `knowledge/reviews/second-act-ending-transitions.md`。
 - [x] 修訂 B08 休息時的急件辨認方式（BET-05）：安全風險或需當下判斷的值班異常，由當班同伴直接到陽奈所在位置說明；普通訊息留到休息結束再看。保留手機收入口袋、不解鎖離場；未新增遊戲通知功能。章稿/runtime 同步為 117 tuples／2,325 字元，A／B／C 路徑 1,909／1,856／1,902。詳見 `knowledge/reviews/second-act-ending-transitions.md`。
 - [x] 修訂 C01 休息與回查交接（BET-07）：休息前僅標記兩項待回查；同伴於休息剩三分鐘時把未開啟的整理紀錄放在桌邊，約定休息後再確認，沒有先報告結果；陽奈完成休息後才核對資料。章稿與 runtime 同步為 152 tuples／2,775 字元，A／B／C 路徑 2,335／2,325／2,331；詳見 `knowledge/reviews/second-act-ending-transitions.md`。
 - [x] C01 teamwork 條件回憶前語氣複核：刪除緊接陽奈「昨天留下的必要條件真的有人可以用」後、再說明規則不必由她親自執行的重述旁白；保留低聲演出提示與條件記憶，C01 稿件/runtime 為 147 tuples、路徑 2,232／2,222／2,228 字元。全篇統計及時間估算已重算；詳見 `knowledge/reviews/c01-teamwork-conditional-cadence-review.md`。
