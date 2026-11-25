@@ -17,7 +17,7 @@
 | UI | `9969cda` 在選項左側改用無圓框的 2–3 字大字摘要，保留選項周圍深色；公開 P03 畫面再次確認「日常／分工／約定」及深色選項外圍。`7bc1597` 為兩個遊戲殼層的功能選單按鈕補上明確 `aria-label`，Actions run [45647365552](https://github.com/310111-design/hina-galgame/actions/runs/45647365552) 成功；公開 HTML 已含名稱屬性，但 Codex 輔助功能樹仍回報空名稱，需查清後才可視為無障礙驗收完成。其他尺寸及真實讀屏器仍待驗。 | 選項視覺已部署；功能按鈕名稱存在但 AX 樹驗證有差異；跨尺寸待驗 |
 | 美術 | 13 張表情立繪、12 張章節背景及首頁背景已接入。18 張事件 CG 尚待製作；成年篇立繪與 D08P 圖書館庭院專用背景仍待補。 | 基礎素材已接入，長期素材製作待開始 |
 | 音訊 | 程序化 BGM、淡入淡出、提示音及 BGM／SFX 分開控制已實作；正式音樂與音效素材尚未納入。 | 第一版完成，聽感與授權素材待驗 |
-| 發布 | commit `7bc1597` 的 Pages Actions run [45647365552](https://github.com/310111-design/hina-galgame/actions/runs/45647365552) build／deploy 成功；公開遊戲已呈現無圓框選項摘要，周圍深色保留。僅檢查桌面單一視窗；功能選單 AX 樹名稱仍有差異，跨尺寸及實機 QA 未完成。 | 持續部署中；整體視覺／無障礙 QA 未完成 |
+| 發布 | D02 修訂 commit `4567554` 已推送；Actions run [45651010656](https://github.com/310111-design/hina-galgame/actions/runs/45651010656) 的 build 成功，deploy 遇 GitHub Pages 502。GitHub Status 當時標示 Partial System Outage，Pages degraded performance；首頁／遊戲頁 HTTP 200 不能證明這次修訂已部署。 | 等 Pages 恢復後重試部署；整體視覺／無障礙 QA 未完成 |
 
 ### 已完成的主要里程碑
 
@@ -861,3 +861,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 - 修補焦點 runtime harness 的 commit `b9a3a5c` 對應 Actions run `45353850964` build 與 deploy 均成功；Pages 首頁、`game.html`、`testplay.html`、`game.js` 均 HTTP 200，線上 `game.js` 含舞台焦點回復。此為 CI／部署查核，不代表實際鍵盤、螢幕閱讀器或裝置 QA；詳見 `knowledge/reviews/ui-choice-focus-review.md`。
 - D08R 跨非相鄰章重述精簡 commit `4b8975b` 對應 run `45374244817` completed／success；首頁、`game.html`、cache-buster `game-data.js` HTTP 200，線上新句存在且舊旁白消失。後續部署證據文件 commit `0cad94a` 對應 run `45376030446` 亦 completed／success，三個 Pages 入口再次 HTTP 200；詳見 `knowledge/reviews/full-story-nonadjacent-phrase-screen.md`。
 - D07 共通段重述精簡 commit `8a76706` 對應 run `45378895151` build 與 deploy 均 completed／success；Pages 首頁、`game.html`、cache-buster `game-data.js` 全部 HTTP 200，線上估時為單線 2.3～3.2 小時，兩條已刪除旁白皆不在 runtime。詳見 `knowledge/reviews/d07-common-boundary-recap-review.md`。
+
+## 本輪 CI 與 Pages 查核（2026-11-26）
+
+- D02 第二輪收束修訂 commit `4567554` 已推送；Actions run [45651010656](https://github.com/310111-design/hina-galgame/actions/runs/45651010656) build 成功，deploy job 因 GitHub Pages API 回傳 502 而失敗。GitHub Status API 同時顯示 Partial System Outage、Pages degraded performance；公開首頁及遊戲頁仍回 HTTP 200，但這只能證明既有站點可取用，不能確認新版本上線。待 Pages 狀態恢復後重試部署；稿件同步與全篇統計驗證已本機通過。

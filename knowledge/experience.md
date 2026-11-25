@@ -2473,3 +2473,11 @@
 - **如何應用於本作：** 移除 D02 該旁白，保留陽奈台詞及後續對「不把今天理解當作通用答案」的收束；章稿/runtime 同步，更新 D02 路徑和全篇字數／估時。詳見 `knowledge/reviews/d02-cadence-review.md`。
 - **限制與驗證：** `validate-route-drafts.js`、`validate-game-data.js`、`validate-full-length-summary.js` 通過，只能確認章稿／runtime 同步、資料契約及統計一致；不能證明讀者感受、盲讀節奏、完整路線通關或裝置品質。篇幅變短是審校結果，不應為追求整數目標補回重述。
 - **未來可用範圍：** 本作其他對話已包含「下次再聊／回來確認／有需要再說」的成年關係與友誼場景；也適用於視覺小說、遊戲任務對話及連載敘事。逐句檢查相鄰文字是否重複安排同一未來互動，只有新增時間、責任人、條件或情緒轉變時才保留第二次表述。
+
+
+### 2026-11-26：分開判讀 Pages build 與 deploy，並核對平台狀態
+
+- **學到什麼：** D02 修訂的 Actions build 與所有 validator 均成功，但 Pages deploy API 回傳 502；同一時間 GitHub Status API 標示系統部分中斷、Pages 效能降級。首頁仍回 HTTP 200，只代表舊版可取用，不能當作最新內容已部署的證據。
+- **如何應用於本作：** 在 `knowledge/plan.md` 分開記錄 build、deploy 與公開內容狀態；遇到 deploy 伺服器錯誤時先查 Actions annotation 和 GitHub Status，保留建置成功證據，不把上游故障誤判為內容或測試失敗。部署狀態恢復後再重試並以新 run 確認。
+- **限制與驗證：** 本次 build 完成、deploy 失敗；部署日誌下載因公開 API 權限限制未能使用，但 check-run annotation 提供 502 錯誤及 request ID。公開頁 HTTP 200 未確認版本內容。部署重試仍待 Pages 恢復。
+- **未來可用範圍：** 本作 GitHub Pages 與其他以 CI 發布的靜態網站。逐層核對建置、artifact、部署和版本內容；平台回報服務降級時，避免反覆修改正確的專案檔案，恢復後再以 run SHA 與 cache-buster 核對線上版本。
