@@ -2377,3 +2377,11 @@
 - **如何應用於本作：** 將 `.story .hina strong` 設為定位標籤，以 `left: 7.8%`、`width: 31.5%` 對齊左上框格，使用 flex 與文字置中。移除手機 breakpoint 的固定 `left: 28px` 覆寫，並在 `validate-game-shells.js` 保護這組比例與置中規則。詳見 `knowledge/reviews/ui-speaker-nameplate-position.md`。
 - **限制與驗證：** `node scripts/validate-game-shells.js` 與 `git diff --check` 通過，但本輪 Computer Use 的網址許可確認失敗，因此沒有新 viewport 截圖；不得把 CSS validator 通過當成實際視覺 QA。直向、橫向、桌面與 iPhone Safari 仍待目視驗收。
 - **未來可用範圍：** 本作姓名牌及後續圖片框格中的文字／按鈕錨點；也適用於響應式 UI 將 HTML 控制對齊非等比例裝飾素材時。先從來源圖量出目標槽占可定位容器的比例，再以百分比定位及文字置中，最後分開完成靜態規則與實際畫面驗收。
+
+
+### 2026-11-25：透明 UI 圖仍可能有不透明面板底色
+
+- **學到什麼：** PNG/RGBA 有透明通道，不代表整張圖或面板中央是透明的。`dialogue-frame.png` 的 RGBA alpha 統計顯示只有 6,057／318,630 像素完全透明，中央閱讀面 307,562 像素完全不透明；CSS 再疊 `#0b0912e8` 背景與 backdrop blur，會把素材透明邊緣和場景一起壓暗。另將姓名牌定位在加過 padding 和 max-width 的文字段落，百分比參照範圍便與全幅素材不同。
+- **如何應用於本作：** 保留使用者提供的 UI 圖，不覆寫或自動挖除中央深色設計；移除額外的 CSS 底色／模糊，讓框外透明區顯示場景。把 `.dialogue-panel` 設為姓名牌的定位容器、取消面板水平內距，段落採對應框圖寬度的響應式留白；姓名標籤使用與原始姓名槽同一座標系的百分比，直接顯示在素材槽上。`validate-game-shells.js` 鎖定這些 CSS 契約。詳見 `knowledge/reviews/ui-speaker-nameplate-position.md`。
+- **限制與驗證：** 靜態 shell/data/route validators、JavaScript 語法及 diff whitespace 檢查通過；Windows Computer Use 因無法驗證目標網址是否允許而停止，未取得修正後的任何 viewport 畫面。因此不能宣稱姓名位置或對話文字遮擋已視覺驗收，桌面、直向、橫向及 iPhone Safari 仍待檢視；深色面板中央是素材本身的像素，不會因 CSS 背景透明而消失。
+- **未來可用範圍：** 本作後續透明對話框、選項面板和 HUD；也適用於網站與遊戲把 HTML 文字疊在 RGBA 素材上。先讀像素 alpha 分布辨認透明區，再盤點 CSS `background`／`backdrop-filter` 疊層，最後確認定位包含區塊與圖片座標一致；靜態檢查和實際截圖應分開驗收。

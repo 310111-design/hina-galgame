@@ -100,6 +100,18 @@ if (!/position:\s*absolute/i.test(speakerNameplateRule) ||
     !/text-align:\s*center/i.test(speakerNameplateRule)) {
   errors.push("Speaker nameplate must remain centered in the dialogue frame's upper-left label slot.");
 }
+const dialogueArtworkStyles = stylesheet.split("/* User-provided UI 2.0 panel artwork, split into responsive decorative layers. */").at(-1) || "";
+const dialoguePanelRule = dialogueArtworkStyles.match(/\.dialogue-panel\s*\{([^}]*)\}/)?.[1] || "";
+if (!/position:\s*relative/i.test(dialoguePanelRule) ||
+    !/padding-inline:\s*0/i.test(dialoguePanelRule) ||
+    !/background-color:\s*transparent/i.test(dialoguePanelRule) ||
+    !/background-image:\s*url\(["']?assets\/ui\/dialogue-frame\.png/i.test(dialoguePanelRule) ||
+    !/backdrop-filter:\s*none/i.test(dialoguePanelRule)) {
+  errors.push("Dialogue frame must own the nameplate anchor and show only the supplied artwork over the scene.");
+}
+if (/\.story \.hina\s*\{[^}]*position:\s*relative/i.test(dialogueArtworkStyles)) {
+  errors.push("Hina dialogue paragraphs must not override the dialogue frame as the nameplate positioning container.");
+}
 if (!/function announceDialogue\(text\)\s*\{[^}]*storyAnnouncement[^}]*\}/s.test(source)) {
   errors.push("Missing completed-line screen-reader announcement helper.");
 }
