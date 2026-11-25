@@ -674,10 +674,28 @@ function setStageCue(cue) {
 
 function getChoiceNotice(choice) {
   const routeNames = { friend: "朋友線", partner: "搭檔線", romance: "戀愛線" };
+  const routeSummaries = { friend: "朋友", partner: "搭檔", romance: "戀愛" };
+  const memorySummaries = {
+    "互相支持": "支持",
+    "互相選擇": "選擇",
+    "休息": "休息",
+    "保留時間": "留白",
+    "分工": "分工",
+    "實作": "實作",
+    "建立界線": "界線",
+    "戀愛線": "戀愛",
+    "搭檔線": "搭檔",
+    "日常": "日常",
+    "朋友線": "朋友",
+    "界線": "界線",
+    "約定": "約定"
+  };
   if (choice.route) {
-    return { marker: "路線", description: `路線告知：${routeNames[choice.route] || "關係路線"}` };
+    return { marker: routeSummaries[choice.route] || "關係", description: `路線告知：${routeNames[choice.route] || "關係路線"}` };
   }
-  return { marker: "回憶", description: `後續回憶：${choice.hint}` };
+  const hint = String(choice.hint || "");
+  const marker = memorySummaries[hint] || [...hint].slice(0, 2).join("") || "選項";
+  return { marker, description: `後續回憶：${hint}` };
 }
 
 function renderDialogue([kind, text, mood, stageCue]) {

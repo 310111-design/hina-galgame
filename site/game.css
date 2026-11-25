@@ -1528,14 +1528,25 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 .game-stage { background: #15101d; }
 .scene-art::before {
   inset: -5px;
-  filter: blur(1.2px) brightness(.9) saturate(.94);
+  filter: blur(1.2px) brightness(.82) saturate(.94);
   transform: scale(1.015);
 }
 .scene-art.has-background::before {
-  background-image: linear-gradient(0deg, #08071016, #08071008 62%), var(--scene-image);
+  background-image: linear-gradient(0deg, #08071042, #0807100d 62%), var(--scene-image);
   background-position: center;
 }
 .scene-vignette {
+  background:
+    linear-gradient(90deg, #08071035 0%, transparent 34%, transparent 70%, #08071040 100%),
+    linear-gradient(0deg, #080710a8 0%, transparent 38%);
+}
+.game-stage:not([data-phase="choice"]) .scene-art::before {
+  filter: blur(1.2px) brightness(.9) saturate(.94);
+}
+.game-stage:not([data-phase="choice"]) .scene-art.has-background::before {
+  background-image: linear-gradient(0deg, #08071016, #08071008 62%), var(--scene-image);
+}
+.game-stage:not([data-phase="choice"]) .scene-vignette {
   background:
     linear-gradient(90deg, #08071035 0%, transparent 34%, transparent 70%, #08071040 100%),
     linear-gradient(0deg, #08071038 0%, transparent 42%);
@@ -1634,14 +1645,14 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 .choice-marker {
   grid-row: span 2;
   display: grid;
-  width: 28px;
-  height: 28px;
   place-items: center;
-  border: 1px solid #d8cbff48;
-  border-radius: 50%;
-  color: #e7dfff;
-  font-family: Georgia, serif;
-  font-size: .82rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #f2d8ad;
+  font-size: .9rem;
+  font-weight: 700;
+  letter-spacing: .08em;
 }
 .choice-label { align-self: end; font-size: .9rem; line-height: 1.45; }
 .choice-hint { color: #bfb5c8; font-size: .68rem; line-height: 1.35; }
@@ -1654,7 +1665,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   box-shadow: inset 2px 0 #f2c2d5, 0 7px 22px #07050c3b;
   outline: none;
 }
-.choice.is-selected .choice-marker { border-color: #f2c2d5a8; background: #f2c2d51d; color: #fff3f8; }
+.choice.is-selected .choice-marker { color: #fff3f8; }
 .choice:disabled:not(.is-selected) { opacity: .42; cursor: wait; }
 .choice:active { background: #f2c2d52a; }
 .dialogue-hint { margin-top: 9px; font-size: .72rem; }
@@ -1838,13 +1849,6 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   box-shadow: none;
   text-align: left;
 }
-.game-stage[data-phase="choice"] .choice-marker {
-  width: 34px;
-  height: 34px;
-  justify-self: center;
-  border: 1px solid #d8cbff7d;
-  background: #120d1b8c;
-}
 .game-stage[data-phase="choice"] .choice-label { align-self: end; font-size: clamp(.86rem, 1.05vw, 1rem); }
 .game-stage[data-phase="choice"] .choice-hint { align-self: start; }
 .game-stage[data-phase="choice"] .choice:hover,
@@ -1860,13 +1864,13 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   width: auto;
   max-width: 100%;
   height: auto;
-  min-height: 34px;
-  padding: 5px 10px;
-  border-radius: 999px;
-  font-family: inherit;
-  font-size: .66rem;
-  font-weight: 650;
-  letter-spacing: .05em;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: clamp(.82rem, 1vw, .96rem);
+  letter-spacing: .08em;
   white-space: nowrap;
 }
 .asset-toolbar {
@@ -1918,7 +1922,6 @@ button:disabled { opacity: .58; cursor: not-allowed; }
     min-height: 56px;
     padding: 5px 8px;
   }
-  .game-stage[data-phase="choice"] .choice-marker { width: 28px; height: 28px; }
   .game-stage[data-phase="choice"] .choice-label { font-size: .84rem; }
   .game-stage[data-phase="choice"] .choice-hint { font-size: .62rem; }
   .asset-toolbar { justify-content: space-around; gap: 1px; padding: 4px 2px max(3px, env(safe-area-inset-bottom)); }
@@ -1938,7 +1941,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   .game-stage[data-phase="choice"] .story > .narration { min-height: 40px; margin-bottom: 2px; padding-top: 5px; padding-bottom: 5px; }
   .game-stage[data-phase="choice"] .choices { gap: 4px; margin-top: 4px; }
   .game-stage[data-phase="choice"] .choice { min-height: 44px; padding-top: 4px; padding-bottom: 4px; }
-  .game-stage[data-phase="choice"] .choice-marker { min-height: 27px; padding: 3px 8px; font-size: .6rem; }
+  .game-stage[data-phase="choice"] .choice-marker { font-size: .62rem; letter-spacing: .02em; }
   .game-stage[data-phase="choice"] .choice-hint { display: block; font-size: .58rem; }
   .dialogue-footer { min-height: 34px; }
   .asset-toolbar { min-height: 36px; margin-top: 2px; padding-top: 2px; padding-bottom: 2px; }

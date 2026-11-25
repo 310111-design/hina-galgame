@@ -16,14 +16,25 @@ assert.ok(noticeSource, "choice presentation must disclose a route or later memo
 const getChoiceNotice = new Function(`${noticeSource}\nreturn getChoiceNotice;`)();
 for (const [route, expected] of Object.entries({ friend: "朋友線", partner: "搭檔線", romance: "戀愛線" })) {
   assert.deepEqual(getChoiceNotice({ route, hint: expected }), {
-    marker: "路線",
+    marker: expected.slice(0, 2),
     description: `路線告知：${expected}`
   }, `${route} choices should explicitly disclose their destination route`);
 }
 assert.deepEqual(getChoiceNotice({ hint: "休息" }), {
-  marker: "回憶",
+  marker: "休息",
   description: "後續回憶：休息"
 }, "non-route choices should describe a remembered influence without claiming to lock a route");
+assert.deepEqual(
+  getChoiceNotice({ hint: "日常" }),
+  { marker: "日常", description: "後續回憶：日常" },
+  "choice tags should summarize the option in two or three characters"
+);
+for (const chapter of chapters) {
+  for (const choice of chapter.choices) {
+    const marker = getChoiceNotice(choice).marker;
+    assert.ok([...marker].length >= 2 && [...marker].length <= 3, `${chapter.id} choice ${choice.letter} should have a concise two- or three-character summary`);
+  }
+}
 assert.match(gameSource, /marker\.textContent\s*=\s*notice\.marker/);
 assert.match(gameSource, /hint\.textContent\s*=\s*notice\.description/);
 assert.doesNotMatch(gameSource, /marker\.textContent\s*=\s*choice\.letter/);
