@@ -1,6 +1,6 @@
 # 路線圖待合併變更：C01→C02→C03
 
-> 本檔是 `knowledge/plan.md` 的階段變更單，不取代唯一總路線圖。主 plan 與 experience 回傳被截斷，無安全局部編輯能力，未覆寫兩主檔，也未宣稱已合併。本輪接續 `plan-second-act-ending.md`，不重做 B07→B08→C01。
+> 歷史階段變更單：TAT-01～06、完成清單與經驗已回流至 `knowledge/plan.md`、`knowledge/experience.md`；C03→C04→C05 也已完成，見 `knowledge/plan-third-act-middle.md`。以下初始狀態、待辦方框及工具限制只保留追溯用途，不是目前工作清單；目前待辦以 `knowledge/plan.md` 為準。
 
 ## 完成項（合併時加入 Phase 1／3.1）
 

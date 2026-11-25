@@ -694,6 +694,7 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 - 只從本文件尚未完成且不受阻塞的最前面項目開始；不要重做已完成工作。
 - 完成一個階段後更新本文件勾選狀態，並將可重用經驗及適用範圍回流到 `knowledge/experience.md`。
 - 經驗補記 `knowledge/experience-early-act-transitions.md`、`experience-prologue-transitions.md`、`experience-first-act-opening.md`、`experience-first-act-middle.md`、`experience-first-act-ending.md`、第二幕各批補記及第三幕／成年篇補記的可複用方法、限制與適用範圍均已合併至 `knowledge/experience.md`；原補記保留為詳情來源。追加前先對照主檔，避免把同一經驗重複匯入；歷史工具阻塞文字以目前主路線圖及 repo 可驗證狀態為準。
+- 階段變更單若已合併主計畫，需在檔首標示歷史狀態與現況連結；保留舊檢查清單作追溯證據，但不可讓過期方框冒充目前 TODO。
 - 重大設計決策或暫停／恢復狀態變更時，同步更新 `knowledge/decision.md`。
 - 程式已接入不等於驗收完成；只有實際測試完成才勾選實機 QA。
 - 修改遊戲資料時執行 `scripts/validate-game-data.js`；有對應檢查時一併執行素材與路線驗證。

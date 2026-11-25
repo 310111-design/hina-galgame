@@ -1,6 +1,6 @@
 # 路線圖待合併變更：B07→B08→C01
 
-> 本檔是 `knowledge/plan.md` 的階段變更單，不取代唯一總路線圖。主 plan 本輪回傳在主要路徑表截斷，experience 也截斷；只有整檔覆寫工具，故保留兩主檔，未宣稱已更新主檔或合併經驗。
+> 歷史階段變更單：BET 審校與後續修訂、經驗及驗證範圍已整合至 `knowledge/plan.md`、`knowledge/experience.md` 和連結的第二幕 review。以下初始狀態與待辦方框只供追溯，不代表仍待執行；目前狀態以 `knowledge/plan.md` 為準。
 
 ## 本階段完成項（合併時加入 Phase 1／3.1）
 
