@@ -34,3 +34,7 @@
 ## 部署證據
 
 包含最新 runtime 掃描結果的 `a949bdd` 由 Pages workflow run `45301852451` 成功部署；2026-11-24 公開首頁與 `game-data.js` 均回應 HTTP 200。此證據只確認部署及資源可取得，不代表已完成瀏覽器互動或全篇人工複核。
+
+## 2026-11-26 後續覆蓋狀態
+
+上述「後續應繼續閱讀尚未細查的中段對話」記錄的是 2026-11-24 當時的狀態。其後已完成 33 節陽奈直接台詞聲線總檢，並補做同章、相鄰章與非相鄰章近似措辭候選篩查及人工判讀，詳見 `full-story-hina-voice-review.md`、`full-story-same-chapter-near-phrase-review.md`、`full-story-near-phrase-screen.md`、`full-story-nonadjacent-phrase-screen.md`。這些項目不會把精確／近似搜尋提升為語義自動判定，也沒有完成玩家盲讀或全路線瀏覽器通關。
