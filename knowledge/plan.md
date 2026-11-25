@@ -14,7 +14,7 @@
 |---|---|---|
 | 故事 | 四幕、33 個章節節點（30 節共通篇、3 個成年結局）均已接入；三條路線、條件回憶及第一輪章節審校已完成。全篇分支連貫、角色語氣與最終通關 QA 尚未完成。 | 故事可玩，整體 QA 待完成 |
 | 遊戲功能 | 逐字閱讀、選項、章節選擇、紀錄、已讀跳過、自動播放、設定、自動存檔、六格手動存檔、章節重玩隔離及音訊控制已實作；固定 validator 覆蓋多項資料與 runtime 規則。 | 功能已接入，手動流程待驗 |
-| UI | UI 2.0 已採用對話框／選項透明素材與 HTML 控制；姓名標籤定位已調整。最新部署 commit `ad098fd` 的 Actions run `45624360685` 成功，公開遊戲頁回應 HTTP 200。姓名顯示的 viewport 檢視與完整裝置 QA 尚待完成。 | 已部署，視覺與裝置 QA 待完成 |
+| UI | UI 2.0 已採用對話框／選項透明素材與 HTML 控制；對話框姓名及文字錨點、CSS 額外黑底已修正。UI 程式 commit `9bf0fa6` 的 Actions run `45627893160` build／deploy 成功，公開 CSS 回應 HTTP 200 且含新版規則。viewport 目視及完整裝置 QA 尚待完成。 | 已部署，視覺與裝置 QA 待完成 |
 | 美術 | 13 張表情立繪、12 張章節背景及首頁背景已接入。18 張事件 CG 尚待製作；成年篇立繪與 D08P 圖書館庭院專用背景仍待補。 | 基礎素材已接入，長期素材製作待開始 |
 | 音訊 | 程序化 BGM、淡入淡出、提示音及 BGM／SFX 分開控制已實作；正式音樂與音效素材尚未納入。 | 第一版完成，聽感與授權素材待驗 |
 | 發布 | GitHub Pages 已提供可遊玩的版本；最新部署成功，但尚未完成跨裝置、全分支及正式版最後通關驗收。 | 持續部署中，尚非正式完成 |
@@ -26,7 +26,7 @@
 - [x] 接入 13 張角色表情、章節背景素材、WebP 版本與載入回退；改善角色差分尺寸一致性。
 - [x] 完成 Galgame UI 2.0 基礎改版並部署，含對話／選項素材、可操作工具列與姓名標籤定位調整。
 - [x] 完成商業 Galgame 美術參考研究與 AI 優先政策；確認事件 CG 目標為共通 6 張、每條成年路線各 4 張，新增素材品質、來源紀錄及解析度規格。
-- [x] 最新 `main` 與 `origin/main` 同步於 `ad098fd`；Actions／Pages run `45624360685` 成功，正式 `game.html` 回應 HTTP 200。姓名標籤 viewport 與裝置驗收仍待完成。
+- [x] 對話框姓名／文字定位及額外黑底修正已推送於 `9bf0fa6`；Actions／Pages run `45627893160` build／deploy 成功，正式 `game.css` 回應 HTTP 200 且含新版規則。viewport 目視與裝置驗收仍待完成。
 
 ### 剩餘路線圖 Checklist
 
@@ -65,12 +65,12 @@
 |---|---|---|
 | 故事內容 | P01～P03、A01～A06、B01～B08、C01～C06、D01～D07 及 D08F／D08P／D08R 共 33 節均已接入；三線和條件回憶已建立。仍需完成全篇語氣、時間線、分支與最終通關 QA。 | 可遊玩，整體 QA 未完成 |
 | 遊戲核心 | 閱讀、選項、章節選單、紀錄、已讀跳過、自動播放、存讀檔、重玩隔離與設定已實作；存檔及路線有 runtime／CI 覆蓋，真實瀏覽器流程待驗。 | 已實作，手動 QA 待完成 |
-| UI 視覺 | UI 2.0 對話／選項素材、工具列及姓名標籤已接入；目前 `main` 最新部署 commit `ad098fd` 的 Actions run `45624360685` 成功，公開 `game.html` HTTP 200。姓名位置與新版介面仍需 viewport 檢視及 iPhone Safari 實機驗收。 | 已部署，裝置 QA 待完成 |
+| UI 視覺 | UI 2.0 對話／選項素材、工具列及姓名標籤已接入；姓名／文字錨點和額外 CSS 黑底已修正。UI 程式 commit `9bf0fa6` 的 Actions run `45627893160` 成功，公開 `game.css` HTTP 200 且含新版規則；畫面 viewport 及 iPhone Safari 實機仍待驗。 | 已部署，裝置 QA 待完成 |
 | 背景美術 | 13 張使用者背景已整理為語意化素材與 WebP；12 張映射至 runtime 章節，另有首頁背景。D08P 專用圖書館庭院背景未完成。 | 基礎接入完成，新增素材待製作 |
 | 角色美術 | 13 張 896×1200 表情 PNG 及無損 WebP 已接入；runtime 依 alpha 輪廓校準尺寸，並保留 PNG／SVG 回退。跨裝置驗收與成年篇專用立繪待完成。 | 基礎接入完成，裝置 QA 待完成 |
 | 事件 CG | 長期目標 18 張（共通 6 張、每條成年路線 4 張），目前仍屬規劃與素材需求清單；批量製作前需先檢視代表樣本。 | 尚未完成 |
 | 音訊 | 程序化 BGM、轉場、提示音及獨立音量控制已接入；正式音樂／音效與真實裝置聽感、播放政策驗收仍待處理。 | 第一版完成，待驗收與素材製作 |
-| 部署 | GitHub Pages 正常提供遊戲；最新 `ad098fd` Actions／Pages run `45624360685` 成功。部署成功不代表完整遊戲 QA。 | 持續部署中 |
+| 部署 | GitHub Pages 正常提供遊戲；對話框 CSS 修正 commit `9bf0fa6` 對應 run `45627893160` build／deploy 成功，公開 CSS HTTP 200。部署成功不代表完整遊戲 QA。 | 持續部署中 |
 | 發布狀態 | 尚未完成 iPhone Safari／桌面完整裝置驗收、全分支實際通關與最終內容審校。 | 尚未達正式完成 |
 
 ### 美術素材製作與品質分工
@@ -502,7 +502,7 @@
 - [x] 調整角色立繪尺寸、水平位置、垂直錨點及不同 viewport 的安全區，改善直向／橫向角色與文字空間配置。
 - [x] 重新校準底部對話／選項面板高度，依一般對話及選項階段分別配置高度。
 - [x] 重整一般對話框：加入清楚的角色姓名牌、正文層級及閱讀留白。
-- [x] 姓名標籤以對話框本身為座標基準：保留 `left: 7.8%`、`width: 31.5%` 對齊原圖槽，取消文字段落造成的百分比偏移並移除覆蓋素材的膠囊底。另將對話面板的 CSS 底色／模糊設為透明／無，避免再壓暗 RGBA 圖框外的場景；不修改素材內原有深色閱讀面。`validate-game-shells.js` 固定此版面契約，但桌面與手機 viewport 的畫面檢查仍待完成；詳見 `knowledge/reviews/ui-speaker-nameplate-position.md`。
+- [x] 姓名標籤以對話框本身為座標基準：保留 `left: 7.8%`、`width: 31.5%` 對齊原圖槽，取消文字段落造成的百分比偏移並移除覆蓋素材的膠囊底。另將對話面板的 CSS 底色／模糊設為透明／無，避免再壓暗 RGBA 圖框外的場景；不修改素材內原有深色閱讀面。`validate-game-shells.js` 固定此版面契約；commit `9bf0fa6` 的 Actions run `45627893160` 成功部署，公開 CSS HTTP 200。桌面與手機 viewport 的畫面檢查仍待完成；詳見 `knowledge/reviews/ui-speaker-nameplate-position.md`。
 - [x] 重整選項樣式：降低厚重邊框與卡片感、弱化「影響」提示、加入選取、停用及鍵盤焦點狀態。
 - [x] 調整背景柔焦、暗化漸層及文字遮罩，保留場景辨識度與正文對比。
 - [x] 瀏覽器回歸核心操作：選項、舞台推進、對話紀錄、音訊／文字設定、存讀檔與功能選單；未宣稱實機觸控或完整自動播放 QA。
@@ -542,7 +542,7 @@
 - [x] 推送後確認 GitHub Actions run `45215839672`（commit `fd19721`）成功；正式 Pages `https://310111-design.github.io/hina-galgame/game.html` 回應 HTTP 200，已在正式頁檢查新介面、功能選單及 Escape 收合。此為發布確認，不代表 iPhone Safari 或完整裝置 QA。
 - [x] 將改版前後直向／橫向／桌面截圖、viewport 初驗觀察及已知限制回寫至 `knowledge/reviews/ui2-visual-baseline.md`、`knowledge/reviews/ui-responsive-viewport-review.md` 與本節；此勾選只完成證據整理，iPhone Safari、安全區／動態工具列、完整狀態矩陣、鍵盤／輔助科技及實機 QA 仍保持未完成。
 
-**目前判定（2026-11-25）：** UI 2.0 已部署，姓名標籤定位亦已調整；最新 `main` 部署 run `45620343433` 成功。桌面與手機 viewport 檢視、iPhone Safari 安全區／工具列變化、長句／選項／文字大小矩陣及全程實機 QA 仍未完成。部署成功和程式檢查不能取代裝置驗收。詳見 `knowledge/reviews/ui-asset-packet-review.md`、`knowledge/reviews/ui-responsive-viewport-review.md`、`knowledge/reviews/ui2-visual-baseline.md` 與 `knowledge/reviews/sprite-size-normalization.md`。
+**目前判定（2026-11-25）：** 姓名／文字定位及 CSS 額外黑底修正已部署；UI 程式 commit `9bf0fa6` 的 Actions run `45627893160` build／deploy 成功，公開 CSS HTTP 200 且含新版規則。桌面與手機 viewport 目視、iPhone Safari 安全區／工具列變化、長句／選項／文字大小矩陣及全程實機 QA 仍未完成。Computer Use 無法驗證目前 Chrome 網址是否允許，沒有宣稱視覺 QA 通過。部署成功和程式檢查不能取代裝置驗收。詳見 `knowledge/reviews/ui-asset-packet-review.md`、`knowledge/reviews/ui-responsive-viewport-review.md`、`knowledge/reviews/ui2-visual-baseline.md`、`knowledge/reviews/ui-speaker-nameplate-position.md` 與 `knowledge/reviews/sprite-size-normalization.md`。
 
 ### 角色表情與事件 CG 素材需求
 
