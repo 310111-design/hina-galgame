@@ -1955,10 +1955,11 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 }
 @media (max-width: 720px) {
   .game-stage:not([data-phase="choice"]) .story > p {
-    max-width: 38%;
+    max-width: 35%;
+    margin-inline: 0 auto;
   }
   .game-stage:not([data-phase="choice"]) .hina-sprite {
-    right: -8%;
+    right: -12%;
     max-width: 72vw;
   }
 }
