@@ -92,5 +92,5 @@
 - **觀察：** 原 `choice-row-default.png`／`choice-row-selected.png` 將左側小框直接畫在 PNG 中；即使 `.choice-marker` 的 CSS border 與背景皆為透明，畫面仍會保留那個內框。
 - **修正：** 保留兩張來源 PNG 不變，分別從主選項列裁出完整橫框，產生 `choice-row-unified-default.png` 與 `choice-row-unified-selected.png`；選項仍使用深色／選取底圖，左欄只放 2–3 字金色粗體摘要並加大字級。正式頁與 testplay 共用的新 CSS cache key；殼層 validator 檢查衍生圖引用、無框樣式及短橫向最小字級。
 - **本機驗證：** `validate-game-shells.js`、`validate-choice-runtime.js`、`node --check site/game.js`、`git diff --check` 通過。生成的兩張衍生 PNG 為 930×125，來源 PNG 未覆寫。
-- **公開頁限制：** Computer Use 服務連續兩次在初始化時逾時，因此本次未在瀏覽器確認公開頁實際載入，也沒有操作任何選項或存檔。推送後的 Actions／Pages 狀態須另行確認；viewport 目視 QA 仍待服務可用後完成。
+- **公開頁限制：** Computer Use 服務連續兩次在初始化時逾時，因此本次未在瀏覽器確認公開頁畫面，也沒有操作任何選項或存檔。推送後 Pages run [45694584208](https://github.com/310111-design/hina-galgame/actions/runs/45694584208) 成功；正式 HTML、CSS 與兩張衍生圖均回應 HTTP 200，CSS 內容包含新圖與大字規則。HTTP／內容確認不等於 viewport 目視 QA；須待瀏覽器服務可用後補驗。
 - **未來檢查：** 公開版於 390×844、844×390、1440×900 查看一般與選取狀態，確認框線只包住整列、短摘要在窄欄不裁切，並確認周圍深色區域保持不透明；不點選路線。
