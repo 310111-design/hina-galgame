@@ -7,11 +7,29 @@
 | BG-001 | 風紀委員會辦公室・黃昏 | 已生成並接入；美術回顧待辦 | 原始生成圖 1672×941；部署版 512×288 WebP（16:9），金紫夕光、百葉窗影、文件、會議桌與熱飲，沒有角色；畫面內牆牌與文件含不可讀生成式仿字，不能當成可讀日文／中文。新規格要求避免此類假字。 | `site/assets/backgrounds/prefect-office-evening-v01.webp` |
 | BG-002 | 格黑娜校舍屋頂・夕陽 | 已視覺盤點並接入 | 使用者提供的 IMG_2959.jpeg 建立語意別名；供 C03 屋頂章節及 P01／P02 的 C 分支使用，原始 IMG 檔保留。 | `site/assets/backgrounds/rooftop-sunset-v01.jpeg` |
 | SPR-001 | 空崎陽奈角色參考圖 | 8 張原始 IMG PNG 保留作參考；另有 13 張新表情圖已接入正作 | 原始參考圖不覆蓋；目前遊戲使用 2026-11-23 收到的 13 張 896×1200 RGBA 表情圖，完整對照見下方素材表。 | `site/assets/characters/` |
-| CG-001 | P01 開場熱飲事件 CG | 長期清單 CG-01，尚未製作 | AI 生成為主；以手部動作和桌邊距離建立初期相處感。16:9、至少 1920×1080 母檔，runtime WebP；先按 `knowledge/art-requests/character-and-cg-list.md` 驗收。 | `site/assets/cg/cg-01-p01-hot-drink.webp` |
+| CG-001 | P01 開場熱飲事件 CG | 長期清單 CG-01，尚未製作；保留佔位 | AI 生成為主；以手部動作和桌邊距離建立初期相處感。16:9、至少 1920×1080 母檔，runtime WebP；先按 `knowledge/art-requests/character-and-cg-list.md` 驗收。 | `site/assets/cg/cg-01-p01-hot-drink.webp` |
+| CG-002 | B02 團隊首次試行交接流程 | 長期清單 CG-02，尚未製作；保留佔位 | 共通事件；以多人工作動線呈現陽奈開始分享工作方法。依下方長期標準保留高解析母檔，runtime WebP。 | `site/assets/cg/cg-02-b02-team-handoff.webp` |
+| CG-003 | B08 陽奈自主休息 | 長期清單 CG-03，尚未製作；保留佔位 | 共通事件；陽奈不看公務訊息、獨自休息，以留白與安靜環境表現自主休息。 | `site/assets/cg/cg-03-b08-rest.webp` |
+| CG-004 | C06 校園篇告別 | 長期清單 CG-04，尚未製作；保留佔位 | 共通事件；熟悉校園與即將分別的情緒，畫面需對應正文中的約定。 | `site/assets/cg/cg-04-c06-farewell.webp` |
+| CG-005 | D01 成年後重逢 | 長期清單 CG-05，尚未製作；保留佔位 | 共通事件；畢業五年後在車站附近咖啡店重逢，使用成年篇陽奈設計與雨後街景。 | `site/assets/cg/cg-05-d01-reunion.webp` |
+| CG-006 | D06 成年篇關係方向選擇 | 長期清單 CG-06，尚未製作；保留佔位 | 共通事件；朋友／搭檔／戀愛選擇前後的成熟平等互動，不預設任一路線已成立。 | `site/assets/cg/cg-06-d06-route-choice.webp` |
+| CG-007 | 朋友線分享日常近況 | 長期清單 CG-07，尚未製作；保留佔位 | 朋友線 D08F；在咖啡店分享日常近況。 | `site/assets/cg/cg-07-d08f-daily-life.webp` |
+| CG-008 | 朋友線週末散步 | 長期清單 CG-08，尚未製作；保留佔位 | 朋友線 D08F；散步途中停在街邊小店。 | `site/assets/cg/cg-08-d08f-weekend-walk.webp` |
+| CG-009 | 朋友線互相傾聽 | 長期清單 CG-09，尚未製作；保留佔位 | 朋友線 D08F；分享近況並保留自在距離。 | `site/assets/cg/cg-09-d08f-listening.webp` |
+| CG-010 | 朋友線車站道別 | 長期清單 CG-10，尚未製作；保留佔位 | 朋友線 D08F；在車站前自然揮手道別。 | `site/assets/cg/cg-10-d08f-station-goodbye.webp` |
+| CG-011 | 搭檔線圖書館庭院分工 | 長期清單 CG-11，尚未製作；保留佔位 | 搭檔線 D08P；在社區圖書館戶外庭院共同確認活動分工。 | `site/assets/cg/cg-11-d08p-library-planning.webp` |
+| CG-012 | 搭檔線整理活動資料 | 長期清單 CG-12，尚未製作；保留佔位 | 搭檔線 D08P；並肩整理活動資料與場地。 | `site/assets/cg/cg-12-d08p-event-setup.webp` |
+| CG-013 | 搭檔線任務後休息 | 長期清單 CG-13，尚未製作；保留佔位 | 搭檔線 D08P；完成任務後在戶外長椅休息。 | `site/assets/cg/cg-13-d08p-bench-rest.webp` |
+| CG-014 | 搭檔線確認下次合作 | 長期清單 CG-14，尚未製作；保留佔位 | 搭檔線 D08P；日落時確認下一次合作安排。 | `site/assets/cg/cg-14-d08p-next-project.webp` |
+| CG-015 | 戀愛線坦白心意 | 長期清單 CG-15，尚未製作；保留佔位 | 戀愛線 D08R；成年後在咖啡店坦白彼此心意。 | `site/assets/cg/cg-15-d08r-confession.webp` |
+| CG-016 | 戀愛線確認關係界線 | 長期清單 CG-16，尚未製作；保留佔位 | 戀愛線 D08R；以安靜瞬間呈現雙方確認關係與界線。 | `site/assets/cg/cg-16-d08r-boundaries.webp` |
+| CG-017 | 戀愛線分享生活興趣 | 長期清單 CG-17，尚未製作；保留佔位 | 戀愛線 D08R；沿街散步並分享各自的生活興趣。 | `site/assets/cg/cg-17-d08r-shared-interests.webp` |
+| CG-018 | 戀愛線確認下次見面 | 長期清單 CG-18，尚未製作；保留佔位 | 戀愛線 D08R；在車站入口前確認下次見面並道別。 | `site/assets/cg/cg-18-d08r-station-goodbye.webp` |
 
 ## 長期目標與製作標準
 
 - **CG 數量：** 18 張：共通關鍵場景 6 張，朋友／搭檔／戀愛線各 4 張。章節與畫面清單見 `knowledge/art-requests/character-and-cg-list.md`。
+- **清冊狀態：** 上表 CG-001～CG-018 分別對應長期清單 CG-01～CG-18；目前 18 張均未製作、保留佔位，不以建議路徑或提示詞模板表示成品已存在。
 - **來源：** 新素材以 AI 生成為主；未達品質門檻時保留現有素材或佔位，不自動委託或使用其他新增來源。現有使用者 PNG／JPEG 原圖不覆蓋。
 - **母檔與 runtime：** 新背景與全螢幕事件 CG 的母檔至少 1920×1080、16:9；runtime 使用最佳化 WebP。角色 sprite 依 `knowledge/character-sprite-spec.md` 以 896×1200 作 runtime 相容基準，保留透明 PNG 母檔。
 - **來源紀錄：** 每項 AI 素材記錄用途、生成工具／模型版本、日期、提示詞、參考來源、檔案版本及驗收狀態；母檔和 runtime 衍生檔分開標示。
