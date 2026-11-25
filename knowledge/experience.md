@@ -2393,3 +2393,11 @@
 - **如何應用於本作：** 新增 optional 第四 tuple 欄位 `stageCue`，只允許 `close`／`wide`；稿件以 `【陽奈｜情緒｜特寫】`／`【陽奈｜情緒｜退遠】` 明示。close=1.045、wide=0.97；每句重新設定，未標記或離開台詞階段就清除，系統 prefers-reduced-motion 時不縮放。現有 33 節沒有新增 cue。詳見 `knowledge/story-stage-cues.md` 與 `knowledge/reviews/story-stage-cue-runtime.md`。
 - **限制與驗證：** game-data validator 限制 schema 與說話者；route-draft fixtures 比對標記解析；專用 runtime harness 驗證 cue 設定／重置和 CSS 減動規則，並納入 Pages workflow。因故事沒有實際標記，CI 通過證明支援路徑與預設中性，不代表任何劇情鏡頭已經調校；實際裁切、動態節奏及裝置體驗仍需 viewport／iPhone Safari 驗收。
 - **未來可用範圍：** 本作要強調特定角色台詞、驚訝或動作時的明確鏡頭安排；也可用於其他互動小說的 camera cue、說話者姿勢或分鏡 metadata。新增視覺效果採可選欄位、預設無效果、編輯稿／runtime 雙向同步、無效值拒絕與 reduced-motion 回退；不要從情緒詞或自然語言猜測鏡頭。
+
+
+### 2026-11-25：CSS 組合變數後同步更新跨元件契約驗證
+
+- **學到什麼：** 新增立繪演出 cue 後，runtime 正確把角色尺寸校準與 cue 比例相乘，但角色 WebP validator 仍只接受舊的 `scale: var(--sprite-scale)` 字串，導致 Pages build 在驗證器失敗，雖然功能路徑本身有效。
+- **如何應用於本作：** 將斷言改成驗證 `calc(var(--sprite-scale, 1) * var(--stage-cue-scale, 1))` 的完整組合，同時保留原先要求 `scale` 屬性與 pose transform 分離的契約。先在本機重跑失敗的角色素材 validator，再推送讓 Actions 重跑；commit `820820e` 的首輪 run `45630036369` 因舊斷言失敗，修正後部署證據仍待取得。
+- **限制與驗證：** 單一失敗驗證器通過只證明本次規則相容；仍須確認全 workflow 和 deploy job 通過。靜態字串斷言應保護可觀察行為／CSS 結構，不要把某一版實作文字永久固定。
+- **未來可用範圍：** 本作日後在 scale、opacity、filter 等 CSS 變數上合成新演出時，沿用先確認是否改變既有測試契約的檢查；也適用於其他專案中跨元件共享樣式的 CI validator 維護。

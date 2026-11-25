@@ -174,7 +174,7 @@ assert.equal(fallbackHarness.sprite.dataset.emotion, "", "fallback should allow 
 assert.equal(fallbackHarness.sprite.style.properties.has("--sprite-scale"), false, "SVG fallback should clear expression-specific normalization");
 assert.equal(fallbackHarness.sprite.style.properties.has("--sprite-baseline-shift"), false, "SVG fallback should clear expression-specific baseline alignment");
 const cssSource = fs.readFileSync(path.join(root, "site", "game.css"), "utf8");
-assert.match(cssSource, /scale:\s*var\(--sprite-scale, 1\)/, "CSS should apply calibrated scale independently of pose transforms");
+assert.match(cssSource, /scale:\s*calc\(var\(--sprite-scale, 1\)\s*\*\s*var\(--stage-cue-scale, 1\)\)/, "CSS should compose calibrated sprite size with explicit stage cues independently of pose transforms");
 assert.match(cssSource, /translate:\s*0 var\(--sprite-baseline-shift, 0%\)/, "CSS should apply calibrated baseline alignment independently of pose transforms");
 
 console.log(`Character sprite checks passed (${runtimePaths.length} calibrated transparent frames, lossless WebP variants, PNG retry and SVG fallback).`);
