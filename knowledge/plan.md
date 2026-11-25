@@ -607,7 +607,8 @@
 - [x] 加入六格手動存檔 runtime 回歸：呼叫正式 `saveManualSlot()`／`loadManualSlot()`，覆蓋六格新增、指定欄覆寫確認／取消、其他欄保留、有效讀取與狀態重設、空格讀取、損壞／不支援欄位保留；commit `1210f1a` 的 Actions run `45358027721` build／deploy 成功，Pages 首頁、`game.html`、`game.js` 均 HTTP 200。此為 runtime harness 與部署驗證，不代表存檔對話框實際點選或重新載入瀏覽器驗收，詳見 `knowledge/reviews/manual-save-runtime-review.md`。
 - [ ] 瀏覽器驗收六格存檔 UI：欄位摘要、覆寫確認對話框、空格／損壞狀態、關閉與重新載入後讀取。
 - [ ] 測試自動存檔與手動存檔互不意外覆蓋。CI 已呼叫 runtime 實際載入／保存函式，確認各自只更新自己的 storage key，手動覆寫不影響其他欄位；瀏覽器重載與配額行為仍待實機 QA，見 `knowledge/reviews/save-separation-review.md`。
-- [ ] 測試舊版單格存檔遷移及跨版本資料相容性。
+- [x] 舊版單格／六格存檔遷移與跨版本 runtime 相容性已有回歸檢查：`validate-manual-save-migration.js` 覆蓋舊單格 A01／D07、v2、v3、未知 v4、冪等遷移及原始資料保護；`validate-autosave-migration.js` 覆蓋自動存檔版本與重載狀態。詳見 `knowledge/reviews/manual-save-storage-protection.md`、`knowledge/reviews/autosave-migration-review.md`。
+- [ ] 以瀏覽器 UI 驗收代表性舊版存檔遷移、重載後章節位置及六格資料讀取；使用隔離測試資料，不碰玩家現有存檔。runtime harness 通過不等於瀏覽器 localStorage／對話框互動驗收。
 - [ ] 測試清除瀏覽器資料、無效資料與 localStorage 不可用時的回退。
 - [ ] 測試章節重玩不覆蓋主線自動存檔／手動存檔，重新載入後能回到主線。CI 已呼叫實際 runtime 函式驗證章節選單、分支旗標隔離、重玩中禁止自動寫入、重啟及返回主線快照；瀏覽器操作與重新載入的實機流程仍待 QA，詳見 `knowledge/reviews/chapter-replay-isolation.md`。
 - [ ] 測試所有章節可自由選擇，並確認從章節中途重玩不污染既有旗標。CI 已逐一呼叫 33 個章節按鈕的 runtime listener，檢查 intro 起點、原旗標／choices 隔離及三個結局節點的 route override；真實對話框與裝置點選仍待 QA，見 `knowledge/reviews/chapter-replay-isolation.md`。

@@ -2553,3 +2553,11 @@
 - **如何應用於本作：** 在 `.game-stage[data-phase="choice"] .choice-marker` 設一般至少 1rem，低高度橫向另保留至少 .9rem；更新 `game.html` 與 `testplay.html` 的 CSS 版本參數，並讓 `validate-game-shells.js` 鎖住兩種 viewport 的字級下限，以及普通／選取狀態仍使用相應的深色 row art。保持無圓框及選項外深色不變。
 - **限制與驗證：** `validate-game-shells.js`、`validate-choice-runtime.js` 及選項路徑／路線 checks 通過；commit `dbb6863` 的 Pages run [45667472966](https://github.com/310111-design/hina-galgame/actions/runs/45667472966) 成功。公開版載入 CSS cache-buster `choice-summary-size-v1-20261126` 後，390×844、844×390、1440×900 computed 字級為 16px、14.4px、16.56px，目視確認短摘要及深色底符合預期。模擬 viewport 不能代表真實 iPhone 字體、動態工具列或安全區。
 - **未來可用範圍：** 本作其他視覺狀態與響應式元件，也適用於手機選單、任務標籤、字幕及其他以短摘要建立資訊層級的 UI。對每種寬高組合檢查最終 cascade 的 computed font size、文字框大小及周邊間距；新增後置 media rule 時也要維持原本可見層級，必要時把斷言加入現有 style validator。
+
+
+### 2026-11-26：路線圖分開標示 runtime 測試與瀏覽器手動驗收
+
+- **學到什麼：** 存檔遷移已有使用 runtime 真實函式的回歸檢查，卻仍被一條籠統的「測試舊版存檔」待辦遮住；另一方面，測試 harness 不能證明瀏覽器 localStorage、存檔對話框和重載操作都正常。把兩層驗收混在同一項，會讓已完成的保護測試與仍缺的玩家流程難以辨認。
+- **如何應用於本作：** 將舊單格／六格遷移、v2／v3／未知版本檢查標為 runtime 測試完成，保留獨立的瀏覽器舊資料遷移、重載及六格讀取待辦；連結到 `autosave-migration-review.md` 與 `manual-save-storage-protection.md` 的實際覆蓋範圍。
+- **限制與驗證：** 現有 runtime validators 使用記憶體 localStorage，不能替代瀏覽器儲存行為、存檔視窗、實際重載或瀏覽器 quota 測試；沒有接觸使用者現有存檔。`git diff --check` 通過。
+- **未來可用範圍：** 本作其他存檔、設定和瀏覽進度路線圖項目，以及任何有自動化 harness 與實際 UI 驗收兩層證據的軟體專案。待辦要明確指出完成的是哪一層，並把未測的玩家操作另列；只因 harness 通過不勾掉整個端到端任務。
