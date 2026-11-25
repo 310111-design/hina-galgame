@@ -2433,3 +2433,11 @@
 - **如何應用於本作：** 在 `game.html` 與 `testplay.html` 為選擇章節、返回主線、對話紀錄與設定、存檔、讀檔、從序章重來補上明確 `aria-label`；全螢幕既有名稱保留。`validate-game-shells.js` 對兩頁逐一核對這些名稱，避免正式版和試玩殼層漂移。
 - **限制與驗證：** `node scripts/validate-game-shells.js` 與 `git diff --check` 通過。這次 AX 樹是 Codex 內建瀏覽器的觀察，不等同真實 VoiceOver／NVDA 語音；需在新版 Pages 核對樹狀名稱，並以實際讀屏器及 iPhone Safari 完成裝置驗收。
 - **未來可用範圍：** 本作工具列、章節面板與其他自訂彈出選單；也適用於以裝飾 icon 加可見文字組成的網站控制。若實際輔助功能樹未可靠呈現名稱，明列 `aria-label`，並在多個同版頁殼的固定檢查中同步保護名稱。
+
+
+### 2026-11-25：部署屬性不能代替輔助功能樹驗收
+
+- **學到什麼：** 公開 Pages 回傳的 `game.html` 已包含按鈕 `aria-label`，而 commit `7bc1597` 的 Actions run `45647365552` build／deploy 成功；但同一公開頁在 Codex 內建瀏覽器展開功能選單後，AX 樹仍把多個按鈕列為無名稱。只檢查原始 HTML 和靜態 validator，不能證明瀏覽器實際計算出的可存取名稱符合預期。
+- **如何應用於本作：** 將功能選單標記為程式碼與部署已完成，但把公開 AX 樹和 VoiceOver／NVDA 實測留作未完成項；在 `knowledge/reviews/ui-utility-menu-accessibility-review.md` 記錄兩種證據及差異，不推測問題一定來自 markup 或瀏覽器工具。
+- **限制與驗證：** 本次只讀取公開 HTML 回應、重載公開遊戲、展開功能選單並觀察 Codex AX 樹；未取得瀏覽器 computed accessible name API，也未操作真實讀屏器。要先取得能區分平台擷取問題與 runtime 命名問題的證據，再決定是否修改語意結構。
+- **未來可用範圍：** 本作其他自訂選單、對話紀錄、存讀檔面板及路線選項；也適用於網站無障礙驗收。分開記錄原始屬性、部署回應、瀏覽器 accessibility tree 和讀屏器輸出，避免把其中一層的成功誤當整條輔助技術路徑已驗收。
