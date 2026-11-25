@@ -481,7 +481,7 @@
    - [x] 第三幕 C01～C06：對照 C01 休息／回查閉環、C02→C03 翌日責任、C03→C05 道具與工作狀態，以及 C05→C06 告別交接；現行證據見 `knowledge/reviews/full-story-common-rejoin-audit.md`。
    - [x] 成年篇 D01～D07 及三個互斥結局：對照開場、中段、邀約／路線橋接、結局回憶與三結局分支審校；確認活動選擇不覆寫 route、結局共同段不假定單一分支事件。證據與通關限制見 `knowledge/reviews/full-story-common-rejoin-audit.md`。
 - [ ] 完成全篇角色聲線與情緒發展總檢，確認陽奈及玩家在 33 節中的語氣、界線與關係變化連貫；局部 cadence review 不等於整體通過。
-- [ ] 重新比較三個成年結局的事件差異、選擇後果與情感收束；局部結局 review 及資料驗證不代表完整路線通關。
+- [x] 重新比較三個成年結局的事件差異、選擇後果與情感收束：D08F 以無工作目標的書店午後承接朋友分享，D08P 以閱讀活動的合作與現場應變承接搭檔分工，D08R 區分同意交往／先談界線／暫緩確認；三線共通段及關係標記符合各自選項。現行章稿數據、限制與比較見 `knowledge/reviews/adult-ending-contrast-review.md`。未完成瀏覽器逐路通關、盲讀或實機 QA。
 - [x] 以相鄰章同說話者字元三元組相似度排序近似台詞，並依時間、分支與角色狀態人工判讀；A02→A03、B03→B04、C01→C02、C03→C04、D01→D02 的候選為有進展的回扣而保留；D07 C→D08F B 原先近乎重演靜音收手機，已改成朋友談話中收到通知後先聽完對方說話，讓成年社交界線成為新行動。稿件／runtime 及篇幅同步；route、game-data、full-length-summary validators 通過。commit `a806d63` 的 Actions run `45362541674` build／deploy 成功，Pages 首頁、遊戲頁及 `game-data.js` HTTP 200，cache-buster 核對線上有新句、無舊靜音句。不代表全篇近義重複或全路徑 QA；詳見 `knowledge/reviews/full-story-near-phrase-screen.md`。
 - [x] D08P 共通段第二輪節奏複核：將參加者的大字體回饋、圖書館既有格式、成本／準備時間與小量試印合併為一項追蹤方案，刪除重複的「不立刻承諾」及第二次列出同一後續；稿件/runtime 同步，3,078 字元、A／B／C 2,449／2,454／2,425，路徑防截斷下限調為 2,300。全篇篇幅及閱讀時間同步重算；詳見 `knowledge/reviews/d08p-ending-followup-cadence-review.md`。
 - [x] D08P A／B／C 分支與共通回收連貫性複核：確認分工／彈性／小規模試辦各由實際場景回收，且共通活動未依賴單一路徑專屬前提；同步更新章稿末尾過期 QA 狀態。未改玩家可見內容或 runtime；詳見 `knowledge/reviews/d08p-branch-differentiation-review.md`。
