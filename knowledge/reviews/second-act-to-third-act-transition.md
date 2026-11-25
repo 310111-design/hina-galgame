@@ -77,10 +77,18 @@ C01 common 再次以「休息不是完全不看訊息／工作不是完全不管
 
 ## 下一步
 
-接續審校 C01→C02，聚焦本批已明確標出的早晨第一輪回報、午後例外結果與團隊責任在下一章如何延續；不重做已完成的 B07→B08 九格與 B08→C01 入口檢查。此批未改 `.env`、美術、角色草稿或存檔。
+初版建議接續審校 C01→C02；該項已由 `third-act-opening-transitions.md` 完成。現續查 C02→C03 的翌日回查結果與交接責任，不重做已完成的 B07→B08 九格或 B08→C01 入口檢查。
 
 ## 2026-11-26 追加：B08 分支位置與共通道具
 
 再次對照 B08 開場、A／B／C 分支及 common。C 分支原句「回到桌前」沒有前置離桌動作，修為「仍在桌前」；17:20 common 原本飲水，只有 B 分支明確拿到水杯，刪除此分支限定道具；收束原把手機留在抽屜，改為手機放進外套口袋後離場。未改選項、旗標、條件回憶或 C01 入口。
 
 Markdown／runtime 逐句同步驗證通過；B08 為 **116** 條正文 tuple／**2,274** 字元，A／B／C **1,858／1,805／1,851**。全篇仍有 3,261 tuples；原始文字更新為 74,625，去重後 73,990 字元／3,172 條唯一文字，路徑與估時同步於 `knowledge/plan.md`、`knowledge/chapter-plan.md`、`knowledge/reviews/full-length-refresh.md` 和 `knowledge/reviews/playtime-estimate.md`。`validate-route-drafts.js`、`validate-game-data.js` 通過；長度摘要首次檢查抓到 4 字元差異，修正文檔後 `validate-full-length-summary.js` 通過。沒有做 B08 三路徑瀏覽器通關。急件訊息辨識機制仍待釐清；C01 的休息中回查提示／實際交件次數也是後續修訂項。
+
+## 2026-11-26 追加：C01 休息時間與回查交接
+
+C01 休息前只把兩項資料標為「待回查」；同伴在休息剩三分鐘時把未開啟的整理紀錄放到桌邊，沒有先報告結果，並約定休息結束後再確認。陽奈完成剩餘休息後才核對日期補齊與設備更換結果，避免休息被非急件工作打斷，也讓正式回查只發生一次。
+
+C01 章稿與 runtime 同步為 **152 tuples／2,775 字元**，A／B／C 路徑 **2,335／2,325／2,331**。固定 route 與 game-data validators 用來確認稿件／runtime 結構同步，不代表三路瀏覽器通關或全篇交接語義 QA；篇幅摘要及估時更新於 `full-length-refresh.md`、`playtime-estimate.md`、`plan.md`、`chapter-plan.md` 與公開入口。
+
+**下一步：** 依 `third-act-opening-transitions.md` 續查 C02→C03 的翌日回查結果與交接責任；C01→C02 週期審校已完成，不重做。
