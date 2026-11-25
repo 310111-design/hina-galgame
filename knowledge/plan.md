@@ -54,7 +54,8 @@
    - [x] 修正並部署 choice 面板底部定位；Pages P03 選項畫面已確認標題未被擠壓、面板位於舞台下方。低高度 844×390 與手機直向仍待目視檢查。
    - [x] 移除玩家可見的 A/B/C；Pages P03 一般選項已顯示後續回憶提示。
    - [x] 左側改成無圓框的 2–3 字大字摘要，保留選項周圍深色；公開 P03 已看到「日常／分工／約定」。完整後果說明仍由輔助描述提供，內部選項識別碼不變。
-   - [x] 2026-11-26 以公開 Pages 及 Codex 內建瀏覽器重驗 P03／C01 選項：顯示 2–3 字摘要、無圓框，選項框外深色保留；未選擇任何分支，並返回 P03 主線。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`。
+   - [x] 2026-11-26 以公開 Pages 及 Codex 內建瀏覽器重驗 P03／C01 選項：390×844 模擬 viewport 顯示左側只有「日常／分工／約定」兩字摘要、沒有圓框，選項列與周圍黑紫底保留；未選擇任何分支，並返回原 P03 主線。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`。
+   - [x] 2026-11-26 以 P03 隔離章節重玩產生 11 筆對話紀錄，在 390×844 檢查說話者／章節標籤與紀錄內捲動；新項目自動顯示於底部，上捲可查看較早項目。返回後 P03 主線仍停在原選項，未啟動分支；重玩所讀句子可能新增至瀏覽器已讀索引。詳見 `knowledge/reviews/ui-dialogue-log-review.md`；未涵蓋更長紀錄、讀屏器或實機。
    - [x] 為章節、返回主線、紀錄、存讀檔、重新開始及全螢幕控制提供明確 `aria-label`；正式與 testplay 殼層 validator 同步保護，`7bc1597` 已部署。
    - [x] 已以公開 DOM 與瀏覽器角色名稱定位器交叉檢查功能按鈕：名稱存在且可查得，空名稱只出現在 Codex AX 樹輸出；詳見 `knowledge/reviews/ui-utility-menu-accessibility-review.md`。
    - [ ] 以真實讀屏器複核功能按鈕名稱與焦點順序；Codex AX 樹差異已定位，不代表讀屏器驗收完成。
