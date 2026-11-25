@@ -1528,17 +1528,17 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 .game-stage { background: #15101d; }
 .scene-art::before {
   inset: -5px;
-  filter: blur(1.2px) brightness(.82) saturate(.94);
+  filter: blur(1.2px) brightness(.9) saturate(.94);
   transform: scale(1.015);
 }
 .scene-art.has-background::before {
-  background-image: linear-gradient(0deg, #08071042, #0807100d 62%), var(--scene-image);
+  background-image: linear-gradient(0deg, #08071016, #08071008 62%), var(--scene-image);
   background-position: center;
 }
 .scene-vignette {
   background:
     linear-gradient(90deg, #08071035 0%, transparent 34%, transparent 70%, #08071040 100%),
-    linear-gradient(0deg, #080710a8 0%, transparent 38%);
+    linear-gradient(0deg, #08071038 0%, transparent 42%);
 }
 .hina-sprite {
   right: clamp(4%, 11vw, 16%);
@@ -1786,6 +1786,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   max-width: none;
   padding-inline: clamp(24px, 7.8vw, 112px);
   overflow-wrap: anywhere;
+  text-shadow: 0 1px 4px #080710c9;
 }
 .story .hina {
   padding-top: clamp(36px, 5dvh, 48px);

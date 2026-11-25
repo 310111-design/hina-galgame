@@ -167,6 +167,9 @@ if (!/position:\s*absolute/i.test(speakerNameplateRule) ||
 }
 const dialogueArtworkStyles = stylesheet.split("/* User-provided UI 2.0 panel artwork, split into responsive decorative layers. */").at(-1) || "";
 const dialoguePanelRule = dialogueArtworkStyles.match(/\.dialogue-panel\s*\{([^}]*)\}/)?.[1] || "";
+const sceneVignetteRule = [...stylesheet.matchAll(/\.scene-vignette\s*\{([^}]*)\}/g)].at(-1)?.[1] || "";
+const backgroundImageRule = [...stylesheet.matchAll(/\.scene-art\.has-background::before\s*\{([^}]*)\}/g)].at(-1)?.[1] || "";
+const sceneArtworkRule = [...stylesheet.matchAll(/\.scene-art::before\s*\{([^}]*)\}/g)].at(-1)?.[1] || "";
 if (!/position:\s*absolute/i.test(dialoguePanelRule) ||
     !/inset:\s*auto\s+0\s+0/i.test(dialoguePanelRule) ||
     !/padding-inline:\s*0/i.test(dialoguePanelRule) ||
@@ -174,6 +177,12 @@ if (!/position:\s*absolute/i.test(dialoguePanelRule) ||
     !/background-image:\s*url\(["']?assets\/ui\/dialogue-frame-cutout\.png/i.test(dialoguePanelRule) ||
     !/backdrop-filter:\s*none/i.test(dialoguePanelRule)) {
   errors.push("Dialogue frame must stay anchored at the stage bottom, own the nameplate anchor, and use the transparent cutout artwork without added fill.");
+}
+if (!/linear-gradient\(0deg,\s*#08071038\s+0%,\s*transparent\s+42%\)/i.test(sceneVignetteRule) ||
+    !/linear-gradient\(0deg,\s*#08071016\s*,\s*#08071008\s+62%\)/i.test(backgroundImageRule) ||
+    !/brightness\(\.9\)/i.test(sceneArtworkRule) ||
+    !/text-shadow:\s*0\s+1px\s+4px\s+#080710c9/i.test(dialogueArtworkStyles.match(/\.story p\s*\{([^}]*)\}/)?.[1] || "")) {
+  errors.push("Transparent dialogue artwork must reveal the scene through a restrained bottom vignette while retaining dialogue text contrast.");
 }
 if (/\.story \.hina\s*\{[^}]*position:\s*relative/i.test(dialogueArtworkStyles)) {
   errors.push("Hina dialogue paragraphs must not override the dialogue frame as the nameplate positioning container.");
