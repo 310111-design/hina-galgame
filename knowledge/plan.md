@@ -31,6 +31,7 @@
 - [x] 修正並發布 choice 畫面：commit `9a327ea`、Pages run `45635053575` build／deploy 成功；Codex 內建瀏覽器於公開版 P03 狀態確認面板回到底部、標題區未重疊、玩家看不到 A/B/C，並看到「後續回憶：日常／分工／約定」。保留原始框圖並加入中央透明衍生圖；在此 viewport 文字可讀，背景仍透出但閱讀區整體看起來深色半透明。其他 viewport、D06 路線告知及 iPhone Safari 仍待驗收。
 - [x] 依最新選項視覺要求移除左側圓框，改為 2–3 字大字摘要，保留選項周圍深色；公開 Pages P03 顯示「日常／分工／約定」，D06 顯示「朋友／搭檔／戀愛」及完整路線告知。commit `9969cda`、Actions run 730 build／deploy 成功；其他尺寸仍待驗收。
 - [x] 修正選項摘要在窄螢幕過小：公開 Pages 的 P03 實測 844×390 時摘要為 9.92px，小於 13.76px 選項正文；一般 viewport 的摘要也只有 13.12px。將一般樣式設為至少 1rem、短橫向至少 .9rem，維持無框與選項外深色；正式頁／試玩頁 cache-buster 同步，shell validator 鎖住兩種版型字級下限及普通／選取狀態底圖引用。固定 choice／shell validators 通過；commit `dbb6863` 的 Pages run [45667472966](https://github.com/310111-design/hina-galgame/actions/runs/45667472966) 成功。公開 P03 在 390×844／844×390／1440×900 顯示 16／14.4／16.56px，確認新版樣式、短摘要層級與深色選項外觀；viewport 模擬不等於 iPhone Safari 實機驗收。
+- [x] 2026-11-26 在公開 Pages 章節重玩狀態複核 D06 路線選項：390×844、844×390、1440×900 三種模擬 viewport 都顯示「朋友／搭檔／戀愛」兩字摘要、完整路線告知及選項深色底，沒有選擇路線；主線存檔不變。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`；此項不代表實機 Safari、讀屏器或全篇 UI QA 通過。
 - [x] 為正式版與內部試玩頁的功能選單控制加上明確 `aria-label`，並更新 `validate-game-shells.js` 檢查所有功能按鈕名稱與兩殼層一致；`7bc1597` 已部署且 run `45647365552` 成功。
 - [x] 交叉查明公開功能選單名稱差異：DOM 中明確 `aria-label` 存在，內建瀏覽器的按鈕名稱定位器可依「選擇章節」找到控制；Codex AX 樹輸出仍遺漏名稱，較可能是擷取／序列化差異。詳見 `knowledge/reviews/ui-utility-menu-accessibility-review.md`；此證據不等於 OS 輔助技術驗收。
 - [ ] 以 NVDA／VoiceOver 等真實讀屏器確認功能選單名稱與焦點順序；未完成前不宣稱讀屏器通過。
@@ -556,6 +557,7 @@
 - [x] 瀏覽器模擬 viewport 手機直向：檢視角色臉部安全區、底部對話框、三選項直列、頂部選單及控制尺寸；實體觸控尺寸仍待真機確認。
 - [x] 瀏覽器模擬 viewport 手機橫向：獨立重新分配角色與文字空間，避免直向配置直接放大。
 - [x] 瀏覽器模擬 viewport 桌面尺寸：檢視角色比例、對話框寬度、文字行長與留白。
+- [x] 公開 Pages D06 路線選項在手機直向 390×844、手機橫向 844×390 及桌面 1440×900 顯示三條完整路線告知；左側兩字摘要無圓框、選項深色底保留，檢查時沒有點選路線。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`；只完成這個 choice state 的模擬 viewport 核對。
 - [ ] 驗收 iOS safe-area、動態視窗高度、瀏海／底部手勢區及瀏覽器工具列收合時的版面變化。
 - [ ] 驗收多種文字大小、長句、不同說話者、三個選項及大量紀錄的完整溢位矩陣。
 - [x] 依 CSS 基底顏色檢查主要文字色對比；確認文字色高於 7.8:1，並將主遊戲實際生效的未選取選項邊框在最暗面板端點估算對比由 1.51:1 提高至 4.12:1；game-shell validator 從最後一條宣告邊框的 `.choice` 規則計算並維持至少 3:1。commit `cd920d5` 對應 Actions run `45356882060` build／deploy 成功，首頁、遊戲、testplay 與 CSS 均 HTTP 200，線上樣式已核對含修正值。此為靜態計算、CI 與部署確認，不代表全頁 WCAG、逐像素瀏覽器審查或裝置驗收；詳見 `knowledge/reviews/ui-responsive-viewport-review.md`。
@@ -572,7 +574,7 @@
 - [x] 推送後確認 GitHub Actions run `45215839672`（commit `fd19721`）成功；正式 Pages `https://310111-design.github.io/hina-galgame/game.html` 回應 HTTP 200，已在正式頁檢查新介面、功能選單及 Escape 收合。此為發布確認，不代表 iPhone Safari 或完整裝置 QA。
 - [x] 將改版前後直向／橫向／桌面截圖、viewport 初驗觀察及已知限制回寫至 `knowledge/reviews/ui2-visual-baseline.md`、`knowledge/reviews/ui-responsive-viewport-review.md` 與本節；此勾選只完成證據整理，iPhone Safari、安全區／動態工具列、完整狀態矩陣、鍵盤／輔助科技及實機 QA 仍保持未完成。
 
-**目前判定（2026-11-25）：** 最新 UI commit `9969cda` 的 Pages run 730 成功；Codex 內建瀏覽器已在公開版 P03 與 D06 選項狀態看到無圓框摘要，D06 三條路線告知可見且可讀；同一視窗的 D06 一般台詞也未觀察到字形穿過立繪。主線沒有選擇 D06 路線，章節重玩後已返回並重載回 P03。仍待一般台詞／選項的更多背景與尺寸、長句／文字大小矩陣、iPhone Safari 安全區／工具列及實機 QA。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`、`knowledge/reviews/ui-asset-packet-review.md`、`knowledge/reviews/ui-responsive-viewport-review.md`、`knowledge/reviews/ui2-visual-baseline.md`、`knowledge/reviews/ui-speaker-nameplate-position.md` 與 `knowledge/reviews/sprite-size-normalization.md`。
+**目前判定（2026-11-26）：** 最新 UI commit `9969cda` 的 Pages run 730 成功；公開版 P03 與 D06 選項的無圓框短摘要及選項周圍深色均已確認。D06 三條完整路線告知另在 390×844、844×390、1440×900 模擬 viewport 核對，未選擇任何路線；此前 D06 一般台詞與 C01 長句也已局部檢查。仍待其他章節／背景狀態、長句與文字大小溢位矩陣、真實 iPhone Safari 安全區／工具列、實體觸控及輔助科技驗收。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`、`knowledge/reviews/ui-asset-packet-review.md`、`knowledge/reviews/ui-responsive-viewport-review.md`、`knowledge/reviews/ui2-visual-baseline.md`、`knowledge/reviews/ui-speaker-nameplate-position.md` 與 `knowledge/reviews/sprite-size-normalization.md`。
 
 ### 角色表情與事件 CG 素材需求
 

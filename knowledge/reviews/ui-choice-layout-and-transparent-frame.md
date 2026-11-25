@@ -51,3 +51,9 @@
 - 沿用公開 Pages 的 P03 選項狀態及單一 Codex 內建瀏覽器分頁，檢查 390×844 與 844×390 viewport。DOM computed style 顯示窄直向 `.choice-marker` 約 13.12px、正文約 13.44px；低高度橫向被 media rule 壓至 9.92px，而選項正文是 13.76px。字串雖短且無圓框，左側摘要並未如規格成為醒目的大字。
 - 已將 choice marker 一般字級下限設為 1rem，短橫向規則設為至少 .9rem；正式頁與試玩頁 cache-buster 同步更新。沒有改動 choice row 圖片、透明度、周圍深色或 A／B／C 內部識別碼。
 - `validate-game-shells.js` 新增一般與短橫向的字級下限斷言，並檢查普通／選取選項仍引用原本的兩張 row art，防止短摘要樣式修改時誤移除深色底圖；`validate-game-shells.js`、`validate-choice-runtime.js` 及其選項路徑／路線檢查通過。commit `dbb6863` 的 Pages run [45667472966](https://github.com/310111-design/hina-galgame/actions/runs/45667472966) 成功。公開頁載入 `game.css?v=choice-summary-size-v1-20261126` 後，P03 `.choice-marker` computed font-size 在 390×844、844×390、1440×900 分別為 16px、14.4px、16.56px；三種截圖均可辨認短摘要，且選項外深色與無圓框維持。這是瀏覽器 viewport 模擬，不代表實體 iPhone Safari 字體、動態工具列或安全區驗收。
+
+### 2026-11-26 D06 路線選項三尺寸公開複核
+
+- 沿用同一個 Codex 內建瀏覽器分頁與公開 Pages，從章節選擇以隔離重玩進入 D06，讀到三個路線選項但沒有按下任何一項。確認「朋友／搭檔／戀愛」兩字摘要旁，各自顯示完整的「路線告知：朋友線／搭檔線／戀愛線」及對應說明。
+- 在 390×844、844×390 與 1440×900 模擬 viewport 截圖中，三個選項都保持可見；左側是無圓形外框的文字摘要，選項列的深色底保留。橫向與桌面圖都能看到三列及提示，直向圖亦未發現選項文字穿過立繪或超出列框。
+- 這只驗證 D06 這個已部署 choice state。未檢查其他背景、文字大小、讀屏器、觸控或真實 iPhone Safari；進入章節重玩會在瀏覽器已讀索引留下讀取記錄，但不覆寫主線存檔。完成後已將 viewport override 重設為預設值。
