@@ -5,9 +5,9 @@
 
 ## 結果
 
-- `node scripts/validate-route-drafts.js` 通過：章節逐句／分段、選項文字、條件台詞及已配置的篇幅／路徑要求同步；三個結局路徑長度為 D08F 2,361／2,397／2,397、D08P 2,449／2,454／2,425、D08R 2,305／2,390／2,576 字元。長度參考值依既有路線設定，不作灌水門檻。
+- `node scripts/validate-route-drafts.js` 通過：章節逐句／分段、選項文字、條件台詞及已配置的篇幅／路徑要求同步；三個結局路徑長度為 D08F 2,361／2,397／2,397、D08P 2,449／2,454／2,425、D08R 2,305／2,390／2,576 字元。長度參考值依既有路線設定，不作灌水門檻。後續 D01 收束調整另見 `d01-present-focused-cadence-review.md`。
 - `node scripts/validate-game-data.js` 通過：33 章、99 個選項、99 個分支、21 組條件回憶及 33 個章節背景資料有效；選項、條件旗標、路線拓撲與章節順序驗證通過。
-- `node scripts/validate-full-length-summary.js` 通過：3,265 條對話 tuple、74,054 個唯一台詞字元，路線範圍與 `knowledge/plan.md`、`knowledge/chapter-plan.md` 的摘要一致。
+- `node scripts/validate-full-length-summary.js` 通過：D01 收束修訂後 3,264 條對話 tuple、74,049 個唯一台詞字元，路線範圍與 `knowledge/plan.md`、`knowledge/chapter-plan.md` 的摘要一致。
 
 ## 限制與後續
 
