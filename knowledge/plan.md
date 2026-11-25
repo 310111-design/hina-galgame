@@ -14,10 +14,10 @@
 |---|---|---|
 | 故事 | 四幕、33 個章節節點（30 節共通篇、3 個成年結局）均已接入；三條路線、條件回憶及第一輪章節審校已完成。全篇分支連貫、角色語氣與最終通關 QA 尚未完成。 | 故事可玩，整體 QA 待完成 |
 | 遊戲功能 | 逐字閱讀、選項、章節選擇、紀錄、已讀跳過、自動播放、設定、自動存檔、六格手動存檔、章節重玩隔離及音訊控制已實作；固定 validator 覆蓋多項資料與 runtime 規則。 | 功能已接入，手動流程待驗 |
-| UI | `9969cda` 在選項左側改用無圓框的 2–3 字大字摘要，保留選項周圍深色；完整後果說明留在輔助描述。Codex 內建瀏覽器檢查公開 Pages 的 P03，看到「日常／分工／約定」摘要，文字可讀，深色區域仍在。一般對話及其他狀態／尺寸尚未目視驗收。 | 已部署，P03 桌面選項狀態通過；其餘待驗 |
+| UI | `9969cda` 在選項左側改用無圓框的 2–3 字大字摘要，保留選項周圍深色；完整後果說明留在輔助描述。Codex 內建瀏覽器在約 803×675 的公開 Pages 視窗檢查 P03 與 D06：摘要分別顯示「日常／分工／約定」及「朋友／搭檔／戀愛」，路線告知清楚；D06 台詞與選項可讀，未見文字穿過立繪。其他尺寸仍待驗。 | 已部署，P03／D06 單一桌面狀態通過；跨尺寸待驗 |
 | 美術 | 13 張表情立繪、12 張章節背景及首頁背景已接入。18 張事件 CG 尚待製作；成年篇立繪與 D08P 圖書館庭院專用背景仍待補。 | 基礎素材已接入，長期素材製作待開始 |
 | 音訊 | 程序化 BGM、淡入淡出、提示音及 BGM／SFX 分開控制已實作；正式音樂與音效素材尚未納入。 | 第一版完成，聽感與授權素材待驗 |
-| 發布 | commit `9969cda` 的 Pages Actions run [730](https://github.com/310111-design/hina-galgame/actions/runs/45641279568) build／deploy 成功；Codex 內建瀏覽器確認公開 `game.html` 的 P03 摘要更新。這只涵蓋單一桌面選項狀態，不代表 D06、一般台詞、不同 viewport 或實機 QA 完成。 | 最新選項摘要已發布；整體視覺 QA 未完成 |
+| 發布 | commit `9969cda` 的 Pages Actions run [730](https://github.com/310111-design/hina-galgame/actions/runs/45641279568) build／deploy 成功；Codex 內建瀏覽器確認公開 `game.html` 的 P03 與 D06 摘要及路線告知。這只涵蓋單一桌面視窗中的幾個狀態，不代表完整遊戲流程、不同 viewport 或實機 QA 完成。 | 選項摘要已發布；整體視覺 QA 未完成 |
 
 ### 已完成的主要里程碑
 
@@ -29,7 +29,7 @@
 - [x] 對話框姓名／文字定位及額外 CSS 底色移除已推送於 `9bf0fa6`；Actions／Pages run `45627893160` build／deploy 成功。該階段只移除了 CSS 疊加，來源 PNG 中央的不透明深色閱讀面仍在；後續已由 `9a327ea` 另輸出透明衍生圖處理，保留本筆作歷史紀錄。
 - [x] 逐句特寫／退遠 runtime 與 validator 契約已推送：`820820e` 初次 run `45630036369` 因角色縮放驗證器仍要求舊 CSS 字串而失敗；`3acf7c7` 將驗證更新為校準縮放與 stage cue 的組合，run `45632863045` build／deploy 成功。詳見 `knowledge/story-stage-cues.md` 與本輪 experience 記錄。
 - [x] 修正並發布 choice 畫面：commit `9a327ea`、Pages run `45635053575` build／deploy 成功；Codex 內建瀏覽器於公開版 P03 狀態確認面板回到底部、標題區未重疊、玩家看不到 A/B/C，並看到「後續回憶：日常／分工／約定」。保留原始框圖並加入中央透明衍生圖；在此 viewport 文字可讀，背景仍透出但閱讀區整體看起來深色半透明。其他 viewport、D06 路線告知及 iPhone Safari 仍待驗收。
-- [x] 依最新選項視覺要求移除左側圓框，改為 2–3 字大字摘要，保留選項周圍深色；公開 Pages P03 顯示「日常／分工／約定」。commit `9969cda`、Actions run 730 build／deploy 成功；D06 實際狀態及其他尺寸仍待驗收。
+- [x] 依最新選項視覺要求移除左側圓框，改為 2–3 字大字摘要，保留選項周圍深色；公開 Pages P03 顯示「日常／分工／約定」，D06 顯示「朋友／搭檔／戀愛」及完整路線告知。commit `9969cda`、Actions run 730 build／deploy 成功；其他尺寸仍待驗收。
 
 ### 剩餘路線圖 Checklist
 
@@ -44,8 +44,9 @@
    - [x] 修正並部署 choice 面板底部定位；Pages P03 選項畫面已確認標題未被擠壓、面板位於舞台下方。低高度 844×390 與手機直向仍待目視檢查。
    - [x] 移除玩家可見的 A/B/C；Pages P03 一般選項已顯示後續回憶提示。
    - [x] 左側改成無圓框的 2–3 字大字摘要，保留選項周圍深色；公開 P03 已看到「日常／分工／約定」。完整後果說明仍由輔助描述提供，內部選項識別碼不變。
-   - [ ] 在 D06 公開選項狀態確認「路線告知：朋友線／搭檔線／戀愛線」實際呈現。
+   - [x] 在 D06 公開選項狀態確認「朋友／搭檔／戀愛」摘要與「路線告知：朋友線／搭檔線／戀愛線」實際呈現；使用章節重玩檢視，沒有按下任何路線選項，之後返回 P03 並重載確認主線仍在原存檔狀態。
    - [x] 保留原始 `dialogue-frame.png` 並新增中央閱讀區透明衍生圖；Pages P03 畫面文字可讀且場景可透出。
+   - [x] Pages 桌面視窗約 803×675 檢視 D06 一般台詞與選項；當前句與三個選項均可讀，沒有觀察到文字穿過立繪。這是單一背景／狀態檢視。
    - [ ] 在其他台詞狀態與尺寸驗證遮擋／對比；閱讀面仍呈深色半透明，依實際可讀性決定是否調整。
    - [ ] 待 CG 素材及事件映射建立後，另訂事件 CG 專屬轉場。
    - [ ] 完成 iPhone Safari 的安全區、動態工具列、觸控、背景裁切、立繪解碼與載入回退驗收；補桌面瀏覽器與全尺寸閱讀矩陣。
@@ -75,7 +76,7 @@
 |---|---|---|
 | 故事內容 | P01～P03、A01～A06、B01～B08、C01～C06、D01～D07 及 D08F／D08P／D08R 共 33 節均已接入；三線和條件回憶已建立。仍需完成全篇語氣、時間線、分支與最終通關 QA。 | 可遊玩，整體 QA 未完成 |
 | 遊戲核心 | 閱讀、選項、章節選單、紀錄、已讀跳過、自動播放、存讀檔、重玩隔離與設定已實作；存檔及路線有 runtime／CI 覆蓋，真實瀏覽器流程待驗。 | 已實作，手動 QA 待完成 |
-| UI 視覺 | UI 2.0 對話／選項素材、工具列、姓名標籤、透明框衍生圖及純文字選項摘要已接入。commit `9969cda`／Pages run 730 成功；公開 P03 可見無圓框的「日常／分工／約定」，選項周圍深色保留。一般台詞、D06 route 狀態、其他 viewport 及 iPhone Safari 實機仍待驗。 | 已部署，P03 局部目視通過；裝置 QA 待完成 |
+| UI 視覺 | UI 2.0 對話／選項素材、工具列、姓名標籤、透明框衍生圖及純文字選項摘要已接入。commit `9969cda`／Pages run 730 成功；公開 P03 的「日常／分工／約定」及 D06 的「朋友／搭檔／戀愛」與路線告知都已在約 803×675 單一視窗目視，深色保留、字可讀。其他 viewport 及 iPhone Safari 實機仍待驗。 | 已部署，兩個桌面狀態局部通過；裝置 QA 待完成 |
 | 背景美術 | 13 張使用者背景已整理為語意化素材與 WebP；12 張映射至 runtime 章節，另有首頁背景。D08P 專用圖書館庭院背景未完成。 | 基礎接入完成，新增素材待製作 |
 | 角色美術 | 13 張 896×1200 表情 PNG 及無損 WebP 已接入；runtime 依 alpha 輪廓校準尺寸，並保留 PNG／SVG 回退。跨裝置驗收與成年篇專用立繪待完成。 | 基礎接入完成，裝置 QA 待完成 |
 | 事件 CG | 長期目標 18 張（共通 6 張、每條成年路線 4 張），目前仍屬規劃與素材需求清單；批量製作前需先檢視代表樣本。 | 尚未完成 |
@@ -552,7 +553,7 @@
 - [x] 推送後確認 GitHub Actions run `45215839672`（commit `fd19721`）成功；正式 Pages `https://310111-design.github.io/hina-galgame/game.html` 回應 HTTP 200，已在正式頁檢查新介面、功能選單及 Escape 收合。此為發布確認，不代表 iPhone Safari 或完整裝置 QA。
 - [x] 將改版前後直向／橫向／桌面截圖、viewport 初驗觀察及已知限制回寫至 `knowledge/reviews/ui2-visual-baseline.md`、`knowledge/reviews/ui-responsive-viewport-review.md` 與本節；此勾選只完成證據整理，iPhone Safari、安全區／動態工具列、完整狀態矩陣、鍵盤／輔助科技及實機 QA 仍保持未完成。
 
-**目前判定（2026-11-25）：** 最新 UI commit `9969cda` 的 Pages run 730 成功；Codex 內建瀏覽器已在公開版 P03 選項狀態看到無圓框的「日常／分工／約定」摘要，選項周圍深色保留。這不是完整 UI 驗收：一般台詞、D06 路線告知、其他 viewport、長句／文字大小矩陣、iPhone Safari 安全區／工具列及實機 QA 仍未完成。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`、`knowledge/reviews/ui-asset-packet-review.md`、`knowledge/reviews/ui-responsive-viewport-review.md`、`knowledge/reviews/ui2-visual-baseline.md`、`knowledge/reviews/ui-speaker-nameplate-position.md` 與 `knowledge/reviews/sprite-size-normalization.md`。
+**目前判定（2026-11-25）：** 最新 UI commit `9969cda` 的 Pages run 730 成功；Codex 內建瀏覽器已在公開版 P03 與 D06 選項狀態看到無圓框摘要，D06 三條路線告知可見且可讀；同一視窗的 D06 一般台詞也未觀察到字形穿過立繪。主線沒有選擇 D06 路線，章節重玩後已返回並重載回 P03。仍待一般台詞／選項的更多背景與尺寸、長句／文字大小矩陣、iPhone Safari 安全區／工具列及實機 QA。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`、`knowledge/reviews/ui-asset-packet-review.md`、`knowledge/reviews/ui-responsive-viewport-review.md`、`knowledge/reviews/ui2-visual-baseline.md`、`knowledge/reviews/ui-speaker-nameplate-position.md` 與 `knowledge/reviews/sprite-size-normalization.md`。
 
 ### 角色表情與事件 CG 素材需求
 
