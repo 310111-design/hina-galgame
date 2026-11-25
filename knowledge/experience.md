@@ -2633,3 +2633,11 @@
 - **如何應用於本作：** 對照 `prologue-transitions.md`、`prologue-full-sync-review.md`、`first-act-opening-transitions.md`、`first-act-middle-transitions.md`、`first-act-ending-transitions.md` 與 A01／P01～P03 的收束複核，確認序章 P01～P03 及第一幕 A01～A06 已有分支狀態與共通前提依據；在 `knowledge/plan.md` 拆出 B、C、成年篇待查幕次，並於 `knowledge/reviews/full-story-common-rejoin-audit.md` 建立彙總矩陣。
 - **限制與驗證：** 本階段整理既有人工審校與修訂證據，沒有重播 33 章，也沒有重新逐字讀完所有 runtime；局部矩陣不代表所有旗標歷史均可達，第二幕、第三幕與成年篇仍未完成總核對。
 - **未來可用範圍：** 本作跨幕共通段總 QA，以及任何已有分散局部 review 的長篇多分支專案。先以章節／幕次映射現存證據，再只補仍缺少狀態矩陣的範圍；每次章稿改動後回查前後相鄰交界和該章 common，保留整體未完成狀態直到所有分段都各自有證據。
+
+
+### 2026-11-26：跨章結果要回到原分支核對完成狀態
+
+- **學到什麼：** 第二幕前段曾把 B05 設備檢查寫成「已排定」、中段又把結果留到明早；如果只讀 B05 common，會看不出這項待辦是否真正有後續。B06／B08 的路徑矩陣顯示，回查負責人、時間及結果必須依各自分支接續，不能把 B 分支交付當成 A／C 的共同成果。
+- **如何應用於本作：** 對照 `second-act-opening-transitions.md`、`second-act-middle-transitions.md`、`second-act-closing-transitions.md`、`second-act-ending-transitions.md` 和 `second-act-to-third-act-transition.md`，確認 BOT／BMT／BCT／BET 修訂已處理互斥成果、部分完成、唯一待回查、休息期間非急件交付及 B08→C01 的條件來源。將 B01～B08 標記為已有逐分支 common 回收證據；`validate-route-drafts.js` 與 `validate-game-data.js` 通過。
+- **限制與驗證：** 本階段重新整理既有人工矩陣與現行修訂狀態，沒有實際遊玩所有 18 組跨章組合、重建所有旗標歷史或完成盲讀；固定同步 validator 只能證明稿件/runtime 相符。B08→C01 的單句公開檢視也不代表整幕通關。
+- **未來可用範圍：** 本作待回查、交付或部分完成項目，以及其他長篇分支任務。遇到 common 回收待辦時，沿每個 A／B／C 出口追蹤「誰做、何時做、結果在哪一段出現、尚未完成的部分如何保留」，並在下一章入口確認沒有借用其他分支才有的交付。
