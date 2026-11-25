@@ -1853,12 +1853,12 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   margin-top: clamp(6px, 1.1dvh, 12px);
 }
 .game-stage[data-phase="choice"] .choice {
-  grid-template-columns: 19% minmax(0, 1fr);
+  grid-template-columns: 23% minmax(0, 1fr);
   min-height: clamp(58px, 10dvh, 94px);
   padding: 8px clamp(10px, 1.8vw, 24px);
   border: 0;
   border-radius: 12px;
-  background: url("assets/ui/choice-row-default.png") center / 100% 100% no-repeat;
+  background: url("assets/ui/choice-row-unified-default.png") center / 100% 100% no-repeat;
   box-shadow: none;
   text-align: left;
 }
@@ -1868,7 +1868,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 .game-stage[data-phase="choice"] .choice:focus-visible,
 .game-stage[data-phase="choice"] .choice.is-selected {
   transform: none;
-  background-image: url("assets/ui/choice-row-selected.png");
+  background-image: url("assets/ui/choice-row-unified-selected.png");
   box-shadow: none;
 }
 .game-stage[data-phase="choice"] .choice:focus-visible { outline: 2px solid #ffe0ab; outline-offset: -3px; }
@@ -1882,8 +1882,11 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   border: 0;
   border-radius: 0;
   background: transparent;
-  font-size: clamp(1rem, 1.15vw, 1.18rem);
+  color: #ffe4b5;
+  font-size: clamp(1.2rem, 1.65vw, 1.5rem);
+  font-weight: 800;
   letter-spacing: .08em;
+  text-shadow: 0 1px 4px #090711;
   white-space: nowrap;
 }
 .asset-toolbar {
@@ -1931,10 +1934,11 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   }
   .game-stage[data-phase="choice"] .choices { gap: 5px; margin-top: 5px; }
   .game-stage[data-phase="choice"] .choice {
-    grid-template-columns: 19% minmax(0, 1fr);
+    grid-template-columns: 23% minmax(0, 1fr);
     min-height: 56px;
     padding: 5px 8px;
   }
+  .game-stage[data-phase="choice"] .choice-marker { font-size: clamp(1.1rem, 5vw, 1.3rem); }
   .game-stage[data-phase="choice"] .choice-label { font-size: .84rem; }
   .game-stage[data-phase="choice"] .choice-hint { font-size: .62rem; }
   .asset-toolbar { justify-content: space-around; gap: 1px; padding: 4px 2px max(3px, env(safe-area-inset-bottom)); }
@@ -1954,7 +1958,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   .game-stage[data-phase="choice"] .story > .narration { min-height: 40px; margin-bottom: 2px; padding-top: 5px; padding-bottom: 5px; }
   .game-stage[data-phase="choice"] .choices { gap: 4px; margin-top: 4px; }
   .game-stage[data-phase="choice"] .choice { min-height: 44px; padding-top: 4px; padding-bottom: 4px; }
-  .game-stage[data-phase="choice"] .choice-marker { font-size: clamp(.9rem, 1.8vh, 1rem); letter-spacing: .02em; }
+  .game-stage[data-phase="choice"] .choice-marker { font-size: clamp(1.05rem, 3.2vh, 1.2rem); letter-spacing: .04em; }
   .game-stage[data-phase="choice"] .choice-hint { display: block; font-size: .58rem; }
   .dialogue-footer { min-height: 34px; }
   .asset-toolbar { min-height: 36px; margin-top: 2px; padding-top: 2px; padding-bottom: 2px; }

@@ -154,7 +154,7 @@ if (readRgbaPixel(dialogueSourceBytes, 559, 142)?.[3] !== 255 ||
     readRgbaPixel(dialogueCutoutBytes, 10, 142)?.[3] === 0) {
   errors.push("Transparent dialogue derivative must clear the center while preserving the original source and visible frame edge.");
 }
-for (const name of ["dialogue-frame-cutout.png", "choice-prompt.png", "choice-row-default.png", "choice-row-selected.png"]) {
+for (const name of ["dialogue-frame-cutout.png", "choice-prompt.png", "choice-row-unified-default.png", "choice-row-unified-selected.png"]) {
   if (!stylesheet.includes(`assets/ui/${name}`)) errors.push("UI stylesheet does not use " + name);
 }
 const speakerNameplateRule = stylesheet.match(/\/\* Center the speaker label inside the upper-left slot in dialogue-frame(?:-cutout)?\.png\. \*\/\s*\.story \.hina strong\s*\{([^}]*)\}/i)?.[1] || "";
@@ -214,11 +214,11 @@ if (!/linear-gradient\(0deg,\s*#08071038\s+0%,\s*transparent\s+42%\)/i.test(dial
 if (!/border:\s*0/i.test(choiceMarkerRule) ||
     !/border-radius:\s*0/i.test(choiceMarkerRule) ||
     !/background:\s*transparent/i.test(choiceMarkerRule) ||
-    !/font-size:\s*clamp\(1rem/i.test(choiceMarkerRule) ||
-    !/font-size:\s*clamp\(\.9rem/i.test(landscapeChoiceMarkerRule) ||
-    !/background:\s*url\(["']?assets\/ui\/choice-row-default\.png/i.test(choiceRowRule) ||
-    !/background-image:\s*url\(["']?assets\/ui\/choice-row-selected\.png/i.test(selectedChoiceRowRule)) {
-  errors.push("Choice summaries must remain plain two- or three-character labels without a circle, remain prominent on short landscapes, and retain the surrounding dark option artwork.");
+    !/font-size:\s*clamp\(1\.2rem/i.test(choiceMarkerRule) ||
+    !/font-size:\s*clamp\(1\.05rem/i.test(landscapeChoiceMarkerRule) ||
+    !/background:\s*url\(["']?assets\/ui\/choice-row-unified-default\.png/i.test(choiceRowRule) ||
+    !/background-image:\s*url\(["']?assets\/ui\/choice-row-unified-selected\.png/i.test(selectedChoiceRowRule)) {
+  errors.push("Choice summaries must remain plain two- or three-character large labels without a boxed badge, stay prominent on short landscapes, and retain the surrounding dark option artwork.");
 }
 if (/\.story \.hina\s*\{[^}]*position:\s*relative/i.test(dialogueArtworkStyles)) {
   errors.push("Hina dialogue paragraphs must not override the dialogue frame as the nameplate positioning container.");
