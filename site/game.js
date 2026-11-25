@@ -672,7 +672,43 @@ function setStageCue(cue) {
   stage.dataset.stageCue = ["close", "wide"].includes(cue) ? cue : "";
 }
 
-function getChoiceNotice(choice) {
+const choiceSummaries = {
+  P01: { A: "休息", B: "分擔", C: "點心" },
+  P02: { A: "休息", B: "分工", C: "校外" },
+  P03: { A: "心願", B: "分工", C: "約定" },
+  A01: { A: "疲憊", B: "起步", C: "近況" },
+  A02: { A: "休息", B: "分工", C: "回想" },
+  A03: { A: "留休", B: "交付", C: "暫用" },
+  A04: { A: "保管", B: "列事", C: "同行" },
+  A05: { A: "補休", B: "回查", C: "看窗" },
+  A06: { A: "先休", B: "分工", C: "普通事" },
+  B01: { A: "留時間", B: "初核", C: "排序" },
+  B02: { A: "留時間", B: "初核", C: "回查" },
+  B03: { A: "補漏", B: "修規則", C: "聽困" },
+  B04: { A: "統一", B: "誤解", C: "流程" },
+  B05: { A: "延後", B: "交核", C: "排序" },
+  B06: { A: "收尾", B: "交付", C: "明日排" },
+  B07: { A: "分界", B: "熱飲", C: "放手" },
+  B08: { A: "散步", B: "喝水", C: "停筆" },
+  C01: { A: "首輪", B: "共巡", C: "整理" },
+  C02: { A: "判斷", B: "休息", C: "交接" },
+  C03: { A: "校園", B: "操場", C: "未知" },
+  C04: { A: "助人", B: "舊檔", C: "帶走" },
+  C05: { A: "回報", B: "巡查", C: "責任" },
+  C06: { A: "便條", B: "靜坐", C: "未來" },
+  D01: { A: "稱呼", B: "重逢", C: "近況" },
+  D02: { A: "介入", B: "分享", C: "興趣" },
+  D03: { A: "減量", B: "休息", C: "晚餐" },
+  D04: { A: "採買", B: "小店", C: "自選" },
+  D05: { A: "現在", B: "回憶", C: "留白" },
+  D06: { A: "朋友", B: "搭檔", C: "戀愛" },
+  D07: { A: "咖啡", B: "河邊", C: "十分鐘" },
+  D08F: { A: "讀書", B: "支持", C: "邀約" },
+  D08P: { A: "分工", B: "彈性", C: "試做" },
+  D08R: { A: "交往", B: "界線", C: "暫緩" }
+};
+
+function getChoiceNotice(choice, chapterId) {
   const routeNames = { friend: "朋友線", partner: "搭檔線", romance: "戀愛線" };
   const routeSummaries = { friend: "朋友", partner: "搭檔", romance: "戀愛" };
   const memorySummaries = {
@@ -694,7 +730,7 @@ function getChoiceNotice(choice) {
     return { marker: routeSummaries[choice.route] || "關係", description: `路線告知：${routeNames[choice.route] || "關係路線"}` };
   }
   const hint = String(choice.hint || "");
-  const marker = memorySummaries[hint] || [...hint].slice(0, 2).join("") || "選項";
+  const marker = choiceSummaries[chapterId]?.[choice.letter] || memorySummaries[hint] || [...hint].slice(0, 2).join("") || "選項";
   return { marker, description: `後續回憶：${hint}` };
 }
 
@@ -795,7 +831,7 @@ function render() {
       button.className = "choice choice-enter";
       button.style.animationDelay = `${index * 55}ms`;
       button.dataset.choice = choice.letter;
-      const notice = getChoiceNotice(choice);
+      const notice = getChoiceNotice(choice, chapter.id);
       const marker = document.createElement("span");
       marker.className = "choice-marker";
       marker.setAttribute("aria-hidden", "true");

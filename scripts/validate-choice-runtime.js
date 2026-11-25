@@ -11,9 +11,12 @@ const dataSource = fs.readFileSync(path.join(root, "site", "game-data.js"), "utf
 const dataPrefix = "window.HINA_GAME_DATA = ";
 if (!dataSource.startsWith(dataPrefix)) throw new Error("game-data.js has an unexpected format");
 const chapters = JSON.parse(dataSource.slice(dataPrefix.length).trim().replace(/;\s*$/, ""));
-const noticeSource = gameSource.match(/function getChoiceNotice\(choice\)\s*\{[\s\S]*?\n\}/)?.[0];
+const summariesSource = gameSource.match(/const choiceSummaries = \{[\s\S]*?\n\};/)?.[0];
+assert.ok(summariesSource, "every chapter should define short summaries for its choices");
+const choiceSummaries = new Function(`${summariesSource}\nreturn choiceSummaries;`)();
+const noticeSource = gameSource.match(/function getChoiceNotice\(choice, chapterId\)\s*\{[\s\S]*?\n\}/)?.[0];
 assert.ok(noticeSource, "choice presentation must disclose a route or later memory");
-const getChoiceNotice = new Function(`${noticeSource}\nreturn getChoiceNotice;`)();
+const getChoiceNotice = new Function("choiceSummaries", `${noticeSource}\nreturn getChoiceNotice;`)(choiceSummaries);
 for (const [route, expected] of Object.entries({ friend: "朋友線", partner: "搭檔線", romance: "戀愛線" })) {
   assert.deepEqual(getChoiceNotice({ route, hint: expected }), {
     marker: expected.slice(0, 2),
@@ -29,12 +32,21 @@ assert.deepEqual(
   { marker: "日常", description: "後續回憶：日常" },
   "choice tags should summarize the option in two or three characters"
 );
+assert.equal(Object.keys(choiceSummaries).length, chapters.length, "every chapter should have choice summary data");
 for (const chapter of chapters) {
+  assert.deepEqual(
+    Object.keys(choiceSummaries[chapter.id] || {}).sort(),
+    chapter.choices.map(choice => choice.letter).sort(),
+    `${chapter.id} should summarize each available choice exactly once`
+  );
   for (const choice of chapter.choices) {
-    const marker = getChoiceNotice(choice).marker;
+    const marker = getChoiceNotice(choice, chapter.id).marker;
     assert.ok([...marker].length >= 2 && [...marker].length <= 3, `${chapter.id} choice ${choice.letter} should have a concise two- or three-character summary`);
+    assert.equal(marker, choiceSummaries[chapter.id][choice.letter], `${chapter.id} choice ${choice.letter} should display its authored summary`);
   }
 }
+assert.equal(getChoiceNotice(chapters.find(chapter => chapter.id === "D01").choices[0], "D01").marker, "稱呼", "D01's name preference choice should be summarized by its actual action");
+assert.equal(getChoiceNotice(chapters.find(chapter => chapter.id === "C03").choices[0], "C03").marker, "校園", "C03's school-memory choice should not inherit its later-memory category as the visible summary");
 assert.match(gameSource, /marker\.textContent\s*=\s*notice\.marker/);
 assert.match(gameSource, /hint\.textContent\s*=\s*notice\.description/);
 assert.doesNotMatch(gameSource, /marker\.textContent\s*=\s*choice\.letter/);
