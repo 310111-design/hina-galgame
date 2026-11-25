@@ -175,6 +175,11 @@ const choiceRowRule = dialogueArtworkStyles.match(/\.game-stage\[data-phase="cho
 const selectedChoiceRowRule = dialogueArtworkStyles.match(/\.game-stage\[data-phase="choice"\] \.choice:hover,\s*\.game-stage\[data-phase="choice"\] \.choice:focus-visible,\s*\.game-stage\[data-phase="choice"\] \.choice\.is-selected\s*\{([^}]*)\}/)?.[1] || "";
 const landscapeChoiceMarkerRule = dialogueArtworkStyles.match(/@media\s*\(max-height:\s*560px\)\s*and\s*\(orientation:\s*landscape\)\s*\{[\s\S]*?\.game-stage\[data-phase="choice"\] \.choice-marker\s*\{([^}]*)\}/)?.[1] || "";
 const dialogueSafeAreaRules = stylesheet.split("/* Keep normal dialogue text in the open column beside the portrait. */").at(-1) || "";
+const dialogueFontSizeRules = [...stylesheet.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
+  .filter(([, selector, declarations]) => selector.split(",").some(part => /\.story\s+p\b/.test(part)) && /\bfont-size\s*:/.test(declarations));
+if (dialogueFontSizeRules.length < 5 || dialogueFontSizeRules.some(([, , declarations]) => !/font-size\s*:\s*var\(--dialogue-font-size\)/i.test(declarations))) {
+  errors.push("Responsive dialogue text must preserve the player's selected font size on desktop, portrait, and landscape viewports.");
+}
 const mobileSafeTextRule = dialogueSafeAreaRules.match(/@media\s*\(max-width:\s*720px\)\s*\{\s*\.game-stage:not\(\[data-phase="choice"\]\) \.story > p\s*\{([^}]*)\}/)?.[1] || "";
 const mobileSafeSpriteRule = dialogueSafeAreaRules.match(/@media\s*\(max-width:\s*720px\)\s*\{[\s\S]*?\.game-stage:not\(\[data-phase="choice"\]\) \.hina-sprite\s*\{([^}]*)\}/)?.[1] || "";
 if (!/max-width:\s*35%/i.test(mobileSafeTextRule) ||
