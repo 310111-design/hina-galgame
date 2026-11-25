@@ -24,6 +24,7 @@ const defaultFlags = new Set([
   "rest", "teamwork", "ordinary_day", "daily_checkin", "self_rest"
 ]);
 const routeKeys = new Set(["friend", "partner", "romance"]);
+const stageCueKeys = new Set(["close", "wide"]);
 const errors = [];
 let choiceCount = 0;
 let branchCount = 0;
@@ -58,12 +59,30 @@ function hasAuthoringLabelLeak(text) {
   return /\b(?:P\d{2}|[A-D]\d{2})\b/.test(text) || /第[一二三四五六七八九十]+幕/.test(text);
 }
 
+function stageCueValidationErrors(line) {
+  const issues = [];
+  if (line.length > 4) issues.push("dialogue tuple has unsupported metadata after stage cue");
+  if (line.length > 3 && !stageCueKeys.has(line[3])) issues.push("stage cue must be close or wide");
+  if (line.length > 3 && line[0] !== "hina") issues.push("stage cue is only allowed on Hina dialogue");
+  return issues;
+}
+
 if (!hasAuthoringLabelLeak("前一日 B05 約定的回覆送到。") ||
     !hasAuthoringLabelLeak("第三幕開始的那天。") ||
     hasAuthoringLabelLeak("缺件回查結束後的隔天，校園裡開始新一輪例行工作。")) {
   throw new Error("player-facing chapter/act label guard fixture failed");
 }
 console.log("Player-facing chapter/act label guard fixtures OK: IDs and numbered act names are rejected.");
+
+if (stageCueValidationErrors(["hina", "句子。", "認真"]).length ||
+    stageCueValidationErrors(["hina", "句子。", "認真", "close"]).length ||
+    stageCueValidationErrors(["hina", "句子。", "認真", "wide"]).length ||
+    stageCueValidationErrors(["hina", "句子。", "認真", "auto"]).length === 0 ||
+    stageCueValidationErrors(["narration", "句子。", "", "close"]).length === 0 ||
+    stageCueValidationErrors(["hina", "句子。", "認真", "close", "extra"]).length === 0) {
+  throw new Error("explicit Hina stage-cue metadata fixtures failed");
+}
+console.log("Stage-cue metadata fixtures OK: only explicit close/wide cues on Hina lines are accepted.");
 
 function checkLines(lines, label) {
   if (!Array.isArray(lines) || lines.length === 0) {
@@ -87,6 +106,7 @@ function checkLines(lines, label) {
     if (line.length > 2 && typeof line[2] !== "string") {
       errors.push(label + "[" + index + "]: mood must be a string");
     }
+    stageCueValidationErrors(line).forEach(issue => errors.push(label + "[" + index + "]: " + issue));
   });
 }
 
@@ -288,9 +308,11 @@ if (!fs.existsSync(flagDialoguePath)) {
       currentGroup.lines.push(["narration", dialogue[1]]);
       return;
     }
-    dialogue = line.match(/^\s*-\s*【陽奈｜([^】]+)】(.*)$/);
+    dialogue = line.match(/^\s*-\s*【陽奈｜([^｜】]+)(?:｜(特寫|退遠))?】(.*)$/);
     if (dialogue) {
-      currentGroup.lines.push(["hina", dialogue[2], dialogue[1]]);
+      const tuple = ["hina", dialogue[3], dialogue[1]];
+      if (dialogue[2]) tuple.push(dialogue[2] === "特寫" ? "close" : "wide");
+      currentGroup.lines.push(tuple);
       return;
     }
     dialogue = line.match(/^\s*-\s*【系統】(.*)$/);

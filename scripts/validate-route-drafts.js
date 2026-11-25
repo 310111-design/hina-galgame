@@ -20,10 +20,15 @@ function parseDialogue(markdown, target) {
     if (!line) return [];
     let match = line.match(/^【旁白】(.*)$/);
     if (match) return [["narration", match[1]]];
-    match = line.match(/^【陽奈｜([^】]+)】(.*)$/);
+    match = line.match(/^【陽奈｜([^｜】]+)(?:｜(特寫|退遠))?】(.*)$/);
     // A01/A02 use standalone mood cues followed by explicit narration.
     // Those cues are not spoken lines in runtime. Keep adult checks strict.
-    if (match) return target.dialogueOnly && !match[2] ? [] : [["hina", match[2], match[1]]];
+    if (match) {
+      if (target.dialogueOnly && !match[3]) return [];
+      const tuple = ["hina", match[3], match[1]];
+      if (match[2]) tuple.push(match[2] === "特寫" ? "close" : "wide");
+      return [tuple];
+    }
     match = line.match(/^【系統】(.*)$/);
     if (match) return [["system", match[1]]];
     if (
@@ -128,6 +133,10 @@ const choiceFixture = "A. 先休息。\nB. 先交付。\nC. 先詢問。\n\n---\
 const fixtureChoices = ["先休息。", "先交付。", "先詢問。"].map((label, index) => ({
   letter: "ABC"[index], label
 }));
+assert.deepEqual(parseDialogue("【陽奈｜驚訝｜特寫】真的嗎？\n【陽奈｜認真｜退遠】先確認資料。", {}), [
+  ["hina", "真的嗎？", "驚訝", "close"],
+  ["hina", "先確認資料。", "認真", "wide"]
+]);
 assert.equal(choiceSyncErrors(choiceFixture, fixtureChoices).length, 0);
 assert.equal(choiceSyncErrors(choiceFixture.replace(/\n/g, "\r\n"), fixtureChoices).length, 0);
 for (const badBlock of [

@@ -667,7 +667,12 @@ function toggleHistory(forceOpen) {
   else document.getElementById("utilityMenuTrigger")?.focus();
 }
 
-function renderDialogue([kind, text, mood]) {
+function setStageCue(cue) {
+  const stage = document.getElementById("gameStage");
+  stage.dataset.stageCue = ["close", "wide"].includes(cue) ? cue : "";
+}
+
+function renderDialogue([kind, text, mood, stageCue]) {
   if (typingTimer) window.clearInterval(typingTimer);
   typingTimer = null;
   typingLine = null;
@@ -675,6 +680,7 @@ function renderDialogue([kind, text, mood]) {
   const story = document.getElementById("story");
   const announcer = document.getElementById("storyAnnouncement");
   if (announcer) announcer.textContent = "";
+  setStageCue(kind === "hina" ? stageCue : "");
   story.replaceChildren();
   const p = document.createElement("p");
   const textNode = document.createTextNode("");
@@ -727,6 +733,7 @@ function render() {
   clearAutoAdvance();
   const chapter = chapters[state.chapter];
   if (!chapter) return;
+  setStageCue("");
   document.getElementById("gameStage").dataset.phase = state.phase;
 
   const routeLabel = (["D06", "D07"].includes(chapter.id) || chapter.routeEnding) ? ({ friend: "朋友線", partner: "搭檔線", romance: "戀愛線" })[state.route] : "";

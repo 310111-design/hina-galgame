@@ -149,11 +149,11 @@ button, a { font: inherit; }
   object-position: center bottom;
   transform: translateX(-50%);
   transform-origin: center bottom;
-  scale: var(--sprite-scale, 1);
+  scale: calc(var(--sprite-scale, 1) * var(--stage-cue-scale, 1));
   translate: 0 var(--sprite-baseline-shift, 0%);
   filter: drop-shadow(0 18px 16px #120d1bcc);
   pointer-events: none;
-  transition: transform .18s ease, filter .18s ease;
+  transition: transform .18s ease, filter .18s ease, scale .26s ease;
 }
 
 .hina-sprite.animate {
@@ -163,6 +163,14 @@ button, a { font: inherit; }
 .hina-sprite.tired { filter: grayscale(.12) drop-shadow(0 18px 16px #120d1bcc); }
 .hina-sprite.smile { filter: drop-shadow(0 0 12px #ffb8ce55); }
 .hina-sprite.thinking { transform: translateX(-50%) rotate(-1deg); }
+
+.game-stage[data-stage-cue="close"] .hina-sprite { --stage-cue-scale: 1.045; }
+.game-stage[data-stage-cue="wide"] .hina-sprite { --stage-cue-scale: .97; }
+
+@media (prefers-reduced-motion: reduce) {
+  .game-stage[data-stage-cue] .hina-sprite { --stage-cue-scale: 1; }
+  .hina-sprite { transition: transform .18s ease, filter .18s ease; }
+}
 
 @keyframes spriteSpeak {
   0%,100% { transform: translateX(-50%) translateY(0); }

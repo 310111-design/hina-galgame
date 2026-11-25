@@ -30,6 +30,8 @@ jobs:
         run: node scripts/validate-chapter-intro-runtime.js
       - name: Validate game data
         run: node scripts/validate-game-data.js
+      - name: Validate explicit dialogue stage cues
+        run: node scripts/validate-stage-cue-runtime.js
       - name: Validate legacy manual save migration
         run: node scripts/validate-manual-save-migration.js
       - name: Validate six-slot manual save runtime

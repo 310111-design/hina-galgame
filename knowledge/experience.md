@@ -2385,3 +2385,11 @@
 - **如何應用於本作：** 保留使用者提供的 UI 圖，不覆寫或自動挖除中央深色設計；移除額外的 CSS 底色／模糊，讓框外透明區顯示場景。把 `.dialogue-panel` 設為姓名牌的定位容器、取消面板水平內距，段落採對應框圖寬度的響應式留白；姓名標籤使用與原始姓名槽同一座標系的百分比，直接顯示在素材槽上。`validate-game-shells.js` 鎖定這些 CSS 契約。詳見 `knowledge/reviews/ui-speaker-nameplate-position.md`。
 - **限制與驗證：** 靜態 shell/data/route validators、JavaScript 語法及 diff whitespace 檢查通過；Windows Computer Use 因無法驗證目標網址是否允許而停止，未取得修正後的任何 viewport 畫面。因此不能宣稱姓名位置或對話文字遮擋已視覺驗收，桌面、直向、橫向及 iPhone Safari 仍待檢視；深色面板中央是素材本身的像素，不會因 CSS 背景透明而消失。
 - **未來可用範圍：** 本作後續透明對話框、選項面板和 HUD；也適用於網站與遊戲把 HTML 文字疊在 RGBA 素材上。先讀像素 alpha 分布辨認透明區，再盤點 CSS `background`／`backdrop-filter` 疊層，最後確認定位包含區塊與圖片座標一致；靜態檢查和實際截圖應分開驗收。
+
+
+### 2026-11-25：角色鏡頭縮放必須由逐句演出 metadata 明示
+
+- **學到什麼：** 將縮放附著在 mood 或文字關鍵字上，會令驚訝、思考等一般表情也被猜成鏡頭指令，且無法穩定重現編劇預期。沒有註記的舊台詞應保持原有畫面。
+- **如何應用於本作：** 新增 optional 第四 tuple 欄位 `stageCue`，只允許 `close`／`wide`；稿件以 `【陽奈｜情緒｜特寫】`／`【陽奈｜情緒｜退遠】` 明示。close=1.045、wide=0.97；每句重新設定，未標記或離開台詞階段就清除，系統 prefers-reduced-motion 時不縮放。現有 33 節沒有新增 cue。詳見 `knowledge/story-stage-cues.md` 與 `knowledge/reviews/story-stage-cue-runtime.md`。
+- **限制與驗證：** game-data validator 限制 schema 與說話者；route-draft fixtures 比對標記解析；專用 runtime harness 驗證 cue 設定／重置和 CSS 減動規則，並納入 Pages workflow。因故事沒有實際標記，CI 通過證明支援路徑與預設中性，不代表任何劇情鏡頭已經調校；實際裁切、動態節奏及裝置體驗仍需 viewport／iPhone Safari 驗收。
+- **未來可用範圍：** 本作要強調特定角色台詞、驚訝或動作時的明確鏡頭安排；也可用於其他互動小說的 camera cue、說話者姿勢或分鏡 metadata。新增視覺效果採可選欄位、預設無效果、編輯稿／runtime 雙向同步、無效值拒絕與 reduced-motion 回退；不要從情緒詞或自然語言猜測鏡頭。
