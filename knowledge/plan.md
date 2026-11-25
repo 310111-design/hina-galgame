@@ -474,12 +474,12 @@
 - [x] 修訂 C01 休息與回查交接（BET-07）：休息前僅標記兩項待回查；同伴於休息剩三分鐘時把未開啟的整理紀錄放在桌邊，約定休息後再確認，沒有先報告結果；陽奈完成休息後才核對資料。章稿與 runtime 同步為 152 tuples／2,775 字元，A／B／C 路徑 2,335／2,325／2,331；詳見 `knowledge/reviews/second-act-ending-transitions.md`。
 - [x] C01 teamwork 條件回憶前語氣複核：刪除緊接陽奈「昨天留下的必要條件真的有人可以用」後、再說明規則不必由她親自執行的重述旁白；保留低聲演出提示與條件記憶，C01 稿件/runtime 為 147 tuples、路徑 2,232／2,222／2,228 字元。全篇統計及時間估算已重算；詳見 `knowledge/reviews/c01-teamwork-conditional-cadence-review.md`。
 - [x] A03 等待資訊旁白與台詞去重：保留兩欄及等待資訊區的位置，將重複解釋「補齊後再分類」的旁白縮短，保留陽奈「不是不處理」的角色反應；章稿/runtime 同步為 95 tuples／2,113 字元，A／B／C 路徑 1,568／1,544／1,529。全篇統計更新，固定同步與狀態驗證通過；詳見 `knowledge/reviews/a03-cadence-review.md`。
-- [ ] 完成全篇跨分支共通回收語義核對；待下列分幕全部完成後再勾選整體項。追蹤見 `knowledge/reviews/full-story-common-rejoin-audit.md`。
+- [x] 完成全篇跨分支共通回收語義核對：序章、第一幕、第二幕、第三幕及成年篇 D01～D07／D08F／P／R 均已依現行交界矩陣及路線 review 複核；成年篇另確認 D06 關係路線與 D07 活動選擇分離、九組結局回憶來源，以及三個結局 common 不借用互斥分支前提。此為文件與稿件語義核對，不等於瀏覽器全路線通關、盲讀或裝置 QA。追蹤見 `knowledge/reviews/full-story-common-rejoin-audit.md`。
    - [x] 序章 P01～P03：依既有分支矩陣與現行稿件／runtime 修訂證據複核。
    - [x] 第一幕 A01～A06：依各段九格交界矩陣及 common 狀態修訂證據複核。
    - [x] 第二幕 B01～B08：依 BOT／BMT／BCT／BET 分支矩陣複核共通道具、交付狀態、休息時序及次日回查；修訂後的 B05 未完成項已由 B06／B08 按路徑接續，詳見 `knowledge/reviews/full-story-common-rejoin-audit.md`。
    - [x] 第三幕 C01～C06：對照 C01 休息／回查閉環、C02→C03 翌日責任、C03→C05 道具與工作狀態，以及 C05→C06 告別交接；現行證據見 `knowledge/reviews/full-story-common-rejoin-audit.md`。
-   - [ ] 成年篇 D01～D07 及三個互斥結局：確認路線回收和結局線 common 不假定只有 A／B／C 某一分支才發生的事件。
+   - [x] 成年篇 D01～D07 及三個互斥結局：對照開場、中段、邀約／路線橋接、結局回憶與三結局分支審校；確認活動選擇不覆寫 route、結局共同段不假定單一分支事件。證據與通關限制見 `knowledge/reviews/full-story-common-rejoin-audit.md`。
 - [ ] 完成全篇角色聲線與情緒發展總檢，確認陽奈及玩家在 33 節中的語氣、界線與關係變化連貫；局部 cadence review 不等於整體通過。
 - [ ] 重新比較三個成年結局的事件差異、選擇後果與情感收束；局部結局 review 及資料驗證不代表完整路線通關。
 - [x] 以相鄰章同說話者字元三元組相似度排序近似台詞，並依時間、分支與角色狀態人工判讀；A02→A03、B03→B04、C01→C02、C03→C04、D01→D02 的候選為有進展的回扣而保留；D07 C→D08F B 原先近乎重演靜音收手機，已改成朋友談話中收到通知後先聽完對方說話，讓成年社交界線成為新行動。稿件／runtime 及篇幅同步；route、game-data、full-length-summary validators 通過。commit `a806d63` 的 Actions run `45362541674` build／deploy 成功，Pages 首頁、遊戲頁及 `game-data.js` HTTP 200，cache-buster 核對線上有新句、無舊靜音句。不代表全篇近義重複或全路徑 QA；詳見 `knowledge/reviews/full-story-near-phrase-screen.md`。
