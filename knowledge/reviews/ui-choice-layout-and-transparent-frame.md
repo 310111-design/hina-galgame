@@ -1,9 +1,9 @@
 # Choice 畫面定位、路線提示與對話框透明區
 
 日期：2026-11-25  
-觀察來源：GitHub Pages 正式 `game.html`，由 Codex 內建瀏覽器檢視；畫面停在已保存的 P03 選項狀態，約 803×445 橫向 viewport，檢視期間沒有按下選項或改寫遊戲進度。
+觀察來源：GitHub Pages 正式 `game.html`，由 Codex 內建瀏覽器檢視；畫面停在已保存的 P03 選項狀態，約 803×675 瀏覽器畫面，檢視期間沒有按下選項或改寫遊戲進度。
 
-## 發布版觀察
+## 修正前發布版觀察
 
 - 選項頁的章節標題與提示文字擠在舞台頂部；公開 CSS 最後一層把 `.dialogue-panel` 設為 `position: relative`。舞台內其他裝飾及標題採絕對定位，因而使正常流中的面板從舞台頂端開始排列，而非貼齊底部。
 - 低高度橫向顯示三張直列選項時，頂部資訊、選項、提示及工具列互相壓縮；choice 狀態仍顯示不可用的「跳過已讀」和一般推進提示。
@@ -19,6 +19,13 @@
 
 ## 驗證與限制
 
-本機 `node --check site/game.js`、`node scripts/validate-choice-runtime.js`、`node scripts/validate-game-shells.js`、`node scripts/validate-stage-cue-runtime.js` 與 `git diff --check` 通過。這批 UI 改動推送後仍須等 Pages build/deploy 成功，再用 Codex 內建瀏覽器查看一般台詞及 choice 狀態，尤其 844×390 橫向與 390×844 直向的面板、裁切及文字可讀性。透明閱讀面也可能讓背景細節穿過文字；若對比不足，先調整場景暗化／文字陰影而不要恢復不透明黑色填面。
+本機 `node --check site/game.js`、`node scripts/validate-choice-runtime.js`、`node scripts/validate-game-shells.js`、`node scripts/validate-stage-cue-runtime.js` 與 `git diff --check` 通過。commit `9a327ea` 的 Pages run `45635053575` build／deploy 成功。
+
+### 發布後目視確認
+
+- Codex 內建瀏覽器重載公開 `game.html`，停在原有 P03 選項狀態，沒有按下選項或改寫遊戲進度。DOM 顯示三個選項的玩家文案分別附有「後續回憶：日常／分工／約定」，底部提示為「請選擇一項」；沒有可見 A／B／C。
+- 截圖中對話面板已錨回舞台底部，頂端章節資訊與標題沒有互相覆蓋；當前畫面的對話和選項文字可讀，未見字形與陽奈立繪輪廓穿插。
+- 中央透明衍生圖讓場景能透過閱讀區；然而對話框整體仍呈深紫黑色半透明外觀。這證明來源 PNG 中央的實心底已挖空，不代表閱讀區視覺上完全無暗色或所有背景都不再干擾文字。
+- 本次只驗收這個瀏覽器視窗中的 P03 選項狀態；D06 路線告知、一般台詞、844×390、390×844、1440×900、文字放大、方向切換與真實 iPhone Safari 仍未驗收。不得以此筆局部目視結果宣稱完整 UI QA 通過。
 
 這次檢視不等同真實 iPhone Safari、實體觸控、全鍵盤、輔助科技或多字級矩陣驗收。

@@ -2383,8 +2383,8 @@
 
 - **學到什麼：** PNG/RGBA 有透明通道，不代表整張圖或面板中央是透明的。`dialogue-frame.png` 的 RGBA alpha 統計顯示只有 6,057／318,630 像素完全透明，中央閱讀面 307,562 像素完全不透明；CSS 再疊 `#0b0912e8` 背景與 backdrop blur，會把素材透明邊緣和場景一起壓暗。另將姓名牌定位在加過 padding 和 max-width 的文字段落，百分比參照範圍便與全幅素材不同。
 - **如何應用於本作：** 移除額外 CSS 底色／模糊；保留使用者原始素材不變，依其明確回饋另輸出「中央閱讀區透明」衍生圖，讓框內場景可透出。面板本身固定在舞台底部，仍作姓名牌定位容器；衍生圖與來源圖維持相同畫布尺寸，使姓名槽百分比錨點不變。`validate-game-shells.js` 核對畫面中點已透明、邊框像素仍保留。詳見 `knowledge/reviews/ui-speaker-nameplate-position.md`。
-- **限制與驗證：** 原始 PNG 有 RGBA 通道但中央閱讀區不透明，只有 6,057／318,630 像素完全透明；CSS `background-color: transparent` 無法清除已烘焙在圖片內的深色填色。Codex 內建瀏覽器實際看見 choice 狀態下 `.dialogue-panel` 的 `position: relative` 使內容從舞台頂端排版，章節資訊／提示與頂部標題重疊；已改為絕對定位並錨定底部，另產生中央透明衍生素材。定位和 cutout 待下一次 Pages deploy 後再次目視；桌面、直向、橫向及 iPhone Safari 仍待驗。
-- **未來可用範圍：** 本作後續透明對話框、選項面板和 HUD；也適用於網站與遊戲把 HTML 文字疊在 RGBA 素材上。先抽樣來源 alpha 判斷可見底色究竟來自圖像或 CSS；保留原檔，以同座標系製作可回退衍生圖；定位時同時檢查 absolute containing block 和 stage 錨點；靜態 alpha／CSS 檢查與發布畫面驗收分開記錄。
+- **限制與驗證：** 原始 PNG 有 RGBA 通道但中央閱讀區不透明，只有 6,057／318,630 像素完全透明；CSS `background-color: transparent` 無法清除已烘焙在圖片內的深色填色。中央透明衍生素材與底部定位隨 commit `9a327ea` 推送，Pages run `45635053575` build／deploy 成功。Codex 內建瀏覽器於公開版 P03 選項狀態確認面板已在底部、標題沒有重疊、一般選項提示可讀且沒有 A／B／C；場景可透過閱讀區，但整體仍顯深紫黑色半透明。本次只檢查單一約 803×675 的瀏覽器畫面；一般台詞、D06 三路線標記、844×390、390×844、1440×900、實體裝置與 iPhone Safari 仍待驗。這個截圖不能代表全部文字／場景組合均無遮擋。
+- **未來可用範圍：** 本作後續透明對話框、選項面板和 HUD；也適用於網站與遊戲把 HTML 文字疊在 RGBA 素材上。先抽樣來源 alpha 判斷可見底色究竟來自圖像或 CSS；保留原檔，以同座標系製作可回退衍生圖；定位時同時檢查 absolute containing block 和 stage 錨點；部署後在具體頁面狀態核對視覺而非只讀 DOM 或 validator，並將各 viewport／狀態、實機驗收與尚存的色彩觀感分別記錄。
 
 
 ### 2026-11-25：角色鏡頭縮放必須由逐句演出 metadata 明示
