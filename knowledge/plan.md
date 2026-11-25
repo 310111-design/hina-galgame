@@ -17,7 +17,7 @@
 | UI | `9969cda` 在選項左側改用無圓框的 2–3 字大字摘要，保留選項周圍深色；公開 P03 畫面再次確認「日常／分工／約定」及深色選項外圍。`7bc1597` 為兩個遊戲殼層的功能選單按鈕補上明確 `aria-label`，Actions run [45647365552](https://github.com/310111-design/hina-galgame/actions/runs/45647365552) 成功；公開 HTML 已含名稱屬性，但 Codex 輔助功能樹仍回報空名稱，需查清後才可視為無障礙驗收完成。其他尺寸及真實讀屏器仍待驗。 | 選項視覺已部署；功能按鈕名稱存在但 AX 樹驗證有差異；跨尺寸待驗 |
 | 美術 | 13 張表情立繪、12 張章節背景及首頁背景已接入。18 張事件 CG 尚待製作；成年篇立繪與 D08P 圖書館庭院專用背景仍待補。 | 基礎素材已接入，長期素材製作待開始 |
 | 音訊 | 程序化 BGM、淡入淡出、提示音及 BGM／SFX 分開控制已實作；正式音樂與音效素材尚未納入。 | 第一版完成，聽感與授權素材待驗 |
-| 發布 | D02 第二輪修訂及部署狀態紀錄已推送；兩次 Actions build 均成功，deploy 分別遇 GitHub Pages 502／500。GitHub Status 同時標示系統部分中斷／Pages 效能降級；公開頁 HTTP 200 不能證明最新修訂已部署。 | 待 Pages 恢復後重試；整體視覺／無障礙 QA 未完成 |
+| 發布 | D02 第三輪修訂 commit `b5085aa` 已發布；Actions run [45653050575](https://github.com/310111-design/hina-galgame/actions/runs/45653050575) build／deploy 成功，首頁、遊戲頁及版本化 `game-data.js` 均 HTTP 200，新句存在且兩句舊總結已移除。GitHub Status API 仍標示 Partial System Outage；僅確認此版部署成功，不代表全站服務已全面恢復或實機 QA 完成。 | 本輪內容已發布；整體視覺／無障礙 QA 未完成 |
 
 ### 已完成的主要里程碑
 
@@ -865,4 +865,4 @@ D06 共通段刪去緊接「答應不保證所有事情照原定方式發生」�
 
 ## 本輪 CI 與 Pages 查核（2026-11-26）
 
-- D02 第二輪收束修訂 commit `4567554` 的 Actions run [45651010656](https://github.com/310111-design/hina-galgame/actions/runs/45651010656) build 成功，deploy API 回 502；部署狀態紀錄 commit `e64a92c` 的 run [45651839177](https://github.com/310111-design/hina-galgame/actions/runs/45651839177) build 亦成功，deploy 再回 500。兩個 check-run annotation 均指向 GitHub Pages server error；GitHub Status API 同時顯示 Partial System Outage、Pages degraded performance。公開首頁及遊戲頁仍回 HTTP 200，只能證明既有站點可取用，不能確認最新 commit 上線；待平台恢復後再驗。
+- D02 第二輪收束修訂 commit `4567554` 的 Actions run [45651010656](https://github.com/310111-design/hina-galgame/actions/runs/45651010656) build 成功，deploy API 回 502；部署狀態紀錄 commit `e64a92c` 的 run [45651839177](https://github.com/310111-design/hina-galgame/actions/runs/45651839177) build 亦成功，deploy 再回 500。兩個 check-run annotation 均指向 GitHub Pages server error。第三輪修訂 commit `b5085aa` 對應 run [45653050575](https://github.com/310111-design/hina-galgame/actions/runs/45653050575) 的 build／deploy 均成功；Pages 首頁、`game.html`、cache-buster `game-data.js?v=b5085aa` 回應 HTTP 200，確認新自述存在且兩句已刪旁白不在 runtime。核對時 GitHub Status API 仍顯示 Partial System Outage，因此只記錄此 commit 的部署成功，不推論全站已恢復。

@@ -2478,9 +2478,9 @@
 ### 2026-11-26：分開判讀 Pages build 與 deploy，並核對平台狀態
 
 - **學到什麼：** D02 修訂的 Actions build 與所有 validator 均成功，但 Pages deploy API 回傳 502；同一時間 GitHub Status API 標示系統部分中斷、Pages 效能降級。首頁仍回 HTTP 200，只代表舊版可取用，不能當作最新內容已部署的證據。
-- **如何應用於本作：** 在 `knowledge/plan.md` 分開記錄 build、deploy 與公開內容狀態；遇到 deploy 伺服器錯誤時先查 Actions annotation 和 GitHub Status，保留建置成功證據，不把上游故障誤判為內容或測試失敗。部署狀態恢復後再重試並以新 run 確認。
-- **限制與驗證：** commit `4567554` 的 build 完成、deploy 收到 502；後續狀態紀錄 push 的 run `45651839177` 再試一次，build 完成但 deploy 收到 500。兩次 annotation 均指向 Pages server error，當時平台狀態為部分中斷。部署日誌下載因公開 API 權限限制未能使用；公開頁 HTTP 200 未確認版本內容。下一次應等 Pages 恢復後再驗。
-- **未來可用範圍：** 本作 GitHub Pages 與其他以 CI 發布的靜態網站。逐層核對建置、artifact、部署和版本內容；平台回報服務降級時，避免反覆修改正確的專案檔案，恢復後再以 run SHA 與 cache-buster 核對線上版本。
+- **如何應用於本作：** 在 `knowledge/plan.md` 分開記錄 build、deploy 與公開內容狀態；遇到 deploy 伺服器錯誤時查 check-run annotation 與 GitHub Status，不把上游故障誤判為內容／測試失敗。若另一個已準備好的內容階段自然觸發新部署，可用該 run 作一次重試；避免空提交反覆重跑，再核對版本化公開資料。
+- **限制與驗證：** commit `4567554` 的 build 完成、deploy 收到 502；後續狀態紀錄 push 的 run `45651839177` 再試，build 完成但 deploy 收到 500。第三輪內容 commit `b5085aa` 對應 run `45653050575` 的 build／deploy 均成功，即使 GitHub Status API 仍顯示 Partial System Outage；首頁、遊戲頁與 cache-buster 資料 HTTP 200，並確認新句存在、兩句舊旁白已移除。公開 job log 下載需要管理員權限，但 check-run annotation 足以呈現部署錯誤。
+- **未來可用範圍：** 本作 GitHub Pages 與其他以 CI 發布的靜態網站。分開核對建置、artifact、部署及版本內容；GitHub Status 的全域狀態是背景證據，單一部署成功或失敗仍應以該 run 和發布內容判讀。
 
 
 ### 2026-11-26：不要在角色直接揭露前先用旁白重述主題
