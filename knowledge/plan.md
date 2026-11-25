@@ -558,6 +558,7 @@
 - [x] 瀏覽器模擬 viewport 手機橫向：獨立重新分配角色與文字空間，避免直向配置直接放大。
 - [x] 瀏覽器模擬 viewport 桌面尺寸：檢視角色比例、對話框寬度、文字行長與留白。
 - [x] 公開 Pages D06 路線選項在手機直向 390×844、手機橫向 844×390 及桌面 1440×900 顯示三條完整路線告知；左側兩字摘要無圓框、選項深色底保留，檢查時沒有點選路線。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`；只完成這個 choice state 的模擬 viewport 核對。
+- [x] 以鍵盤 Tab／Shift+Tab 局部核對公開 D06 三個路線按鈕的順序與可見焦點：朋友→搭檔→戀愛→對話紀錄，反向可回到戀愛選項；沒有啟動路線。此項不代表全站鍵盤操作、讀屏器或實機 QA 通過，詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`。
 - [ ] 驗收 iOS safe-area、動態視窗高度、瀏海／底部手勢區及瀏覽器工具列收合時的版面變化。
 - [ ] 驗收多種文字大小、長句、不同說話者、三個選項及大量紀錄的完整溢位矩陣。
 - [x] 依 CSS 基底顏色檢查主要文字色對比；確認文字色高於 7.8:1，並將主遊戲實際生效的未選取選項邊框在最暗面板端點估算對比由 1.51:1 提高至 4.12:1；game-shell validator 從最後一條宣告邊框的 `.choice` 規則計算並維持至少 3:1。commit `cd920d5` 對應 Actions run `45356882060` build／deploy 成功，首頁、遊戲、testplay 與 CSS 均 HTTP 200，線上樣式已核對含修正值。此為靜態計算、CI 與部署確認，不代表全頁 WCAG、逐像素瀏覽器審查或裝置驗收；詳見 `knowledge/reviews/ui-responsive-viewport-review.md`。
