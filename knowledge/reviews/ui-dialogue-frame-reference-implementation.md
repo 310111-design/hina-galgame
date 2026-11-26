@@ -14,6 +14,7 @@
 
 - Pages workflow 的 18 個固定 validators 全數通過；`validate-game-shells.js` 另外保護正式頁／testplay 六項控制、ARIA 名稱、18px SVG 描邊／填色、SKIP 停止線、參考圖標籤、44px 目標、框體錨點和素材尺寸。
 - `node --check site/game.js`、`node --check site/chapter-intro.js` 與 `git diff --check` 通過。
+- commit `1f8c4b8` 推送後 Pages run [45736643919](https://github.com/310111-design/hina-galgame/actions/runs/45736643919) build／deploy 成功；正式頁、試玩頁、CSS 與 `dialogue-frame-runtime.png` 均回應 HTTP 200。這只能確認部署，不補足缺少的即時畫面與實機驗收。
 - runtime 衍生圖與來源圖像素以 Pillow 離線合成檢視，清理列沒有明顯矩形色帶，框體結構仍完整。這只是素材檢視，不能證明瀏覽器 CSS 排版。
 
 ## 未完成驗收

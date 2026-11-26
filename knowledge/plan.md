@@ -14,10 +14,10 @@
 |---|---|---|
 | 故事 | 四幕、33 節均已接入。33 節時間錨點、陽奈直接台詞聲線、分幕 common／分支回收、精確與近似重複候選、三個成年結局差異均已有靜態審校紀錄。公開 Pages 章節重玩已逐線抵達 D08F／D08P／D08R 結局；每線測一種 D07 活動分支，戀愛線另選擇暫緩確認交往。獨立 testplay 章節重玩已完成 P01→P03、A01→A06、B01→B08、C01→C06，依序選擇 C01「分工」、C02「日常」、C03「休息」、C04「日常」、C05「分工」、C06「日常」，並確認接到 D01「再次見面」；朋友線全篇路徑進行中。公開主線停在 A01，依 D-31 不啟動主線章節。 | 成年三路局部通關完成；P01 起始試玩路徑進入第四幕 D01 |
 | 遊戲功能 | 逐字閱讀、選項、章節選擇、紀錄、已讀跳過、自動播放、設定、自動存檔、六格手動存檔、章節重玩隔離及音訊控制已實作；固定 validator 覆蓋多項資料與 runtime 規則。2026-11-26 公開瀏覽器手測返回 P03 後啟動章節，主線自動存檔已前進至 A01；六個手動欄原為空。詳見 D-31，目前自動播放暫停，先不再執行會推進主線的互動測試。 | 功能已接入，手動流程待驗；瀏覽器存檔恢復決策待定 |
-| UI | `7fa32ec` 的選項摘要樣式已公開驗收；2026-11-26 依新參考接入完整對話框框體、姓名牌、分隔線、推進箭頭及六項互動控制，18 個 Pages 固定 validators 通過。新框體尚未部署或瀏覽器目視；目前沒有可用瀏覽器介面，實機、讀屏器及完整跨尺寸回歸仍待驗。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md` 與 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。`7bc1597` 的功能選單 `aria-label` 可由公開 DOM／瀏覽器角色名稱定位器讀到，但 Codex AX 樹序列化仍回報空名稱；未經實際讀屏器驗證。 | 對話框完整素材與互動控制已接入、固定檢查通過；新框體部署、瀏覽器目視、實機、讀屏器與跨尺寸 QA 待完成 |
+| UI | `7fa32ec` 的選項摘要樣式已公開驗收；新對話框 commit `1f8c4b8` 的 Pages run [45736643919](https://github.com/310111-design/hina-galgame/actions/runs/45736643919) build／deploy 成功，正式頁、試玩頁、CSS 及完整框體圖均 HTTP 200。另已逐項人工複核 99 個可見選項摘要並修正八項不自然／不精確文案；viewport、真機、讀屏器及完整跨尺寸回歸仍待驗，且瀏覽器介面目前不可用。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`、`knowledge/reviews/ui-dialogue-frame-reference-implementation.md` 與 `knowledge/reviews/choice-summary-semantic-audit.md`。`7bc1597` 的功能選單 `aria-label` 可由公開 DOM／瀏覽器角色名稱定位器讀到，但 Codex AX 樹序列化仍回報空名稱；未經實際讀屏器驗證。 | 對話框已部署；99 個摘要已人工複核並修正八項；瀏覽器目視、實機、讀屏器與完整跨尺寸 QA 待完成 |
 | 美術 | 13 張表情立繪、12 張章節背景及首頁背景已接入。CG-01～CG-18 已有依正文撰寫的逐張分鏡／生成提示，但目前全數仍為未製作佔位；成年篇立繪與 D08P 圖書館庭院專用背景仍待補。此工作階段沒有可呼叫的內建 `image_gen` 工具；依 D-26 不切換至需金鑰的 CLI／API。 | 基礎素材與生成前製完成；18 張 CG 與成年素材未生成 |
 | 音訊 | 程序化 BGM、淡入淡出、提示音及 BGM／SFX 分開控制已實作；正式音樂與音效素材尚未納入。 | 第一版完成，聽感與授權素材待驗 |
-| 發布 | 最新 UI runtime commit `7fa32ec` 已推送；GitHub Actions run [798](https://github.com/310111-design/hina-galgame/actions/runs/45716818943) build／deploy 成功，Codex 內建瀏覽器亦已在公開 testplay D01 目視確認新摘要。部署成功不代表全站狀態恢復或實機 QA 完成。 | 最新 UI 變更已發布並局部目視確認；整體視覺／無障礙 QA 未完成 |
+| 發布 | 對話框 runtime commit `1f8c4b8` 已推送；GitHub Actions／Pages run [45736643919](https://github.com/310111-design/hina-galgame/actions/runs/45736643919) build／deploy 成功，正式頁、testplay、CSS 及新框體圖均 HTTP 200。此前 `7fa32ec` 的公開 D01 選項摘要曾以瀏覽器目視；新框體因目前瀏覽器介面不可用而未目視驗收。 | 對話框已部署，舊版摘要有局部目視；新框體及整體視覺／無障礙 QA 未完成 |
 
 ### 已完成的主要里程碑
 
@@ -45,6 +45,7 @@
 - [x] 2026-11-26 在已推送的 Pages 試玩頁目視確認 C01 選項樣式：左側「分工／休息／日常」是無圓框的大字摘要，選項列深色底與周圍暗色保持不透明。選擇「分工」後完成 C01 並接到 C02，標籤仍是「章節重玩｜主線存檔不變」；沒有操作公開主線。詳見 `knowledge/reviews/browser-route-smoke-review.md`。
 - [x] 2026-11-26 驗收公開 Pages 最新選項摘要：同一 Codex 內建瀏覽器重新載入 `testplay.html` 後，以獨立章節重玩進入 D01；1440×900 截圖與 DOM 顯示左側是無圓框粗體「稱呼／重逢／近況」，完整選項與「後續回憶」提示仍在，選項列深色底與其外的暗色保留。沒有選擇分支；重新載入回到 testplay P01 自動存檔，D01 章節重玩未覆蓋主線，但閱讀過的句子會加入已讀索引。commit `7fa32ec` 的 Actions run 798 成功；此項僅驗證 D01 桌面狀態，不代表其他尺寸、實機 Safari 或完整 UI QA。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`。
 - [x] 2026-11-26 依使用者提供的對話框參考改用完整紫黑金屬框、姓名牌、分隔線及推進箭頭；從原始透明 PNG 產生完整 runtime 衍生圖，保留可操作 HTML 工具列並以 LOG／AUTO／SKIP／SAVE／LOAD／CONFIG 標示。正式頁與 testplay 殼層、18px SVG 圖示、44px 控制目標及 runtime 衍生圖像素已由固定 validator 檢查；Pages workflow 18 個固定 validators 和兩個 JavaScript 語法檢查通過，本機像素合成只檢視素材、不代表瀏覽器 viewport／iPhone Safari 驗收；目前瀏覽器介面不可用。詳見 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
+- [x] 2026-11-26 人工逐項複核 33 章 99 個可見選項摘要，修正八個不自然或不夠精確的標籤，確認完整選項、回憶 hint、旗標及路線均未更動；`validate-choice-runtime.js` 新增八項文案回歸斷言。此為作者端語義複核，不代表玩家盲讀、讀屏器或所有 viewport 驗收；詳見 `knowledge/reviews/choice-summary-semantic-audit.md`。
 - [x] 2026-11-26 完成 CG-01～CG-18 逐張分鏡／提示補充：依 P01、B02、B08、C06、D01、D06 與三個 D08 結局正文，記錄鏡頭、人物動作、光線、安全區和關係中性限制；同步清單與素材清冊。此為生成前製，不代表任何 CG 已生成或驗收；詳見 `knowledge/art-prompts.md`。
 - [x] 2026-11-26 以公開 Pages 章節重玩選擇 D06「搭檔線」，確認進度標籤更新，快進後抵達 D07 仍保留搭檔線；返回時 P03 主線選項仍在。這只是搭檔線入口 smoke check，未抵達 D08P。之後另一次啟動 P03 章節提示使自動存檔前進到 A01；此本機狀態與恢復方案按 D-31 處理。
 - [ ] 依 D-31 確認主線存檔處置後再做會啟動主線的瀏覽器測試；目前勿將「返回主線」後的章節提示當作仍在隔離重玩。

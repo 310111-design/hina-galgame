@@ -47,6 +47,21 @@ for (const chapter of chapters) {
 }
 assert.equal(getChoiceNotice(chapters.find(chapter => chapter.id === "D01").choices[0], "D01").marker, "稱呼", "D01's name preference choice should be summarized by its actual action");
 assert.equal(getChoiceNotice(chapters.find(chapter => chapter.id === "C03").choices[0], "C03").marker, "校園", "C03's school-memory choice should not inherit its later-memory category as the visible summary");
+const reviewedSummaryContracts = {
+  A03: { A: "休息" },
+  A04: { B: "清單" },
+  A05: { A: "休息" },
+  B03: { C: "困難" },
+  B05: { B: "初核" },
+  B06: { C: "排程" },
+  D02: { C: "做得好" },
+  D05: { A: "認識" }
+};
+for (const [chapterId, choices] of Object.entries(reviewedSummaryContracts)) {
+  for (const [letter, summary] of Object.entries(choices)) {
+    assert.equal(choiceSummaries[chapterId][letter], summary, `${chapterId} ${letter} should keep its manually reviewed, action-based summary`);
+  }
+}
 assert.match(gameSource, /marker\.textContent\s*=\s*notice\.marker/);
 assert.match(gameSource, /hint\.textContent\s*=\s*notice\.description/);
 assert.doesNotMatch(gameSource, /marker\.textContent\s*=\s*choice\.letter/);

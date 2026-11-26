@@ -104,7 +104,7 @@
 - **視覺來源：** `site/assets/ui/dialogue-layout-source.png`（1376×768 RGBA）；原始素材保留不變。
 - **Runtime：** `site/assets/ui/dialogue-frame-runtime.png`（1112×387 RGBA），依來源 alpha 外框裁切；以鄰接暗色取樣清除內嵌工具列字／圖標區，保留金屬邊、姓名槽、分隔線、箭頭及底框。
 - **疊加控制：** `site/game.html` 與 `site/testplay.html` 共用語意 HTML 六項控制，依圖面底部標籤對齊；CSS 在小螢幕隱藏英文可視標籤以留出 44px 點擊區，中文 aria 名稱不變。
-- **狀態：** 正式頁與試玩頁均已接入；殼層 validator 通過。未完成瀏覽器 viewport、iPhone Safari 與桌面／手機真機驗收。
+- **狀態：** 正式頁與試玩頁均已接入；commit `1f8c4b8` 的 Pages run [45736643919](https://github.com/310111-design/hina-galgame/actions/runs/45736643919) build／deploy 成功，遊戲頁、試玩頁、CSS 與框體圖均 HTTP 200。未完成瀏覽器 viewport、iPhone Safari 與桌面／手機真機驗收。
 
 ## 背景素材視覺盤點與語意對照
 
