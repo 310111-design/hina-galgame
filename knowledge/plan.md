@@ -12,7 +12,7 @@
 
 | 領域 | 現況 | 狀態 |
 |---|---|---|
-| 故事 | 四幕、33 節均已接入。33 節時間錨點、陽奈直接台詞聲線、分幕 common／分支回收、精確與近似重複候選、三個成年結局差異均已有靜態審校紀錄。公開 Pages 章節重玩已逐線抵達 D08F／D08P／D08R 結局；每線測一種 D07 活動分支，戀愛線另選擇暫緩確認交往。不中斷 P01 起始 testplay 路徑已完成 P01→D08F 朋友線結局；選項與限制詳見 `knowledge/reviews/browser-route-smoke-review.md`。正式版主線未操作。 | 成年三路局部結局完成；P01 起始朋友線連續通關完成；其他分支覆蓋與盲讀待進行 |
+| 故事 | 四幕、33 節均已接入。33 節時間錨點、陽奈直接台詞聲線、分幕 common／分支回收、精確與近似重複候選、三個成年結局差異均已有靜態審校紀錄。公開 Pages 章節重玩已逐線抵達 D08F／D08P／D08R 結局；每線測一種 D07 活動分支，戀愛線另選擇暫緩確認交往。不中斷 P01 起始 testplay 路徑已完成 P01→D08F 朋友線結局，且 D08F 三種選項均以隔離章節重玩抵達同一朋友結局；選項與限制詳見 `knowledge/reviews/browser-route-smoke-review.md`。正式版主線未操作。 | 成年三路局部結局完成；P01 起始朋友線連續通關完成；D08F 三選項完成；其他 D07／路線覆蓋與盲讀待進行 |
 | 遊戲功能 | 逐字閱讀、選項、章節選擇、紀錄、已讀跳過、自動播放、設定、自動存檔、六格手動存檔、章節重玩隔離及音訊控制已實作；固定 validator 覆蓋多項資料與 runtime 規則。2026-11-26 公開瀏覽器手測返回 P03 後啟動章節，主線自動存檔已前進至 A01；六個手動欄原為空。詳見 D-31，目前自動播放暫停，先不再執行會推進主線的互動測試。 | 功能已接入，手動流程待驗；瀏覽器存檔恢復決策待定 |
 | UI | `a529a93`、`d6b4dfe`、`f301995` 已將說話者姓名與正文改成正常流中的兩個可見文字框；依使用者指示，旁白時姓名欄位留白（不顯示「旁白」名稱），同時保留排版空間。`7ac73a3` 已部署，Pages run [45837885426](https://github.com/310111-design/hina-galgame/actions/runs/45837885426) 成功。公開 A05 testplay 803×694 已分別確認旁白空白姓名欄＋下方金邊正文框，以及陽奈姓名牌顯示「空崎陽奈」、正文仍在下框；2026-11-27 D08F 分支的公開畫面再次確認旁白姓名留白。手機 viewport、iPhone Safari、字級放大、長文捲動、系統訊息與讀屏器仍待驗。詳見 `knowledge/reviews/ui-dialogue-text-box-separation.md`。其他 UI 證據見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`、`knowledge/reviews/ui-dialogue-frame-reference-implementation.md` 與 `knowledge/reviews/choice-summary-semantic-audit.md`。`7bc1597` 功能選單 `aria-label` 可由公開 DOM／瀏覽器角色名稱定位器讀到，但 Codex AX 樹輸出仍報空名稱，尚無實際讀屏器證據。 | 桌面旁白與陽奈姓名／正文分框已確認；手機、實機、長文及系統訊息 QA 待補 |
 | 美術 | 13 張表情立繪、12 張章節背景及首頁背景已接入。CG-01～CG-18 已有依正文撰寫的逐張分鏡／生成提示，但目前全數仍為未製作佔位；成年篇立繪與 D08P 圖書館庭院專用背景仍待補。此工作階段沒有可呼叫的內建 `image_gen` 工具；依 D-26 不切換至需金鑰的 CLI／API。 | 基礎素材與生成前製完成；18 張 CG 與成年素材未生成 |
@@ -63,7 +63,7 @@
    - [x] 以公開 Pages 章節重玩完成成年關係路線驗證：朋友 D07→D08F、搭檔 D06→D07→D08P、戀愛 D06→D07→D08R 均抵達正確結局；各線各選一種 D07 活動，戀愛線 D08R 選擇暫緩確認交往。後續另以 P01 起始的不中斷路徑完成朋友結局。仍未涵蓋九組 D07×route 組合、其餘結局選項、條件歷史窮舉及盲讀；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
    - [x] P01 起始隔離試玩早期檢查點：完成 P01→P03、A01→A06、B01→B08、C01→C06 並確認抵達 D01「再次見面」。後續已沿不中斷存檔完成朋友線至 D08F；此列保留為早期檢查點紀錄，完整路徑見 `knowledge/reviews/browser-route-smoke-review.md`。
     - [x] 以同一個不中斷的 P01 起始 `testplay.html` 路徑完成朋友線至 D08F 結局；正式版主線未操作，詳見 `knowledge/reviews/browser-route-smoke-review.md`。
-    - [ ] 沿隔離 `testplay.html` 覆蓋 P01 起始搭檔／戀愛路線，以及其他 D07／D08 選項與條件回憶組合；公開正式版主線存檔仍依 D-31 保持不操作。
+    - [ ] 沿隔離 `testplay.html` 覆蓋 P01 起始搭檔／戀愛路線、其他 D07 活動組合、搭檔／戀愛線 D08 選項及條件回憶組合；公開正式版主線存檔仍依 D-31 保持不操作。
      - [x] C01 選擇「分工」分支，完成共通收束並確認接到 C02；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
      - [x] C02 選擇「日常」分支，完成共通收束並確認接到 C03；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
      - [x] C03 選擇「休息」分支，完成共通收束並確認接到 C04；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
@@ -99,7 +99,7 @@
     - [x] 2026-11-27 延續同一不中斷 P01 起始 testplay，D07 選「讓她自己選擇今天最後的十分鐘」（休息），完成活動與共通收束並抵達 D08F「朋友的約定」章節卡；進度標籤保留朋友線。詳見 `knowledge/reviews/browser-route-smoke-review.md`。
     - [x] 2026-11-27 從同一不中斷 P01 起始 testplay 完成 D08F；結局頁顯示「朋友線結局」及友誼摘要，證明此路徑已抵達結局。快速播放路由驗收不代表盲讀或逐句審稿；正式主線未操作。詳見 `knowledge/reviews/browser-route-smoke-review.md`。
     - [x] 2026-11-27 以章節重玩在 D08F 選擇「約定遇到困難時可以開口，但不要求立即回覆」（互相支持）；仍抵達相同朋友線結局，旗標中的 teamwork 從 3 增至 4，進度標籤顯示「章節重玩｜主線存檔不變」。同一畫面也再次確認旁白姓名列空白；詳見 `knowledge/reviews/browser-route-smoke-review.md` 與 `knowledge/reviews/ui-dialogue-text-box-separation.md`。
-    - [ ] 以章節重玩測試 D08F 第三個「保留彈性」結局選項，再記錄結局卡與旗標。
+    - [x] 2026-11-27 以章節重玩選擇 D08F 第三個「保留彈性，想見面時再主動邀請」（界線）選項；抵達同一朋友線結局，旗標摘要為 `rest 17 / teamwork 3 / ordinary_day 10 / daily_checkin 1 / self_rest 1`，主線存檔不變。三種 D08F 選項皆已單獨抵達正確結局；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
    - [ ] 安排玩家盲讀並記錄理解落差、節奏及角色選項感受；人工靜態審校不能代替讀者反應。
    - [x] D01 重逢收束第二輪節奏複核：把否定過去與下次從現在開始的相鄰旁白合併，章稿／runtime 同步；D01 為 2,687 字元、路徑 2,510／2,504／2,521。篇幅與閱讀估算已更新，詳見 `knowledge/reviews/d01-present-focused-cadence-review.md`；此為局部修訂，不代表全篇 QA。
    - [x] D02 共通收束第三輪節奏複核：合併由抽象旁白提前總結、再由角色台詞與結尾重複的「談話不必成為規則」意義；稿件/runtime 同步，D02 為 2,650 字元、路徑 2,505／2,482／2,469，防截斷線調整並重算篇幅。詳見 `knowledge/reviews/d02-cadence-review.md`；未完成成年篇全篇 QA。
