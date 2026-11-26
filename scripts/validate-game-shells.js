@@ -197,9 +197,9 @@ if (!/padding-top:\s*0/i.test(normalDialogueStoryRule) ||
     !/padding-inline:\s*7\.8%/i.test(normalDialogueStoryRule) ||
     !/padding-top:\s*0/i.test(mobileNormalDialogueStoryRule) ||
     !/margin:\s*0 auto 8px/i.test(normalDialogueBoxRule) ||
-    !/border:\s*1px solid/i.test(normalDialogueBoxRule) ||
+    !/border:\s*2px solid/i.test(normalDialogueBoxRule) ||
     !/border-radius:\s*9px/i.test(normalDialogueBoxRule) ||
-    !/background:\s*#100d1d58/i.test(normalDialogueBoxRule)) {
+    !/background:\s*#281d3152/i.test(normalDialogueBoxRule)) {
   errors.push("Normal-flow dialogue text must not reserve an overlapping absolute name slot on desktop or mobile.");
 }
 const dialogueFontSizeRules = [...stylesheet.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
