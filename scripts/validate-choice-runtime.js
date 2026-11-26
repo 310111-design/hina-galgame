@@ -307,6 +307,15 @@ assert.equal(expectedFullPathPrefix.at(-1), "D06", "the linear full-path prefix 
 assert.equal(chapters[d06Index + 1]?.id, "D07", "D06 should lead directly to the shared D07 activity chapter");
 
 let checkedFullRoutePaths = 0;
+const fullPathChoiceVariants = [
+  { chapterId: null, choice: null, label: "baseline choices" },
+  ...chapters.slice(0, d06Index).flatMap(chapter => chapter.choices.map(choice => ({
+    chapterId: chapter.id,
+    choice,
+    label: `${chapter.id} ${choice.letter}`
+  })))
+];
+
 for (const [route, endingId] of Object.entries(endingByRoute)) {
   const endingIndex = chapters.findIndex(chapter => chapter.id === endingId);
   assert.ok(endingIndex > d07Index, `${endingId} should follow the shared route bridge`);
@@ -316,102 +325,106 @@ for (const [route, endingId] of Object.entries(endingByRoute)) {
 
   for (const d07Choice of d07.choices) {
     for (const endingChoice of endingChapter.choices) {
-      const pathLabel = `${route}, D07 ${d07Choice.letter}, ${endingId} ${endingChoice.letter}`;
-      const expectedPath = [...expectedFullPathPrefix, "D07", endingId];
-      const visited = [];
-      let visitIndex = 0;
-      const expectedFlags = { ...zeroFlags };
+      for (const pathVariant of fullPathChoiceVariants) {
+        const pathLabel = `${route}, ${pathVariant.label}, D07 ${d07Choice.letter}, ${endingId} ${endingChoice.letter}`;
+        const expectedPath = [...expectedFullPathPrefix, "D07", endingId];
+        const visited = [];
+        let visitIndex = 0;
+        const expectedFlags = { ...zeroFlags };
 
-      harness.setState({
-        version: 3,
-        chapter: 0,
-        phase: "intro",
-        line: 0,
-        choices: {},
-        flags: { ...zeroFlags },
-        route: null
-      });
+        harness.setState({
+          version: 3,
+          chapter: 0,
+          phase: "intro",
+          line: 0,
+          choices: {},
+          flags: { ...zeroFlags },
+          route: null
+        });
 
-      function advanceCurrentSequenceToBoundary(expectedPhase) {
-        const current = harness.getState();
-        const sequence = harness.getSequence();
-        const chapter = chapters[current.chapter];
-        assert.ok(sequence.length > 0, `${chapter.id} ${current.phase} should have playable lines on path ${pathLabel}`);
-        current.line = sequence.length - 1;
-        harness.setState(current);
-        harness.advanceLine();
-        assert.equal(harness.getState().phase, expectedPhase, `${chapter.id} should advance from its last ${current.phase} line to ${expectedPhase} on path ${pathLabel}`);
-      }
+        function advanceCurrentSequenceToBoundary(expectedPhase) {
+          const current = harness.getState();
+          const sequence = harness.getSequence();
+          const chapter = chapters[current.chapter];
+          assert.ok(sequence.length > 0, `${chapter.id} ${current.phase} should have playable lines on path ${pathLabel}`);
+          current.line = sequence.length - 1;
+          harness.setState(current);
+          harness.advanceLine();
+          assert.equal(harness.getState().phase, expectedPhase, `${chapter.id} should advance from its last ${current.phase} line to ${expectedPhase} on path ${pathLabel}`);
+        }
 
-      while (harness.getState().phase !== "complete") {
-        const beforeIntro = harness.getState();
-        const chapterIndex = beforeIntro.chapter;
-        const chapter = chapters[beforeIntro.chapter];
-        assert.equal(chapter.id, expectedPath[visitIndex], `path ${pathLabel} should visit its expected chapter at step ${visitIndex + 1}`);
-        assert.equal(beforeIntro.phase, "intro", `${chapter.id} should enter through its intro on path ${pathLabel}`);
+        while (harness.getState().phase !== "complete") {
+          const beforeIntro = harness.getState();
+          const chapterIndex = beforeIntro.chapter;
+          const chapter = chapters[beforeIntro.chapter];
+          assert.equal(chapter.id, expectedPath[visitIndex], `path ${pathLabel} should visit its expected chapter at step ${visitIndex + 1}`);
+          assert.equal(beforeIntro.phase, "intro", `${chapter.id} should enter through its intro on path ${pathLabel}`);
 
-        const introSequence = harness.getSequence();
-        for (const condition of chapter.flaggedIntro || []) {
-          const shouldAppear = (beforeIntro.flags[condition.flag] || 0) >= (condition.min || 1);
-          for (const line of condition.lines || []) {
-            if (!Array.isArray(line) || !String(line[1] || "").trim()) continue;
-            assert.equal(
-              introSequence.includes(line),
-              shouldAppear,
-              `${chapter.id} should ${shouldAppear ? "include" : "omit"} its ${condition.flag} memory at threshold ${condition.min} on path ${pathLabel}`
-            );
+          const introSequence = harness.getSequence();
+          for (const condition of chapter.flaggedIntro || []) {
+            const shouldAppear = (beforeIntro.flags[condition.flag] || 0) >= (condition.min || 1);
+            for (const line of condition.lines || []) {
+              if (!Array.isArray(line) || !String(line[1] || "").trim()) continue;
+              assert.equal(
+                introSequence.includes(line),
+                shouldAppear,
+                `${chapter.id} should ${shouldAppear ? "include" : "omit"} its ${condition.flag} memory at threshold ${condition.min} on path ${pathLabel}`
+              );
+            }
+          }
+
+          advanceCurrentSequenceToBoundary("choice");
+          const atChoice = harness.getState();
+          const selected = chapter.id === "D06"
+            ? routeChoice
+            : chapter.id === "D07"
+              ? d07Choice
+              : chapter.id === endingId
+                ? endingChoice
+                : chapter.id === pathVariant.chapterId
+                  ? pathVariant.choice
+                  : chapter.choices[0];
+          assert.ok(selected, `${chapter.id} should offer the expected choice on path ${pathLabel}`);
+          chooseAndExpectFocus(selected);
+          const afterChoice = harness.getState();
+          if (selected.flag) expectedFlags[selected.flag] += 1;
+          if (chapter.id === "A06") expectedFlags.daily_checkin += 1;
+          const expectedRoute = chapter.id === "D06" ? route : atChoice.route;
+          assert.equal(afterChoice.route, expectedRoute, `${chapter.id} should preserve the route assignment on path ${pathLabel}`);
+          assert.deepEqual(afterChoice.flags, expectedFlags, `${chapter.id} should retain cumulative flags on path ${pathLabel}`);
+
+          advanceCurrentSequenceToBoundary("common");
+          const beforeCommonExit = harness.getState();
+          assert.equal(beforeCommonExit.route, expectedRoute, `${chapter.id} common dialogue should retain route state on path ${pathLabel}`);
+          advanceCurrentSequenceToBoundary(chapter.endOfRoute ? "complete" : "intro");
+
+          visited.push(chapter.id);
+          visitIndex += 1;
+          const afterCommonExit = harness.getState();
+          if (!chapter.endOfRoute) {
+            const expectedNextId = chapter.nextByRoute
+              ? (chapter.nextByRoute[afterCommonExit.route] || "D06")
+              : chapters[chapterIndex + 1]?.id;
+            assert.equal(chapters[afterCommonExit.chapter]?.id, expectedNextId, `${chapter.id} should advance to its intended next chapter on path ${pathLabel}`);
           }
         }
 
-        advanceCurrentSequenceToBoundary("choice");
-        const atChoice = harness.getState();
-        const selected = chapter.id === "D06"
-          ? routeChoice
-          : chapter.id === "D07"
-            ? d07Choice
-            : chapter.id === endingId
-              ? endingChoice
-              : chapter.choices[0];
-        assert.ok(selected, `${chapter.id} should offer the expected choice on path ${pathLabel}`);
-        chooseAndExpectFocus(selected);
-        const afterChoice = harness.getState();
-        if (selected.flag) expectedFlags[selected.flag] += 1;
-        if (chapter.id === "A06") expectedFlags.daily_checkin += 1;
-        const expectedRoute = chapter.id === "D06" ? route : atChoice.route;
-        assert.equal(afterChoice.route, expectedRoute, `${chapter.id} should preserve the route assignment on path ${pathLabel}`);
-        assert.deepEqual(afterChoice.flags, expectedFlags, `${chapter.id} should retain cumulative flags on path ${pathLabel}`);
-
-        advanceCurrentSequenceToBoundary("common");
-        const beforeCommonExit = harness.getState();
-        assert.equal(beforeCommonExit.route, expectedRoute, `${chapter.id} common dialogue should retain route state on path ${pathLabel}`);
-        advanceCurrentSequenceToBoundary(chapter.endOfRoute ? "complete" : "intro");
-
-        visited.push(chapter.id);
-        visitIndex += 1;
-        const afterCommonExit = harness.getState();
-        if (!chapter.endOfRoute) {
-          const expectedNextId = chapter.nextByRoute
-            ? (chapter.nextByRoute[afterCommonExit.route] || "D06")
-            : chapters[chapterIndex + 1]?.id;
-          assert.equal(chapters[afterCommonExit.chapter]?.id, expectedNextId, `${chapter.id} should advance to its intended next chapter on path ${pathLabel}`);
-        }
+        const finished = harness.getState();
+        assert.deepEqual(visited, expectedPath, `path ${pathLabel} should traverse every expected chapter through ${endingId}`);
+        assert.equal(visitIndex, expectedPath.length, `path ${pathLabel} should end after the expected number of chapters`);
+        assert.equal(chapters[finished.chapter]?.id, endingId, `path ${pathLabel} should finish at ${endingId}`);
+        assert.equal(chapters[finished.chapter]?.routeEnding, route, `${endingId} should match route ${route} on path ${pathLabel}`);
+        assert.equal(finished.route, route, `path ${pathLabel} should retain the route selected at D06`);
+        assert.equal(finished.phase, "complete", `${endingId} should reach complete after common dialogue on path ${pathLabel}`);
+        assert.equal(Object.keys(finished.choices).length, expectedPath.length, `path ${pathLabel} should retain one choice from every visited chapter`);
+        assert.deepEqual(finished.flags, expectedFlags, `path ${pathLabel} should finish with all accumulated flags`);
+        checkedFullRoutePaths += 1;
       }
-
-      const finished = harness.getState();
-      assert.deepEqual(visited, expectedPath, `path ${pathLabel} should traverse every expected chapter through ${endingId}`);
-      assert.equal(visitIndex, expectedPath.length, `path ${pathLabel} should end after the expected number of chapters`);
-      assert.equal(chapters[finished.chapter]?.id, endingId, `path ${pathLabel} should finish at ${endingId}`);
-      assert.equal(chapters[finished.chapter]?.routeEnding, route, `${endingId} should match route ${route} on path ${pathLabel}`);
-      assert.equal(finished.route, route, `path ${pathLabel} should retain the route selected at D06`);
-      assert.equal(finished.phase, "complete", `${endingId} should reach complete after common dialogue on path ${pathLabel}`);
-      assert.equal(Object.keys(finished.choices).length, expectedPath.length, `path ${pathLabel} should retain one choice from every visited chapter`);
-      assert.deepEqual(finished.flags, expectedFlags, `path ${pathLabel} should finish with all accumulated flags`);
-      checkedFullRoutePaths += 1;
     }
   }
 }
 
 const expectedFullRoutePaths = Object.values(endingByRoute)
-  .reduce((total, endingId) => total + d07.choices.length * chapters.find(chapter => chapter.id === endingId).choices.length, 0);
+  .reduce((total, endingId) => total + d07.choices.length * chapters.find(chapter => chapter.id === endingId).choices.length * fullPathChoiceVariants.length, 0);
 assert.equal(checkedFullRoutePaths, expectedFullRoutePaths, "full-route integration should cover every D06 route × D07 activity × D08 ending choice");
-console.log(`Full route checks passed (${checkedFullRoutePaths} P01-to-ending paths cover all D06 routes, D07 activities, D08 choices and conditional-memory state).`);
+console.log(`Full route checks passed (${checkedFullRoutePaths} P01-to-ending paths cover every pre-D06 choice as a single-choice variant across all D06 routes, D07 activities, D08 choices and conditional-memory states).`);
