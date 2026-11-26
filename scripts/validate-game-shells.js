@@ -180,6 +180,11 @@ if (!/position:\s*relative/i.test(speakerNameplateRule) ||
   errors.push("Speaker label must be its own visible, normal-flow text box above the dialogue body box.");
 }
 const dialogueArtworkStyles = stylesheet.split("/* User-provided UI 2.0 panel artwork, split into responsive decorative layers. */").at(-1) || "";
+const blankSpeakerRule = dialogueArtworkStyles.match(/\.speaker-name:empty\s*\{([^}]*)\}/)?.[1] || "";
+if (!/border-color:\s*transparent/i.test(blankSpeakerRule) ||
+    !/background:\s*transparent/i.test(blankSpeakerRule)) {
+  errors.push("Narration must keep an empty reserved name slot without displaying a speaker label.");
+}
 const dialoguePanelRule = dialogueArtworkStyles.match(/\.dialogue-panel\s*\{([^}]*)\}/)?.[1] || "";
 const dialogueStoryScrollRule = dialogueArtworkStyles.match(/\.story\s*\{([^}]*)\}/)?.[1] || "";
 const dialogueVignetteRule = [...stylesheet.matchAll(/\.game-stage:not\(\[data-phase="choice"\]\) \.scene-vignette\s*\{([^}]*)\}/g)].at(-1)?.[1] || "";
@@ -256,7 +261,8 @@ if (!/width:\s*18px/i.test(toolbarIconRule) ||
 }
 for (const file of ["site/game.html", "site/testplay.html"]) {
   const html = fs.readFileSync(path.join(root, file), "utf8");
-  if (!html.includes('game.js?v=speaker-labels-v2-20261126')) {
+  if (!html.includes('game.js?v=speaker-labels-v3-20261126') ||
+      !html.includes('game.css?v=dialogue-text-boxes-v4-20261126')) {
     errors.push(file + ": speaker label runtime must use the updated cache-busted script URL.");
   }
   const speakerSlot = html.match(/<div\b(?=[^>]*\bid="speakerName")(?=[^>]*\bclass="speaker-name")(?=[^>]*\bhidden)[^>]*>/i)?.[0] || "";
@@ -291,9 +297,9 @@ if (!/border:\s*0/i.test(choiceMarkerRule) ||
   errors.push("Choice summaries must remain plain two- or three-character large labels without a boxed badge, stay prominent on short landscapes, and retain the surrounding dark option artwork.");
 }
 const dialogueRenderer = source.match(/function renderDialogue\([\s\S]*?\n\}/)?.[0] || "";
-if (!/const speakerLabels = \{ hina: "空崎陽奈", narration: "旁白", system: "系統" \}/.test(dialogueRenderer) ||
-    !/speakerName\.textContent\s*=\s*speakerLabels\[kind\]\s*\|\|\s*""/.test(dialogueRenderer) ||
-    !/speakerName\.hidden\s*=\s*!speakerLabels\[kind\]/.test(dialogueRenderer) ||
+if (!/const speakerLabels = \{ hina: "空崎陽奈", narration: "", system: "系統" \}/.test(dialogueRenderer) ||
+    !/speakerName\.textContent\s*=\s*speakerLabels\[kind\]\s*\?\?\s*""/.test(dialogueRenderer) ||
+    !/speakerName\.hidden\s*=\s*!\(kind in speakerLabels\)/.test(dialogueRenderer) ||
     !/p\.appendChild\(textNode\)/.test(dialogueRenderer) ||
     /p\.append\(strong,\s*textNode\)/.test(dialogueRenderer)) {
   errors.push("Dialogue rendering must keep the speaker name in a separate field and append only dialogue text to the paragraph.");

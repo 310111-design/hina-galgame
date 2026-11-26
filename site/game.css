@@ -1842,6 +1842,10 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 .speaker-name[hidden] {
   display: none;
 }
+.speaker-name:empty {
+  border-color: transparent;
+  background: transparent;
+}
 .game-stage[data-phase="choice"] .dialogue-panel {
   height: min(68dvh, 620px);
   max-height: min(68dvh, 620px);
