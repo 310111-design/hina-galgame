@@ -81,7 +81,7 @@
 2. **UI、背景與角色裝置驗收**
    - [x] 2026-11-26 在 `c83b548` Pages 部署後，以公開 testplay 803×694 畫面確認姓名牌和具名台詞間距已依示意圖拉開，這一行文字清楚且未與立繪相碰；僅測一個桌面 viewport／一行，未選分支。詳見 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
    - [x] 初版把可見說話者姓名與劇情正文拆成獨立 DOM 欄位；使用者回報顯示僅分 DOM 不足以確保視覺辨識，因此重新開啟此項，改採兩個可見文字框及明確的旁白／系統標籤。
-   - [x] 實作姓名框與正文框的正常流排版，為陽奈／旁白／系統顯示分開標籤；更新正式頁、試玩頁 cache-buster 及 `validate-game-shells.js` 契約。`node scripts/validate-game-shells.js`、`node --check site/game.js`、`git diff --check` 通過；修正詳情見 `knowledge/reviews/ui-dialogue-text-box-separation.md`。
+   - [x] 實作姓名框與正文框的正常流排版，為陽奈／旁白／系統顯示分開標籤；更新正式頁、試玩頁 CSS／JS cache-buster 及 `validate-game-shells.js` 契約。`node scripts/validate-game-shells.js`、`node --check site/game.js`、`git diff --check` 通過；修正詳情見 `knowledge/reviews/ui-dialogue-text-box-separation.md`。
    - [ ] 部署後使用現有 A04 testplay 存檔，目視確認旁白／陽奈台詞及桌面版框線、文字不重疊；再檢查 390×844、844×390 與放大字級／長句捲動。此項完成不代表 iPhone Safari 或讀屏器驗收。
    - [ ] 以最新 UI 檢視 390×844 手機直向及 844×390 手機橫向的姓名標籤、台詞安全區和控制列；模擬 viewport 不能代替 iPhone Safari 實機驗收。
    - [x] 2026-11-26 依使用者提供的參考完成完整對話框視覺接入：保留來源圖、另製完整 runtime 衍生框，語意 HTML 工具列對齊到底部並維持中文 aria 名稱及 44px 操作目標；shell validator 通過。後續公開 testplay 桌面目視檢查見下項，手機裁切及實機 QA 仍待完成。詳見 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。

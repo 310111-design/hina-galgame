@@ -256,6 +256,9 @@ if (!/width:\s*18px/i.test(toolbarIconRule) ||
 }
 for (const file of ["site/game.html", "site/testplay.html"]) {
   const html = fs.readFileSync(path.join(root, file), "utf8");
+  if (!html.includes('game.js?v=speaker-labels-v2-20261126')) {
+    errors.push(file + ": speaker label runtime must use the updated cache-busted script URL.");
+  }
   const speakerSlot = html.match(/<div\b(?=[^>]*\bid="speakerName")(?=[^>]*\bclass="speaker-name")(?=[^>]*\bhidden)[^>]*>/i)?.[0] || "";
   const storyPosition = html.indexOf('id="story"');
   const speakerPosition = html.indexOf('id="speakerName"');
