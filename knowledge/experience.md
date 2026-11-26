@@ -3084,3 +3084,10 @@
 - **如何應用於本作：** 2026-11-27 執行 `node scripts/validate-choice-runtime.js`、`node scripts/validate-route-drafts.js` 與 `node --check site/game.js`，三者均通過；檢查內容與限制記在 `knowledge/reviews/runtime-choice-coverage.md`。
 - **限制與驗證：** runtime 驗證使用程式建立隔離狀態與固定輸入；不窮舉跨章旗標歷史、每個替代選項序列，也不測試可見 UI、鍵盤焦點、存讀檔或真實瀏覽器。
 - **未來可用範圍：** 本作每次修改 story data、分支路由、條件回憶或 `game.js` 後的快速回歸；先用固定檢查排除資料／狀態錯誤，再以隔離 `testplay.html` 補實際玩家流程證據，兩者分開記錄。
+
+### 2026-11-27：把固定全路徑檢查擴為 D07／D08 組合矩陣
+
+- **學到什麼：** 只用每條成年 route 的單一 D07 和 D08 選項做完整 runtime 路徑，仍可能漏掉選項交叉組合。以 D06 route × D07 活動 × 對應 D08 三種回應做矩陣，可以在本機快速發現 route、旗標或條件回憶只在部分組合出錯的情況。
+- **如何應用於本作：** 將 `scripts/validate-choice-runtime.js` 的 P01 起始成年路徑測試擴為 27 組組合；每條路徑都檢查章節順序、選項紀錄、旗標累積、條件 intro 門檻與結局完成狀態，回歸通過。
+- **限制與驗證：** 固定輸入由作者端 runtime 執行，沒有實際 DOM 操作、隨機玩家策略、所有跨章旗標歷史、盲讀或裝置行為。27 組是 route/activity/ending-choice 矩陣，不代表所有前 30 章分支序列均排列完畢。
+- **未來可用範圍：** 本作 D06～D08 路由和其他有限選項結局矩陣；故事或 runtime 修改後可重跑，並把程式模擬結果與公開瀏覽器的玩家流程記錄分開。

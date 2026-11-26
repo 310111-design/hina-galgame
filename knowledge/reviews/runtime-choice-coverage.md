@@ -43,3 +43,10 @@
 - `node scripts/validate-route-drafts.js` 通過：choice／section sync fixtures、條件對話同步、33 章稿件與 runtime 同步、路徑長度檢查。
 - `node --check site/game.js` 通過。
 - 以上是作者端靜態／runtime 回歸，不替代瀏覽器互動、替代選項全排列、旗標歷史窮舉、盲讀或實機驗收。
+
+## 2026-11-27 完整路由選項組合擴充
+
+- 擴充 `validate-choice-runtime.js`：將 P01→D06 成年路線→D07 活動→D08 結局，從每條 route 的一條代表路徑擴為全組合驗收。
+- 共執行 **27 條隔離 runtime 路徑**：3 種 D06 路線 × 3 種 D07 活動 × 各 D08 結局的 3 種回應。每條路徑核對章節順序、實際選項、累積旗標、21 組條件回憶門檻的顯示狀態及正確結局完成狀態。
+- `node scripts/validate-choice-runtime.js`、`node --check scripts/validate-choice-runtime.js` 與 `git diff --check` 通過。
+- 這些仍是固定輸入的作者端 runtime 模擬，不能取代玩家在瀏覽器逐句閱讀、讀屏器或真機操作。
