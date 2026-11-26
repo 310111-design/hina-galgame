@@ -12,9 +12,9 @@
 
 | 領域 | 現況 | 狀態 |
 |---|---|---|
-| 故事 | 四幕、33 節均已接入。33 節時間錨點、陽奈直接台詞聲線、分幕 common／分支回收、精確與近似重複候選、三個成年結局差異均已有靜態審校紀錄。公開 Pages 章節重玩已逐線抵達 D08F／D08P／D08R 結局；每線測一種 D07 活動分支，戀愛線另選擇暫緩確認交往。獨立 testplay 曾走過 P01→P03、A01→A06、B01→B08、C01→C06，另有 D01 直入重玩到 D02；現行不中斷 P01 起始路徑已由 P01→P03 推進 A01→A04，對話紀錄確認 A01「先說今天比較累的地方」、A02「提醒她先休息」、A03「列工作量並確認休息空間」三項分支，已在 testplay 完成 A04，沿同一存檔抵達並開始 A05「錯過休息的時刻」；A05 分支尚未選，D08F 仍待完成；公開正式版主線存檔不操作。 | 成年三路局部結局完成；P01 起始試玩目前在 A05 |
+| 故事 | 四幕、33 節均已接入。33 節時間錨點、陽奈直接台詞聲線、分幕 common／分支回收、精確與近似重複候選、三個成年結局差異均已有靜態審校紀錄。公開 Pages 章節重玩已逐線抵達 D08F／D08P／D08R 結局；每線測一種 D07 活動分支，戀愛線另選擇暫緩確認交往。獨立 testplay 曾走過 P01→P03、A01→A06、B01→B08、C01→C06，另有 D01 直入重玩到 D02；現行不中斷 P01 起始路徑已由 P01→P03 推進 A01→A04，對話紀錄確認 A01「先說今天比較累的地方」、A02「提醒她先休息」、A03「列工作量並確認休息空間」三項分支，已沿同一 testplay 存檔完成 A04、A05（A05 選休息），目前在 A06「明天留一段時間」；D08F 仍待完成；正式版主線未操作。 | 成年三路局部結局完成；P01 起始試玩目前在 A06 |
 | 遊戲功能 | 逐字閱讀、選項、章節選擇、紀錄、已讀跳過、自動播放、設定、自動存檔、六格手動存檔、章節重玩隔離及音訊控制已實作；固定 validator 覆蓋多項資料與 runtime 規則。2026-11-26 公開瀏覽器手測返回 P03 後啟動章節，主線自動存檔已前進至 A01；六個手動欄原為空。詳見 D-31，目前自動播放暫停，先不再執行會推進主線的互動測試。 | 功能已接入，手動流程待驗；瀏覽器存檔恢復決策待定 |
-| UI | `a529a93`、`d6b4dfe`、`f301995` 已將說話者標籤與正文改成正常流中的兩個可見文字框；公開 A04 testplay 803×694 曾顯示「旁白」標籤及獨立正文框。依使用者最新指示，`7ac73a3` 改為旁白姓名留白、保留排版空間；Pages run [45837885426](https://github.com/310111-design/hina-galgame/actions/runs/45837885426) 成功。公開 A05 testplay 803×694 顯示空白姓名牌及下方金邊正文框。手機 viewport、iPhone Safari、字級放大、長文捲動、其他說話者與讀屏器仍待驗。詳見 `knowledge/reviews/ui-dialogue-text-box-separation.md`。其他 UI 證據見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`、`knowledge/reviews/ui-dialogue-frame-reference-implementation.md` 與 `knowledge/reviews/choice-summary-semantic-audit.md`。`7bc1597` 功能選單 `aria-label` 可由公開 DOM／瀏覽器角色名稱定位器讀到，但 Codex AX 樹輸出仍報空名稱，尚無實際讀屏器證據。 | 旁白姓名留白及雙框位置已公開確認；手機、實機及長文 QA 待補 |
+| UI | `a529a93`、`d6b4dfe`、`f301995` 已將說話者標籤與正文改成正常流中的兩個可見文字框；依使用者最新指示，`7ac73a3` 改為旁白姓名留白、保留排版空間。Pages run [45837885426](https://github.com/310111-design/hina-galgame/actions/runs/45837885426) 成功。公開 A05 testplay 803×694 已分別確認旁白時空白姓名牌＋下方金邊正文框，以及陽奈台詞姓名牌顯示「空崎陽奈」、正文仍在下框。手機 viewport、iPhone Safari、字級放大、長文捲動、系統訊息與讀屏器仍待驗。詳見 `knowledge/reviews/ui-dialogue-text-box-separation.md`。其他 UI 證據見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`、`knowledge/reviews/ui-dialogue-frame-reference-implementation.md` 與 `knowledge/reviews/choice-summary-semantic-audit.md`。`7bc1597` 功能選單 `aria-label` 可由公開 DOM／瀏覽器角色名稱定位器讀到，但 Codex AX 樹輸出仍報空名稱，尚無實際讀屏器證據。 | 桌面旁白及陽奈文字框已確認；手機、實機、長文及系統訊息 QA 待補 |
 | 美術 | 13 張表情立繪、12 張章節背景及首頁背景已接入。CG-01～CG-18 已有依正文撰寫的逐張分鏡／生成提示，但目前全數仍為未製作佔位；成年篇立繪與 D08P 圖書館庭院專用背景仍待補。此工作階段沒有可呼叫的內建 `image_gen` 工具；依 D-26 不切換至需金鑰的 CLI／API。 | 基礎素材與生成前製完成；18 張 CG 與成年素材未生成 |
 | 音訊 | 程序化 BGM、淡入淡出、提示音及 BGM／SFX 分開控制已實作；正式音樂與音效素材尚未納入。 | 第一版完成，聽感與授權素材待驗 |
 | 發布 | 姓名／正文框及旁白留白修正 commits `a529a93`、`d6b4dfe`、`f301995`、`7ac73a3` 已推送；run [45837885426](https://github.com/310111-design/hina-galgame/actions/runs/45837885426) build／deploy 成功。A05 公開試玩畫面已確認姓名列留白與正文框分開。 | 桌面旁白狀態已驗收；其餘尺寸／實機待驗 |
@@ -75,7 +75,8 @@
      - [x] 2026-11-26 以快速自動播放完成 A02 並確認選項停止點；選「提醒她先休息，再一起看退件原因」，到達 A03「分工清單」開場卡並開始閱讀。未完整重讀章稿或操作正式主線；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
      - [x] 2026-11-26 以快速自動播放完成 A03 並確認選項停止點；選「先把工作量列入清單，讓陽奈確認休息空間」，到達並開始 A04「走廊上的協助」。之後關閉自動播放、將速度還原「普通」；未完整重讀章稿或操作正式主線；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
      - [x] 從同一不中斷 testplay 完成 A04：選擇「建議陽奈先把放在手中的公務交給你保管」，讀完分支及共通段後抵達 A05「錯過休息的時刻」章節卡並開始閱讀；正式主線未操作。詳見 `knowledge/reviews/browser-route-smoke-review.md`。
-     - [ ] 從現有 A05 試玩存檔完成 A05～D05，再於 D06 選擇朋友線並走到 D08F；記錄每節選項與章節轉場，正式主線不操作。
+   - [x] 沿用不中斷 testplay 存檔完成 A05：選擇「提醒她即使錯過，也可以現在開始休息十分鐘」，完成分支／共通段並抵達 A06「明天留一段時間」；正式主線未操作。試玩速度和自動播放已還原，詳見 `knowledge/reviews/browser-route-smoke-review.md`。
+   - [ ] 從現有 A06 試玩存檔完成 A06～D05，再於 D06 選擇朋友線並走到 D08F；記錄每節選項與章節轉場，正式主線不操作。
    - [ ] 安排玩家盲讀並記錄理解落差、節奏及角色選項感受；人工靜態審校不能代替讀者反應。
    - [x] D01 重逢收束第二輪節奏複核：把否定過去與下次從現在開始的相鄰旁白合併，章稿／runtime 同步；D01 為 2,687 字元、路徑 2,510／2,504／2,521。篇幅與閱讀估算已更新，詳見 `knowledge/reviews/d01-present-focused-cadence-review.md`；此為局部修訂，不代表全篇 QA。
    - [x] D02 共通收束第三輪節奏複核：合併由抽象旁白提前總結、再由角色台詞與結尾重複的「談話不必成為規則」意義；稿件/runtime 同步，D02 為 2,650 字元、路徑 2,505／2,482／2,469，防截斷線調整並重算篇幅。詳見 `knowledge/reviews/d02-cadence-review.md`；未完成成年篇全篇 QA。

@@ -22,7 +22,7 @@
 
 `node scripts/validate-game-shells.js`、`node --check site/game.js` 及 `git diff --check` 均通過。這些靜態檢查確認正式頁／試玩頁欄位、說話者映射、旁白空姓名槽、姓名框正常流、正文框樣式及 CSS／JS cache-buster。
 
-首次部署 commit `f301995`、run [45836700352](https://github.com/310111-design/hina-galgame/actions/runs/45836700352) 曾在公開 A04 畫面顯示「旁白」姓名；依使用者後續指示改為留白。最終 commit `7ac73a3`、run [45837885426](https://github.com/310111-design/hina-galgame/actions/runs/45837885426) build／deploy 成功。沿用同一個 `testplay.html` 隔離存檔，重載後進入 A05，在 803×694 公開畫面看到姓名牌保持空白、正文「她只是看著便條，又看著桌燈。」位於下方獨立金邊框；姓名槽沒有折疊，刷新後存檔仍在 A05。這只確認一種桌面 viewport 及一條旁白；陽奈台詞新框樣式、手機 viewport、文字放大、長句捲動、iPhone Safari 與讀屏器仍待驗。
+首次部署 commit `f301995`、run [45836700352](https://github.com/310111-design/hina-galgame/actions/runs/45836700352) 曾在公開 A04 畫面顯示「旁白」姓名；依使用者後續指示改為留白。最終 commit `7ac73a3`、run [45837885426](https://github.com/310111-design/hina-galgame/actions/runs/45837885426) build／deploy 成功。沿用同一個 `testplay.html` 隔離存檔，重載後進入 A05，在 803×694 公開畫面先看到姓名牌保持空白、正文「她只是看著便條，又看著桌燈。」位於下方獨立金邊框；姓名槽沒有折疊，刷新後存檔仍在 A05。A05 後續陽奈句「也許今天沒有完全依照約定。」顯示名字「空崎陽奈」，正文仍在同一個下框。這只確認一種桌面 viewport、短旁白及短具名台詞；系統訊息、手機 viewport、文字放大、長句捲動、iPhone Safari 與讀屏器仍待驗。
 
 ## 限制與後續
 
