@@ -1816,7 +1816,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   text-shadow: 0 1px 4px #080710c9;
 }
 .story .hina {
-  padding-top: clamp(56px, 8dvh, 82px);
+  padding-top: clamp(76px, calc(8dvh + 20px), 102px);
 }
 /* Center the speaker label inside the upper-left slot in the full dialogue frame. */
 .story .hina strong {
@@ -1981,7 +1981,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
     background-position: center;
   }
   .story p { padding-inline: 18px; }
-  .story .hina { padding-top: clamp(52px, 8dvh, 70px); }
+  .story .hina { padding-top: clamp(72px, calc(8dvh + 20px), 90px); }
   .story .hina strong {
     min-height: 26px;
     font-size: .78rem;
