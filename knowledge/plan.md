@@ -12,7 +12,7 @@
 
 | 領域 | 現況 | 狀態 |
 |---|---|---|
-| 故事 | 四幕、33 節均已接入。33 節時間錨點、陽奈直接台詞聲線、分幕 common／分支回收、精確與近似重複候選、三個成年結局差異均已有靜態審校紀錄。公開 Pages 章節重玩已逐線抵達 D08F／D08P／D08R 結局；戀愛線 D08R 三種關係確認步調（正式交往、先談界線、暫緩確認）均已各自抵達戀愛結局。不中斷 P01 起始 testplay 路徑已完成 P01→D08F 朋友線結局，D08F 三種選項均以隔離章節重玩抵達同一朋友結局，D07 朋友線三種活動選項均確認銜接 D08F；搭檔線章節重玩亦確認 D06→D07→D08P 並以替代 D08P 選項抵達正確結局。選項與限制詳見 `knowledge/reviews/browser-route-smoke-review.md`。正式版主線未操作。 | 成年三路局部結局完成；P01 起始朋友線連續通關完成；D07／D08F 朋友線選項覆蓋完成；搭檔線替代分支驗收完成；D08R 三種選項局部驗收完成；P01 起始其他路線及盲讀待進行 |
+| 故事 | 四幕、33 節均已接入。33 節時間錨點、陽奈直接台詞聲線、分幕 common／分支回收、精確與近似重複候選、三個成年結局差異均已有靜態審校紀錄。公開 Pages 章節重玩已逐線抵達 D08F／D08P／D08R 結局；戀愛線 D08R 三種關係確認步調均已抵達戀愛結局。不中斷 P01 起始 testplay 路徑已完成 P01→D08F 朋友線結局，D08F 三種選項及 D07 朋友線三種活動均已覆蓋；搭檔線章節重玩確認 D06→D07 咖啡店／河邊→D08P，D08P 分工／休息兩種選項均抵達正確結局。選項與限制詳見 `knowledge/reviews/browser-route-smoke-review.md`。正式版主線未操作。 | 成年三路局部結局完成；P01 起始朋友線連續通關完成；D07／D08F 朋友線選項覆蓋完成；搭檔線 D07 兩種活動與 D08P 兩種選項局部驗收完成；D08R 三種選項局部驗收完成；P01 起始其他路線及盲讀待進行 |
 | 遊戲功能 | 逐字閱讀、選項、章節選擇、紀錄、已讀跳過、自動播放、設定、自動存檔、六格手動存檔、章節重玩隔離及音訊控制已實作；固定 validator 覆蓋多項資料與 runtime 規則。2026-11-26 公開瀏覽器手測返回 P03 後啟動章節，主線自動存檔已前進至 A01；六個手動欄原為空。詳見 D-31，目前自動播放暫停，先不再執行會推進主線的互動測試。 | 功能已接入，手動流程待驗；瀏覽器存檔恢復決策待定 |
 | UI | `a529a93`、`d6b4dfe`、`f301995` 已將說話者姓名與正文改成正常流中的兩個可見文字框；依使用者指示，旁白時姓名欄位留白（不顯示「旁白」名稱），同時保留排版空間。`7ac73a3` 已部署，Pages run [45837885426](https://github.com/310111-design/hina-galgame/actions/runs/45837885426) 成功。公開 A05 testplay 803×694 已分別確認旁白空白姓名欄＋下方金邊正文框，以及陽奈姓名牌顯示「空崎陽奈」、正文仍在下框；2026-11-27 D08F 分支的公開畫面再次確認旁白姓名留白。手機 viewport、iPhone Safari、字級放大、長文捲動、系統訊息與讀屏器仍待驗。詳見 `knowledge/reviews/ui-dialogue-text-box-separation.md`。其他 UI 證據見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`、`knowledge/reviews/ui-dialogue-frame-reference-implementation.md` 與 `knowledge/reviews/choice-summary-semantic-audit.md`。`7bc1597` 功能選單 `aria-label` 可由公開 DOM／瀏覽器角色名稱定位器讀到，但 Codex AX 樹輸出仍報空名稱，尚無實際讀屏器證據。 | 桌面旁白與陽奈姓名／正文分框已確認；手機、實機、長文及系統訊息 QA 待補 |
 | 美術 | 13 張表情立繪、12 張章節背景及首頁背景已接入。CG-01～CG-18 已有依正文撰寫的逐張分鏡／生成提示，但目前全數仍為未製作佔位；成年篇立繪與 D08P 圖書館庭院專用背景仍待補。此工作階段沒有可呼叫的內建 `image_gen` 工具；依 D-26 不切換至需金鑰的 CLI／API。 | 基礎素材與生成前製完成；18 張 CG 與成年素材未生成 |
@@ -102,6 +102,7 @@
     - [ ] 沿隔離 `testplay.html` 覆蓋 P01 起始搭檔／戀愛路線、搭檔／戀愛 D07／D08 選項及其條件回憶組合。
     - [x] 2026-11-27 以隔離 D08R 章節重玩選擇「清楚回應彼此的心意，先從正式交往開始」（互相選擇），結局卡確認戀愛線結局；旁白姓名欄維持留白。這是單項替代分支確認，不代表戀愛線 P01 全篇完成；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
     - [x] 2026-11-27 以隔離 D08R 章節重玩選擇「先談談聯絡方式、個人空間與遇到分歧時的做法」（建立界線），結局卡確認戀愛線結局；連同正式交往及暫緩確認選項，D08R 三種回應均已局部驗收，但戀愛線 P01 全篇仍待完成。詳見 `knowledge/reviews/browser-route-smoke-review.md`。
+    - [x] 2026-11-27 從隔離 D06 選搭檔線、D07 選咖啡店（日常）、D08P 選「先確認分工與各自能承擔的範圍」（分工），以結局卡確認搭檔線結局；D08P 第二項休息亦已驗。D07 自主休息、D08P 第三項及 P01 全篇仍待驗；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
     - [x] 2026-11-27 從同一不中斷 P01 起始 testplay 完成 D08F；結局頁顯示「朋友線結局」及友誼摘要，證明此路徑已抵達結局。快速播放路由驗收不代表盲讀或逐句審稿；正式主線未操作。詳見 `knowledge/reviews/browser-route-smoke-review.md`。
     - [x] 2026-11-27 以章節重玩在 D08F 選擇「約定遇到困難時可以開口，但不要求立即回覆」（互相支持）；仍抵達相同朋友線結局，旗標中的 teamwork 從 3 增至 4，進度標籤顯示「章節重玩｜主線存檔不變」。同一畫面也再次確認旁白姓名列空白；詳見 `knowledge/reviews/browser-route-smoke-review.md` 與 `knowledge/reviews/ui-dialogue-text-box-separation.md`。
     - [x] 2026-11-27 以章節重玩選擇 D08F 第三個「保留彈性，想見面時再主動邀請」（界線）選項；抵達同一朋友線結局，旗標摘要為 `rest 17 / teamwork 3 / ordinary_day 10 / daily_checkin 1 / self_rest 1`，主線存檔不變。三種 D08F 選項皆已單獨抵達正確結局；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
