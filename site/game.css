@@ -1816,7 +1816,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   text-shadow: 0 1px 4px #080710c9;
 }
 .story .hina {
-  padding-top: clamp(42px, 7dvh, 72px);
+  padding-top: clamp(56px, 8dvh, 82px);
 }
 /* Center the speaker label inside the upper-left slot in the full dialogue frame. */
 .story .hina strong {
@@ -1981,7 +1981,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
     background-position: center;
   }
   .story p { padding-inline: 18px; }
-  .story .hina { padding-top: clamp(38px, 6dvh, 52px); }
+  .story .hina { padding-top: clamp(52px, 8dvh, 70px); }
   .story .hina strong {
     min-height: 26px;
     font-size: .78rem;
@@ -2033,16 +2033,14 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   .asset-toolbar button { min-height: 44px; }
 }
 
-/* Keep normal dialogue text in the open column beside the portrait. */
+/* The dialogue frame is the safe reading area; use its full width below the speaker slot. */
 .game-stage:not([data-phase="choice"]) .story > p {
-  max-width: 48%;
-  margin-inline: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  box-sizing: border-box;
 }
 @media (max-width: 720px) {
-  .game-stage:not([data-phase="choice"]) .story > p {
-    max-width: 35%;
-    margin-inline: 0 auto;
-  }
   .game-stage:not([data-phase="choice"]) .hina-sprite {
     right: -12%;
     max-width: 72vw;

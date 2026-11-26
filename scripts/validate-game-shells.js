@@ -184,18 +184,20 @@ const choiceMarkerRule = dialogueArtworkStyles.match(/\.game-stage\[data-phase="
 const choiceRowRule = dialogueArtworkStyles.match(/\.game-stage\[data-phase="choice"\] \.choice\s*\{([^}]*)\}/)?.[1] || "";
 const selectedChoiceRowRule = dialogueArtworkStyles.match(/\.game-stage\[data-phase="choice"\] \.choice:hover,\s*\.game-stage\[data-phase="choice"\] \.choice:focus-visible,\s*\.game-stage\[data-phase="choice"\] \.choice\.is-selected\s*\{([^}]*)\}/)?.[1] || "";
 const landscapeChoiceMarkerRule = dialogueArtworkStyles.match(/@media\s*\(max-height:\s*560px\)\s*and\s*\(orientation:\s*landscape\)\s*\{[\s\S]*?\.game-stage\[data-phase="choice"\] \.choice-marker\s*\{([^}]*)\}/)?.[1] || "";
-const dialogueSafeAreaRules = stylesheet.split("/* Keep normal dialogue text in the open column beside the portrait. */").at(-1) || "";
+const dialogueSafeAreaRules = stylesheet.split("/* The dialogue frame is the safe reading area; use its full width below the speaker slot. */").at(-1) || "";
 const dialogueFontSizeRules = [...stylesheet.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
   .filter(([, selector, declarations]) => selector.split(",").some(part => /\.story\s+p\b/.test(part)) && /\bfont-size\s*:/.test(declarations));
 if (dialogueFontSizeRules.length < 5 || dialogueFontSizeRules.some(([, , declarations]) => !/font-size\s*:\s*var\(--dialogue-font-size\)/i.test(declarations))) {
   errors.push("Responsive dialogue text must preserve the player's selected font size on desktop, portrait, and landscape viewports.");
 }
-const mobileSafeTextRule = dialogueSafeAreaRules.match(/@media\s*\(max-width:\s*720px\)\s*\{\s*\.game-stage:not\(\[data-phase="choice"\]\) \.story > p\s*\{([^}]*)\}/)?.[1] || "";
+const fullWidthDialogueTextRule = dialogueSafeAreaRules.match(/\.game-stage:not\(\[data-phase="choice"\]\) \.story > p\s*\{([^}]*)\}/)?.[1] || "";
 const mobileSafeSpriteRule = dialogueSafeAreaRules.match(/@media\s*\(max-width:\s*720px\)\s*\{[\s\S]*?\.game-stage:not\(\[data-phase="choice"\]\) \.hina-sprite\s*\{([^}]*)\}/)?.[1] || "";
-if (!/max-width:\s*35%/i.test(mobileSafeTextRule) ||
-    !/right:\s*-12%/i.test(mobileSafeSpriteRule) ||
-    !/margin-inline:\s*0\s+auto/i.test(mobileSafeTextRule)) {
-  errors.push("Narrow portrait dialogue must reserve a left text column and shift the sprite right to prevent character overlap.");
+if (!/width:\s*100%/i.test(fullWidthDialogueTextRule) ||
+    !/max-width:\s*none/i.test(fullWidthDialogueTextRule) ||
+    !/margin-inline:\s*0\s*;/i.test(fullWidthDialogueTextRule) ||
+    !/box-sizing:\s*border-box/i.test(fullWidthDialogueTextRule) ||
+    !/right:\s*-12%/i.test(mobileSafeSpriteRule)) {
+  errors.push("Normal dialogue text must use the full inner frame width while preserving the responsive sprite placement.");
 }
 if (!/position:\s*absolute/i.test(dialoguePanelRule) ||
     !/display:\s*flex/i.test(dialoguePanelRule) ||
