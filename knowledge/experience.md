@@ -3110,5 +3110,5 @@
 
 - **學到什麼：** 「旁白不顯示名稱」可能同時牽涉姓名牌、對話紀錄和即時輔助公告；只檢查遊戲畫面的姓名欄，仍可能讓同一個旁白標籤出現在紀錄或讀屏公告。顯示正文時應直接留下內容，避免輸出空標籤或分隔符。
 - **如何應用於本作：** 將 narration speaker 映射為空值；對話紀錄只保留章節名稱，讀屏公告只讀正文。陽奈與系統台詞仍保留各自說話者名稱；`validate-game-shells.js` 固定檢查此規則。
-- **限制與驗證：** 本次程式與靜態 validator 可驗證輸出規則；Codex 內建瀏覽器連線服務連續逾時，尚未查看部署畫面或以 NVDA／VoiceOver 驗證實際播報。
+- **限制與驗證：** `validate-game-shells.js`、`node --check site/game.js` 及 `git diff --check` 通過；commit `89b4083` 的 Pages run [45879069980](https://github.com/310111-design/hina-galgame/actions/runs/45879069980) 成功，線上 `game.js` HTTP 200 且包含三項修改。Codex 內建瀏覽器連線服務連續逾時，尚未查看畫面或以 NVDA／VoiceOver 驗證實際播報。
 - **未來可用範圍：** 本作旁白、紀錄面板及 UI 可及性調整；其他具有隱藏 live region 或逐字播放的視覺小說，也要同時檢查可見姓名、歷史紀錄及輔助公告，並把靜態契約和實際讀屏器體驗分開驗收。
