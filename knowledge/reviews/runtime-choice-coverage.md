@@ -75,5 +75,5 @@
 - 根據前一輪經驗紀錄中「對高風險旗標增加三階以上組合」的建議，將三個不同早期章節的選項同時納入完整成年結局路徑測試。28 個早期章節共有 **88,452 種三章選項組合**；以固定種子的確定性貪婪覆蓋法，在既有 77 個向量上新增 **107 個**，最終 184 個向量全部覆蓋三階元組。
 - 每個向量仍交叉 3 條 D06 route、3 種 D07 活動和各對應 D08 的 3 種選擇，共 **4,968 條 P01→結局 runtime 路徑**。既有 3,402 種兩章配對覆蓋和 21 組條件回憶實際可達狀態一併重跑並通過。
 - 三階元組覆蓋使用約 **88 KB** 的 `Uint8Array` 覆蓋表記錄已覆蓋組合；不儲存完整故事路徑樹。validator 以可重現固定種子挑選候選向量，確保每次本機／CI 得到相同覆蓋矩陣。
-- 驗證：`node --check scripts/validate-choice-runtime.js` 與 `node scripts/validate-choice-runtime.js` 通過；runtime 輸出 88,452 個三章組合、107 個新增向量與 4,968 條完整路徑。此覆蓋仍非四章以上組合窮舉，也不代表瀏覽器／裝置互動、存讀檔或玩家盲讀驗收。
+- 驗證：`node --check scripts/validate-choice-runtime.js`、`node scripts/validate-choice-runtime.js`、`node scripts/validate-route-drafts.js`、`node scripts/validate-game-shells.js` 及 `git diff --check` 通過；runtime 輸出 88,452 個三章組合、107 個新增向量與 4,968 條完整路徑。commit `34b8422` 的 Pages run [45886736230](https://github.com/310111-design/hina-galgame/actions/runs/45886736230) build／deploy 成功。此覆蓋仍非四章以上組合窮舉，也不代表瀏覽器／裝置互動、存讀檔或玩家盲讀驗收。
 - **未來可用範圍：** 本作章節選擇互相作用可能影響多個條件回憶或成年結局時，使用可重現的三階覆蓋補充兩兩矩陣；對有更多選項維度的互動遊戲，可用緊湊位元組覆蓋表避免儲存所有完整路徑，再把選中的代表向量帶進實際 route runtime。
