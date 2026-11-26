@@ -19,9 +19,9 @@
 
 ## 驗收狀態
 
-`node scripts/validate-game-shells.js`、`node --check site/game.js` 及 `git diff --check` 均通過。這些靜態檢查確認正式頁／試玩頁所需欄位、標籤映射、姓名框正常流及正文框樣式；不能證明瀏覽器實際排版沒有碰撞。
+`node scripts/validate-game-shells.js`、`node --check site/game.js` 及 `git diff --check` 均通過。這些靜態檢查確認正式頁／試玩頁欄位、標籤映射、姓名框正常流、正文框樣式及 runtime cache-buster。
 
-部署後會沿用 `testplay.html` 的 A04 存檔，檢查一段旁白及一段陽奈台詞；進一步檢查手機 viewport、文字放大、長句捲動與選項提示。這些桌面／模擬檢查不取代 iPhone Safari 實機及讀屏器驗收。
+commit `f301995` 的 Pages run [45836700352](https://github.com/310111-design/hina-galgame/actions/runs/45836700352) build／deploy 成功。沿用同一個 `testplay.html` A04 隔離存檔，於 803×694 公開畫面看到上框「旁白」、下框「目的地、交付者、可確認的下一步。」；正文框使用可辨識的金邊和低透明紫底，兩欄沒有碰撞。刷新後存檔仍在 A04。這只確認一種桌面 viewport 及一條旁白；陽奈台詞新框樣式、手機 viewport、文字放大、長句捲動、iPhone Safari 與讀屏器仍待驗。
 
 ## 限制與後續
 

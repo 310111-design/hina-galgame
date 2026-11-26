@@ -14,10 +14,10 @@
 |---|---|---|
 | 故事 | 四幕、33 節均已接入。33 節時間錨點、陽奈直接台詞聲線、分幕 common／分支回收、精確與近似重複候選、三個成年結局差異均已有靜態審校紀錄。公開 Pages 章節重玩已逐線抵達 D08F／D08P／D08R 結局；每線測一種 D07 活動分支，戀愛線另選擇暫緩確認交往。獨立 testplay 曾走過 P01→P03、A01→A06、B01→B08、C01→C06，另有 D01 直入重玩到 D02；現行不中斷 P01 起始路徑已由 P01→P03 推進 A01→A04，對話紀錄確認 A01「先說今天比較累的地方」、A02「提醒她先休息」、A03「列工作量並確認休息空間」三項分支，目前已開始 A04「走廊上的協助」。尚未完成朋友線或到 D08F；公開正式版主線存檔不操作。 | 成年三路局部結局完成；P01 起始試玩目前在 A04 |
 | 遊戲功能 | 逐字閱讀、選項、章節選擇、紀錄、已讀跳過、自動播放、設定、自動存檔、六格手動存檔、章節重玩隔離及音訊控制已實作；固定 validator 覆蓋多項資料與 runtime 規則。2026-11-26 公開瀏覽器手測返回 P03 後啟動章節，主線自動存檔已前進至 A01；六個手動欄原為空。詳見 D-31，目前自動播放暫停，先不再執行會推進主線的互動測試。 | 功能已接入，手動流程待驗；瀏覽器存檔恢復決策待定 |
-| UI | `7eed466` 已把姓名與正文拆成獨立 DOM 欄位，但本輪依使用者回報發現旁白沒有明確說話者標籤、正文只靠可捲動留白避開姓名區，不能算兩個可見文字框。現正改為「空崎陽奈／旁白／系統」姓名框及其下方獨立正文框，姓名框採正常排版流，正文只在自己的容器捲動；桌面公開版、手機 viewport、實機、讀屏器與完整跨尺寸回歸待重新驗收。詳見 `knowledge/reviews/ui-dialogue-text-box-separation.md`。99 個選項摘要人工複核及八項修正詳見 `knowledge/reviews/choice-summary-semantic-audit.md`；其他 UI 證據見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md` 與 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。`7bc1597` 功能選單 `aria-label` 可由公開 DOM／瀏覽器角色名稱定位器讀到，但 Codex AX 樹輸出仍報空名稱，尚無實際讀屏器證據。 | 正在修正姓名／正文為兩個可見且不重疊的文字框；完整 viewport、實機及無障礙 QA 待補 |
+| UI | `a529a93`、`d6b4dfe`、`f301995` 已將說話者標籤與正文改成正常流中的兩個可見文字框；公開 A04 testplay 803×694 畫面顯示「旁白」獨立標籤、正文金邊框及紫色透景底，兩者沒有重疊。最新程式部署 run [45836700352](https://github.com/310111-design/hina-galgame/actions/runs/45836700352) 成功。手機 viewport、iPhone Safari、字級放大、長文滾動、其他說話者與讀屏器仍待驗。詳見 `knowledge/reviews/ui-dialogue-text-box-separation.md`。其他 UI 證據見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`、`knowledge/reviews/ui-dialogue-frame-reference-implementation.md` 與 `knowledge/reviews/choice-summary-semantic-audit.md`。`7bc1597` 功能選單 `aria-label` 可由公開 DOM／瀏覽器角色名稱定位器讀到，但 Codex AX 樹輸出仍報空名稱，尚無實際讀屏器證據。 | A04 旁白桌面畫面已確認兩個可見文字框；手機、實機、長文及無障礙 QA 待補 |
 | 美術 | 13 張表情立繪、12 張章節背景及首頁背景已接入。CG-01～CG-18 已有依正文撰寫的逐張分鏡／生成提示，但目前全數仍為未製作佔位；成年篇立繪與 D08P 圖書館庭院專用背景仍待補。此工作階段沒有可呼叫的內建 `image_gen` 工具；依 D-26 不切換至需金鑰的 CLI／API。 | 基礎素材與生成前製完成；18 張 CG 與成年素材未生成 |
 | 音訊 | 程序化 BGM、淡入淡出、提示音及 BGM／SFX 分開控制已實作；正式音樂與音效素材尚未納入。 | 第一版完成，聽感與授權素材待驗 |
-| 發布 | 對話框 runtime、台詞下移與初版姓名分欄 commits `1f8c4b8`、`c83b548`、`7eed466` 均已推送；目前追加修正待推送及 Pages 驗收。 | 待發布兩個可見文字框與旁白姓名標籤 |
+| 發布 | 姓名／正文文字框修正 commits `a529a93`、`d6b4dfe`、`f301995` 已推送；run [45836700352](https://github.com/310111-design/hina-galgame/actions/runs/45836700352) build／deploy 成功，A04 試玩頁已確認旁白標籤及獨立正文框。 | 桌面旁白版已部署驗收；跨尺寸及實機待驗 |
 
 ### 已完成的主要里程碑
 
@@ -82,7 +82,8 @@
    - [x] 2026-11-26 在 `c83b548` Pages 部署後，以公開 testplay 803×694 畫面確認姓名牌和具名台詞間距已依示意圖拉開，這一行文字清楚且未與立繪相碰；僅測一個桌面 viewport／一行，未選分支。詳見 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
    - [x] 初版把可見說話者姓名與劇情正文拆成獨立 DOM 欄位；使用者回報顯示僅分 DOM 不足以確保視覺辨識，因此重新開啟此項，改採兩個可見文字框及明確的旁白／系統標籤。
    - [x] 實作姓名框與正文框的正常流排版，為陽奈／旁白／系統顯示分開標籤；更新正式頁、試玩頁 CSS／JS cache-buster 及 `validate-game-shells.js` 契約。`node scripts/validate-game-shells.js`、`node --check site/game.js`、`git diff --check` 通過；修正詳情見 `knowledge/reviews/ui-dialogue-text-box-separation.md`。
-   - [ ] 部署後使用現有 A04 testplay 存檔，目視確認旁白／陽奈台詞及桌面版框線、文字不重疊；再檢查 390×844、844×390 與放大字級／長句捲動。此項完成不代表 iPhone Safari 或讀屏器驗收。
+   - [x] 公開 Pages 部署後沿用 A04 testplay 存檔，以 803×694 畫面確認旁白上框「旁白」及下方金邊正文框；重新載入後 A04 存檔保留，未觸碰正式主線。run [45836700352](https://github.com/310111-design/hina-galgame/actions/runs/45836700352) build／deploy 成功，詳見 `knowledge/reviews/ui-dialogue-text-box-separation.md`。
+   - [ ] 以 390×844、844×390、放大字級和較長台詞檢查姓名／正文框、捲動邊界及控制列；此項完成不代表 iPhone Safari 或讀屏器驗收。
    - [ ] 以最新 UI 檢視 390×844 手機直向及 844×390 手機橫向的姓名標籤、台詞安全區和控制列；模擬 viewport 不能代替 iPhone Safari 實機驗收。
    - [x] 2026-11-26 依使用者提供的參考完成完整對話框視覺接入：保留來源圖、另製完整 runtime 衍生框，語意 HTML 工具列對齊到底部並維持中文 aria 名稱及 44px 操作目標；shell validator 通過。後續公開 testplay 桌面目視檢查見下項，手機裁切及實機 QA 仍待完成。詳見 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
    - [x] 2026-11-26 以公開 testplay 檢查對話框桌面狀態：1197×716 畫面中，完整金屬框、陽奈姓名牌、文字區、推進箭頭及 LOG／AUTO／SKIP／SAVE／LOAD／CONFIG 控制可見；未選分支或操作正式主線。後續依使用者回饋擴寬內文，詳見下項與 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
