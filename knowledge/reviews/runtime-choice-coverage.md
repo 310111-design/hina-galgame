@@ -67,4 +67,5 @@
 - 更新 `validate-choice-runtime.js`：根據每組條件回憶所在章節，計算其之前各章可提供的旗標最小值及最大值，補入能代表各條件旗標極值的早期選項向量。向量與兩兩配對矩陣及 D06／D07／D08 組合交叉後為 **77 個早期選項向量 × 27 個成年路線／活動／回應組合 = 2,079 條 P01→結局 runtime 路徑**；28 個早期章節間的 **3,402 種兩兩選項配對仍全部覆蓋**。
 - 實際 P01 路徑觀察到 21 組條件回憶：**18 組顯示與隱藏兩態皆可達、3 組必定顯示、0 組必定隱藏**。必定顯示為 `B01:daily_checkin:1`、`C01:self_rest:1`、`D01:self_rest:1`；前置路徑中的必選旗標已達門檻，因此不應要求測出不可能的隱藏狀態。程式以依門檻及路徑極值判定可達性，再檢查路徑實際觀察結果。
 - `node scripts/validate-choice-runtime.js` 與 `node scripts/validate-route-drafts.js` 通過。此矩陣提供二階配對與各條件旗標極值的代表覆蓋；未窮舉三個以上早期選擇同時改變的所有組合，也不涵蓋瀏覽器點擊、存讀檔、逐句閱讀、盲讀或實機裝置。
+- `node --check scripts/validate-choice-runtime.js`、`node --check site/game.js`、`node scripts/validate-game-shells.js` 與 `git diff --check` 亦通過；commit `d505bb8` 對應 Pages run [45884591722](https://github.com/310111-design/hina-galgame/actions/runs/45884591722) build／deploy 成功。這個提交未修改遊戲 runtime，Actions 成功不能代替仍待完成的隔離瀏覽器路線與裝置 QA。
 - **未來可用範圍：** 本作條件回憶和累積旗標調整後的回歸，以及其他具有多章狀態累積與條件對話的互動遊戲。除了測試條件分支程式本身，另計算章節前置旗標上下界，確認哪些狀態由玩家實際可達；不可達狀態應清楚記錄，而非強迫所有分支都同時顯示與隱藏。
