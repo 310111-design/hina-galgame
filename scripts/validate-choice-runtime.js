@@ -307,6 +307,7 @@ assert.equal(expectedFullPathPrefix.at(-1), "D06", "the linear full-path prefix 
 assert.equal(chapters[d06Index + 1]?.id, "D07", "D06 should lead directly to the shared D07 activity chapter");
 
 let checkedFullRoutePaths = 0;
+const conditionalPathCoverage = new Map();
 const earlyChoiceChapters = chapters.slice(0, d06Index);
 const baselineChoices = Object.fromEntries(earlyChoiceChapters.map(chapter => [chapter.id, chapter.choices[0]]));
 const fullPathChoiceVariants = [{ choicesByChapter: baselineChoices, label: "baseline choices" }];
@@ -316,6 +317,30 @@ for (const chapter of earlyChoiceChapters) {
       choicesByChapter: { ...baselineChoices, [chapter.id]: choice },
       label: `${chapter.id} ${choice.letter}`
     });
+  }
+}
+
+function vectorSignature(choicesByChapter) {
+  return earlyChoiceChapters.map(chapter => choicesByChapter[chapter.id].letter).join("");
+}
+
+const knownVectorSignatures = new Set(fullPathChoiceVariants.map(variant => vectorSignature(variant.choicesByChapter)));
+const conditionalFlags = [...new Set(chapters.flatMap(chapter => (chapter.flaggedIntro || []).map(condition => condition.flag)))];
+for (const flag of conditionalFlags) {
+  for (const mode of ["minimum", "maximum"]) {
+    const choicesByChapter = {};
+    for (const chapter of earlyChoiceChapters) {
+      const increments = chapter.choices.map(choice =>
+        Number(choice.flag === flag) + Number(chapter.id === "A06" && flag === "daily_checkin")
+      );
+      const targetIncrement = mode === "minimum" ? Math.min(...increments) : Math.max(...increments);
+      const choiceIndex = increments.indexOf(targetIncrement);
+      choicesByChapter[chapter.id] = chapter.choices[choiceIndex];
+    }
+    const signature = vectorSignature(choicesByChapter);
+    if (knownVectorSignatures.has(signature)) continue;
+    knownVectorSignatures.add(signature);
+    fullPathChoiceVariants.push({ choicesByChapter, label: `${flag} ${mode} prefix` });
   }
 }
 
@@ -431,6 +456,10 @@ for (const [route, endingId] of Object.entries(endingByRoute)) {
           const introSequence = harness.getSequence();
           for (const condition of chapter.flaggedIntro || []) {
             const shouldAppear = (beforeIntro.flags[condition.flag] || 0) >= (condition.min || 1);
+            const conditionKey = `${chapter.id}:${condition.flag}:${condition.min || 1}`;
+            const conditionCoverage = conditionalPathCoverage.get(conditionKey) || { hidden: 0, shown: 0 };
+            conditionCoverage[shouldAppear ? "shown" : "hidden"] += 1;
+            conditionalPathCoverage.set(conditionKey, conditionCoverage);
             for (const line of condition.lines || []) {
               if (!Array.isArray(line) || !String(line[1] || "").trim()) continue;
               assert.equal(
@@ -494,6 +523,55 @@ const expectedFullRoutePaths = Object.values(endingByRoute)
   .reduce((total, endingId) => total + d07.choices.length * chapters.find(chapter => chapter.id === endingId).choices.length * fullPathChoiceVariants.length, 0);
 assert.equal(checkedFullRoutePaths, expectedFullRoutePaths, "full-route integration should cover every D06 route × D07 activity × D08 ending choice");
 assert.equal(uncoveredChoicePairs.size, 0, "full-route integration should cover every pair of early chapter choices");
+const expectedConditionalGroups = chapters.flatMap(chapter => (chapter.flaggedIntro || []).map(condition => ({
+  key: `${chapter.id}:${condition.flag}:${condition.min || 1}`,
+  chapterId: chapter.id,
+  flag: condition.flag,
+  min: condition.min || 1
+})));
+assert.equal(conditionalPathCoverage.size, expectedConditionalGroups.length, "full routes should visit every conditional-memory group");
+let conditionalGroupsWithBothStates = 0;
+let conditionalGroupsAlwaysShown = 0;
+let conditionalGroupsAlwaysHidden = 0;
+const conditionalGroupsForcedShown = [];
+const conditionalGroupsForcedHidden = [];
+for (const condition of expectedConditionalGroups) {
+  const coverage = conditionalPathCoverage.get(condition.key);
+  const chapterIndex = chapters.findIndex(chapter => chapter.id === condition.chapterId);
+  const chapter = chapters[chapterIndex];
+  const routesToCheck = chapter.routeEnding ? [chapter.routeEnding] : Object.keys(endingByRoute);
+  const threshold = condition.min;
+  let canHide = false;
+  let canShow = false;
+  for (const route of routesToCheck) {
+    let minimum = 0;
+    let maximum = 0;
+    for (const prefixChapter of chapters.slice(0, chapterIndex)) {
+      const prefixChoices = prefixChapter.id === "D06"
+        ? prefixChapter.choices.filter(choice => choice.route === route)
+        : prefixChapter.choices;
+      assert.ok(prefixChoices.length > 0, `${prefixChapter.id} should offer a choice on the ${route} prefix`);
+      const increments = prefixChoices.map(choice =>
+        Number(choice.flag === condition.flag) + Number(prefixChapter.id === "A06" && condition.flag === "daily_checkin")
+      );
+      minimum += Math.min(...increments);
+      maximum += Math.max(...increments);
+    }
+    canHide ||= minimum < threshold;
+    canShow ||= maximum >= threshold;
+  }
+  if (canHide) assert.ok(coverage?.hidden > 0, `${condition.chapterId} ${condition.flag} memory should be observed below its reachable threshold on a P01 route`);
+  else {
+    conditionalGroupsAlwaysShown += 1;
+    conditionalGroupsForcedShown.push(condition.key);
+  }
+  if (canShow) assert.ok(coverage?.shown > 0, `${condition.chapterId} ${condition.flag} memory should be observed at its reachable threshold on a P01 route`);
+  else {
+    conditionalGroupsAlwaysHidden += 1;
+    conditionalGroupsForcedHidden.push(condition.key);
+  }
+  if (canHide && canShow) conditionalGroupsWithBothStates += 1;
+}
 const coveredEarlyChoicePairs = earlyChoiceChapters.reduce((sum, chapter, index) =>
   sum + earlyChoiceChapters.slice(index + 1).reduce((pairSum, nextChapter) => pairSum + chapter.choices.length * nextChapter.choices.length, 0), 0);
-console.log(`Full route checks passed (${checkedFullRoutePaths} P01-to-ending paths, ${fullPathChoiceVariants.length} early-choice vectors, ${coveredEarlyChoicePairs} distinct early-choice pairs across every route/activity/ending combination and conditional-memory state).`);
+console.log(`Full route checks passed (${checkedFullRoutePaths} P01-to-ending paths, ${fullPathChoiceVariants.length} early-choice vectors, ${coveredEarlyChoicePairs} distinct early-choice pairs, ${expectedConditionalGroups.length} conditional memories; ${conditionalGroupsWithBothStates} have both reachable states, ${conditionalGroupsAlwaysShown} are forced shown (${conditionalGroupsForcedShown.join(", ")}), and ${conditionalGroupsAlwaysHidden} are forced hidden (${conditionalGroupsForcedHidden.join(", ")}).`);
