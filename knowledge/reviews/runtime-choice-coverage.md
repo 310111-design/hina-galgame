@@ -36,3 +36,10 @@
 ## 限制
 
 三條全路徑仍是作者端 runtime 模擬：每節只選一種固定選項，不涵蓋所有多章旗標歷史、替代分支、逐句打字／閱讀、DOM 點選、存檔重載或玩家盲讀。單章 99 選項生命週期、D06×D07 九組組合及三條全路徑彼此互補，仍不能代替完整逐路瀏覽器或實機通關；`knowledge/plan.md` 的正式逐路 QA 維持未完成。
+
+## 2026-11-27 本機回歸複核
+
+- `node scripts/validate-choice-runtime.js` 通過：21 組條件回憶門檻、99 個選項及章節生命週期、D06×D07 九種 route 組合，以及三條 P01→成年結局 runtime 路徑。
+- `node scripts/validate-route-drafts.js` 通過：choice／section sync fixtures、條件對話同步、33 章稿件與 runtime 同步、路徑長度檢查。
+- `node --check site/game.js` 通過。
+- 以上是作者端靜態／runtime 回歸，不替代瀏覽器互動、替代選項全排列、旗標歷史窮舉、盲讀或實機驗收。
