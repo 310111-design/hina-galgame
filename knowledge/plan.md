@@ -12,12 +12,12 @@
 
 | 領域 | 現況 | 狀態 |
 |---|---|---|
-| 故事 | 四幕、33 節均已接入。33 節時間錨點、陽奈直接台詞聲線、分幕 common／分支回收、精確與近似重複候選、三個成年結局差異均已有靜態審校紀錄。公開 Pages 章節重玩已逐線抵達 D08F／D08P／D08R 結局；每線測一種 D07 活動分支，戀愛線另選擇暫緩確認交往。獨立 testplay 曾走過 P01→P03、A01→A06、B01→B08、C01→C06，另有 D01 直入重玩到 D02；現行不中斷 P01 起始路徑已由 P01→P03 推進 A01→A04，對話紀錄確認 A01「先說今天比較累的地方」、A02「提醒她先休息」、A03「列工作量並確認休息空間」三項分支，目前已開始 A04「走廊上的協助」。尚未完成朋友線或到 D08F；公開正式版主線存檔不操作。 | 成年三路局部結局完成；P01 起始試玩目前在 A04 |
+| 故事 | 四幕、33 節均已接入。33 節時間錨點、陽奈直接台詞聲線、分幕 common／分支回收、精確與近似重複候選、三個成年結局差異均已有靜態審校紀錄。公開 Pages 章節重玩已逐線抵達 D08F／D08P／D08R 結局；每線測一種 D07 活動分支，戀愛線另選擇暫緩確認交往。獨立 testplay 曾走過 P01→P03、A01→A06、B01→B08、C01→C06，另有 D01 直入重玩到 D02；現行不中斷 P01 起始路徑已由 P01→P03 推進 A01→A04，對話紀錄確認 A01「先說今天比較累的地方」、A02「提醒她先休息」、A03「列工作量並確認休息空間」三項分支，已在 testplay 完成 A04，沿同一存檔抵達並開始 A05「錯過休息的時刻」；A05 分支尚未選，D08F 仍待完成；公開正式版主線存檔不操作。 | 成年三路局部結局完成；P01 起始試玩目前在 A05 |
 | 遊戲功能 | 逐字閱讀、選項、章節選擇、紀錄、已讀跳過、自動播放、設定、自動存檔、六格手動存檔、章節重玩隔離及音訊控制已實作；固定 validator 覆蓋多項資料與 runtime 規則。2026-11-26 公開瀏覽器手測返回 P03 後啟動章節，主線自動存檔已前進至 A01；六個手動欄原為空。詳見 D-31，目前自動播放暫停，先不再執行會推進主線的互動測試。 | 功能已接入，手動流程待驗；瀏覽器存檔恢復決策待定 |
-| UI | `a529a93`、`d6b4dfe`、`f301995` 已將說話者標籤與正文改成正常流中的兩個可見文字框；公開 A04 testplay 803×694 曾顯示「旁白」標籤及獨立正文框。依使用者最新指示，旁白姓名需留白但保留排版空間；目前正在更新 runtime／CSS 及快取版本，並會重新驗證公開畫面。手機 viewport、iPhone Safari、字級放大、長文捲動、其他說話者與讀屏器仍待驗。詳見 `knowledge/reviews/ui-dialogue-text-box-separation.md`。其他 UI 證據見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`、`knowledge/reviews/ui-dialogue-frame-reference-implementation.md` 與 `knowledge/reviews/choice-summary-semantic-audit.md`。`7bc1597` 功能選單 `aria-label` 可由公開 DOM／瀏覽器角色名稱定位器讀到，但 Codex AX 樹輸出仍報空名稱，尚無實際讀屏器證據。 | 姓名／正文框架已部署；旁白姓名留白修正待發布及覆驗 |
+| UI | `a529a93`、`d6b4dfe`、`f301995` 已將說話者標籤與正文改成正常流中的兩個可見文字框；公開 A04 testplay 803×694 曾顯示「旁白」標籤及獨立正文框。依使用者最新指示，`7ac73a3` 改為旁白姓名留白、保留排版空間；Pages run [45837885426](https://github.com/310111-design/hina-galgame/actions/runs/45837885426) 成功。公開 A05 testplay 803×694 顯示空白姓名牌及下方金邊正文框。手機 viewport、iPhone Safari、字級放大、長文捲動、其他說話者與讀屏器仍待驗。詳見 `knowledge/reviews/ui-dialogue-text-box-separation.md`。其他 UI 證據見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`、`knowledge/reviews/ui-dialogue-frame-reference-implementation.md` 與 `knowledge/reviews/choice-summary-semantic-audit.md`。`7bc1597` 功能選單 `aria-label` 可由公開 DOM／瀏覽器角色名稱定位器讀到，但 Codex AX 樹輸出仍報空名稱，尚無實際讀屏器證據。 | 旁白姓名留白及雙框位置已公開確認；手機、實機及長文 QA 待補 |
 | 美術 | 13 張表情立繪、12 張章節背景及首頁背景已接入。CG-01～CG-18 已有依正文撰寫的逐張分鏡／生成提示，但目前全數仍為未製作佔位；成年篇立繪與 D08P 圖書館庭院專用背景仍待補。此工作階段沒有可呼叫的內建 `image_gen` 工具；依 D-26 不切換至需金鑰的 CLI／API。 | 基礎素材與生成前製完成；18 張 CG 與成年素材未生成 |
 | 音訊 | 程序化 BGM、淡入淡出、提示音及 BGM／SFX 分開控制已實作；正式音樂與音效素材尚未納入。 | 第一版完成，聽感與授權素材待驗 |
-| 發布 | 姓名／正文文字框修正 commits `a529a93`、`d6b4dfe`、`f301995` 已推送；run [45836700352](https://github.com/310111-design/hina-galgame/actions/runs/45836700352) build／deploy 成功。使用者其後指定旁白時姓名留白，該小幅修正正在處理中。 | 框架已部署；最新旁白姓名規則待發布驗收 |
+| 發布 | 姓名／正文框及旁白留白修正 commits `a529a93`、`d6b4dfe`、`f301995`、`7ac73a3` 已推送；run [45837885426](https://github.com/310111-design/hina-galgame/actions/runs/45837885426) build／deploy 成功。A05 公開試玩畫面已確認姓名列留白與正文框分開。 | 桌面旁白狀態已驗收；其餘尺寸／實機待驗 |
 
 ### 已完成的主要里程碑
 
@@ -74,7 +74,8 @@
      - [x] 2026-11-26 延續同一 testplay 自動存檔，從 A01 晚段使用「跳過已讀」推進至 A02 章節開場卡；本階段沒有重新載入、沒有選新分支，也沒有操作正式主線。之後查看對話紀錄，確認此路徑先前選了「請她先說今天比較累的地方」；只快進確認 A01→A02 轉場，不代表完整重讀；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
      - [x] 2026-11-26 以快速自動播放完成 A02 並確認選項停止點；選「提醒她先休息，再一起看退件原因」，到達 A03「分工清單」開場卡並開始閱讀。未完整重讀章稿或操作正式主線；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
      - [x] 2026-11-26 以快速自動播放完成 A03 並確認選項停止點；選「先把工作量列入清單，讓陽奈確認休息空間」，到達並開始 A04「走廊上的協助」。之後關閉自動播放、將速度還原「普通」；未完整重讀章稿或操作正式主線；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
-     - [ ] 從目前 A04 第一段沿同一不中斷 testplay 存檔完成 A04～D05，再於 D06 選擇朋友線並走到 D08F；記錄每節選項與章節轉場，正式主線不操作。
+     - [x] 從同一不中斷 testplay 完成 A04：選擇「建議陽奈先把放在手中的公務交給你保管」，讀完分支及共通段後抵達 A05「錯過休息的時刻」章節卡並開始閱讀；正式主線未操作。詳見 `knowledge/reviews/browser-route-smoke-review.md`。
+     - [ ] 從現有 A05 試玩存檔完成 A05～D05，再於 D06 選擇朋友線並走到 D08F；記錄每節選項與章節轉場，正式主線不操作。
    - [ ] 安排玩家盲讀並記錄理解落差、節奏及角色選項感受；人工靜態審校不能代替讀者反應。
    - [x] D01 重逢收束第二輪節奏複核：把否定過去與下次從現在開始的相鄰旁白合併，章稿／runtime 同步；D01 為 2,687 字元、路徑 2,510／2,504／2,521。篇幅與閱讀估算已更新，詳見 `knowledge/reviews/d01-present-focused-cadence-review.md`；此為局部修訂，不代表全篇 QA。
    - [x] D02 共通收束第三輪節奏複核：合併由抽象旁白提前總結、再由角色台詞與結尾重複的「談話不必成為規則」意義；稿件/runtime 同步，D02 為 2,650 字元、路徑 2,505／2,482／2,469，防截斷線調整並重算篇幅。詳見 `knowledge/reviews/d02-cadence-review.md`；未完成成年篇全篇 QA。
@@ -83,7 +84,7 @@
    - [x] 初版把可見說話者姓名與劇情正文拆成獨立 DOM 欄位；使用者回報顯示僅分 DOM 不足以確保視覺辨識，因此重新開啟此項，改採兩個可見文字框及明確的旁白／系統標籤。
    - [x] 實作姓名框與正文框的正常流排版；陽奈／系統顯示標籤，初版旁白也顯示「旁白」。更新正式頁、試玩頁 CSS／JS cache-buster 及 `validate-game-shells.js` 契約。初版檢查結果詳見 `knowledge/reviews/ui-dialogue-text-box-separation.md`。
    - [x] 公開 Pages 部署後沿用 A04 testplay 存檔，以 803×694 畫面確認旁白上框「旁白」及下方金邊正文框；重新載入後 A04 存檔保留，未觸碰正式主線。run [45836700352](https://github.com/310111-design/hina-galgame/actions/runs/45836700352) build／deploy 成功，詳見 `knowledge/reviews/ui-dialogue-text-box-separation.md`。
-   - [ ] 依最新指示，旁白時姓名文字保持空白，同時保留姓名框高度；確認正文仍在下方獨立框並驗收公開頁。陽奈／系統台詞仍顯示對應標籤。
+   - [x] 依最新指示，旁白姓名文字保持空白，同時保留姓名列高度；公開 A05 testplay 803×694 確認空白牌在上、正文金邊框在下，刷新後試玩進度仍在 A05。`7ac73a3`／run [45837885426](https://github.com/310111-design/hina-galgame/actions/runs/45837885426) build／deploy 成功；詳見 `knowledge/reviews/ui-dialogue-text-box-separation.md`。
    - [ ] 以 390×844、844×390、放大字級和較長台詞檢查姓名／正文框、捲動邊界及控制列；此項完成不代表 iPhone Safari 或讀屏器驗收。
    - [ ] 以最新 UI 檢視 390×844 手機直向及 844×390 手機橫向的姓名標籤、台詞安全區和控制列；模擬 viewport 不能代替 iPhone Safari 實機驗收。
    - [x] 2026-11-26 依使用者提供的參考完成完整對話框視覺接入：保留來源圖、另製完整 runtime 衍生框，語意 HTML 工具列對齊到底部並維持中文 aria 名稱及 44px 操作目標；shell validator 通過。後續公開 testplay 桌面目視檢查見下項，手機裁切及實機 QA 仍待完成。詳見 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
