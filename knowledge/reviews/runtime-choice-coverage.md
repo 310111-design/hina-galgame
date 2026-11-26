@@ -27,6 +27,12 @@
 
 `scripts/validate-choice-runtime.js` 另以 runtime 真正的 `choose()` 與 `advanceLine()` 連續執行三個 D06 路線選擇，推進至 D07，對每條路線各選 A／B／C 三種活動，再推進至結局 intro。**九種組合**全部保留 D06 route，並分別進入 `friend → D08F`、`partner → D08P`、`romance → D08R`，且結局節點的 `routeEnding` 與進入狀態一致。此 validator 已由 Pages workflow 執行。
 
+## P01→成年結局全路徑整合
+
+2026-11-26 在同一 runtime harness 內，從 P01 `intro` 開始，逐次使用正式 `advanceLine()` 和 `choose()` 完成序章、A／B／C／D01～D06，再依次抵達 D07 與指定結局。朋友、搭檔、戀愛各跑一條 31 節完整路徑，分別以 D07 A／B／C 活動進入 D08F／D08P／D08R；其餘每節採第一個選項作固定測試輸入。
+
+每節都檢查有效 intro／branch／common 文字、狀態階段及預期下一章；執行中核對選擇旗標累積值、條件回憶是否依當下門檻加入、D06 路線保存、每節選擇紀錄數，並確認對應結局進入 `complete`。三條路徑均通過 `node scripts/validate-choice-runtime.js`，且此 validator 已納入 Pages workflow。
+
 ## 限制
 
-隔離呼叫不涵蓋多章累積旗標的所有條件對話組合、逐句打字／閱讀、DOM 點選、存檔重載與玩家完整通關。D06→D07→D08 連續整合只驗證關鍵路線狀態和結局入口，不能代替完整逐路瀏覽器或實機 QA；`knowledge/plan.md` 的正式逐路 QA 維持未完成。
+三條全路徑仍是作者端 runtime 模擬：每節只選一種固定選項，不涵蓋所有多章旗標歷史、替代分支、逐句打字／閱讀、DOM 點選、存檔重載或玩家盲讀。單章 99 選項生命週期、D06×D07 九組組合及三條全路徑彼此互補，仍不能代替完整逐路瀏覽器或實機通關；`knowledge/plan.md` 的正式逐路 QA 維持未完成。
