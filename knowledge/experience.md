@@ -3117,5 +3117,5 @@
 
 - **學到什麼：** 逐一改變單個早期選項只能驗證其相對基準路徑；兩個不同章節的旗標可能互相影響條件回憶。兩兩配對可補上所有章節選項組合中的二階交互，同時避免重複跑只含基準選項的向量。
 - **如何應用於本作：** `validate-choice-runtime.js` 先用基準向量與每章單一替代選項覆蓋含基準值的配對，再以確定性貪婪覆蓋補足兩個非基準選項的配對。最終 72 個早期選項向量覆蓋 28 節間 3,402 種兩兩配對，並交叉三條 D06 route、全部 D07 活動及 D08 回應，共 1,944 條全篇 runtime 路徑。
-- **限制與驗證：** `validate-choice-runtime.js`、`validate-route-drafts.js`、腳本語法及 `git diff --check` 通過。路徑最多涵蓋兩個非基準早期選項；未窮舉三階以上組合，也不涵蓋瀏覽器 DOM、存檔重載、盲讀或裝置操作。
+- **限制與驗證：** `validate-choice-runtime.js`、`validate-route-drafts.js`、腳本語法及 `git diff --check` 通過。commit `dab914d` 的 GitHub Actions run [45882173718](https://github.com/310111-design/hina-galgame/actions/runs/45882173718) build／deploy 成功。路徑最多涵蓋兩個非基準早期選項；未窮舉三階以上組合，也不涵蓋瀏覽器 DOM、存檔重載、盲讀或裝置操作。
 - **未來可用範圍：** 本作旗標或條件回憶變更後的跨章回歸，以及有長篇共通篇和多結局的互動故事。先補足兩兩路徑，再依高風險旗標增加三階以上組合；仍須用瀏覽器驗證實際玩家流程。

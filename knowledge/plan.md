@@ -51,7 +51,7 @@
 - [x] 2026-11-27 再核對旁白呈現契約：`site/game.js` 對 narration 使用空姓名標籤，正文仍輸出至獨立故事文字框；`validate-game-shells.js` 保護此映射，公開 testplay 桌面畫面也再次看到姓名欄留白。這不代表手機或真讀屏器驗收完成。
 - [x] 依最新指示將旁白名稱留白規則擴至對話框、對話紀錄及即時輔助公告：均不加「旁白」名稱，正文不變；陽奈及系統仍有名稱。`validate-game-shells.js` 加入回歸保護。內建瀏覽器服務連線逾時，本次未能公開頁目視或讀屏驗收。
 - [x] 2026-11-27 將完整成年路徑 runtime 驗證擴為 27 條：D06 三線 × D07 三活動 × 每個對應 D08 三選項；逐路核對章節順序、回憶旗標、條件記憶與結局完成狀態。`validate-choice-runtime.js`、其 JavaScript 語法及 `git diff --check` 均通過；commit `4122a80` 的 Actions run [45875455440](https://github.com/310111-design/hina-galgame/actions/runs/45875455440) 成功。這不替代瀏覽器通關；詳見 `knowledge/reviews/runtime-choice-coverage.md`。
-- [x] 2026-11-27 將全篇選項 runtime 路徑優化為 1,944 條：72 組早期選項向量（基準、各單一替代選項、補足的兩兩配對）× 27 種 D06／D07／D08 組合，覆蓋早期 28 節間的 3,402 種兩兩選項配對；每路檢查旗標、條件回憶、章節及結局。三個以上早期選項同時改變的組合和瀏覽器通關仍待驗；詳見 `knowledge/reviews/runtime-choice-coverage.md`。
+- [x] 2026-11-27 將全篇選項 runtime 路徑優化為 1,944 條：72 組早期選項向量（基準、各單一替代選項、補足的兩兩配對）× 27 種 D06／D07／D08 組合，覆蓋早期 28 節間的 3,402 種兩兩選項配對；每路檢查旗標、條件回憶、章節及結局。GitHub Actions run [45882173718](https://github.com/310111-design/hina-galgame/actions/runs/45882173718) build／deploy 成功。三個以上早期選項同時改變的組合和瀏覽器通關仍待驗；詳見 `knowledge/reviews/runtime-choice-coverage.md`。
 - [x] 2026-11-26 完成 CG-01～CG-18 逐張分鏡／提示補充：依 P01、B02、B08、C06、D01、D06 與三個 D08 結局正文，記錄鏡頭、人物動作、光線、安全區和關係中性限制；同步清單與素材清冊。此為生成前製，不代表任何 CG 已生成或驗收；詳見 `knowledge/art-prompts.md`。
 - [x] 2026-11-26 以公開 Pages 章節重玩選擇 D06「搭檔線」，確認進度標籤更新，快進後抵達 D07 仍保留搭檔線；返回時 P03 主線選項仍在。這只是搭檔線入口 smoke check，未抵達 D08P。之後另一次啟動 P03 章節提示使自動存檔前進到 A01；此本機狀態與恢復方案按 D-31 處理。
 - [ ] 依 D-31 確認主線存檔處置後再做會啟動主線的瀏覽器測試；目前勿將「返回主線」後的章節提示當作仍在隔離重玩。

@@ -57,5 +57,6 @@
 - 擴充 `validate-choice-runtime.js`，將 D06 前 28 節各章選項兩兩配對。以 57 組向量（1 組基準＋56 個單一替代選項）先覆蓋含基準值的配對，再以確定性貪婪選取補足兩個非基準選項同時出現時的缺漏；最終 72 組向量完整覆蓋 **3,402 種兩節選項配對**。
 - 每組向量都與三條 D06 route、3 種 D07 活動、各 D08 結局的 3 種回應交叉，合計 **1,944 條 P01→結局 runtime 路徑**。每條使用正式 `choose()`／`advanceLine()`，核對章節入口／出口、分支、route、旗標、21 組條件回憶、章節序列及結局完成狀態。
 - `node scripts/validate-choice-runtime.js` 輸出 1,944 條路徑及 3,402 個配對並通過；`node scripts/validate-route-drafts.js`、`node --check scripts/validate-choice-runtime.js`、`git diff --check` 亦通過。
+- commit `dab914d` 的 GitHub Actions run [45882173718](https://github.com/310111-design/hina-galgame/actions/runs/45882173718) build／deploy 成功。
 - 範圍限制：每條路徑最多讓兩個早期章節採非基準選項；未測試三個以上早期選項同時變更、逐句閱讀、DOM 點擊、存讀檔、真實瀏覽器或裝置。公開逐路 QA 保持未完成。
 - **未來可用範圍：** 本作章節內容或 flags 調整後的路由回歸，以及任何線性共通篇接多結局的互動故事。兩兩配對能定位常見跨章交互錯誤，仍須以瀏覽器補真實流程，必要時再對高風險旗標增加更高階組合。
