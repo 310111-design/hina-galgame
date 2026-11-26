@@ -409,6 +409,91 @@ while (uncoveredChoicePairs.size) {
   markChoicePairsCovered(choicesByChapter);
 }
 
+const earlyChapterTriples = [];
+let expectedChoiceTriples = 0;
+for (let leftIndex = 0; leftIndex < earlyChoiceChapters.length; leftIndex += 1) {
+  for (let middleIndex = leftIndex + 1; middleIndex < earlyChoiceChapters.length; middleIndex += 1) {
+    for (let rightIndex = middleIndex + 1; rightIndex < earlyChoiceChapters.length; rightIndex += 1) {
+      const leftCount = earlyChoiceChapters[leftIndex].choices.length;
+      const middleCount = earlyChoiceChapters[middleIndex].choices.length;
+      const rightCount = earlyChoiceChapters[rightIndex].choices.length;
+      earlyChapterTriples.push({
+        leftIndex,
+        middleIndex,
+        rightIndex,
+        middleStride: rightCount,
+        leftStride: middleCount * rightCount,
+        offset: expectedChoiceTriples
+      });
+      expectedChoiceTriples += leftCount * middleCount * rightCount;
+    }
+  }
+}
+
+const coveredChoiceTriples = new Uint8Array(expectedChoiceTriples);
+let uncoveredChoiceTripleCount = expectedChoiceTriples;
+function markChoiceTriplesCovered(choiceIndexes) {
+  for (const triple of earlyChapterTriples) {
+    const tupleIndex = triple.offset +
+      choiceIndexes[triple.leftIndex] * triple.leftStride +
+      choiceIndexes[triple.middleIndex] * triple.middleStride +
+      choiceIndexes[triple.rightIndex];
+    if (!coveredChoiceTriples[tupleIndex]) {
+      coveredChoiceTriples[tupleIndex] = 1;
+      uncoveredChoiceTripleCount -= 1;
+    }
+  }
+}
+
+function getChoiceIndexes(choicesByChapter) {
+  return earlyChoiceChapters.map(chapter => {
+    const choiceIndex = chapter.choices.indexOf(choicesByChapter[chapter.id]);
+    assert.ok(choiceIndex >= 0, `${chapter.id} should have a selected choice in each coverage vector`);
+    return choiceIndex;
+  });
+}
+
+for (const variant of fullPathChoiceVariants) {
+  markChoiceTriplesCovered(getChoiceIndexes(variant.choicesByChapter));
+}
+
+let triplewiseVariantIndex = 1;
+let triplewiseVectorCount = 0;
+let tripleChoiceSeed = 0x4f1bbcdc;
+function nextTripleChoiceIndex(length) {
+  tripleChoiceSeed = (Math.imul(tripleChoiceSeed, 1664525) + 1013904223) >>> 0;
+  return tripleChoiceSeed % length;
+}
+
+while (uncoveredChoiceTripleCount) {
+  let bestChoiceIndexes = null;
+  let bestCoverage = 0;
+  for (let candidateIndex = 0; candidateIndex < 256; candidateIndex += 1) {
+    const candidate = earlyChoiceChapters.map(chapter => nextTripleChoiceIndex(chapter.choices.length));
+    let coverage = 0;
+    for (const triple of earlyChapterTriples) {
+      const tupleIndex = triple.offset +
+        candidate[triple.leftIndex] * triple.leftStride +
+        candidate[triple.middleIndex] * triple.middleStride +
+        candidate[triple.rightIndex];
+      if (!coveredChoiceTriples[tupleIndex]) coverage += 1;
+    }
+    if (coverage > bestCoverage) {
+      bestCoverage = coverage;
+      bestChoiceIndexes = candidate;
+    }
+  }
+  assert.ok(bestChoiceIndexes && bestCoverage > 0, "three-way route coverage should find a vector for every remaining early-choice triple");
+  const choicesByChapter = Object.fromEntries(earlyChoiceChapters.map((chapter, index) => [chapter.id, chapter.choices[bestChoiceIndexes[index]]]));
+  fullPathChoiceVariants.push({
+    choicesByChapter,
+    label: `triplewise-${String(triplewiseVariantIndex).padStart(2, "0")} (${earlyChoiceChapters.map((chapter, index) => `${chapter.id}${choicesByChapter[chapter.id].letter}`).join(" ")})`
+  });
+  triplewiseVariantIndex += 1;
+  triplewiseVectorCount += 1;
+  markChoiceTriplesCovered(bestChoiceIndexes);
+}
+
 for (const [route, endingId] of Object.entries(endingByRoute)) {
   const endingIndex = chapters.findIndex(chapter => chapter.id === endingId);
   assert.ok(endingIndex > d07Index, `${endingId} should follow the shared route bridge`);
@@ -523,6 +608,7 @@ const expectedFullRoutePaths = Object.values(endingByRoute)
   .reduce((total, endingId) => total + d07.choices.length * chapters.find(chapter => chapter.id === endingId).choices.length * fullPathChoiceVariants.length, 0);
 assert.equal(checkedFullRoutePaths, expectedFullRoutePaths, "full-route integration should cover every D06 route × D07 activity × D08 ending choice");
 assert.equal(uncoveredChoicePairs.size, 0, "full-route integration should cover every pair of early chapter choices");
+assert.equal(uncoveredChoiceTripleCount, 0, "full-route integration should cover every triple of early chapter choices");
 const expectedConditionalGroups = chapters.flatMap(chapter => (chapter.flaggedIntro || []).map(condition => ({
   key: `${chapter.id}:${condition.flag}:${condition.min || 1}`,
   chapterId: chapter.id,
@@ -574,4 +660,5 @@ for (const condition of expectedConditionalGroups) {
 }
 const coveredEarlyChoicePairs = earlyChoiceChapters.reduce((sum, chapter, index) =>
   sum + earlyChoiceChapters.slice(index + 1).reduce((pairSum, nextChapter) => pairSum + chapter.choices.length * nextChapter.choices.length, 0), 0);
+console.log(`Three-way choice coverage passed (${expectedChoiceTriples} distinct triples across ${earlyChoiceChapters.length} early chapters, using ${triplewiseVectorCount} additional vectors).`);
 console.log(`Full route checks passed (${checkedFullRoutePaths} P01-to-ending paths, ${fullPathChoiceVariants.length} early-choice vectors, ${coveredEarlyChoicePairs} distinct early-choice pairs, ${expectedConditionalGroups.length} conditional memories; ${conditionalGroupsWithBothStates} have both reachable states, ${conditionalGroupsAlwaysShown} are forced shown (${conditionalGroupsForcedShown.join(", ")}), and ${conditionalGroupsAlwaysHidden} are forced hidden (${conditionalGroupsForcedHidden.join(", ")}).`);
