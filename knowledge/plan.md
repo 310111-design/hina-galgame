@@ -75,8 +75,10 @@
    - [x] D02 共通收束第三輪節奏複核：合併由抽象旁白提前總結、再由角色台詞與結尾重複的「談話不必成為規則」意義；稿件/runtime 同步，D02 為 2,650 字元、路徑 2,505／2,482／2,469，防截斷線調整並重算篇幅。詳見 `knowledge/reviews/d02-cadence-review.md`；未完成成年篇全篇 QA。
 2. **UI、背景與角色裝置驗收**
    - [ ] 檢視最新姓名標籤位置及對話安全區於桌面、手機直向、手機橫向的呈現。
-   - [x] 2026-11-26 依使用者提供的參考完成完整對話框視覺接入：保留來源圖、另製完整 runtime 衍生框，語意 HTML 工具列對齊到底部並維持中文 aria 名稱及 44px 操作目標；shell validator 通過。沒有執行瀏覽器即時畫面與真機檢查，整體姓名位置、手機裁切及對比 QA 仍保持未完成。詳見 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
-   - [x] 2026-11-26 在公開 P01 直接對話狀態以 1440×900 檢視：姓名「空崎陽奈」落在姓名槽，台詞在左側欄換行，未見文字穿過立繪可見輪廓；章節重玩檢查後返回 P03 並恢復「稍大」字級與自動播放。此為一段直接台詞的桌面局部確認；整體多尺寸與實機驗收仍待完成，詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`。
+   - [x] 2026-11-26 依使用者提供的參考完成完整對話框視覺接入：保留來源圖、另製完整 runtime 衍生框，語意 HTML 工具列對齊到底部並維持中文 aria 名稱及 44px 操作目標；shell validator 通過。後續公開 testplay 桌面目視檢查見下項，手機裁切及實機 QA 仍待完成。詳見 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
+   - [x] 2026-11-26 以公開 testplay 檢查對話框桌面狀態：1197×716 畫面中，完整金屬框、陽奈姓名牌、文字區、推進箭頭及 LOG／AUTO／SKIP／SAVE／LOAD／CONFIG 控制可見；未選分支或操作正式主線。後續依使用者回饋擴寬內文，詳見下項與 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
+   - [x] 2026-11-26 依使用者回饋移除內文 48%／35% 左欄寬度限制，讓台詞使用姓名區下方的完整對話框內寬並保留邊框留白；具名台詞增加頂部間距。正式頁與 testplay 同步更新 CSS 快取參數，`validate-game-shells.js` 通過；公開 testplay 約 718×718 重新載入後，較長旁白已延伸到右側並在框內換行。commit `379dc48`／run [45738990538](https://github.com/310111-design/hina-galgame/actions/runs/45738990538) 與快取更新 commit `8903d53`／run [45739190491](https://github.com/310111-design/hina-galgame/actions/runs/45739190491) 均成功。此為單一 testplay viewport，手機尺寸、iPhone Safari、長句矩陣和實機 QA 仍待完成；主線未操作。詳見 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
+   - [x] 2026-11-26 在公開 P01 直接對話狀態以 1440×900 檢視姓名槽及文字避開立繪；該張截圖使用舊版左欄寬度，已由上項完整內框寬度修正取代，不作為現行文字寬度規格。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`。
    - [x] 定義逐句特寫／退遠標記，只有標記存在才縮放陽奈立繪；OS 減少動態偏好停用縮放。詳見 `knowledge/story-stage-cues.md`。
    - [x] 修正並部署 choice 面板底部定位；Pages P03 選項畫面已確認標題未被擠壓、面板位於舞台下方。低高度 844×390 與手機直向仍待目視檢查。
    - [x] 移除玩家可見的 A/B/C；Pages P03 一般選項已顯示後續回憶提示。

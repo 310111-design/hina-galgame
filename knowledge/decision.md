@@ -307,9 +307,9 @@
 
 ## D-32：依新參考完成式對話框版面
 
-- **日期／狀態：** 2026-11-26；依使用者明確提供參考圖並要求「對話框照這個做」而採用；程式與素材已接入，瀏覽器／真機驗收待完成。
+- **日期／狀態：** 2026-11-26；依使用者明確提供參考圖並要求「對話框照這個做」而採用；完整框與互動素材已接入，並依使用者回饋讓台詞使用完整內框寬度。公開 testplay 完成一個桌面 viewport 的姓名框檢視及一個較長旁白的全寬檢視；手機與真機驗收仍待完成。
 - **視覺規格：** 使用完整深紫黑金屬框、左上姓名牌、內文留白、底部細分隔線、右側推進箭頭與靠右排列的 LOG／AUTO／SKIP／SAVE／LOAD／CONFIG 控制；桌面框體置中並保留場景背景，手機採較窄邊界和較大的選項閱讀高度。
-- **實作方式：** 保留 `site/assets/ui/dialogue-layout-source.png` 不變，新增從其 alpha 邊界裁切的 `dialogue-frame-runtime.png`。只清除來源已烘焙的工具列圖示／文字區域，讓既有互動 HTML 工具列呈現並對齊；姓名、台詞和按鈕不烘焙進 runtime 圖。可視控制採參考圖英文短標，輔助名稱維持中文。附圖的「新增少量內文文字」只是示意佔位，不新增到故事稿。
+- **實作方式：** 保留 `site/assets/ui/dialogue-layout-source.png` 不變，新增從其 alpha 邊界裁切的 `dialogue-frame-runtime.png`。只清除來源已烘焙的工具列圖示／文字區域，讓既有互動 HTML 工具列呈現並對齊；姓名、台詞和按鈕不烘焙進 runtime 圖。一般台詞使用完整面板內寬並保留邊框內距；具名台詞在姓名牌下方預留更多空間。可視控制採參考圖英文短標，輔助名稱維持中文。附圖的「新增少量內文文字」只是示意佔位，不新增到故事稿。
 - **理由：** 讓玩家看到完整參考構圖，同時保留文字可選取、真正可點擊的 controls、鍵盤 focus 及輔助科技名稱；保留來源圖可讓日後重新裁切或調整清理區。
-- **驗收與限制：** `validate-game-shells.js` 檢查衍生圖格式／尺寸、工具列清理區、雙頁六控制、18px SVG 描邊／填色與 SKIP 停止線、44px 高度及面板錨點；Pages workflow 18 個固定 validators、兩個 JavaScript 語法檢查及 `git diff --check` 均通過。commit `1f8c4b8` 的 Pages run [45736643919](https://github.com/310111-design/hina-galgame/actions/runs/45736643919) build／deploy 成功，正式頁、試玩頁、CSS 與框體圖片 HTTP 200。離線像素合成與部署回應不等於即時畫面；本機工作階段沒有可用瀏覽器介面，因此未做 viewport、iPhone Safari 或真機檢視，不能標記完整 UI QA 完成。
+- **驗收與限制：** `validate-game-shells.js` 檢查衍生圖格式／尺寸、工具列清理區、雙頁六控制、18px SVG 描邊／填色與 SKIP 停止線、44px 高度及面板錨點；Pages workflow validators、JavaScript 語法檢查及 `git diff --check` 均通過。commit `1f8c4b8` 的 Pages run [45736643919](https://github.com/310111-design/hina-galgame/actions/runs/45736643919) 成功。1197×716 桌面畫面曾確認姓名牌、框體及六項控制；依後續回饋改為全寬內文後，`379dc48`／run [45738990538](https://github.com/310111-design/hina-galgame/actions/runs/45738990538) 與 cache-buster `8903d53`／run [45739190491](https://github.com/310111-design/hina-galgame/actions/runs/45739190491) 均 build／deploy 成功，公開 testplay 較長旁白已目視確認使用完整內框寬度。新內距未在具名台詞狀態重驗；手機、iPhone Safari、觸控及真讀屏器仍待驗，完整 UI QA 未完成。
 - **未來可用範圍：** 本作其餘對話／選項面板，或其他將一張美術底圖與互動 DOM 疊加的 UI。每次更換素材都保留原始圖、移除重複烘焙文字、以語意 HTML 疊放並驗證觸控／鍵盤／讀屏；像素檢查不得取代實際排版驗收。
