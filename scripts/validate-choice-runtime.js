@@ -307,14 +307,82 @@ assert.equal(expectedFullPathPrefix.at(-1), "D06", "the linear full-path prefix 
 assert.equal(chapters[d06Index + 1]?.id, "D07", "D06 should lead directly to the shared D07 activity chapter");
 
 let checkedFullRoutePaths = 0;
-const fullPathChoiceVariants = [
-  { chapterId: null, choice: null, label: "baseline choices" },
-  ...chapters.slice(0, d06Index).flatMap(chapter => chapter.choices.map(choice => ({
-    chapterId: chapter.id,
-    choice,
-    label: `${chapter.id} ${choice.letter}`
-  })))
-];
+const earlyChoiceChapters = chapters.slice(0, d06Index);
+const baselineChoices = Object.fromEntries(earlyChoiceChapters.map(chapter => [chapter.id, chapter.choices[0]]));
+const fullPathChoiceVariants = [{ choicesByChapter: baselineChoices, label: "baseline choices" }];
+for (const chapter of earlyChoiceChapters) {
+  for (const choice of chapter.choices.slice(1)) {
+    fullPathChoiceVariants.push({
+      choicesByChapter: { ...baselineChoices, [chapter.id]: choice },
+      label: `${chapter.id} ${choice.letter}`
+    });
+  }
+}
+
+function choicePairKey(leftIndex, leftChoice, rightIndex, rightChoice) {
+  return `${leftIndex}:${leftChoice.letter}|${rightIndex}:${rightChoice.letter}`;
+}
+
+const uncoveredChoicePairs = new Set();
+for (let leftIndex = 0; leftIndex < earlyChoiceChapters.length; leftIndex += 1) {
+  for (let rightIndex = leftIndex + 1; rightIndex < earlyChoiceChapters.length; rightIndex += 1) {
+    for (const leftChoice of earlyChoiceChapters[leftIndex].choices) {
+      for (const rightChoice of earlyChoiceChapters[rightIndex].choices) {
+        uncoveredChoicePairs.add(choicePairKey(leftIndex, leftChoice, rightIndex, rightChoice));
+      }
+    }
+  }
+}
+
+function markChoicePairsCovered(choicesByChapter) {
+  for (let leftIndex = 0; leftIndex < earlyChoiceChapters.length; leftIndex += 1) {
+    const leftChapter = earlyChoiceChapters[leftIndex];
+    for (let rightIndex = leftIndex + 1; rightIndex < earlyChoiceChapters.length; rightIndex += 1) {
+      const rightChapter = earlyChoiceChapters[rightIndex];
+      uncoveredChoicePairs.delete(choicePairKey(
+        leftIndex,
+        choicesByChapter[leftChapter.id],
+        rightIndex,
+        choicesByChapter[rightChapter.id]
+      ));
+    }
+  }
+}
+
+for (const variant of fullPathChoiceVariants) markChoicePairsCovered(variant.choicesByChapter);
+
+let choicePairSeed = 0x6d2b79f5;
+function nextChoiceIndex(length) {
+  choicePairSeed = (Math.imul(choicePairSeed, 1664525) + 1013904223) >>> 0;
+  return choicePairSeed % length;
+}
+
+let pairwiseVariantIndex = 1;
+while (uncoveredChoicePairs.size) {
+  let bestChoices = null;
+  let bestCoverage = 0;
+  for (let candidateIndex = 0; candidateIndex < 4000; candidateIndex += 1) {
+    const choices = earlyChoiceChapters.map(chapter => chapter.choices[nextChoiceIndex(chapter.choices.length)]);
+    let coverage = 0;
+    for (let leftIndex = 0; leftIndex < choices.length; leftIndex += 1) {
+      for (let rightIndex = leftIndex + 1; rightIndex < choices.length; rightIndex += 1) {
+        if (uncoveredChoicePairs.has(choicePairKey(leftIndex, choices[leftIndex], rightIndex, choices[rightIndex]))) coverage += 1;
+      }
+    }
+    if (coverage > bestCoverage) {
+      bestCoverage = coverage;
+      bestChoices = choices;
+    }
+  }
+  assert.ok(bestChoices && bestCoverage > 0, "pairwise route coverage should find a vector for every remaining early-choice pair");
+  const choicesByChapter = Object.fromEntries(earlyChoiceChapters.map((chapter, index) => [chapter.id, bestChoices[index]]));
+  fullPathChoiceVariants.push({
+    choicesByChapter,
+    label: `pairwise-${String(pairwiseVariantIndex).padStart(2, "0")} (${earlyChoiceChapters.map((chapter, index) => `${chapter.id}${bestChoices[index].letter}`).join(" ")})`
+  });
+  pairwiseVariantIndex += 1;
+  markChoicePairsCovered(choicesByChapter);
+}
 
 for (const [route, endingId] of Object.entries(endingByRoute)) {
   const endingIndex = chapters.findIndex(chapter => chapter.id === endingId);
@@ -381,9 +449,7 @@ for (const [route, endingId] of Object.entries(endingByRoute)) {
               ? d07Choice
               : chapter.id === endingId
                 ? endingChoice
-                : chapter.id === pathVariant.chapterId
-                  ? pathVariant.choice
-                  : chapter.choices[0];
+                : pathVariant.choicesByChapter[chapter.id] || chapter.choices[0];
           assert.ok(selected, `${chapter.id} should offer the expected choice on path ${pathLabel}`);
           chooseAndExpectFocus(selected);
           const afterChoice = harness.getState();
@@ -427,4 +493,7 @@ for (const [route, endingId] of Object.entries(endingByRoute)) {
 const expectedFullRoutePaths = Object.values(endingByRoute)
   .reduce((total, endingId) => total + d07.choices.length * chapters.find(chapter => chapter.id === endingId).choices.length * fullPathChoiceVariants.length, 0);
 assert.equal(checkedFullRoutePaths, expectedFullRoutePaths, "full-route integration should cover every D06 route × D07 activity × D08 ending choice");
-console.log(`Full route checks passed (${checkedFullRoutePaths} P01-to-ending paths cover every pre-D06 choice as a single-choice variant across all D06 routes, D07 activities, D08 choices and conditional-memory states).`);
+assert.equal(uncoveredChoicePairs.size, 0, "full-route integration should cover every pair of early chapter choices");
+const coveredEarlyChoicePairs = earlyChoiceChapters.reduce((sum, chapter, index) =>
+  sum + earlyChoiceChapters.slice(index + 1).reduce((pairSum, nextChapter) => pairSum + chapter.choices.length * nextChapter.choices.length, 0), 0);
+console.log(`Full route checks passed (${checkedFullRoutePaths} P01-to-ending paths, ${fullPathChoiceVariants.length} early-choice vectors, ${coveredEarlyChoicePairs} distinct early-choice pairs across every route/activity/ending combination and conditional-memory state).`);
