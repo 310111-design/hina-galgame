@@ -304,6 +304,17 @@ if (!/const speakerLabels = \{ hina: "空崎陽奈", narration: "", system: "系
     /p\.append\(strong,\s*textNode\)/.test(dialogueRenderer)) {
   errors.push("Dialogue rendering must keep the speaker name in a separate field and append only dialogue text to the paragraph.");
 }
+if (!/const speaker = speakerLabels\[kind\] \|\| "";[\s\S]*?announcementText: speaker \? `\$\{speaker\}：\$\{text\}` : text/.test(dialogueRenderer) || /旁白/.test(dialogueRenderer)) {
+  errors.push("Narration announcements must contain only narration text, without a visible narrator label.");
+}
+const historyEntryBody = source.match(/function addHistoryEntry\(kind, text\)\s*\{([\s\S]*?)\n\}/)?.[1] || "";
+const historyRendererBody = source.match(/function renderHistory\(\)\s*\{([\s\S]*?)\n\}/)?.[1] || "";
+if (!/const historySpeakers = \{ hina: "空崎陽奈", system: "系統" \}/.test(historyEntryBody) ||
+    !/speaker:\s*historySpeakers\[kind\] \|\| ""/.test(historyEntryBody) ||
+    !/\[entry\.chapter, entry\.speaker\]\.filter\(Boolean\)\.join\(" · "\)/.test(historyRendererBody) ||
+    /旁白/.test(historyEntryBody)) {
+  errors.push("Narration history entries must leave the speaker label blank while keeping chapter and body text.");
+}
 const renderBody = source.match(/function render\(\)\s*\{([\s\S]*?)\n\}/)?.[1] || "";
 if (!/speakerName\.textContent\s*=\s*"";\s*speakerName\.hidden\s*=\s*true;/.test(renderBody)) {
   errors.push("Speaker-name field must clear when rendering choices, endings, or other unnamed states.");

@@ -620,9 +620,10 @@ function addHistoryEntry(kind, text) {
   const key = `${chapter?.id || "?"}:${state.phase}:${state.line}`;
   if (key === lastHistoryKey) return;
   lastHistoryKey = key;
+  const historySpeakers = { hina: "空崎陽奈", system: "系統" };
   dialogueHistory.push({
     chapter: chapter?.id || "",
-    speaker: kind === "hina" ? "空崎陽奈" : kind === "system" ? "系統" : "旁白",
+    speaker: historySpeakers[kind] || "",
     text
   });
   if (dialogueHistory.length > 500) dialogueHistory.shift();
@@ -645,7 +646,7 @@ function renderHistory() {
     article.className = entry.speaker === "你的選擇" ? "log-entry choice-log-entry" : "log-entry";
     const meta = document.createElement("div");
     meta.className = "log-meta";
-    meta.textContent = `${entry.chapter} · ${entry.speaker}`;
+    meta.textContent = [entry.chapter, entry.speaker].filter(Boolean).join(" · ");
     const body = document.createElement("p");
     body.textContent = entry.text;
     article.append(meta, body);
@@ -771,8 +772,8 @@ function renderDialogue([kind, text, mood, stageCue]) {
     updateSkipReadControl();
     return;
   }
-  const speaker = kind === "hina" ? "空崎陽奈" : kind === "system" ? "系統" : "旁白";
-  typingLine = { characters, fullText: text, node: textNode, index: 0, announcementText: `${speaker}：${text}` };
+  const speaker = speakerLabels[kind] || "";
+  typingLine = { characters, fullText: text, node: textNode, index: 0, announcementText: speaker ? `${speaker}：${text}` : text };
   document.getElementById("dialogueHint").textContent = "點擊／Enter／空白鍵 顯示完整句";
   updateSkipReadControl();
   startTypewriterTimer();
