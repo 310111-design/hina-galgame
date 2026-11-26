@@ -743,8 +743,9 @@ function renderDialogue([kind, text, mood, stageCue]) {
   const announcer = document.getElementById("storyAnnouncement");
   const speakerName = document.getElementById("speakerName");
   if (announcer) announcer.textContent = "";
-  speakerName.textContent = kind === "hina" ? "空崎陽奈" : "";
-  speakerName.hidden = kind !== "hina";
+  const speakerLabels = { hina: "空崎陽奈", narration: "旁白", system: "系統" };
+  speakerName.textContent = speakerLabels[kind] || "";
+  speakerName.hidden = !speakerLabels[kind];
   setStageCue(kind === "hina" ? stageCue : "");
   story.replaceChildren();
   const p = document.createElement("p");

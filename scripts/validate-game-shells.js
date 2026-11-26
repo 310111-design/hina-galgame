@@ -166,15 +166,18 @@ for (const [x, y] of [[450, 335], [600, 340], [750, 340], [900, 340], [1030, 335
 for (const name of ["dialogue-frame-runtime.png", "choice-prompt.png", "choice-row-unified-default.png", "choice-row-unified-selected.png"]) {
   if (!stylesheet.includes(`assets/ui/${name}`)) errors.push("UI stylesheet does not use " + name);
 }
-const speakerNameplateRule = stylesheet.match(/\/\* Keep the speaker label in its own slot, outside the scrollable dialogue text\. \*\/\s*\.speaker-name\s*\{([^}]*)\}/i)?.[1] || "";
-if (!/position:\s*absolute/i.test(speakerNameplateRule) ||
+const speakerNameplateRule = stylesheet.match(/\/\* Keep speaker and body text in separate, non-overlapping boxes\. \*\/\s*\.speaker-name\s*\{([^}]*)\}/i)?.[1] || "";
+if (!/position:\s*relative/i.test(speakerNameplateRule) ||
+    !/flex:\s*0\s+0\s+auto/i.test(speakerNameplateRule) ||
     !/display:\s*flex/i.test(speakerNameplateRule) ||
     !/align-items:\s*center/i.test(speakerNameplateRule) ||
-    !/left:\s*7\.8%/i.test(speakerNameplateRule) ||
+    !/margin:[^;]*7\.8%/i.test(speakerNameplateRule) ||
     !/width:\s*31\.5%/i.test(speakerNameplateRule) ||
     !/justify-content:\s*center/i.test(speakerNameplateRule) ||
-    !/text-align:\s*center/i.test(speakerNameplateRule)) {
-  errors.push("Speaker nameplate must remain centered in the dialogue frame's upper-left label slot.");
+    !/text-align:\s*center/i.test(speakerNameplateRule) ||
+    !/border:\s*1px solid/i.test(speakerNameplateRule) ||
+    !/background:\s*linear-gradient/i.test(speakerNameplateRule)) {
+  errors.push("Speaker label must be its own visible, normal-flow text box above the dialogue body box.");
 }
 const dialogueArtworkStyles = stylesheet.split("/* User-provided UI 2.0 panel artwork, split into responsive decorative layers. */").at(-1) || "";
 const dialoguePanelRule = dialogueArtworkStyles.match(/\.dialogue-panel\s*\{([^}]*)\}/)?.[1] || "";
@@ -186,12 +189,18 @@ const choiceMarkerRule = dialogueArtworkStyles.match(/\.game-stage\[data-phase="
 const choiceRowRule = dialogueArtworkStyles.match(/\.game-stage\[data-phase="choice"\] \.choice\s*\{([^}]*)\}/)?.[1] || "";
 const selectedChoiceRowRule = dialogueArtworkStyles.match(/\.game-stage\[data-phase="choice"\] \.choice:hover,\s*\.game-stage\[data-phase="choice"\] \.choice:focus-visible,\s*\.game-stage\[data-phase="choice"\] \.choice\.is-selected\s*\{([^}]*)\}/)?.[1] || "";
 const landscapeChoiceMarkerRule = dialogueArtworkStyles.match(/@media\s*\(max-height:\s*560px\)\s*and\s*\(orientation:\s*landscape\)\s*\{[\s\S]*?\.game-stage\[data-phase="choice"\] \.choice-marker\s*\{([^}]*)\}/)?.[1] || "";
-const dialogueSafeAreaRules = stylesheet.split("/* Separate the speaker slot from all ordinary dialogue, including narration and system text. */").at(-1) || "";
+const dialogueSafeAreaRules = stylesheet.split("/* Normal-flow layout prevents long or scrolled text from entering the name box. */").at(-1) || "";
 const normalDialogueStoryRule = dialogueSafeAreaRules.match(/\.game-stage:not\(\[data-phase="choice"\]\):not\(\[data-phase="complete"\]\) \.story\s*\{([^}]*)\}/)?.[1] || "";
+const normalDialogueBoxRule = dialogueSafeAreaRules.match(/\.game-stage:not\(\[data-phase="choice"\]\):not\(\[data-phase="complete"\]\) \.story > p\s*\{([^}]*)\}/)?.[1] || "";
 const mobileNormalDialogueStoryRule = dialogueSafeAreaRules.match(/@media\s*\(max-width:\s*720px\)\s*\{\s*\.game-stage:not\(\[data-phase="choice"\]\):not\(\[data-phase="complete"\]\) \.story\s*\{([^}]*)\}/)?.[1] || "";
-if (!/padding-top:\s*clamp\(76px,\s*calc\(8dvh\s*\+\s*20px\),\s*102px\)/i.test(normalDialogueStoryRule) ||
-    !/padding-top:\s*clamp\(72px,\s*calc\(8dvh\s*\+\s*20px\),\s*90px\)/i.test(mobileNormalDialogueStoryRule)) {
-  errors.push("All normal dialogue text, including narration, must begin below the separate speaker-name slot on desktop and mobile.");
+if (!/padding-top:\s*0/i.test(normalDialogueStoryRule) ||
+    !/padding-inline:\s*7\.8%/i.test(normalDialogueStoryRule) ||
+    !/padding-top:\s*0/i.test(mobileNormalDialogueStoryRule) ||
+    !/margin:\s*0 auto 8px/i.test(normalDialogueBoxRule) ||
+    !/border:\s*1px solid/i.test(normalDialogueBoxRule) ||
+    !/border-radius:\s*9px/i.test(normalDialogueBoxRule) ||
+    !/background:\s*#100d1d58/i.test(normalDialogueBoxRule)) {
+  errors.push("Normal-flow dialogue text must not reserve an overlapping absolute name slot on desktop or mobile.");
 }
 const dialogueFontSizeRules = [...stylesheet.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
   .filter(([, selector, declarations]) => selector.split(",").some(part => /\.story\s+p\b/.test(part)) && /\bfont-size\s*:/.test(declarations));
@@ -279,8 +288,9 @@ if (!/border:\s*0/i.test(choiceMarkerRule) ||
   errors.push("Choice summaries must remain plain two- or three-character large labels without a boxed badge, stay prominent on short landscapes, and retain the surrounding dark option artwork.");
 }
 const dialogueRenderer = source.match(/function renderDialogue\([\s\S]*?\n\}/)?.[0] || "";
-if (!/speakerName\.textContent\s*=\s*kind === "hina" \? "空崎陽奈" : ""/.test(dialogueRenderer) ||
-    !/speakerName\.hidden\s*=\s*kind !== "hina"/.test(dialogueRenderer) ||
+if (!/const speakerLabels = \{ hina: "空崎陽奈", narration: "旁白", system: "系統" \}/.test(dialogueRenderer) ||
+    !/speakerName\.textContent\s*=\s*speakerLabels\[kind\]\s*\|\|\s*""/.test(dialogueRenderer) ||
+    !/speakerName\.hidden\s*=\s*!speakerLabels\[kind\]/.test(dialogueRenderer) ||
     !/p\.appendChild\(textNode\)/.test(dialogueRenderer) ||
     /p\.append\(strong,\s*textNode\)/.test(dialogueRenderer)) {
   errors.push("Dialogue rendering must keep the speaker name in a separate field and append only dialogue text to the paragraph.");
