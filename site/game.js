@@ -741,7 +741,10 @@ function renderDialogue([kind, text, mood, stageCue]) {
   clearAutoAdvance();
   const story = document.getElementById("story");
   const announcer = document.getElementById("storyAnnouncement");
+  const speakerName = document.getElementById("speakerName");
   if (announcer) announcer.textContent = "";
+  speakerName.textContent = kind === "hina" ? "空崎陽奈" : "";
+  speakerName.hidden = kind !== "hina";
   setStageCue(kind === "hina" ? stageCue : "");
   story.replaceChildren();
   const p = document.createElement("p");
@@ -749,16 +752,12 @@ function renderDialogue([kind, text, mood, stageCue]) {
 
   if (kind === "hina") {
     p.className = "hina";
-    const strong = document.createElement("strong");
-    strong.textContent = "空崎陽奈";
-    p.append(strong, textNode);
   } else if (kind === "system") {
     p.className = "system";
-    p.appendChild(textNode);
   } else {
     p.className = "narration";
-    p.appendChild(textNode);
   }
+  p.appendChild(textNode);
   story.appendChild(p);
   if (kind === "hina") setSpriteEmotion(mood);
   animateSprite(kind, text);
@@ -795,6 +794,9 @@ function render() {
   clearAutoAdvance();
   const chapter = chapters[state.chapter];
   if (!chapter) return;
+  const speakerName = document.getElementById("speakerName");
+  speakerName.textContent = "";
+  speakerName.hidden = true;
   setStageCue("");
   document.getElementById("gameStage").dataset.phase = state.phase;
 
