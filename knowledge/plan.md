@@ -17,7 +17,7 @@
 | UI | `7fa32ec` 的選項摘要樣式已公開驗收；新對話框 commit `1f8c4b8` 的 Pages run [45736643919](https://github.com/310111-design/hina-galgame/actions/runs/45736643919) build／deploy 成功，正式頁、試玩頁、CSS 及完整框體圖均 HTTP 200。另已逐項人工複核 99 個可見選項摘要並修正八項不自然／不精確文案；commit `c83b548` 已將姓名牌下方台詞下移約 20px，Pages run [45824615337](https://github.com/310111-design/hina-galgame/actions/runs/45824615337) 成功。公開 testplay 重新載入後，在 803×694 桌面畫面確認具名台詞與姓名牌間距增加，僅推進一行，沒有選擇分支；viewport、真機、讀屏器及完整跨尺寸回歸仍待驗。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`、`knowledge/reviews/ui-dialogue-frame-reference-implementation.md` 與 `knowledge/reviews/choice-summary-semantic-audit.md`。`7bc1597` 的功能選單 `aria-label` 可由公開 DOM／瀏覽器角色名稱定位器讀到，但 Codex AX 樹序列化仍回報空名稱；未經實際讀屏器驗證。 | 對話框與 20px 台詞位置調整已部署，桌面試玩目視確認；99 個摘要已人工複核並修正八項；完整跨尺寸、實機與讀屏器 QA 待完成 |
 | 美術 | 13 張表情立繪、12 張章節背景及首頁背景已接入。CG-01～CG-18 已有依正文撰寫的逐張分鏡／生成提示，但目前全數仍為未製作佔位；成年篇立繪與 D08P 圖書館庭院專用背景仍待補。此工作階段沒有可呼叫的內建 `image_gen` 工具；依 D-26 不切換至需金鑰的 CLI／API。 | 基礎素材與生成前製完成；18 張 CG 與成年素材未生成 |
 | 音訊 | 程序化 BGM、淡入淡出、提示音及 BGM／SFX 分開控制已實作；正式音樂與音效素材尚未納入。 | 第一版完成，聽感與授權素材待驗 |
-| 發布 | 對話框 runtime commit `1f8c4b8` 已推送；GitHub Actions／Pages run [45736643919](https://github.com/310111-design/hina-galgame/actions/runs/45736643919) build／deploy 成功，正式頁、testplay、CSS 及新框體圖均 HTTP 200。此前 `7fa32ec` 的公開 D01 選項摘要曾以瀏覽器目視；新框體因目前瀏覽器介面不可用而未目視驗收。 | 對話框已部署，舊版摘要有局部目視；新框體及整體視覺／無障礙 QA 未完成 |
+| 發布 | 對話框 runtime commit `1f8c4b8` 與後續文字位置調整 `c83b548` 均已推送；Pages runs [45736643919](https://github.com/310111-design/hina-galgame/actions/runs/45736643919) 及 [45824615337](https://github.com/310111-design/hina-galgame/actions/runs/45824615337) build／deploy 成功。新版公開 testplay 已在 803×694 桌面 viewport 目視檢查姓名牌及具名台詞間距。 | 對話框已部署並完成單一桌面 viewport 檢視；手機、實機、全狀態與無障礙 QA 未完成 |
 
 ### 已完成的主要里程碑
 
@@ -75,7 +75,8 @@
    - [x] D01 重逢收束第二輪節奏複核：把否定過去與下次從現在開始的相鄰旁白合併，章稿／runtime 同步；D01 為 2,687 字元、路徑 2,510／2,504／2,521。篇幅與閱讀估算已更新，詳見 `knowledge/reviews/d01-present-focused-cadence-review.md`；此為局部修訂，不代表全篇 QA。
    - [x] D02 共通收束第三輪節奏複核：合併由抽象旁白提前總結、再由角色台詞與結尾重複的「談話不必成為規則」意義；稿件/runtime 同步，D02 為 2,650 字元、路徑 2,505／2,482／2,469，防截斷線調整並重算篇幅。詳見 `knowledge/reviews/d02-cadence-review.md`；未完成成年篇全篇 QA。
 2. **UI、背景與角色裝置驗收**
-   - [ ] 檢視最新姓名標籤位置及對話安全區於桌面、手機直向、手機橫向的呈現。
+   - [x] 2026-11-26 在 `c83b548` Pages 部署後，以公開 testplay 803×694 畫面確認姓名牌和具名台詞間距已依示意圖拉開，這一行文字清楚且未與立繪相碰；僅測一個桌面 viewport／一行，未選分支。詳見 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
+   - [ ] 以最新 UI 檢視 390×844 手機直向及 844×390 手機橫向的姓名標籤、台詞安全區和控制列；模擬 viewport 不能代替 iPhone Safari 實機驗收。
    - [x] 2026-11-26 依使用者提供的參考完成完整對話框視覺接入：保留來源圖、另製完整 runtime 衍生框，語意 HTML 工具列對齊到底部並維持中文 aria 名稱及 44px 操作目標；shell validator 通過。後續公開 testplay 桌面目視檢查見下項，手機裁切及實機 QA 仍待完成。詳見 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
    - [x] 2026-11-26 以公開 testplay 檢查對話框桌面狀態：1197×716 畫面中，完整金屬框、陽奈姓名牌、文字區、推進箭頭及 LOG／AUTO／SKIP／SAVE／LOAD／CONFIG 控制可見；未選分支或操作正式主線。後續依使用者回饋擴寬內文，詳見下項與 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
    - [x] 2026-11-26 依使用者回饋移除內文 48%／35% 左欄寬度限制，讓台詞使用姓名區下方的完整對話框內寬並保留邊框留白；具名台詞增加頂部間距。正式頁與 testplay 同步更新 CSS 快取參數，`validate-game-shells.js` 通過；公開 testplay 約 718×718 重新載入後，較長旁白已延伸到右側並在框內換行。commit `379dc48`／run [45738990538](https://github.com/310111-design/hina-galgame/actions/runs/45738990538) 與快取更新 commit `8903d53`／run [45739190491](https://github.com/310111-design/hina-galgame/actions/runs/45739190491) 均成功。此為單一 testplay viewport，手機尺寸、iPhone Safari、長句矩陣和實機 QA 仍待完成；主線未操作。詳見 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
