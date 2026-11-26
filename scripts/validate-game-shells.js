@@ -71,7 +71,8 @@ const uiAssetSpecs = new Map([
   ["choice-row-default.png", [930, 125]],
   ["choice-row-selected.png", [930, 125]],
   ["dialogue-frame.png", [1118, 285]],
-  ["dialogue-frame-cutout.png", [1118, 285]]
+  ["dialogue-frame-cutout.png", [1118, 285]],
+  ["dialogue-frame-runtime.png", [1112, 387]]
 ]);
 function paethPredictor(left, up, upperLeft) {
   const estimate = left + up - upperLeft;
@@ -149,15 +150,23 @@ for (const [name, [expectedWidth, expectedHeight]] of uiAssetSpecs) {
 }
 const dialogueSourceBytes = fs.readFileSync(path.join(root, "site", "assets", "ui", "dialogue-frame.png"));
 const dialogueCutoutBytes = fs.readFileSync(path.join(root, "site", "assets", "ui", "dialogue-frame-cutout.png"));
+const dialogueRuntimeBytes = fs.readFileSync(path.join(root, "site", "assets", "ui", "dialogue-frame-runtime.png"));
 if (readRgbaPixel(dialogueSourceBytes, 559, 142)?.[3] !== 255 ||
     readRgbaPixel(dialogueCutoutBytes, 559, 142)?.[3] !== 0 ||
     readRgbaPixel(dialogueCutoutBytes, 10, 142)?.[3] === 0) {
   errors.push("Transparent dialogue derivative must clear the center while preserving the original source and visible frame edge.");
 }
-for (const name of ["dialogue-frame-cutout.png", "choice-prompt.png", "choice-row-unified-default.png", "choice-row-unified-selected.png"]) {
+for (const [x, y] of [[450, 335], [600, 340], [750, 340], [900, 340], [1030, 335]]) {
+  const pixel = readRgbaPixel(dialogueRuntimeBytes, x, y);
+  if (!pixel || pixel[3] < 240 || pixel[0] + pixel[1] + pixel[2] > 180) {
+    errors.push("Dialogue runtime frame must keep its embedded toolbar text cleared at " + x + "," + y + ".");
+    break;
+  }
+}
+for (const name of ["dialogue-frame-runtime.png", "choice-prompt.png", "choice-row-unified-default.png", "choice-row-unified-selected.png"]) {
   if (!stylesheet.includes(`assets/ui/${name}`)) errors.push("UI stylesheet does not use " + name);
 }
-const speakerNameplateRule = stylesheet.match(/\/\* Center the speaker label inside the upper-left slot in dialogue-frame(?:-cutout)?\.png\. \*\/\s*\.story \.hina strong\s*\{([^}]*)\}/i)?.[1] || "";
+const speakerNameplateRule = stylesheet.match(/\/\* Center the speaker label inside the upper-left slot in the full dialogue frame\. \*\/\s*\.story \.hina strong\s*\{([^}]*)\}/i)?.[1] || "";
 if (!/position:\s*absolute/i.test(speakerNameplateRule) ||
     !/left:\s*7\.8%/i.test(speakerNameplateRule) ||
     !/width:\s*31\.5%/i.test(speakerNameplateRule) ||
@@ -192,18 +201,51 @@ if (!/position:\s*absolute/i.test(dialoguePanelRule) ||
     !/display:\s*flex/i.test(dialoguePanelRule) ||
     !/flex-direction:\s*column/i.test(dialoguePanelRule) ||
     !/overflow:\s*hidden/i.test(dialoguePanelRule) ||
-    !/inset:\s*auto\s+0\s+0/i.test(dialoguePanelRule) ||
-    !/padding-inline:\s*0/i.test(dialoguePanelRule) ||
+    !/inset:\s*auto\s+auto\s+max\(8px,\s*env\(safe-area-inset-bottom\)\)\s+50%/i.test(dialoguePanelRule) ||
+    !/width:\s*min\(88%,\s*1480px\)/i.test(dialoguePanelRule) ||
+    !/transform:\s*translateX\(-50%\)/i.test(dialoguePanelRule) ||
     !/background-color:\s*transparent/i.test(dialoguePanelRule) ||
-    !/background-image:\s*url\(["']?assets\/ui\/dialogue-frame-cutout\.png/i.test(dialoguePanelRule) ||
+    !/background-image:\s*url\(["']?assets\/ui\/dialogue-frame-runtime\.png/i.test(dialoguePanelRule) ||
     !/backdrop-filter:\s*none/i.test(dialoguePanelRule)) {
-  errors.push("Dialogue frame must stay anchored at the stage bottom, own the nameplate anchor, and use the transparent cutout artwork without added fill.");
+  errors.push("Dialogue frame must stay centered above the device safe area and use the complete reference artwork without added fill.");
 }
 if (!/flex:\s*1\s+1\s+auto/i.test(dialogueStoryScrollRule) ||
     !/min-height:\s*0/i.test(dialogueStoryScrollRule) ||
     !/overflow-y:\s*auto/i.test(dialogueStoryScrollRule) ||
     !/\.dialogue-panel\s*>\s*\.asset-toolbar\s*\{\s*flex:\s*0\s+0\s+auto/i.test(stylesheet)) {
   errors.push("Dialogue content must scroll within the panel while the footer and game controls stay visible at larger text sizes.");
+}
+const dialogueToolbarRule = dialogueArtworkStyles.match(/(?:^|\n)\.asset-toolbar\s*\{([^}]*)\}/)?.[1] || "";
+const dialogueToolbarButtonRule = dialogueArtworkStyles.match(/(?:^|\n)\.asset-toolbar button\s*\{([^}]*)\}/)?.[1] || "";
+const toolbarIconRule = dialogueArtworkStyles.match(/(?:^|\n)\.toolbar-icon\s*\{([^}]*)\}/)?.[1] || "";
+const toolbarFilledIconRule = dialogueArtworkStyles.match(/(?:^|\n)\.toolbar-icon-filled\s*\{([^}]*)\}/)?.[1] || "";
+if (!/position:\s*absolute/i.test(dialogueToolbarRule) ||
+    !/left:\s*31%/i.test(dialogueToolbarRule) ||
+    !/right:\s*7%/i.test(dialogueToolbarRule) ||
+    !/bottom:\s*5%/i.test(dialogueToolbarRule) ||
+    !/min-height:\s*44px/i.test(dialogueToolbarButtonRule)) {
+  errors.push("Accessible dialogue controls must align with the reference artwork and preserve 44px touch targets.");
+}
+if (!/width:\s*18px/i.test(toolbarIconRule) ||
+    !/height:\s*18px/i.test(toolbarIconRule) ||
+    !/color:\s*currentColor/i.test(toolbarIconRule) ||
+    !/fill:\s*none/i.test(toolbarIconRule) ||
+    !/stroke:\s*currentColor/i.test(toolbarIconRule) ||
+    !/stroke-width:\s*1\.7/i.test(toolbarIconRule) ||
+    !/fill:\s*currentColor/i.test(toolbarFilledIconRule)) {
+  errors.push("Dialogue toolbar SVG icons must define their 18px size, inherited color, outline stroke, and filled states.");
+}
+for (const file of ["site/game.html", "site/testplay.html"]) {
+  const html = fs.readFileSync(path.join(root, file), "utf8");
+  if (!["LOG", "AUTO", "SKIP", "SAVE", "LOAD", "CONFIG"].every(label => html.includes(`asset-toolbar-label\">${label}</span>`))) {
+    errors.push(file + ": visible dialogue toolbar labels must match the reference frame.");
+  }
+  const toolbar = html.match(/<nav class="asset-toolbar"[^>]*>([\s\S]*?)<\/nav>/)?.[1] || "";
+  if ((toolbar.match(/class="toolbar-icon(?: toolbar-icon-filled)?"/g) || []).length !== 6 ||
+      !toolbar.includes("<path d=\"M18 4v16\"/>") ||
+      (toolbar.match(/aria-label="[^"]+"/g) || []).length !== 6) {
+    errors.push(file + ": all six accessible toolbar controls must include their SVG icons, including the SKIP bar.");
+  }
 }
 if (!/linear-gradient\(0deg,\s*#08071038\s+0%,\s*transparent\s+42%\)/i.test(dialogueVignetteRule) ||
     !/linear-gradient\(0deg,\s*#08071016\s*,\s*#08071008\s+62%\)/i.test(dialogueBackgroundRule) ||

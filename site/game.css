@@ -1780,14 +1780,16 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   display: flex;
   flex-direction: column;
   z-index: 10;
-  inset: auto 0 0;
-  width: 100%;
+  inset: auto auto max(8px, env(safe-area-inset-bottom)) 50%;
+  width: min(88%, 1480px);
+  height: clamp(300px, 40dvh, 420px);
+  max-height: none;
   min-height: 0;
-  padding-inline: 0;
+  padding: clamp(12px, 1.8dvh, 20px) 0 clamp(80px, 10dvh, 104px);
   border: 0;
   border-radius: 0;
   background-color: transparent;
-  background-image: url("assets/ui/dialogue-frame-cutout.png");
+  background-image: url("assets/ui/dialogue-frame-runtime.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -1795,6 +1797,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   overflow: hidden;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+  transform: translateX(-50%);
 }
 .story {
   flex: 1 1 auto;
@@ -1808,33 +1811,40 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 .dialogue-panel > .asset-toolbar { flex: 0 0 auto; }
 .story p {
   max-width: none;
-  padding-inline: clamp(24px, 7.8vw, 112px);
+  padding-inline: clamp(24px, 8%, 112px);
   overflow-wrap: anywhere;
   text-shadow: 0 1px 4px #080710c9;
 }
 .story .hina {
-  padding-top: clamp(36px, 5dvh, 48px);
+  padding-top: clamp(42px, 7dvh, 72px);
 }
-/* Center the speaker label inside the upper-left slot in dialogue-frame-cutout.png. */
+/* Center the speaker label inside the upper-left slot in the full dialogue frame. */
 .story .hina strong {
   position: absolute;
   z-index: 2;
-  top: clamp(2px, 1.5%, 7px);
+  top: clamp(10px, 4%, 18px);
   left: 7.8%;
   width: 31.5%;
   box-sizing: border-box;
   margin: 0;
-  min-height: 28px;
+  min-height: 32px;
   justify-content: center;
   border: 0;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
+  color: #fffaff;
+  font-size: .96rem;
+  letter-spacing: .22em;
   text-align: center;
   white-space: nowrap;
   text-shadow: 0 1px 5px #090711;
 }
-.game-stage[data-phase="choice"] .dialogue-panel { max-height: min(68dvh, 620px); }
+.game-stage[data-phase="choice"] .dialogue-panel {
+  height: min(68dvh, 620px);
+  max-height: min(68dvh, 620px);
+  padding-top: clamp(36px, 5dvh, 54px);
+}
 .game-stage[data-phase="choice"] .story > .narration {
   display: flex;
   min-height: clamp(56px, 10dvh, 94px);
@@ -1873,6 +1883,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 }
 .game-stage[data-phase="choice"] .choice:focus-visible { outline: 2px solid #ffe0ab; outline-offset: -3px; }
 .game-stage[data-phase="choice"] .dialogue-footer .skip-read { display: none; }
+.game-stage[data-phase="choice"] .dialogue-footer { display: none; }
 .game-stage[data-phase="choice"] .choice-marker {
   width: auto;
   max-width: 100%;
@@ -1890,29 +1901,34 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   white-space: nowrap;
 }
 .asset-toolbar {
+  position: absolute;
+  z-index: 3;
+  left: 31%;
+  right: 7%;
+  bottom: 5%;
   display: flex;
-  min-height: 42px;
+  min-height: 44px;
   align-items: center;
-  justify-content: flex-end;
-  gap: clamp(3px, .8vw, 12px);
-  margin: 5px 0 0;
-  padding: 6px clamp(10px, 1.6vw, 24px) max(3px, env(safe-area-inset-bottom));
-  border-top: 1px solid #eadcff4a;
+  justify-content: space-between;
+  gap: clamp(2px, .45vw, 8px);
+  margin: 0;
+  padding: 0;
 }
 .asset-toolbar button {
   display: inline-flex;
+  flex: 0 1 auto;
   min-width: 44px;
   min-height: 44px;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 5px 8px;
+  gap: 5px;
+  padding: 4px 6px;
   border: 0;
   border-radius: 7px;
   background: transparent;
   color: #f5e6d9;
   cursor: pointer;
-  font-size: .8rem;
+  font-size: clamp(.72rem, .95vw, .9rem);
   line-height: 1;
   white-space: nowrap;
 }
@@ -1920,13 +1936,61 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 .asset-toolbar button:focus-visible,
 .asset-toolbar button[aria-pressed="true"] { background: #f2c2d529; color: #fffaff; }
 .asset-toolbar button:disabled { opacity: .45; cursor: not-allowed; }
-.asset-toolbar button > span[aria-hidden="true"] { color: #ffdfb8; font-size: 1rem; }
+.toolbar-icon {
+  display: block;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  color: currentColor;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.toolbar-icon-filled {
+  fill: currentColor;
+  stroke-width: 1.5;
+}
+.asset-toolbar-label { letter-spacing: .04em; }
+.dialogue-footer {
+  position: absolute;
+  z-index: 2;
+  left: 8%;
+  right: 8%;
+  bottom: 25%;
+  min-height: 24px;
+  align-items: center;
+  margin: 0;
+  pointer-events: none;
+}
+.dialogue-footer .dialogue-hint {
+  margin: 0;
+  color: #decfe2;
+  font-size: .68rem;
+  letter-spacing: .025em;
+  opacity: .68;
+}
+.dialogue-footer .skip-read { display: none; }
 @media (max-width: 720px) {
-  .dialogue-panel { background-position: center; }
+  .dialogue-panel {
+    width: min(96%, 700px);
+    height: min(38dvh, 350px);
+    max-height: none;
+    padding: 6% 0 clamp(72px, 11dvh, 92px);
+    background-position: center;
+  }
   .story p { padding-inline: 18px; }
-  .story .hina { padding-top: 34px; }
+  .story .hina { padding-top: clamp(38px, 6dvh, 52px); }
   .story .hina strong {
-    min-height: 24px;
+    min-height: 26px;
+    font-size: .78rem;
+    letter-spacing: .14em;
+  }
+  .game-stage[data-phase="choice"] .dialogue-panel {
+    height: min(64dvh, 520px);
+    max-height: min(64dvh, 520px);
+    padding-top: clamp(30px, 5dvh, 42px);
   }
   .game-stage[data-phase="choice"] .story > .narration {
     min-height: 54px;
@@ -1941,27 +2005,31 @@ button:disabled { opacity: .58; cursor: not-allowed; }
   .game-stage[data-phase="choice"] .choice-marker { font-size: clamp(1.1rem, 5vw, 1.3rem); }
   .game-stage[data-phase="choice"] .choice-label { font-size: .84rem; }
   .game-stage[data-phase="choice"] .choice-hint { font-size: .62rem; }
-  .asset-toolbar { justify-content: space-around; gap: 1px; padding: 4px 2px max(3px, env(safe-area-inset-bottom)); }
-  .asset-toolbar button { min-width: 44px; padding: 4px; }
+  .asset-toolbar { left: 10%; right: 8%; justify-content: space-around; gap: 1px; }
+  .asset-toolbar button { min-width: 44px; min-height: 44px; padding: 4px; }
   .asset-toolbar-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
 }
 @media (max-width: 390px) {
   .game-stage[data-phase="choice"] .choice { min-height: 52px; }
   .game-stage[data-phase="choice"] .choice-label { font-size: .79rem; }
+  .dialogue-panel { height: min(39dvh, 350px); max-height: none; }
+  .game-stage[data-phase="choice"] .dialogue-panel { height: min(62dvh, 500px); max-height: min(62dvh, 500px); }
 }
 @media (max-height: 560px) and (orientation: landscape) {
+  .dialogue-panel { height: min(54dvh, 250px); max-height: min(54dvh, 250px); padding-top: 8px; padding-bottom: clamp(48px, 14dvh, 62px); }
   .game-stage[data-phase="choice"] .dialogue-panel {
-    max-height: min(72dvh, 320px);
+    height: min(66dvh, 310px);
+    max-height: min(66dvh, 310px);
     padding-top: 8px;
-    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    padding-bottom: clamp(48px, 14dvh, 62px);
   }
   .game-stage[data-phase="choice"] .story > .narration { min-height: 40px; margin-bottom: 2px; padding-top: 5px; padding-bottom: 5px; }
   .game-stage[data-phase="choice"] .choices { gap: 4px; margin-top: 4px; }
   .game-stage[data-phase="choice"] .choice { min-height: 44px; padding-top: 4px; padding-bottom: 4px; }
   .game-stage[data-phase="choice"] .choice-marker { font-size: clamp(1.05rem, 3.2vh, 1.2rem); letter-spacing: .04em; }
   .game-stage[data-phase="choice"] .choice-hint { display: block; font-size: .58rem; }
-  .dialogue-footer { min-height: 34px; }
-  .asset-toolbar { min-height: 36px; margin-top: 2px; padding-top: 2px; padding-bottom: 2px; }
+  .dialogue-footer { min-height: 24px; bottom: 24%; }
+  .asset-toolbar { left: 10%; right: 8%; min-height: 40px; }
   .asset-toolbar button { min-height: 44px; }
 }
 

@@ -14,7 +14,7 @@
 |---|---|---|
 | 故事 | 四幕、33 節均已接入。33 節時間錨點、陽奈直接台詞聲線、分幕 common／分支回收、精確與近似重複候選、三個成年結局差異均已有靜態審校紀錄。公開 Pages 章節重玩已逐線抵達 D08F／D08P／D08R 結局；每線測一種 D07 活動分支，戀愛線另選擇暫緩確認交往。獨立 testplay 章節重玩已完成 P01→P03、A01→A06、B01→B08、C01→C06，依序選擇 C01「分工」、C02「日常」、C03「休息」、C04「日常」、C05「分工」、C06「日常」，並確認接到 D01「再次見面」；朋友線全篇路徑進行中。公開主線停在 A01，依 D-31 不啟動主線章節。 | 成年三路局部通關完成；P01 起始試玩路徑進入第四幕 D01 |
 | 遊戲功能 | 逐字閱讀、選項、章節選擇、紀錄、已讀跳過、自動播放、設定、自動存檔、六格手動存檔、章節重玩隔離及音訊控制已實作；固定 validator 覆蓋多項資料與 runtime 規則。2026-11-26 公開瀏覽器手測返回 P03 後啟動章節，主線自動存檔已前進至 A01；六個手動欄原為空。詳見 D-31，目前自動播放暫停，先不再執行會推進主線的互動測試。 | 功能已接入，手動流程待驗；瀏覽器存檔恢復決策待定 |
-| UI | `7fa32ec` 已推送：保留左側無框、放大的 2–3 字摘要，改依選項實際內容命名；D01 公開試玩頁於 1440×900 確認顯示「稱呼／重逢／近況」，完整選項與回憶提示仍在，選項列深色底保留。此前 D06／D07／D08、P03／C01 等狀態已有局部核對。更窄與直向 viewport、真實讀屏器及 iPhone Safari 仍待驗。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md` 與 `knowledge/reviews/browser-route-smoke-review.md`。`7bc1597` 的功能選單 `aria-label` 可由公開 DOM／瀏覽器角色名稱定位器讀到，但 Codex AX 樹序列化仍回報空名稱；未經實際讀屏器驗證。 | 最新選項樣式桌面目視確認；實機、讀屏器與完整跨尺寸回歸待驗 |
+| UI | `7fa32ec` 的選項摘要樣式已公開驗收；2026-11-26 依新參考接入完整對話框框體、姓名牌、分隔線、推進箭頭及六項互動控制，18 個 Pages 固定 validators 通過。新框體尚未部署或瀏覽器目視；目前沒有可用瀏覽器介面，實機、讀屏器及完整跨尺寸回歸仍待驗。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md` 與 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。`7bc1597` 的功能選單 `aria-label` 可由公開 DOM／瀏覽器角色名稱定位器讀到，但 Codex AX 樹序列化仍回報空名稱；未經實際讀屏器驗證。 | 對話框完整素材與互動控制已接入、固定檢查通過；新框體部署、瀏覽器目視、實機、讀屏器與跨尺寸 QA 待完成 |
 | 美術 | 13 張表情立繪、12 張章節背景及首頁背景已接入。CG-01～CG-18 已有依正文撰寫的逐張分鏡／生成提示，但目前全數仍為未製作佔位；成年篇立繪與 D08P 圖書館庭院專用背景仍待補。此工作階段沒有可呼叫的內建 `image_gen` 工具；依 D-26 不切換至需金鑰的 CLI／API。 | 基礎素材與生成前製完成；18 張 CG 與成年素材未生成 |
 | 音訊 | 程序化 BGM、淡入淡出、提示音及 BGM／SFX 分開控制已實作；正式音樂與音效素材尚未納入。 | 第一版完成，聽感與授權素材待驗 |
 | 發布 | 最新 UI runtime commit `7fa32ec` 已推送；GitHub Actions run [798](https://github.com/310111-design/hina-galgame/actions/runs/45716818943) build／deploy 成功，Codex 內建瀏覽器亦已在公開 testplay D01 目視確認新摘要。部署成功不代表全站狀態恢復或實機 QA 完成。 | 最新 UI 變更已發布並局部目視確認；整體視覺／無障礙 QA 未完成 |
@@ -44,6 +44,7 @@
 - [x] 2026-11-26 恢復觀察逾時後的同一試玩分頁，確認先前 B08「陪她到走廊走一圈，不談工作」已生效，並已進入 C01「交接之後」；進度仍顯示章節重玩。這確認 B08 已完成，後續 C01～C06 進度另見下方；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
 - [x] 2026-11-26 在已推送的 Pages 試玩頁目視確認 C01 選項樣式：左側「分工／休息／日常」是無圓框的大字摘要，選項列深色底與周圍暗色保持不透明。選擇「分工」後完成 C01 並接到 C02，標籤仍是「章節重玩｜主線存檔不變」；沒有操作公開主線。詳見 `knowledge/reviews/browser-route-smoke-review.md`。
 - [x] 2026-11-26 驗收公開 Pages 最新選項摘要：同一 Codex 內建瀏覽器重新載入 `testplay.html` 後，以獨立章節重玩進入 D01；1440×900 截圖與 DOM 顯示左側是無圓框粗體「稱呼／重逢／近況」，完整選項與「後續回憶」提示仍在，選項列深色底與其外的暗色保留。沒有選擇分支；重新載入回到 testplay P01 自動存檔，D01 章節重玩未覆蓋主線，但閱讀過的句子會加入已讀索引。commit `7fa32ec` 的 Actions run 798 成功；此項僅驗證 D01 桌面狀態，不代表其他尺寸、實機 Safari 或完整 UI QA。詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`。
+- [x] 2026-11-26 依使用者提供的對話框參考改用完整紫黑金屬框、姓名牌、分隔線及推進箭頭；從原始透明 PNG 產生完整 runtime 衍生圖，保留可操作 HTML 工具列並以 LOG／AUTO／SKIP／SAVE／LOAD／CONFIG 標示。正式頁與 testplay 殼層、18px SVG 圖示、44px 控制目標及 runtime 衍生圖像素已由固定 validator 檢查；Pages workflow 18 個固定 validators 和兩個 JavaScript 語法檢查通過，本機像素合成只檢視素材、不代表瀏覽器 viewport／iPhone Safari 驗收；目前瀏覽器介面不可用。詳見 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
 - [x] 2026-11-26 完成 CG-01～CG-18 逐張分鏡／提示補充：依 P01、B02、B08、C06、D01、D06 與三個 D08 結局正文，記錄鏡頭、人物動作、光線、安全區和關係中性限制；同步清單與素材清冊。此為生成前製，不代表任何 CG 已生成或驗收；詳見 `knowledge/art-prompts.md`。
 - [x] 2026-11-26 以公開 Pages 章節重玩選擇 D06「搭檔線」，確認進度標籤更新，快進後抵達 D07 仍保留搭檔線；返回時 P03 主線選項仍在。這只是搭檔線入口 smoke check，未抵達 D08P。之後另一次啟動 P03 章節提示使自動存檔前進到 A01；此本機狀態與恢復方案按 D-31 處理。
 - [ ] 依 D-31 確認主線存檔處置後再做會啟動主線的瀏覽器測試；目前勿將「返回主線」後的章節提示當作仍在隔離重玩。
@@ -60,7 +61,7 @@
    - [x] 完成目前規劃範圍的全篇靜態審校：33 節時間錨點、陽奈直接台詞聲線／情緒弧線、分幕 common 回收矩陣、精確及近似重複候選、成年三結局差異均有現行證據。這些檢查不代表所有旗標歷史窮舉、玩家盲讀或瀏覽器通關；分項見下方與 `knowledge/reviews/full-story-timeline-audit.md`、`full-story-hina-voice-review.md`、`full-story-common-rejoin-audit.md`、`full-story-duplicate-dialogue-review.md`、`full-story-near-phrase-screen.md`、`adult-ending-contrast-review.md`。
    - [x] 以公開 Pages 章節重玩完成成年關係路線驗證：朋友 D07→D08F、搭檔 D06→D07→D08P、戀愛 D06→D07→D08R 均抵達正確結局；各線各選一種 D07 活動，戀愛線 D08R 選擇暫緩確認交往。route 標籤及主線隔離確認見 `knowledge/reviews/browser-route-smoke-review.md`。未涵蓋 P01 起始的全篇通關、九組 D07×route 組合、其餘結局選項、條件歷史窮舉及盲讀。
    - [x] P01 起始隔離試玩已完成 P01→P03、A01→A06、B01→B08、C01→C06；各節銜接及部分選項已逐段記錄，確認抵達 D01「再次見面」。這仍非全篇通關；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
-   - [ ] 從目前 D01 章節重玩狀態完成 D01～D05，再於 D06 選擇朋友線，推進 D07／D08F 完成一條 P01 起始的全篇朋友路線。之後再安排搭檔、戀愛線及其餘 D07／D08 選項、條件回憶組合；不要操作 D-31 所述公開 A01 主線存檔。
+   - [ ] 從目前 D01 章節重玩狀態完成 D01～D05，再於 D06 選擇朋友線，推進 D07／D08F 完成一條 P01 起始的全篇朋友路線。之後再安排搭檔、戀愛線及其餘 D07／D08 選項、條件回憶組合；不要操作 D-31 所述公開 A01 主線存檔。2026-11-26 本次續測在導覽前即因本機瀏覽器控制無法判定 Chrome 目前網址而停止，沒有開頁或操作存檔；待瀏覽器來源可安全識別後重試，仍不得啟動公開主線。詳見 `knowledge/reviews/browser-access-blocker.md`。
      - [x] C01 選擇「分工」分支，完成共通收束並確認接到 C02；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
      - [x] C02 選擇「日常」分支，完成共通收束並確認接到 C03；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
      - [x] C03 選擇「休息」分支，完成共通收束並確認接到 C04；詳見 `knowledge/reviews/browser-route-smoke-review.md`。
@@ -73,6 +74,7 @@
    - [x] D02 共通收束第三輪節奏複核：合併由抽象旁白提前總結、再由角色台詞與結尾重複的「談話不必成為規則」意義；稿件/runtime 同步，D02 為 2,650 字元、路徑 2,505／2,482／2,469，防截斷線調整並重算篇幅。詳見 `knowledge/reviews/d02-cadence-review.md`；未完成成年篇全篇 QA。
 2. **UI、背景與角色裝置驗收**
    - [ ] 檢視最新姓名標籤位置及對話安全區於桌面、手機直向、手機橫向的呈現。
+   - [x] 2026-11-26 依使用者提供的參考完成完整對話框視覺接入：保留來源圖、另製完整 runtime 衍生框，語意 HTML 工具列對齊到底部並維持中文 aria 名稱及 44px 操作目標；shell validator 通過。沒有執行瀏覽器即時畫面與真機檢查，整體姓名位置、手機裁切及對比 QA 仍保持未完成。詳見 `knowledge/reviews/ui-dialogue-frame-reference-implementation.md`。
    - [x] 2026-11-26 在公開 P01 直接對話狀態以 1440×900 檢視：姓名「空崎陽奈」落在姓名槽，台詞在左側欄換行，未見文字穿過立繪可見輪廓；章節重玩檢查後返回 P03 並恢復「稍大」字級與自動播放。此為一段直接台詞的桌面局部確認；整體多尺寸與實機驗收仍待完成，詳見 `knowledge/reviews/ui-choice-layout-and-transparent-frame.md`。
    - [x] 定義逐句特寫／退遠標記，只有標記存在才縮放陽奈立繪；OS 減少動態偏好停用縮放。詳見 `knowledge/story-stage-cues.md`。
    - [x] 修正並部署 choice 面板底部定位；Pages P03 選項畫面已確認標題未被擠壓、面板位於舞台下方。低高度 844×390 與手機直向仍待目視檢查。
